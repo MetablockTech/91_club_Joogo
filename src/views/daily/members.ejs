@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Team Management | <%= locals.SITE_NAME || 'Starworldz' %></title>
+  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #f0f2f8;
+      --sidebar-bg: #ffffff;
+      --card-bg: #ffffff;
+      --card-border: #e3e7f0;
+      --accent: #6c63ff;
+      --accent-light: rgba(108, 99, 255, 0.08);
+      --text-primary: #1a1d2e;
+      --text-secondary: #5a5f7a;
+      --text-muted: #9ea3b8;
+      --green: #00b894;
+      --red: #e17055;
+      --blue: #3498db;
+      --sidebar-width: 260px;
+    }
+
+    body { font-family: 'Inter', sans-serif !important; background: var(--bg); color: var(--text-primary); overflow-x: hidden; }
+    .wrapper { display: flex; min-height: 100vh; }
+    .main-content { margin-left: var(--sidebar-width); flex: 1; display: flex; flex-direction: column; transition: all 0.3s; min-width: 0; }
+    @media (max-width: 991.98px) { 
+      .main-content { margin-left: 0; padding-top: 60px; } 
+      .content-body { padding: 16px; }
+      .topbar { padding: 0 16px; }
+      .topbar-title { font-size: 15px; }
+    }
+
+    .topbar { background: var(--sidebar-bg); border-bottom: 1px solid var(--card-border); padding: 0 28px; height: 70px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; }
+    .topbar-title { font-size: 18px; font-weight: 700; color: var(--text-primary); }
+    .content-body { padding: 28px; }
+
+    /* ── DASHBOARD CARDS ── */
+    .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 30px; }
+    .dash-card { background: var(--card-bg); border-radius: 20px; padding: 20px; border: 1px solid var(--card-border); display: flex; flex-direction: column; gap: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+    .dash-card-header { display: flex; justify-content: space-between; align-items: flex-start; }
+    .dash-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .icon-green { background: #f0fff4; color: #38a169; }
+    .icon-red { background: #fff5f5; color: #e53e3e; }
+    .icon-blue { background: #ebf8ff; color: #3182ce; }
+    .icon-orange { background: #fffaf0; color: #dd6b20; }
+    
+    .dash-stats { display: flex; justify-content: space-between; align-items: flex-end; }
+    .dash-val-group { display: flex; flex-direction: column; }
+    .dash-label { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .dash-val { font-size: 18px; font-weight: 800; color: var(--text-primary); margin-top: 2px; }
+    .dash-sub { font-size: 12px; font-weight: 600; color: var(--text-secondary); }
+    .dash-tag { padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: 800; text-transform: uppercase; }
+    .tag-today { background: #ebf4ff; color: #4c51bf; }
+
+    /* ── TOOLBAR ── */
+    .toolbar { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 16px 20px; display: flex; align-items: center; gap: 15px; margin-bottom: 25px; }
+    .search-wrap { flex: 1; position: relative; }
+    .search-wrap i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 14px; }
+    .search-input { width: 100%; background: #f7f8fc; border: 1px solid var(--card-border); border-radius: 12px; padding: 10px 15px 10px 40px; font-size: 14px; font-weight: 500; outline: none; transition: all 0.2s; }
+    .search-input:focus { border-color: var(--accent); background: #fff; box-shadow: 0 0 0 4px var(--accent-light); }
+
+    @media (max-width: 575.98px) {
+      .toolbar { flex-direction: column; align-items: stretch; padding: 12px; }
+      .dashboard-grid { grid-template-columns: 1fr; gap: 12px; }
+      .dash-card { padding: 16px; }
+    }
+
+    /* ── DETAILED TABLE ── */
+    .table-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 24px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+    .table-responsive { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 1000px; }
+    thead th { padding: 16px 20px; text-align: left; font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; border-bottom: 1px solid var(--card-border); background: #fbfcfe; }
+    tbody tr { border-bottom: 1px solid #f1f4f9; transition: background 0.2s; }
+    tbody tr:hover { background: #fcfdfe; }
+    td { padding: 16px 20px; font-size: 13px; vertical-align: middle; }
+
+    .acc-info { display: flex; flex-direction: column; gap: 4px; }
+    .acc-phone { font-weight: 800; color: var(--accent); font-size: 14px; }
+    .acc-id { font-size: 11px; font-weight: 700; color: var(--text-muted); }
+
+    .stat-rows { display: flex; flex-direction: column; gap: 4px; }
+    .stat-row { display: flex; justify-content: space-between; gap: 20px; font-size: 12px; }
+    .stat-label { color: var(--text-muted); font-weight: 600; width: 45px; }
+    .stat-val { font-weight: 700; text-align: right; }
+    .val-today { color: var(--blue); }
+    .val-yest { color: #a0aec0; }
+    .val-total { color: var(--text-primary); font-weight: 800; }
+    .val-pos { color: var(--green); }
+    .val-neg { color: var(--red); }
+
+    /* ── PAGINATION ── */
+    .pagination-wrap { padding: 20px; display: flex; justify-content: center; align-items: center; gap: 15px; border-top: 1px solid var(--card-border); }
+    .pag-btn { background: #fff; border: 1px solid var(--card-border); color: var(--text-secondary); padding: 8px 16px; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+    .pag-btn:hover:not(.disabled) { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+    .pag-btn.disabled { opacity: 0.5; cursor: not-allowed; }
+    #text-page { font-size: 13px; font-weight: 800; background: #f0f2f8; padding: 6px 14px; border-radius: 8px; }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <%- include('nav') %>
+
+    <div class="main-content">
+      <header class="topbar">
+        <div class="topbar-title">Team Management &rsaquo; Real-time Performance</div>
+      </header>
+
+      <div class="content-body">
+        <!-- Top Statistics Cards -->
+        <div class="dashboard-grid">
+          <div class="dash-card">
+            <div class="dash-card-header">
+              <div class="dash-icon icon-blue"><i class="fas fa-wallet"></i></div>
+              <span class="dash-tag tag-today">Recharge</span>
+            </div>
+            <div class="dash-stats">
+              <div class="dash-val-group">
+                <span class="dash-label">Today Deposits</span>
+                <span class="dash-val" id="card-recharge-today">₹0.00</span>
+              </div>
+              <span class="dash-sub" id="card-recharge-tot">Total: ₹0.00</span>
+            </div>
+          </div>
+          
+          <div class="dash-card">
+            <div class="dash-card-header">
+              <div class="dash-icon icon-orange"><i class="fas fa-external-link-alt"></i></div>
+              <span class="dash-tag tag-today">Withdraw</span>
+            </div>
+            <div class="dash-stats">
+              <div class="dash-val-group">
+                <span class="dash-label">Today Payouts</span>
+                <span class="dash-val" id="card-withdraw-today">₹0.00</span>
+              </div>
+              <span class="dash-sub" id="card-withdraw-tot">Total: ₹0.00</span>
+            </div>
+          </div>
+
+          <div class="dash-card">
+            <div class="dash-card-header">
+              <div class="dash-icon icon-green"><i class="fas fa-chart-line"></i></div>
+              <span class="dash-tag tag-today">Activity</span>
+            </div>
+            <div class="dash-stats">
+              <div class="dash-val-group">
+                <span class="dash-label">Total Subordinates</span>
+                <span class="dash-val" id="card-total-members">0</span>
+              </div>
+              <span class="dash-sub" style="color: var(--green);">Active Users Only</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+          <div class="search-wrap">
+            <i class="fas fa-search"></i>
+            <input type="text" id="search" class="search-input" placeholder="Search team by phone number or ID...">
+          </div>
+        </div>
+
+        <!-- Detailed Table -->
+        <div class="table-card">
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Account</th>
+                  <th>Balance</th>
+                  <th>Recharge</th>
+                  <th>Withdrawal</th>
+                  <th>Bet Activity</th>
+                  <th>Win Stats</th>
+                  <th>Net P/L</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="table-body"></tbody>
+            </table>
+          </div>
+          <div class="pagination-wrap">
+            <a href="#" class="pag-btn" id="previous">Previous</a>
+            <span id="text-page">1 / 1</span>
+            <a href="#" class="pag-btn" id="next">Next</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/plugins/jquery/jquery.min.js"></script>
+  <script>
+    const formatCurrency = (val) => '₹' + parseFloat(val || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    const Render = (datas) => {
+      let html = datas.length === 0 ? '<tr><td colspan="8" style="padding: 50px; text-align: center; color: var(--text-muted);">No team members found.</td></tr>' : '';
+      datas.forEach((u) => {
+        const s = u.stats;
+        const netT = s.bet.t - s.win.t;
+        const netY = s.bet.y - s.win.y;
+        const netTot = s.bet.tot - s.win.tot;
+
+        html += `
+          <tr>
+            <td>
+              <div class="acc-info">
+                <span class="acc-phone">${u.phone}</span>
+                <span class="acc-id">#${u.id_user}</span>
+              </div>
+            </td>
+            <td><span style="font-weight: 800; color: var(--green);">${formatCurrency(u.money)}</span></td>
+            <td>
+              <div class="stat-rows">
+                <div class="stat-row"><span class="stat-label">Today</span><span class="stat-val val-today">${formatCurrency(s.recharge.t)}</span></div>
+                <div class="stat-row"><span class="stat-label">Yest.</span><span class="stat-val val-yest">${formatCurrency(s.recharge.y)}</span></div>
+                <div class="stat-row"><span class="stat-label">Total</span><span class="stat-val val-total">${formatCurrency(s.recharge.tot)}</span></div>
+              </div>
+            </td>
+            <td>
+              <div class="stat-rows">
+                <div class="stat-row"><span class="stat-label">Today</span><span class="stat-val val-today">${formatCurrency(s.withdraw.t)}</span></div>
+                <div class="stat-row"><span class="stat-label">Yest.</span><span class="stat-val val-yest">${formatCurrency(s.withdraw.y)}</span></div>
+                <div class="stat-row"><span class="stat-label">Total</span><span class="stat-val val-total">${formatCurrency(s.withdraw.tot)}</span></div>
+              </div>
+            </td>
+            <td>
+              <div class="stat-rows">
+                <div class="stat-row"><span class="stat-label">Today</span><span class="stat-val val-today">${formatCurrency(s.bet.t)}</span></div>
+                <div class="stat-row"><span class="stat-label">Yest.</span><span class="stat-val val-yest">${formatCurrency(s.bet.y)}</span></div>
+                <div class="stat-row"><span class="stat-label">Total</span><span class="stat-val val-total">${formatCurrency(s.bet.tot)}</span></div>
+              </div>
+            </td>
+            <td>
+              <div class="stat-rows">
+                <div class="stat-row"><span class="stat-label">Today</span><span class="stat-val val-today">${formatCurrency(s.win.t)}</span></div>
+                <div class="stat-row"><span class="stat-label">Yest.</span><span class="stat-val val-yest">${formatCurrency(s.win.y)}</span></div>
+                <div class="stat-row"><span class="stat-label">Total</span><span class="stat-val val-total">${formatCurrency(s.win.tot)}</span></div>
+              </div>
+            </td>
+            <td>
+              <div class="stat-rows">
+                <div class="stat-row"><span class="stat-label">Today</span><span class="stat-val ${netT >= 0 ? 'val-neg' : 'val-pos'}">${formatCurrency(netT)}</span></div>
+                <div class="stat-row"><span class="stat-label">Yest.</span><span class="stat-val ${netY >= 0 ? 'val-neg' : 'val-pos'}">${formatCurrency(netY)}</span></div>
+                <div class="stat-row"><span class="stat-label">Total</span><span class="stat-val ${netTot >= 0 ? 'val-neg' : 'val-pos'}" style="font-weight: 800;">${formatCurrency(netTot)}</span></div>
+              </div>
+            </td>
+            <td>
+              <a href="/manager/member/info/${u.phone}" style="display: inline-flex; align-items: center; gap: 5px; background: var(--accent-light); color: var(--accent); padding: 8px 12px; border-radius: 8px; text-decoration: none; font-size: 12px; font-weight: 700;">
+                <i class="fas fa-user-circle"></i> Profile
+              </a>
+            </td>
+          </tr>`;
+      });
+      $("#table-body").html(html);
+    }
+
+    let pageno = 1, limit = 20, page = 1;
+
+    const loadData = () => {
+      const searchVal = $('#search').val().trim();
+      $.ajax({
+        type: "POST",
+        url: "/api/webapi/manager/listMember",
+        data: { pageno, limit, search: searchVal },
+        success: function (res) {
+          if (res.status) {
+            Render(res.datas);
+            $('#text-page').text(page + ' / ' + res.page_total);
+            $('#card-recharge-today').text(formatCurrency(res.global.recharge_today));
+            $('#card-recharge-tot').text('Total: ' + formatCurrency(res.global.recharge_tot));
+            $('#card-withdraw-today').text(formatCurrency(res.global.withdraw_today));
+            $('#card-withdraw-tot').text('Total: ' + formatCurrency(res.global.withdraw_tot));
+            $('#card-total-members').text(res.datas.length); // Roughly for now
+
+            if (page >= res.page_total) $('#next').addClass('disabled'); else $('#next').removeClass('disabled');
+            if (page <= 1) $('#previous').addClass('disabled'); else $('#previous').removeClass('disabled');
+          }
+        }
+      });
+    }
+
+    $('#search').on('keyup', function(e) { if(e.keyCode == 13) { pageno = 1; page = 1; loadData(); } });
+    $('#next').click(function(e) { e.preventDefault(); if(!$(this).hasClass('disabled')) { pageno++; page++; loadData(); } });
+    $('#previous').click(function(e) { e.preventDefault(); if(!$(this).hasClass('disabled')) { pageno--; page--; loadData(); } });
+
+    $(document).ready(loadData);
+  </script>
+</body>
+</html>

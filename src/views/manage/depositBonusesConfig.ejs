@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deposit Bonuses | <%= locals.SITE_NAME %>
+    </title>
+    <link rel="stylesheet" href="/css/admin.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --accent: #6c63ff;
+            --bg: #f0f2f8;
+        }
+
+        body {
+            background: var(--bg);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .content-wrapper {
+            padding-left: 0;
+            padding-right: 0;
+            padding-bottom: 0;
+            background: #f0f2f8;
+            min-height: 100vh;
+        }
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1d2e;
+        }
+
+        .page-header span {
+            color: #5a5f7a;
+            font-weight: 500;
+        }
+
+        .premium-card {
+            background: #ffffff;
+            border-radius: 20px;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #5a5f7a;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .form-control,
+        .form-select {
+            border-radius: 12px;
+            border: 1px solid #e3e7f0;
+            padding: 12px 15px;
+            font-size: 14px;
+            background: #f9fbff;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.1);
+            background: #fff;
+        }
+
+        .btn-premium {
+            background: linear-gradient(135deg, var(--accent), #8e84ff);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 25px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-premium:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.3);
+            color: white;
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            background: #fdfdff;
+            border-bottom: 1px solid #f0f2f8;
+            color: #9ea3b8;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 15px 20px;
+        }
+
+        .table tbody td {
+            padding: 18px 20px;
+            vertical-align: middle;
+            color: #1a1d2e;
+            font-size: 14px;
+            border-bottom: 1px solid #f0f2f8;
+        }
+
+        .topbar {
+            background: #fff;
+            border-bottom: 1px solid #e3e7f0;
+            padding: 0 28px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 50;
+        }
+
+        .topbar-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1d2e;
+        }
+
+        /* ── RESPONSIVE OVERRIDES ── */
+        @media (max-width: 991.98px) {
+            .content-wrapper {
+                margin-left: 0 !important;
+                padding-top: 60px !important;
+            }
+
+            .topbar {
+                padding: 0 16px;
+                height: 60px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-body {
+                padding: 12px !important;
+            }
+
+            .page-header h1 {
+                font-size: 18px;
+            }
+
+            .premium-card {
+                padding: 15px;
+                border-radius: 12px;
+                margin-bottom: 15px;
+            }
+
+            .table-responsive {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            table {
+                min-width: 900px;
+            }
+
+            .table tbody td {
+                padding: 10px 8px;
+                font-size: 13px;
+            }
+
+            .col-md-2,
+            .col-md-3,
+            .col-md-5,
+            .col-md-6 {
+                width: 100% !important;
+            }
+
+            .btn-premium {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .topbar {
+                height: auto;
+                padding: 10px 16px;
+            }
+
+            .topbar-title {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <%- include('nav.ejs') %>
+            <div class="content-wrapper">
+                <header class="topbar">
+                    <div class="topbar-title">Settings &rsaquo; Deposit Bonus Settings</div>
+                </header>
+
+                <div class="content-body" style="padding: 24px;">
+
+                    <!-- Add Rule Form -->
+                    <div class="premium-card">
+                        <h5 class="mb-4" style="font-weight: 700; color: #1a1d2e;">Add New Bonus Rule</h5>
+                        <form id="bonusForm" class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label">Rule Name</label>
+                                <input type="text" name="name" class="form-control" placeholder="e.g. 1st Deposit Bonus"
+                                    required>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">Deposit Number</label>
+                                <input type="number" name="deposit_number" class="form-control" placeholder="1, 2, 3..."
+                                    required>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">Min Deposit (₹)</label>
+                                <input type="number" name="min_deposit" class="form-control" placeholder="0 = No limit">
+                                <small class="text-muted" style="font-size: 10px;">Leave 0 for any amount</small>
+                            </div>
+                            <div class="col-md-5">
+                                <label class="form-label">Description (Shows on popup)</label>
+                                <textarea name="description" class="form-control" rows="1"
+                                    placeholder="Short description..."></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card p-3 border-0 bg-light" style="border-radius: 12px;">
+                                    <label class="form-label d-block mb-3"
+                                        style="color: var(--accent); font-size: 14px;">User Bonus Configuration</label>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label class="form-label">Bonus Type</label>
+                                            <select name="user_bonus_type" class="form-select">
+                                                <option value="flat">Flat Amount (₹)</option>
+                                                <option value="percentage">Percentage (%)</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="form-label">Bonus Value</label>
+                                            <input type="number" step="0.01" name="user_bonus" class="form-control"
+                                                placeholder="0" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card p-3 border-0 bg-light" style="border-radius: 12px;">
+                                    <label class="form-label d-block mb-3"
+                                        style="color: #27ae60; font-size: 14px;">Referrer Bonus Configuration</label>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label class="form-label">Bonus Type</label>
+                                            <select name="referrer_bonus_type" class="form-select">
+                                                <option value="flat">Flat Amount (₹)</option>
+                                                <option value="percentage">Percentage (%)</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="form-label">Bonus Value</label>
+                                            <input type="number" step="0.01" name="referrer_bonus" class="form-control"
+                                                placeholder="0" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 text-end mt-4">
+                                <button type="submit" class="btn btn-premium"><i class="fas fa-save me-2"></i> Save
+                                    Rule</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Rules Table -->
+                    <div class="premium-card">
+                        <h5 class="mb-4" style="font-weight: 700; color: #1a1d2e;">Active Bonus Rules</h5>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th># Deposit</th>
+                                        <th>Rule Name</th>
+                                        <th>Min. Deposit</th>
+                                        <th>User Bonus</th>
+                                        <th>Referrer Bonus</th>
+                                        <th>Description</th>
+                                        <th class="text-end">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bonusList"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info border-0"
+                        style="border-radius: 15px; background: rgba(108,99,255,0.1); color: #1a1d2e;">
+                        <h6 style="font-weight: 700;"><i class="fas fa-info-circle me-2"></i> Bonus Records</h6>
+                        <p class="mb-0" style="font-size: 13px;">All bonuses given through these rules are recorded in
+                            the <b>Claimed Rewards</b> section. You can track them by looking for "First Recharge Bonus"
+                            or "Daily Recharge Bonus" types in the user history.</p>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content" style="border-radius:20px; border:none;">
+                <div class="modal-header" style="border-bottom: 1px solid #f0f2f8; padding: 20px 30px;">
+                    <h5 class="modal-title" style="font-weight:700;">Edit Bonus Rule</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="editForm">
+                    <div class="modal-body p-4 row g-3">
+                        <input type="hidden" name="id" id="edit_id">
+                        <div class="col-md-6">
+                            <label class="form-label">Rule Name</label>
+                            <input type="text" name="name" id="edit_name" class="form-control" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Deposit Number</label>
+                            <input type="number" name="deposit_number" id="edit_deposit_number" class="form-control"
+                                required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Min. Deposit</label>
+                            <input type="number" name="min_deposit" id="edit_min_deposit" class="form-control"
+                                placeholder="0">
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label">Description</label>
+                            <textarea name="description" id="edit_description" class="form-control" rows="2"></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card p-3 border bg-light" style="border-radius: 12px;">
+                                <label class="form-label mb-2">User Bonus</label>
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <select name="user_bonus_type" id="edit_user_bonus_type" class="form-select">
+                                            <option value="flat">Flat (₹)</option>
+                                            <option value="percentage">Percent (%)</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="number" step="0.01" name="user_bonus" id="edit_user_bonus"
+                                            class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card p-3 border bg-light" style="border-radius: 12px;">
+                                <label class="form-label mb-2">Referrer Bonus</label>
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <select name="referrer_bonus_type" id="edit_referrer_bonus_type"
+                                            class="form-select">
+                                            <option value="flat">Flat (₹)</option>
+                                            <option value="percentage">Percent (%)</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="number" step="0.01" name="referrer_bonus" id="edit_referrer_bonus"
+                                            class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Status</label>
+                            <select name="status" id="edit_status" class="form-select">
+                                <option value="1">Active</option>
+                                <option value="0">Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="border:none; padding: 20px 30px 30px;">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal"
+                            style="border-radius:12px; padding:12px 25px;">Cancel</button>
+                        <button type="submit" class="btn btn-premium">Update Rule</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <style>
+        .compact-swal-popup {
+            padding: 1rem !important;
+            border-radius: 16px !important;
+            font-family: 'Inter', sans-serif !important;
+        }
+
+        .compact-swal-title {
+            padding: 0 !important;
+            margin-bottom: 0.5rem !important;
+            font-size: 18px !important;
+            font-weight: 700 !important;
+        }
+
+        .compact-swal-text {
+            font-size: 14px !important;
+            color: #555 !important;
+            margin-bottom: 1rem !important;
+        }
+
+        .compact-swal-confirm,
+        .compact-swal-cancel {
+            padding: 8px 20px !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            border-radius: 8px !important;
+        }
+    </style>
+
+    <script>
+        const alertMsg = (text, icon = 'success') => {
+            Swal.fire({ text, icon, toast: true, position: 'top-end', showConfirmButton: false, timer: 3000 });
+        };
+
+        let allRules = [];
+        function loadRules() {
+            $.get('/api/webapi/admin/deposit-bonuses/list', function (res) {
+                if (res.status) {
+                    allRules = res.data;
+                    let html = '';
+                    res.data.forEach(item => {
+                        html += `
+                        <tr>
+                            <td><span class="badge bg-light text-dark p-2" style="border-radius:8px">Deposit #${item.deposit_number}</span></td>
+                            <td style="font-weight:600">${item.name}</td>
+                            <td>₹${item.min_deposit}</td>
+                            <td><span style="color:#27ae60; font-weight:700">${item.user_bonus}${item.user_bonus_type === 'percentage' ? '%' : ' ₹'}</span></td>
+                            <td><span style="color:#6c63ff; font-weight:700">${item.referrer_bonus}${item.referrer_bonus_type === 'percentage' ? '%' : ' ₹'}</span></td>
+                            <td class="small text-muted">${item.description || '-'}</td>
+                            <td class="text-end">
+                                <div class="d-flex justify-content-end gap-2">
+                                    <button class="btn btn-light btn-sm text-primary edit-rule" data-id="${item.id}" style="border-radius:8px"><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-light btn-sm text-danger delete-rule" data-id="${item.id}" style="border-radius:8px"><i class="fas fa-trash-alt"></i></button>
+                                </div>
+                            </td>
+                        </tr>`;
+                    });
+                    $('#bonusList').html(html || '<tr><td colspan="7" class="text-center p-4 text-muted">No rules found</td></tr>');
+                }
+            });
+        }
+
+        $('#bonusForm').submit(async function (e) {
+            e.preventDefault();
+            const data = {};
+            $(this).serializeArray().forEach(v => data[v.name] = v.value);
+
+            try {
+                const res = await axios.post('/api/webapi/admin/deposit-bonuses/add', data);
+                if (res.data.status) {
+                    alertMsg('Rule added successfully!');
+                    $('#bonusForm')[0].reset();
+                    loadRules();
+                } else {
+                    alertMsg(res.data.message, 'error');
+                }
+            } catch (error) {
+                alertMsg('Operation failed', 'error');
+            }
+        });
+
+        $('#editForm').submit(async function (e) {
+            e.preventDefault();
+            const data = {};
+            $(this).serializeArray().forEach(v => data[v.name] = v.value);
+
+            try {
+                const res = await axios.post('/api/webapi/admin/deposit-bonuses/update', data);
+                if (res.data.status) {
+                    alertMsg('Rule updated successfully!');
+                    $('#editModal').modal('hide');
+                    loadRules();
+                } else {
+                    alertMsg(res.data.message, 'error');
+                }
+            } catch (error) {
+                alertMsg('Update failed', 'error');
+            }
+        });
+
+        $(document).on('click', '.edit-rule', function () {
+            const id = $(this).data('id');
+            const rule = allRules.find(r => r.id === id);
+            if (rule) {
+                $('#edit_id').val(rule.id);
+                $('#edit_name').val(rule.name);
+                $('#edit_deposit_number').val(rule.deposit_number);
+                $('#edit_min_deposit').val(rule.min_deposit);
+                $('#edit_description').val(rule.description);
+                $('#edit_user_bonus_type').val(rule.user_bonus_type || 'flat');
+                $('#edit_referrer_bonus_type').val(rule.referrer_bonus_type || 'flat');
+                $('#edit_user_bonus').val(rule.user_bonus);
+                $('#edit_referrer_bonus').val(rule.referrer_bonus);
+                $('#edit_status').val(rule.status);
+                $('#editModal').modal('show');
+            }
+        });
+
+        $(document).on('click', '.delete-rule', function () {
+            const id = $(this).data('id');
+
+            Swal.fire({
+                title: 'Delete Rule?',
+                text: "This bonus rule will be permanently removed.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ff4d4d',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Delete',
+                width: '350px',
+                customClass: {
+                    popup: 'compact-swal-popup',
+                    title: 'compact-swal-title',
+                    htmlContainer: 'compact-swal-text',
+                    confirmButton: 'compact-swal-confirm',
+                    cancelButton: 'compact-swal-cancel'
+                }
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    try {
+                        const res = await axios.post('/api/webapi/admin/deposit-bonuses/delete', { id: id });
+                        if (res.data.status) {
+                            alertMsg(res.data.message);
+                            loadRules();
+                        } else {
+                            alertMsg(res.data.message || "Failed to delete", "error");
+                        }
+                    } catch (error) {
+                        alertMsg("Operation failed", "error");
+                    }
+                }
+            });
+        });
+
+        $(document).ready(loadRules);
+    </script>
+</body>
+
+</html>

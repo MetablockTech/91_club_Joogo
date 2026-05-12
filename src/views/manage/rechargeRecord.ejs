@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recharge Records | <%= locals.SITE_NAME || 'Starworldz' %> Admin</title>
+  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@600&display=swap');
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #f0f2f8;
+      --sidebar-bg: #ffffff;
+      --card-bg: #ffffff;
+      --card-border: #e3e7f0;
+      --accent: #6c63ff;
+      --accent-light: rgba(108, 99, 255, 0.08);
+      --text-primary: #1a1d2e;
+      --text-secondary: #5a5f7a;
+      --text-muted: #9ea3b8;
+      --green: #00b894;
+      --red: #e17055;
+      --blue: #3498db;
+      --sidebar-width: 260px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif !important;
+      background: var(--bg);
+      color: var(--text-primary);
+      overflow-x: hidden;
+    }
+
+    .wrapper {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s;
+      min-width: 0;
+    }
+
+    @media (max-width: 991.98px) {
+      .main-content {
+        margin-left: 0;
+      }
+    }
+
+    .topbar {
+      background: var(--sidebar-bg);
+      border-bottom: 1px solid var(--card-border);
+      padding: 0 28px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .topbar-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .content-body {
+      padding: 28px;
+    }
+
+    /* ── TOOLBAR ── */
+    .toolbar {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+      flex-wrap: wrap;
+    }
+
+    .search-wrap {
+      flex: 0 0 350px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #f7f8fc;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 10px 18px;
+      transition: all 0.2s;
+    }
+
+    @media (max-width: 1400px) {
+      .search-wrap {
+        flex: 1;
+        min-width: 250px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .search-wrap {
+        flex: 0 0 100%;
+        min-width: 0;
+      }
+    }
+
+    .search-wrap:focus-within {
+      border-color: var(--accent);
+      background: #fff;
+      box-shadow: 0 0 0 4px var(--accent-light);
+    }
+
+    .search-wrap input {
+      background: none;
+      border: none;
+      outline: none;
+      width: 100%;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    /* ── TABLE ── */
+    .table-card {
+      background: #fff;
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+      width: 100%;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1100px;
+    }
+
+    thead th {
+      background: #fbfcfe;
+      padding: 16px 20px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    tbody tr {
+      border-bottom: 1px solid #f8f9fb;
+      transition: background 0.2s;
+    }
+
+    tbody tr:hover {
+      background: rgba(108, 99, 255, 0.02);
+    }
+
+    td {
+      padding: 16px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      vertical-align: middle;
+    }
+
+    .badge {
+      padding: 6px 12px;
+      border-radius: 30px;
+      font-size: 11px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+
+    .badge-success {
+      background: rgba(0, 184, 148, 0.1);
+      color: var(--green);
+    }
+
+    .badge-danger {
+      background: rgba(225, 112, 85, 0.1);
+      color: var(--red);
+    }
+
+    .badge-upi {
+      background: rgba(108, 99, 255, 0.1);
+      color: var(--accent);
+    }
+
+    .badge-bank {
+      background: rgba(52, 152, 219, 0.1);
+      color: var(--blue);
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .amount {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 800;
+      color: var(--text-primary);
+      font-size: 15px;
+    }
+
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* ── PAGINATION ── */
+    .pagination-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      padding: 25px;
+    }
+
+    .pag-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--text-secondary);
+    }
+
+    .pag-btn:hover:not(.disabled) {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .pag-btn.disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .page-info {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    /* ── RESPONSIVE OVERRIDES ── */
+    @media (max-width: 991.98px) {
+      .main-content {
+        margin-left: 0;
+        padding-top: 60px !important;
+      }
+
+      .topbar {
+        padding: 0 16px;
+        height: 60px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .content-body {
+        padding: 12px !important;
+      }
+
+      .toolbar {
+        padding: 16px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+        flex-direction: column;
+      }
+
+      .search-wrap {
+        min-width: 0;
+        width: 100%;
+      }
+
+      .table-card {
+        border-radius: 15px;
+      }
+
+      .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      table {
+        min-width: 1000px;
+      }
+
+      .pagination-wrap {
+        padding: 16px;
+        gap: 10px;
+      }
+
+      .pag-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+      }
+    }
+
+    /* Breadcrumb styling */
+    .page-header {
+      margin-bottom: 24px;
+    }
+
+    .page-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    .page-breadcrumb {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .page-breadcrumb span {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* ── MOBILE FILTER DRAWER ── */
+    .filter-drawer {
+      position: fixed;
+      top: 0; right: -320px;
+      width: 320px; height: 100vh;
+      background: #fff;
+      z-index: 2000;
+      box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 30px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .filter-drawer.open { right: 0; }
+    .drawer-overlay {
+      position: fixed;
+      inset: 0; background: rgba(0,0,0,0.5);
+      z-index: 1999;
+      display: none;
+      backdrop-filter: blur(4px);
+    }
+    .drawer-overlay.open { display: block; }
+    
+    .mobile-filter-btn {
+      display: none;
+      background: #fff;
+      color: var(--text-primary);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 0 16px;
+      height: 44px;
+      font-weight: 700;
+      font-size: 14px;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .toolbar .filter-row:not(:first-child) {
+        display: none !important;
+      }
+      .toolbar .filter-row-item {
+        display: none !important;
+      }
+      .mobile-filter-btn {
+        display: flex;
+      }
+      .toolbar {
+        padding: 16px !important;
+      }
+      .search-wrap {
+        flex: 1 !important;
+        min-width: 0 !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <%- include('nav') %>
+
+      <div class="main-content">
+        <header class="topbar" style="position: relative;">
+          <div class="topbar-title">Recharge Records</div>
+        </header>
+
+        <div class="drawer-overlay" id="drawerOverlay"></div>
+        <div class="filter-drawer" id="filterDrawer">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                <h3 style="font-size: 18px; font-weight: 800; color: var(--text-primary);">Filters</h3>
+                <button id="closeDrawer" style="background: none; border: none; font-size: 20px; color: var(--text-muted); cursor: pointer;">&times;</button>
+            </div>
+            
+            <div class="input-wrap" style="position: relative; width: 100%;">
+                <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 9px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; pointer-events: none;">Status</span>
+                <select class="status-filter-el" style="width: 100%; padding: 10px 15px 10px 60px; background: #f7f8fc; border: 1px solid var(--card-border); border-radius: 12px; font-size: 13px; font-weight: 600; outline: none; height: 48px;">
+                    <option value="all">All Status</option>
+                    <option value="1">Completed</option>
+                    <option value="2">Rejected</option>
+                </select>
+            </div>
+
+            <div class="input-wrap" style="position: relative; width: 100%;">
+                <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 9px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; pointer-events: none;">Method</span>
+                <select class="type-filter-el" style="width: 100%; padding: 10px 15px 10px 65px; background: #f7f8fc; border: 1px solid var(--card-border); border-radius: 12px; font-size: 13px; font-weight: 600; outline: none; height: 48px;">
+                    <option value="all">All Methods</option>
+                    <option value="upi_gateway">UPI Gateway</option>
+                    <option value="upi_manual">UPI Manual</option>
+                    <option value="usdt_manual">USDT Manual</option>
+                    <option value="wow_pay">WOW Pay</option>
+                    <option value="rs_pay">RS Pay</option>
+                </select>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                    <i class="far fa-calendar-alt" style="color: var(--accent); font-size: 14px;"></i>
+                    <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Date Range</span>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <input type="date" class="start-date-el" style="background: #f7f8fc; border: 1px solid var(--card-border); border-radius: 12px; padding: 12px; font-size: 13px; font-weight: 600; color: var(--text-secondary); width: 100%;">
+                    <div style="text-align: center; font-size: 10px; font-weight: 800; color: var(--text-muted);">TO</div>
+                    <input type="date" class="end-date-el" style="background: #f7f8fc; border: 1px solid var(--card-border); border-radius: 12px; padding: 12px; font-size: 13px; font-weight: 600; color: var(--text-secondary); width: 100%;">
+                </div>
+            </div>
+
+            <div style="margin-top: auto; display: flex; flex-direction: column; gap: 12px;">
+                <button class="reset-filters-btn" style="background: #fff; color: var(--text-secondary); border: 1px solid var(--card-border); border-radius: 12px; height: 48px; font-weight: 600; font-size: 14px; cursor: pointer;">Reset All</button>
+                <button class="apply-filters-btn" style="background: var(--accent); color: #fff; border: none; border-radius: 12px; height: 48px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(108, 99, 255, 0.2);">Apply Filters</button>
+            </div>
+        </div>
+
+        <div class="content-body">
+
+          <div class="page-header">
+            <h2 class="page-title">Recharge History</h2>
+            <div class="page-breadcrumb">Dashboard &rsaquo; Finance &rsaquo; <span>Recharge History</span></div>
+          </div>
+
+          <div class="toolbar" style="display: flex; flex-direction: column; align-items: stretch; gap: 20px; padding: 24px;">
+            <!-- Row 1: Search & Categories -->
+            <div class="filter-row" style="display: flex; gap: 15px; flex-wrap: wrap; align-items: center;">
+                <div class="search-wrap" style="flex: 1; min-width: 300px;">
+                  <i class="fas fa-search"></i>
+                  <input type="text" id="search" placeholder="Search by Phone, Order ID or UTR...">
+                </div>
+
+                <button class="mobile-filter-btn" id="openDrawer">
+                    <i class="fas fa-sliders-h"></i> Filters
+                </button>
+                
+                <div class="filter-row-item" style="display: flex; gap: 12px; flex-wrap: wrap; flex: 0 0 auto;">
+                    <div class="input-wrap" style="position: relative; width: 180px;">
+                        <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 9px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; pointer-events: none;">Status</span>
+                        <select id="status-filter" class="status-filter-el" style="width: 100%; padding: 10px 15px 10px 60px; background: #f7f8fc; border: 1px solid var(--card-border); border-radius: 12px; font-size: 13px; font-weight: 600; outline: none; cursor: pointer; height: 44px;">
+                            <option value="all">All Status</option>
+                            <option value="1">Completed</option>
+                            <option value="2">Rejected</option>
+                        </select>
+                    </div>
+
+                    <div class="input-wrap" style="position: relative; width: 180px;">
+                        <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 9px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; pointer-events: none;">Method</span>
+                        <select id="type-filter" class="type-filter-el" style="width: 100%; padding: 10px 15px 10px 65px; background: #f7f8fc; border: 1px solid var(--card-border); border-radius: 12px; font-size: 13px; font-weight: 600; outline: none; cursor: pointer; height: 44px;">
+                            <option value="all">All Methods</option>
+                            <option value="upi_gateway">UPI Gateway</option>
+                            <option value="upi_manual">UPI Manual</option>
+                            <option value="usdt_manual">USDT Manual</option>
+                            <option value="wow_pay">WOW Pay</option>
+                            <option value="rs_pay">RS Pay</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 2: Date Range & Actions -->
+            <div class="filter-row date-range-row" style="display: flex; gap: 15px; flex-wrap: wrap; align-items: center; border-top: 1px solid #f1f3f9; padding-top: 20px;">
+                <div class="date-range-container" style="display: flex; align-items: center; gap: 12px; flex: 1;">
+                    <div style="display: flex; align-items: center; gap: 8px; white-space: nowrap;">
+                        <i class="far fa-calendar-alt" style="color: var(--accent); font-size: 16px;"></i>
+                        <span style="font-size: 12px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px;">Date Range</span>
+                    </div>
+                    
+                    <div class="input-wrap" style="display: flex; align-items: center; background: #f7f8fc; border: 1px solid var(--card-border); border-radius: 12px; padding: 0 15px; height: 44px; flex: 1; max-width: 400px;">
+                        <input type="date" id="start-date" class="start-date-el" style="background: none; border: none; outline: none; font-size: 13px; font-weight: 600; color: var(--text-secondary); flex: 1; width: 100%;">
+                        <span style="margin: 0 12px; color: var(--text-muted); font-weight: 800; font-size: 11px;">TO</span>
+                        <input type="date" id="end-date" class="end-date-el" style="background: none; border: none; outline: none; font-size: 13px; font-weight: 600; color: var(--text-secondary); flex: 1; width: 100%;">
+                    </div>
+                </div>
+
+                <div class="action-buttons" style="display: flex; gap: 10px;">
+                    <button class="reset-filters-btn" style="background: #fff; color: var(--text-secondary); border: 1px solid var(--card-border); border-radius: 12px; padding: 0 20px; font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.2s; height: 44px;">
+                        Reset
+                    </button>
+                    <button class="apply-filters-btn" style="background: var(--accent); color: #fff; border: none; border-radius: 12px; padding: 0 28px; font-weight: 700; font-size: 13px; cursor: pointer; transition: all 0.2s; height: 44px; box-shadow: 0 4px 12px rgba(108, 99, 255, 0.2); display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-filter"></i> Apply Filters
+                    </button>
+                </div>
+            </div>
+          </div>
+
+          <div class="table-card">
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Request ID</th>
+                    <th>Account</th>
+                    <th>Method / Type</th>
+                    <th>Amount</th>
+                    <th>Order Details</th>
+                    <th>Crypto Details</th>
+                    <th>Transaction Time</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="table-body">
+                  <!-- Data injected via JS -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="pagination-wrap">
+              <div class="pag-btn" id="previous"><i class="fas fa-chevron-left"></i></div>
+              <div class="page-info" id="text-page">1 / 1</div>
+              <div class="pag-btn" id="next"><i class="fas fa-chevron-right"></i></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+  </div>
+
+  <script src="/plugins/jquery/jquery.min.js"></script>
+  <script src="/js/admin/tables.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    function formateT(params) {
+      let result = (params < 10) ? "0" + params : params;
+      return result;
+    }
+
+    function timerJoin(params = '') {
+      let date = params ? new Date(Number(params)) : new Date();
+      let years = formateT(date.getFullYear());
+      let months = formateT(date.getMonth() + 1);
+      let days = formateT(date.getDate());
+      let hours = date.getHours();
+      let minutes = formateT(date.getMinutes());
+      let ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12 || 12;
+      return `${years}/${months}/${days} ${formateT(hours)}:${minutes} ${ampm}`;
+    }
+
+    const PaymentMethodsMap = {
+      upi_gateway: "UPI GATEWAY",
+      upi_manual: "UPI Manual",
+      usdt_manual: "USDT Manual",
+      wow_pay: "WOW Pay",
+      usdt: "USDT",
+    };
+
+    function show(params) {
+      let html = "";
+      if (params.length == 0) {
+        $("#table-body").html('<tr><td colspan="7" style="text-align:center; padding: 40px; color: var(--text-muted);">No recharge history found.</td></tr>');
+        return;
+      }
+
+      params.map((data) => {
+        const methodBadge = data.type === 'bank' ? 'badge-bank' : 'badge-upi';
+        const methodName = PaymentMethodsMap[data.type] || data.type;
+        const statusClass = (data.status == 1) ? 'badge-success' : 'badge-danger';
+        const statusLabel = (data.status == 1) ? 'Completed' : 'Rejected';
+
+        html += `
+          <tr>
+            <td style="font-weight: 800; color: var(--text-muted);">#${data.id}</td>
+            <td>
+              <div style="font-weight: 700; color: var(--accent);">91${data.phone}</div>
+            </td>
+            <td>
+              <span class="badge ${methodBadge}">${methodName}</span>
+              <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px; font-weight: 600;">${data.type.toUpperCase()}</div>
+            </td>
+            <td><div class="amount">₹${Number(data.money).toFixed(2)}</div></td>
+            <td>
+              <div class="mono" style="color: var(--text-primary);">Order: ${data.id_order}</div>
+              <div class="mono" style="margin-top: 2px;">UTR: ${data.utr || '---'}</div>
+            </td>
+            <td>
+              ${data.usdt_amount ? `
+                <div style="color: #03AC84; font-weight: 800; font-size: 13px;">$${data.usdt_amount}</div>
+                <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">@ ₹${data.exchange_rate}</div>
+              ` : '<span style="color: var(--text-muted);">---</span>'}
+            </td>
+            <td style="font-size: 13px; font-weight: 600; color: var(--text-secondary);">${timerJoin(data.time)}</td>
+            <td>
+              <span class="badge ${statusClass}">
+                <span class="dot"></span> ${statusLabel}
+              </span>
+            </td>
+          </tr>
+        `;
+      });
+      $("#table-body").html(html);
+    }
+
+    function loadData() {
+      const status = $(".status-filter-el").val();
+      const type = $(".type-filter-el").val();
+      const startDate = $(".start-date-el").val();
+      const endDate = $(".end-date-el").val();
+      const phone = $("#search").val();
+
+      $.ajax({
+        type: "POST",
+        url: "/api/webapi/admin/recharge",
+        data: {
+            status: status,
+            type: type,
+            startDate: startDate,
+            endDate: endDate,
+            phone: phone
+        },
+        dataType: "json",
+        success: function (response) {
+          show(response.datas2);
+          closeFilterDrawer();
+        }
+      });
+    }
+
+    loadData();
+
+    $(".apply-filters-btn").click(function() {
+        loadData();
+    });
+
+    $(".reset-filters-btn").click(function() {
+        $(".status-filter-el").val('all');
+        $(".type-filter-el").val('all');
+        $(".start-date-el").val('');
+        $(".end-date-el").val('');
+        $("#search").val('');
+        loadData();
+    });
+
+    // Drawer Logic
+    const filterDrawer = document.getElementById('filterDrawer');
+    const drawerOverlay = document.getElementById('drawerOverlay');
+    const openDrawer = document.getElementById('openDrawer');
+    const closeDrawer = document.getElementById('closeDrawer');
+
+    function openFilterDrawer() {
+        filterDrawer.classList.add('open');
+        drawerOverlay.classList.add('open');
+    }
+
+    function closeFilterDrawer() {
+        filterDrawer.classList.remove('open');
+        drawerOverlay.classList.remove('open');
+    }
+
+    openDrawer.addEventListener('click', openFilterDrawer);
+    closeDrawer.addEventListener('click', closeFilterDrawer);
+    drawerOverlay.addEventListener('click', closeFilterDrawer);
+
+    // Sync drawer and toolbar inputs
+    $(".status-filter-el").on('change', function() {
+        $(".status-filter-el").val($(this).val());
+    });
+    $(".type-filter-el").on('change', function() {
+        $(".type-filter-el").val($(this).val());
+    });
+    $(".start-date-el").on('change', function() {
+        $(".start-date-el").val($(this).val());
+    });
+    $(".end-date-el").on('change', function() {
+        $(".end-date-el").val($(this).val());
+    });
+
+    $("#search").on("keyup", function (e) {
+      if (e.key === 'Enter') {
+          loadData();
+      }
+      var value = $(this).val().toLowerCase();
+      $("#table-body tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+      });
+    });
+  </script>
+</body>
+
+</html>

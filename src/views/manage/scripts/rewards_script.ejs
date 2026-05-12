@@ -1,0 +1,77 @@
+<script>
+    const RenderRewards = (datas) => {
+        if (!datas || datas.length == 0) {
+            $('#list-rewards').html(`<tr><td colspan="4" class="text-center text-muted">no data...</td></tr>`);
+            return;
+        }
+        let html = '';
+        datas.map((data) => {
+            html += `
+            <tr>
+                <td style="color: var(--accent3); font-weight: 600;">${data.id}</td>
+                <td><b>${data.type || "N/A"}</b></td>
+                <td><b style="color: var(--accent2)">+ ${(data.amount)}</b></td>
+                <td>${timerJoin(data.time)}</td>
+            </tr>`;
+        });
+        $("#list-rewards").html(html);
+    }
+
+    var pagenoR = 0;
+    var limitR = 15;
+    var pageR = 1;
+
+    function loadRewards() {
+        $.ajax({
+            type: "POST",
+            url: "/admin/member/rewards/" + phone,
+            data: { typeid: "1", pageno: pagenoR, limit: limitR, language: "vi" },
+            dataType: "json",
+            success: function (response) {
+                $('#text-rewards').text(pageR + ' / ' + (response?.page_total || 1));
+                if (response?.status === true) return RenderRewards(response?.datas);
+            }
+        });
+    }
+
+    loadRewards();
+
+    $('#nextRewards').click(function (e) {
+        e.preventDefault();
+        pagenoR += limitR;
+        $.ajax({
+            type: "POST",
+            url: "/admin/member/rewards/" + phone,
+            data: { typeid: "1", pageno: pagenoR, limit: limitR, language: "vi" },
+            dataType: "json",
+            success: function (response) {
+                if (response?.datas.length == 0) {
+                    $('#nextRewards').addClass('block-click');
+                    pagenoR -= limitR;
+                    return;
+                }
+                $('#text-rewards').text(++pageR + ' / ' + response?.page_total);
+                if (response?.status === true) return RenderRewards(response?.datas);
+            }
+        });
+    });
+
+    $('#previousRewards').click(function (e) {
+        e.preventDefault();
+        $('#nextRewards').removeClass('block-click');
+        pagenoR -= limitR;
+        if (pagenoR < 0) pagenoR = 0;
+        else pageR--;
+        
+        $.ajax({
+            type: "POST",
+            url: "/admin/member/rewards/" + phone,
+            data: { typeid: "1", pageno: pagenoR, limit: limitR, language: "vi" },
+            dataType: "json",
+            success: function (response) {
+                $('#text-rewards').text(pageR + ' / ' + response?.page_total);
+                if (response?.status === true) return RenderRewards(response?.datas);
+            }
+        });
+    });
+</script>

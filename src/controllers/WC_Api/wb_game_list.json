@@ -1,0 +1,1185 @@
+{
+  "game_list": {
+    "300": [
+      {
+        "prd_name": "Spribe",
+        "prd_category": "Mini Game",
+        "game_id": 1,
+        "game_name": "Aviator",
+        "game_icon_link": "https://slots.ps9launcher.com/spribe/minigames/id/1.png",
+        "is_enabled": 1
+      },
+      {
+        "prd_name": "Spribe",
+        "prd_category": "Mini Game",
+        "game_id": 2,
+        "game_name": "Dice",
+        "game_icon_link": "https://slots.ps9launcher.com/spribe/minigames/id/2.png",
+        "is_enabled": 1
+      },
+      {
+        "prd_name": "Spribe",
+        "prd_category": "Mini Game",
+        "game_id": 3,
+        "game_name": "Plinko",
+        "game_icon_link": "https://slots.ps9launcher.com/spribe/minigames/id/3.png",
+        "is_enabled": 1
+      },
+      {
+        "prd_name": "Spribe",
+        "prd_category": "Mini Game",
+        "game_id": 4,
+        "game_name": "Goal",
+        "game_icon_link": "https://slots.ps9launcher.com/spribe/minigames/id/4.png",
+        "is_enabled": 1
+      },
+      {
+        "prd_name": "Spribe",
+        "prd_category": "Mini Game",
+        "game_id": 5,
+        "game_name": "Hi Lo",
+        "game_icon_link": "https://slots.ps9launcher.com/spribe/minigames/id/5.png",
+        "is_enabled": 1
+      },
+      {
+        "prd_name": "Spribe",
+        "prd_category": "Mini Game",
+        "game_id": 6,
+        "game_name": "Mines",
+        "game_icon_link": "https://slots.ps9launcher.com/spribe/minigames/id/6.png",
+        "is_enabled": 1
+      },
+      {
+        "prd_name": "Spribe",
+        "prd_category": "Mini Game",
+        "game_id": 7,
+        "game_name": "Keno",
+        "game_icon_link": "https://slots.ps9launcher.com/spribe/minigames/id/7.png",
+        "is_enabled": 1
+      },
+      {
+        "prd_name": "Spribe",
+        "prd_category": "Mini Game",
+        "game_id": 8,
+        "game_name": "Mini Roulette",
+        "game_icon_link": "https://slots.ps9launcher.com/spribe/minigames/id/8.png",
+        "is_enabled": 1
+      },
+      {
+        "prd_name": "Spribe",
+        "prd_category": "Mini Game",
+        "game_id": 9,
+        "game_name": "Hotline",
+        "game_icon_link": "https://slots.ps9launcher.com/spribe/minigames/id/9.png",
+        "is_enabled": 1
+      }
+    ],
+    "263": [
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 103,
+          "game_name": "Chin Shi Huang",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/103.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 104,
+          "game_name": "Royal Fishing",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/104.png",
+          "is_enabled": 0
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 105,
+          "game_name": "Bombing Fishing",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/105.png",
+          "is_enabled": 0
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 106,
+          "game_name": "Dinosaur Tycoon",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/106.png",
+          "is_enabled": 0
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 107,
+          "game_name": "Jackpot Fishing",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/107.png",
+          "is_enabled": 0
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 108,
+          "game_name": "Dragon Fortune",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/108.png",
+          "is_enabled": 0
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 109,
+          "game_name": "Mega Fishing",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/109.png",
+          "is_enabled": 0
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 110,
+          "game_name": "Boom Legend",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/110.png",
+          "is_enabled": 0
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 111,
+          "game_name": "Happy Fishing",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/111.png",
+          "is_enabled": 0
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 112,
+          "game_name": "All-star Fishing",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/112.png",
+          "is_enabled": 0
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 113,
+          "game_name": "Dinosaur Tycoon II",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/113.png",
+          "is_enabled": 0
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 114,
+          "game_name": "Ocean King Jackpot",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/114.png",
+          "is_enabled": 0
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 115,
+          "game_name": "Fortune King Jackpot",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/115.png",
+          "is_enabled": 0
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 116,
+          "game_name": "God Of Martial",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/116.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 117,
+          "game_name": "Hot Chilli",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/117.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 118,
+          "game_name": "Fortune Tree",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/118.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 119,
+          "game_name": "War Of Dragons",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/119.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 120,
+          "game_name": "Gem Party",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/120.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 121,
+          "game_name": "Lucky Ball",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/121.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 123,
+          "game_name": "Hyper Burst",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/123.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 124,
+          "game_name": "Shanghai Beauty",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/124.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 125,
+          "game_name": "Fa Fa Fa",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/125.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 126,
+          "game_name": "Candy Baby",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/126.png",
+          "is_enabled": 0
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 127,
+          "game_name": "Hawaii Beauty",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/127.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 128,
+          "game_name": "Seven Seven Seven",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/128.png",
+          "is_enabled": 0
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 129,
+          "game_name": "Bubble Beauty",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/129.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 130,
+          "game_name": "Fortune Pig",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/130.png",
+          "is_enabled": 0
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 131,
+          "game_name": "Crazy777",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/131.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 132,
+          "game_name": "Bao boon chin",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/132.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 133,
+          "game_name": "Night City",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/133.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 134,
+          "game_name": "Fengshen",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/134.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 135,
+          "game_name": "Crazy FaFaFa",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/135.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 136,
+          "game_name": "XiYangYang",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/136.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 137,
+          "game_name": "DiamondParty",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/137.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 138,
+          "game_name": "Golden Bank",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/138.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 139,
+          "game_name": "Dragon Treasure",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/139.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 140,
+          "game_name": "Charge Buffalo",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/140.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 141,
+          "game_name": "Lucky Goldbricks",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/141.png",
+          "is_enabled": 0
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 142,
+          "game_name": "Super Ace",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/142.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 143,
+          "game_name": "Money Coming",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/143.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 144,
+          "game_name": "Golden Queen",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/144.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 145,
+          "game_name": "Jungle King",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/145.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 146,
+          "game_name": "Monkey Party",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/146.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 147,
+          "game_name": "Boxing King",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/147.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 148,
+          "game_name": "Secret Treasure",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/148.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 149,
+          "game_name": "Pharaoh Treasure",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/149.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 150,
+          "game_name": "Lucky Coming",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/150.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 151,
+          "game_name": "Super Rich",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/151.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 152,
+          "game_name": "RomaX",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/152.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 153,
+          "game_name": "Golden Empire",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/153.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 154,
+          "game_name": "Fortune Gems",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/154.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 155,
+          "game_name": "Crazy Hunter",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/155.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 156,
+          "game_name": "Party Night",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/156.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 157,
+          "game_name": "Magic Lamp",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/157.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 158,
+          "game_name": "Agent Ace",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/158.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 159,
+          "game_name": "TWIN WINS",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/159.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 160,
+          "game_name": "Ali Baba",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/160.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 161,
+          "game_name": "Mega Ace",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/161.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 162,
+          "game_name": "Medusa",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/162.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 163,
+          "game_name": "Book of Gold",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/163.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 164,
+          "game_name": "Thor X",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/164.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 165,
+          "game_name": "Happy Taxi",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/165.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 166,
+          "game_name": "Gold Rush",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/166.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 167,
+          "game_name": "Mayan Empire",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/167.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 168,
+          "game_name": "Crazy Pusher",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/168.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 169,
+          "game_name": "Bone Fortune",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/169.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 170,
+          "game_name": "JILI CAISHEN",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/170.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 171,
+          "game_name": "Bonus Hunter",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/171.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 172,
+          "game_name": "World Cup",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/172.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 173,
+          "game_name": "Samba",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/173.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 174,
+          "game_name": "Neko Fortune",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/174.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 175,
+          "game_name": "Wild Racer",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/175.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 176,
+          "game_name": "Pirate Queen",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/176.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 177,
+          "game_name": "Golden Joker",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/177.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 178,
+          "game_name": "Wild Ace",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/178.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 179,
+          "game_name": "Master Tiger",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/179.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 180,
+          "game_name": "Fortune Gems 2",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/180.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 181,
+          "game_name": "Sweet Land",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/181.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 182,
+          "game_name": "Cricket King 18",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/182.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 183,
+          "game_name": "Elf Bingo",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/183.png",
+          "is_enabled": 0
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 184,
+          "game_name": "Cricket Sah 75",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/184.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 185,
+          "game_name": "Golden Temple",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/185.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 186,
+          "game_name": "Devil Fire",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/186.png",
+          "is_enabled": 0
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 187,
+          "game_name": "Bangla Beauty",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/187.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 188,
+          "game_name": "Aztec Priestess",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/188.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 189,
+          "game_name": "Fortune Monkey",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/189.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 190,
+          "game_name": "Dabanggg",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/190.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 191,
+          "game_name": "Sin City",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/191.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 192,
+          "game_name": "King Arthur",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/192.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 193,
+          "game_name": "Charge Buffalo Ascent",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/193.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 194,
+          "game_name": "Witches Night",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/194.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 195,
+          "game_name": "Arena Fighter",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/195.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 196,
+          "game_name": "Trial of Phoenix",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/196.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 197,
+          "game_name": "Devil Fire 2",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/197.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 198,
+          "game_name": "Zeus",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/198.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 199,
+          "game_name": "Jackpot Joker",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/199.png",
+          "is_enabled": 0
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 200,
+          "game_name": "Fortune Gems 3",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/200.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 201,
+          "game_name": "3 Coin Treasures",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/201.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 202,
+          "game_name": "Potion Wizard",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/202.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 203,
+          "game_name": "Crazy Hunter 2",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/203.png",
+          "is_enabled": 0
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 204,
+          "game_name": "The Pig House",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/204.png",
+          "is_enabled": 0
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 205,
+          "game_name": "Legacy of Egypt",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/205.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 206,
+          "game_name": "Super Ace Deluxe",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/206.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 207,
+          "game_name": "Money Coming Expand Bets",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/207.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 208,
+          "game_name": "Party Star",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/208.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 209,
+          "game_name": "Egypt's Glow",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/209.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 210,
+          "game_name": "Go Rush",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/210.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 211,
+          "game_name": "Mines",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/211.png",
+          "is_enabled": 0
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 212,
+          "game_name": "Tower",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/212.png",
+          "is_enabled": 0
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 213,
+          "game_name": "HILO",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/213.png",
+          "is_enabled": 0
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 214,
+          "game_name": "Limbo",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/214.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 215,
+          "game_name": "Wheel",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/215.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 216,
+          "game_name": "Mines Gold",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/216.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 217,
+          "game_name": "Keno",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/217.png",
+          "is_enabled": 0
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 218,
+          "game_name": "Plinko",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/218.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 219,
+          "game_name": "Crash Bonus",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/219.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 220,
+          "game_name": "Crash Goal",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/220.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 221,
+          "game_name": "Crash Cricket",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/221.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 347,
+          "game_name": "Keno Bonus Number",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/347.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 348,
+          "game_name": "Fortune King Jackpot",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/348.png",
+          "is_enabled": 0
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 349,
+          "game_name": "Super E-Sabong",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/349.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 350,
+          "game_name": "Thai Hilo",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/350.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 351,
+          "game_name": "Poseidon",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/351.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 352,
+          "game_name": "3 Lucky Piggy",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/352.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 353,
+          "game_name": "Crash Cricket",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/353.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 354,
+          "game_name": "Boxing Extravaganza",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/354.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 355,
+          "game_name": "Jhandi Munda",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/355.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 356,
+          "game_name": "Super Ace Scratch",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/356.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 358,
+          "game_name": "3 Pot Dragons",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/358.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 359,
+          "game_name": "Money Pot",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/359.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 360,
+          "game_name": "Nightfall Hunting",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/360.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 361,
+          "game_name": "Cricket Roulette",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/361.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 362,
+          "game_name": "Big Small",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/362.png",
+          "is_enabled": 1
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 507,
+          "game_name": "Lucky Jaguar",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/507.png",
+          "is_enabled": 0
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 508,
+          "game_name": "Fortune Roulette",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/508.png",
+          "is_enabled": 0
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 509,
+          "game_name": "Lucky Doggy",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/509.png",
+          "is_enabled": 0
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 510,
+          "game_name": "Golden Bank 2",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/510.png",
+          "is_enabled": 0
+      },
+      {
+          "prd_name": "JiLi",
+          "prd_category": "Slots",
+          "game_id": 511,
+          "game_name": "Ultimate Texas Hold'em",
+          "game_icon_link": "https://slots.ps9launcher.com/jili/slots/id/511.png",
+          "is_enabled": 0
+      }
+  ]
+  },
+  "status": 1
+}

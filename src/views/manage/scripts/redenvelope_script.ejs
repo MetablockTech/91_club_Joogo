@@ -1,0 +1,77 @@
+<script>
+    const RenderRedenvelopes = (datas) => {
+        if (!datas || datas.length == 0) {
+            $('#list-redenvelope').html(`<tr><td colspan="5" class="text-center text-muted">no data...</td></tr>`);
+            return;
+        }
+        let html = '';
+        datas.map((data) => {
+            html += `
+            <tr>
+                <td><span style="font-family: monospace; background: #f0f2f8; padding: 4px 8px; border-radius: 6px; font-size: 12px;">${data.id_redenvelops}</span></td>
+                <td style="color: var(--accent); font-weight: 700;">91${data.phone}</td>
+                <td><b style="color: var(--green)">₹${Number(data.money).toFixed(2)}</b></td>
+                <td style="font-size: 12px; opacity: 0.8;">${timerJoin(data.time)}</td>
+            </tr>`;
+        });
+        $("#list-redenvelope").html(html);
+    }
+
+    var pageno2 = 0;
+    var limit2 = 15;
+    var page2 = 1;
+
+    function loadRedenvelope() {
+        $.ajax({
+            type: "POST",
+            url: "/admin/member/redenvelope/" + phone,
+            data: { typeid: "1", pageno: pageno2, limit: limit2, language: "vi" },
+            dataType: "json",
+            success: function (response) {
+                $('#text-redenvelope').text(page2 + ' / ' + (response?.page_total || 1));
+                if (response?.status === true) return RenderRedenvelopes(response?.datas);
+            }
+        });
+    }
+
+    loadRedenvelope();
+
+    $('#nextRedenvelope').click(function (e) {
+        e.preventDefault();
+        pageno2 += limit2;
+        $.ajax({
+            type: "POST",
+            url: "/admin/member/redenvelope/" + phone,
+            data: { typeid: "1", pageno: pageno2, limit: limit2, language: "vi" },
+            dataType: "json",
+            success: function (response) {
+                if (response?.datas.length == 0) {
+                    $('#nextRedenvelope').addClass('block-click');
+                    pageno2 -= limit2;
+                    return;
+                }
+                $('#text-redenvelope').text(++page2 + ' / ' + response?.page_total);
+                if (response?.status === true) return RenderRedenvelopes(response?.datas);
+            }
+        });
+    });
+
+    $('#previousRedenvelope').click(function (e) {
+        e.preventDefault();
+        $('#nextRedenvelope').removeClass('block-click');
+        pageno2 -= limit2;
+        if (pageno2 < 0) pageno2 = 0;
+        else page2--;
+        
+        $.ajax({
+            type: "POST",
+            url: "/admin/member/redenvelope/" + phone,
+            data: { typeid: "1", pageno: pageno2, limit: limit2, language: "vi" },
+            dataType: "json",
+            success: function (response) {
+                $('#text-redenvelope').text(page2 + ' / ' + response?.page_total);
+                if (response?.status === true) return RenderRedenvelopes(response?.datas);
+            }
+        });
+    });
+</script>

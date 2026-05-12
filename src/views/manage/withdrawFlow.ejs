@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Withdrawal Flow Builder | Admin</title>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <style>
+        :root {
+            --accent: #6366f1;
+            --accent-dark: #4f46e5;
+            --bg-canvas: #f8fafc;
+            --card-border: #e2e8f0;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f1f5f9;
+            color: var(--text-main);
+        }
+
+        .flow-header {
+            background: #fff;
+            padding: 15px 30px;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .main-container {
+            display: flex;
+            height: calc(100vh - 73px);
+            overflow: hidden;
+        }
+
+        #flow-canvas {
+            flex: 1;
+            background: var(--bg-canvas);
+            position: relative;
+            overflow: hidden;
+            background-image: radial-gradient(#cbd5e1 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
+            cursor: crosshair;
+        }
+
+        #flow-connections {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .flow-line {
+            fill: none;
+            stroke-width: 2.5px;
+            pointer-events: stroke;
+            /* CRITICAL: Allows clicking ONLY on the line */
+            cursor: pointer;
+            transition: stroke-width 0.2s, stroke 0.2s;
+        }
+
+        .flow-line:hover {
+            stroke-width: 5px;
+            filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.2));
+        }
+
+        .accordion-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding: 5px 0;
+        }
+
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+            opacity: 0;
+        }
+
+        .accordion-body.active {
+            max-height: 2000px;
+            opacity: 1;
+            transition: max-height 0.5s ease-in, opacity 0.3s ease-in;
+        }
+
+        .toggle-icon {
+            transition: transform 0.3s;
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        .sidebar-section:has(.accordion-body.active) .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .flow-node {
+            position: absolute;
+            width: 240px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            border: 2px solid transparent;
+            z-index: 10;
+            cursor: grab;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .flow-node:hover {
+            border-color: var(--accent);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+        }
+
+        .flow-node:active {
+            cursor: grabbing;
+        }
+
+        .node-head {
+            padding: 12px 15px;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .node-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .node-body {
+            padding: 12px;
+        }
+
+        .flow-port {
+            width: 16px;
+            height: 16px;
+            background: #94a3b8;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 20;
+            cursor: crosshair;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .flow-port:hover {
+            transform: translateY(-50%) scale(1.3);
+            background: var(--accent);
+        }
+
+        .port-in {
+            left: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .port-out {
+            right: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* Condition node ports */
+        .port-true {
+            top: 30%;
+            background: #10b981;
+        }
+
+        .port-false {
+            top: 70%;
+            background: #ef4444;
+        }
+
+        .flow-line {
+            fill: none;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke: #94a3b8;
+        }
+
+        .sidebar {
+            width: 350px;
+            background: #fff;
+            border-left: 1px solid var(--card-border);
+            display: flex;
+            flex-direction: column;
+            transition: width 0.3s ease, transform 0.3s ease;
+            position: relative;
+            z-index: 50;
+        }
+
+        .sidebar.collapsed {
+            width: 0;
+            overflow: hidden;
+            border-left: none;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar.collapsed {
+                height: 0;
+                max-height: 0;
+                border-top: none;
+                transform: translateY(100%);
+            }
+
+            .sidebar {
+                transform: translateY(0);
+                width: 100%;
+                max-height: 45vh;
+            }
+        }
+
+        .sidebar-section {
+            padding: 20px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        /* MOBILE RESPONSIVENESS */
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+                height: calc(100vh - 55px);
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                max-height: 45vh;
+                order: 2;
+                border-left: none;
+                border-top: 1px solid var(--card-border);
+                background: #fff;
+            }
+
+            #flow-canvas {
+                flex: 1;
+                order: 1;
+                min-height: 300px;
+            }
+
+            .flow-header {
+                padding: 0 10px;
+                height: 55px;
+            }
+
+            .flow-header>div:first-child h1,
+            .flow-header>div:first-child p {
+                display: none;
+                /* Hide Title on mobile */
+            }
+
+            .header-actions {
+                width: 100%;
+                justify-content: space-between !important;
+                gap: 5px;
+            }
+
+            .header-actions .zoom-controls {
+                display: none !important;
+                /* Move zoom later */
+            }
+
+            .btn-action {
+                flex: 1;
+                padding: 0 !important;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 16px;
+                border-radius: 8px;
+            }
+
+            .header-actions span {
+                display: none;
+            }
+
+            .flow-node {
+                width: 190px;
+            }
+        }
+
+        .var-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #475569;
+            margin: 2px;
+            cursor: pointer;
+        }
+
+        .var-badge:hover {
+            background: #e2e8f0;
+        }
+
+        .btn-action {
+            height: 40px;
+            border-radius: 10px;
+            padding: 0 20px;
+            font-size: 13px;
+            font-weight: 600;
+            border: none;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-dark);
+        }
+
+        .btn-outline {
+            background: #fff;
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            background: #f8fafc;
+        }
+
+        .sim-input-group {
+            margin-bottom: 12px;
+        }
+
+        .sim-input-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        #sim-result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 12px;
+            display: none;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mobile-zoom {
+            display: none;
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: #fff;
+            border-radius: 50px;
+            padding: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            z-index: 100;
+            flex-direction: column;
+            gap: 12px;
+            border: 1px solid var(--card-border);
+        }
+
+        .mobile-zoom button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: #f1f5f9;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-zoom {
+                display: flex;
+            }
+
+            .zoom-controls {
+                display: none !important;
+            }
+        }
+
+        .node-label-input {
+            border: 1px dashed transparent;
+            background: transparent;
+            font-size: 13px;
+            font-weight: 700;
+            flex: 1;
+            color: inherit;
+            padding: 2px 5px;
+            outline: none;
+            border-radius: 4px;
+            transition: all 0.2s;
+            cursor: text;
+            width: 100%;
+        }
+
+        .node-label-input:hover {
+            border-color: #cbd5e1;
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .node-label-input:focus {
+            border-color: var(--accent);
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+    </style>
+</head>
+
+<body class="hold-transition">
+
+    <header class="flow-header">
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <a href="/admin/manager/settings" class="btn-outline btn-action" style="padding: 0 12px;"><i
+                    class="fas fa-chevron-left"></i></a>
+            <div>
+                <h1 style="font-size: 18px; font-weight: 800; margin: 0;">Withdrawal Workflow Builder</h1>
+                <p style="font-size: 12px; color: var(--text-muted); margin: 0;">Design and test your custom withdrawal
+                    logic visually.</p>
+            </div>
+        </div>
+        <div class="header-actions" style="display: flex; gap: 10px;">
+            <div style="display: flex; background: #f1f5f9; border-radius: 10px; padding: 4px; margin-right: 15px;">
+                <button class="btn-outline btn-action" id="zoom-out"
+                    style="width: 32px; height: 32px; padding: 0; border:none; background:none;"><i
+                        class="fas fa-search-minus"></i></button>
+                <span id="zoom-level"
+                    style="font-size: 11px; font-weight: 700; width: 45px; text-align: center; line-height: 32px; color: #64748b;">100%</span>
+                <button class="btn-outline btn-action" id="zoom-in"
+                    style="width: 32px; height: 32px; padding: 0; border:none; background:none;"><i
+                        class="fas fa-search-plus"></i></button>
+            </div>
+            <button class="btn-outline btn-action" id="add-condition"><i class="fas fa-filter"></i>
+                <span>Condition</span></button>
+            <button class="btn-outline btn-action" id="add-action"><i class="fas fa-bolt"></i>
+                <span>Action</span></button>
+            <button class="btn-outline btn-action" id="toggle-sidebar-btn" onclick="toggleSidebar()"><i
+                    class="fas fa-columns"></i> <span>Sidebar</span></button>
+            <button class="btn-primary btn-action" id="save-flow"><i class="fas fa-save"></i> <span>Save
+                    Workflow</span></button>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <!-- Flow Canvas -->
+        <div id="flow-canvas">
+            <div id="zoom-container" style="transform-origin: 0 0; width: 5000px; height: 5000px; position: relative;">
+                <svg id="flow-connections"></svg>
+            </div>
+            <!-- Floating Zoom for Mobile -->
+            <div class="mobile-zoom">
+                <button onclick="changeZoom(0.1)"><i class="fas fa-plus"></i></button>
+                <button onclick="changeZoom(-0.1)"><i class="fas fa-minus"></i></button>
+                <button onclick="resetZoom()"><i class="fas fa-sync-alt"></i></button>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <!-- Accordion Section: Simulator -->
+            <div class="sidebar-section">
+                <div class="accordion-head" onclick="toggleSidebarSection(this)">
+                    <h3 style="font-size: 13px; font-weight: 800; margin: 0;"><i
+                            class="fas fa-vial text-primary mr-2"></i> Logic Simulator</h3>
+                    <i class="fas fa-chevron-down toggle-icon"></i>
+                </div>
+                <div class="accordion-body" id="sim-inputs">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">
+                        <div class="sim-input-group">
+                            <label>Deposit Amount (Lifetime)</label>
+                            <input type="number" class="form-control sim-val" data-var="deposit_amount_lifetime"
+                                value="1000">
+                        </div>
+                        <div class="sim-input-group">
+                            <label>Deposit Count (Lifetime)</label>
+                            <input type="number" class="form-control sim-val" data-var="deposit_count_lifetime"
+                                value="1">
+                        </div>
+                        <div class="sim-input-group">
+                            <label>Deposit Amount (Today)</label>
+                            <input type="number" class="form-control sim-val" data-var="deposit_amount_today" value="0">
+                        </div>
+                        <div class="sim-input-group">
+                            <label>Deposit Count (Today)</label>
+                            <input type="number" class="form-control sim-val" data-var="deposit_count_today" value="0">
+                        </div>
+                        <div class="sim-input-group">
+                            <label>Withdraw Request (Current)</label>
+                            <input type="number" class="form-control sim-val" data-var="amount" value="300">
+                        </div>
+                        <div class="sim-input-group">
+                            <label>WD Count (Today)</label>
+                            <input type="number" class="form-control sim-val" data-var="wd_count_today" value="0">
+                        </div>
+                        <div class="sim-input-group">
+                            <label>WD Amount (Today)</label>
+                            <input type="number" class="form-control sim-val" data-var="wd_amount_today" value="0">
+                        </div>
+                        <div class="sim-input-group">
+                            <label>WD Count (Lifetime)</label>
+                            <input type="number" class="form-control sim-val" data-var="wd_count_lifetime" value="5">
+                        </div>
+                        <div class="sim-input-group">
+                            <label>WD Amount (Lifetime)</label>
+                            <input type="number" class="form-control sim-val" data-var="wd_amount_lifetime"
+                                value="5000">
+                        </div>
+                        <div class="sim-input-group">
+                            <label>Rejected Count (Today)</label>
+                            <input type="number" class="form-control sim-val" data-var="wd_count_today_rejected"
+                                value="0">
+                        </div>
+                        <div class="sim-input-group">
+                            <label>Rejected Amount (Today)</label>
+                            <input type="number" class="form-control sim-val" data-var="wd_amount_today_rejected"
+                                value="0">
+                        </div>
+                        <div class="sim-input-group">
+                            <label>Rejected Count (Lifetime)</label>
+                            <input type="number" class="form-control sim-val" data-var="wd_count_lifetime_rejected"
+                                value="0">
+                        </div>
+                        <div class="sim-input-group">
+                            <label>Rejected Amount (Lifetime)</label>
+                            <input type="number" class="form-control sim-val" data-var="wd_amount_lifetime_rejected"
+                                value="0">
+                        </div>
+                        <div class="sim-input-group">
+                            <label>Bet Amount (Lifetime)</label>
+                            <input type="number" class="form-control sim-val" data-var="bet_amount_lifetime"
+                                value="500">
+                        </div>
+                        <div class="sim-input-group">
+                            <label>Gift Bonus</label>
+                            <input type="number" class="form-control sim-val" data-var="bonus_amount_gift" value="0">
+                        </div>
+                        <div class="sim-input-group">
+                            <label>Recharge Bonus</label>
+                            <input type="number" class="form-control sim-val" data-var="bonus_amount_recharge"
+                                value="0">
+                        </div>
+                        <div class="sim-input-group">
+                            <label>Attendance Bonus</label>
+                            <input type="number" class="form-control sim-val" data-var="bonus_amount_attendance"
+                                value="0">
+                        </div>
+                        <div class="sim-input-group">
+                            <label>Referral Bonus</label>
+                            <input type="number" class="form-control sim-val" data-var="bonus_amount_referral"
+                                value="0">
+                        </div>
+                        <div class="sim-input-group">
+                            <label>Salary Amount</label>
+                            <input type="number" class="form-control sim-val" data-var="salary_amount_lifetime"
+                                value="0">
+                        </div>
+                        <div class="sim-input-group">
+                            <label>Commission</label>
+                            <input type="number" class="form-control sim-val" data-var="commission_amount_lifetime"
+                                value="0">
+                        </div>
+                        <div class="sim-input-group">
+                            <label>Money (Current)</label>
+                            <input type="number" class="form-control sim-val" data-var="money" value="0">
+                        </div>
+                        <div class="sim-input-group">
+                            <label>Added By Admin</label>
+                            <input type="number" class="form-control sim-val" data-var="addMoneyByAdmin" value="0">
+                        </div>
+                        <div class="sim-input-group">
+                            <label>Minus By Admin</label>
+                            <input type="number" class="form-control sim-val" data-var="minusMoneyByAdmin" value="0">
+                        </div>
+                    </div>
+
+                    <button class="btn btn-dark btn-block mt-3"
+                        style="border-radius: 10px; font-weight: 700; height: 44px;" id="run-sim">Run Logic
+                        Test</button>
+
+                    <div id="sim-result" style="margin-top: 15px; padding: 15px; border-radius: 12px; display: none;">
+                        <div id="sim-status" style="font-weight: 800; font-size: 14px;"></div>
+                        <div id="sim-msg" style="font-size: 12px; margin-top: 2px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Accordion Section: Dictionary -->
+            <div class="sidebar-section" style="flex: 1; overflow-y: auto; border-bottom: none;">
+                <div class="accordion-head" onclick="toggleSidebarSection(this)">
+                    <h3 style="font-size: 13px; font-weight: 800; margin: 0; color: var(--text-muted);"><i
+                            class="fas fa-book-open mr-2"></i> Variable Dictionary</h3>
+                    <i class="fas fa-chevron-down toggle-icon"></i>
+                </div>
+                <div class="accordion-body">
+                    <!-- Deposits -->
+                    <div style="border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; margin-bottom: 10px;">
+                        <h4 style="font-size: 11px; color: var(--accent); margin-bottom: 8px;">DEPOSITS</h4>
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <div><span class="var-badge">{{deposit_amount_lifetime}}</span>
+                                <div style="font-size: 9px; color: #64748b;">Lifetime successful deposit amount.</div>
+                            </div>
+                            <div><span class="var-badge">{{deposit_count_lifetime}}</span>
+                                <div style="font-size: 9px; color: #64748b;">Lifetime successful deposit count.</div>
+                            </div>
+                            <div><span class="var-badge">{{deposit_amount_today}}</span>
+                                <div style="font-size: 9px; color: #64748b;">Total successful deposit amount today.
+                                </div>
+                            </div>
+                            <div><span class="var-badge">{{deposit_count_today}}</span>
+                                <div style="font-size: 9px; color: #64748b;">Number of successful deposits today.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Withdrawals -->
+                    <div style="border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; margin-bottom: 10px;">
+                        <h4 style="font-size: 11px; color: #ef4444; margin-bottom: 8px;">WITHDRAWALS (Standard)</h4>
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <div><span class="var-badge">{{wd_count_today}}</span>
+                                <div style="font-size: 9px; color: #64748b;">Today's request count (Success + Pending).
+                                </div>
+                            </div>
+                            <div><span class="var-badge">{{wd_amount_today}}</span>
+                                <div style="font-size: 9px; color: #64748b;">Today's total requested amount.</div>
+                            </div>
+                            <div><span class="var-badge">{{wd_count_lifetime}}</span>
+                                <div style="font-size: 9px; color: #64748b;">Lifetime request count (Success + Pending).
+                                </div>
+                            </div>
+                            <div><span class="var-badge">{{wd_amount_lifetime}}</span>
+                                <div style="font-size: 9px; color: #64748b;">Lifetime successful withdrawal amount.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rejected Withdrawals -->
+                    <div style="border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; margin-bottom: 10px;">
+                        <h4 style="font-size: 11px; color: #991b1b; margin-bottom: 8px;">WITHDRAWALS (Rejected)</h4>
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <div><span class="var-badge">{{wd_count_today_rejected}}</span>
+                                <div style="font-size: 9px; color: #64748b;">Today's rejected count.</div>
+                            </div>
+                            <div><span class="var-badge">{{wd_amount_today_rejected}}</span>
+                                <div style="font-size: 9px; color: #64748b;">Today's rejected amount.</div>
+                            </div>
+                            <div><span class="var-badge">{{wd_count_lifetime_rejected}}</span>
+                                <div style="font-size: 9px; color: #64748b;">Lifetime rejected count.</div>
+                            </div>
+                            <div><span class="var-badge">{{wd_amount_lifetime_rejected}}</span>
+                                <div style="font-size: 9px; color: #64748b;">Lifetime rejected amount.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Games & Money -->
+                    <div style="border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; margin-bottom: 10px;">
+                        <h4 style="font-size: 11px; color: #059669; margin-bottom: 8px;">GAMES & WALLET</h4>
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <div><span class="var-badge">{{withdraw_amount_current}}</span>
+                                <div style="font-size: 9px; color: #64748b;">Current amount requested (Alias:
+                                    {{amount}}).</div>
+                            </div>
+                            <div><span class="var-badge">{{balance}}</span>
+                                <div style="font-size: 9px; color: #64748b;">Current wallet balance.</div>
+                            </div>
+                            <div><span class="var-badge">{{bet_amount_lifetime}}</span>
+                                <div style="font-size: 9px; color: #64748b;">Total lifetime settled bets.</div>
+                            </div>
+                            <div><span class="var-badge">{{winning_amount_lifetime}}</span>
+                                <div style="font-size: 9px; color: #64748b;">Total games winning amount.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bonuses -->
+                    <div style="border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; margin-bottom: 10px;">
+                        <h4 style="font-size: 11px; color: #9c27b0; margin-bottom: 8px;">BONUSES & EARNINGS</h4>
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <div><span class="var-badge">{{bonus_amount_lifetime}}</span>
+                                <div style="font-size: 9px; color: #64748b;">Total sum of all bonuses.</div>
+                            </div>
+                            <div><span class="var-badge">{{bonus_amount_gift}}</span>
+                                <div style="font-size: 9px; color: #64748b;">Gift Codes bonus.</div>
+                            </div>
+                            <div><span class="var-badge">{{bonus_amount_recharge}}</span>
+                                <div style="font-size: 9px; color: #64748b;">Total recharge bonuses.</div>
+                            </div>
+                            <div><span class="var-badge">{{bonus_amount_first_recharge}}</span>
+                                <div style="font-size: 9px; color: #64748b;">First recharge bonus only.</div>
+                            </div>
+                            <div><span class="var-badge">{{bonus_amount_attendance}}</span>
+                                <div style="font-size: 9px; color: #64748b;">Attendance rewards.</div>
+                            </div>
+                            <div><span class="var-badge">{{bonus_amount_referral}}</span>
+                                <div style="font-size: 9px; color: #64748b;">Referral/Invite rewards.</div>
+                            </div>
+                            <div><span class="var-badge">{{salary_amount_lifetime}}</span>
+                                <div style="font-size: 9px; color: #64748b;">Total salary payments.</div>
+                            </div>
+                            <div><span class="var-badge">{{commission_amount_lifetime}}</span>
+                                <div style="font-size: 9px; color: #64748b;">Total commission earned.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- User Info -->
+                    <div>
+                        <h4 style="font-size: 11px; color: #475569; margin-bottom: 8px;">USER INFO</h4>
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <div><span class="var-badge">{{level}}</span>
+                                <div style="font-size: 9px; color: #64748b;">0=User, 1=Admin, 2=Collab.</div>
+                            </div>
+                            <div><span class="var-badge">{{vip_level}}</span>
+                                <div style="font-size: 9px; color: #64748b;">User VIP Rank (e.g. 1, 2, 3).</div>
+                            </div>
+                            <div><span class="var-badge">{{wd_count_lifetime}}</span>
+                                <div style="font-size: 9px; color: #64748b;">Number of withdrawals made.</div>
+                            </div>
+                            <div><span class="var-badge">{{money}}</span>
+                                <div style="font-size: 9px; color: #64748b;">Current user balance (alternative to balance).</div>
+                            </div>
+                            <div><span class="var-badge">{{addMoneyByAdmin}}</span>
+                                <div style="font-size: 9px; color: #64748b;">Total money added by admin.</div>
+                            </div>
+                            <div><span class="var-badge">{{minusMoneyByAdmin}}</span>
+                                <div style="font-size: 9px; color: #64748b;">Total money deducted by admin.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 p-3 bg-light rounded"
+                        style="font-size: 11px; line-height: 1.5; border: 1px dashed #cbd5e1; margin-bottom: 20px;">
+                        <i class="fas fa-info-circle text-info mr-1"></i> Use these in <strong>Condition</strong> nodes.
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <script src="/plugins/jquery/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const arrow = document.querySelector('.toggle-arrow');
+            const isCollapsed = sidebar.classList.toggle('collapsed');
+
+            if (arrow) arrow.style.transform = isCollapsed ? 'rotate(180deg)' : 'rotate(0deg)';
+
+            const mobileText = document.querySelector('.mobile-toggle-text');
+            if (window.innerWidth <= 768 && mobileText) {
+                mobileText.innerText = isCollapsed ? 'Open Simulator' : 'Close Simulator';
+            }
+
+            setTimeout(drawEdges, 300);
+        }
+
+        // Collapse sidebar on mobile by default
+        if (window.innerWidth <= 768) {
+            document.querySelector('.sidebar').classList.add('collapsed');
+        }
+
+        function toggleSidebarSection(headEl) {
+            const body = headEl.nextElementSibling;
+            const icon = headEl.querySelector('.toggle-icon');
+            body.classList.toggle('active');
+            if (body.classList.contains('active')) {
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        let flowData = { nodes: [], edges: [] };
+        const canvas = document.getElementById('flow-canvas');
+        const zoomContainer = document.getElementById('zoom-container');
+        const svg = document.getElementById('flow-connections');
+        let draggingNode = null;
+        let isPanning = false;
+        let panX = 0;
+        let panY = 0;
+        let offset = { x: 0, y: 0 };
+        let currentZoom = 1;
+
+        window.updateZoomDisplay = () => {
+            zoomContainer.style.transform = `translate(${panX}px, ${panY}px) scale(${currentZoom})`;
+            $('#zoom-level').text(Math.round(currentZoom * 100) + '%');
+            if (typeof drawEdges === 'function') drawEdges();
+        }
+
+        window.changeZoom = (delta) => {
+            currentZoom = Math.max(0.3, Math.min(2, currentZoom + delta));
+            updateZoomDisplay();
+        };
+
+        window.resetZoom = () => {
+            currentZoom = 1;
+            panX = 0;
+            panY = 0;
+            updateZoomDisplay();
+        };
+
+        $('#zoom-in').click(() => changeZoom(0.1));
+        $('#zoom-out').click(() => changeZoom(-0.1));
+
+        let selectedPort = null;
+
+        function renderNode(node) {
+            const div = document.createElement('div');
+            div.className = `flow-node node-${node.type}`;
+            div.id = `flnode-${node.id}`;
+            div.setAttribute('data-id', node.id);
+            div.style.left = `${node.x}px`;
+            div.style.top = `${node.y}px`;
+
+            let icon = 'fa-play-circle';
+            let iconBg = '#dbeafe', iconColor = '#2563eb';
+
+            if (node.type === 'condition') { icon = 'fa-filter'; iconBg = '#fef3c7'; iconColor = '#d97706'; }
+            if (node.type === 'action') { icon = 'fa-bolt'; iconBg = '#dcfce7'; iconColor = '#059669'; }
+
+            let bodyHtml = '';
+            if (node.type === 'condition') {
+                bodyHtml = `
+                    <div style="font-size: 10px; font-weight: 700; color: #64748b; margin-bottom: 4px;">FORMULA</div>
+                    <input type="text" class="form-control mb-2" style="height: 32px; font-family: monospace; font-size: 11px;" 
+                           value="${node.formula || ''}" 
+                           onchange="updateNodeData('${node.id}', 'formula', this.value)"
+                           onclick="event.stopPropagation()"
+                           onmousedown="event.stopPropagation()"
+                           placeholder="{{deposit}} > 500">
+                    <div style="font-size: 10px; font-weight: 700; color: #64748b; margin-bottom: 4px;">USER INSTRUCTION (Label)</div>
+                    <input type="text" class="form-control" style="height: 32px; font-size: 11px;" 
+                           value="${node.description || ''}" 
+                           onchange="updateNodeData('${node.id}', 'description', this.value)"
+                           onclick="event.stopPropagation()"
+                           onmousedown="event.stopPropagation()"
+                           placeholder="e.g. Min 300 for first time">
+                `;
+            } else if (node.type === 'action') {
+                bodyHtml = `
+                    <select class="form-control mb-2" style="height: 32px; font-size: 12px; font-weight: 700;" 
+                            onchange="updateNodeData('${node.id}', 'action', this.value)"
+                            onclick="event.stopPropagation()"
+                            onmousedown="event.stopPropagation()">
+                        <option value="allow" ${node.action === 'allow' ? 'selected' : ''}>✅ ALLOW</option>
+                        <option value="reject" ${node.action === 'reject' ? 'selected' : ''}>❌ REJECT</option>
+                        <option value="audit" ${node.action === 'audit' ? 'selected' : ''}>🔍 MANUAL AUDIT</option>
+                    </select>
+                    ${node.action === 'reject' ? `
+                        <input type="text" class="form-control" style="height: 32px; font-size: 11px;" 
+                               value="${node.message || ''}" 
+                               onchange="updateNodeData('${node.id}', 'message', this.value)"
+                               onclick="event.stopPropagation()"
+                               onmousedown="event.stopPropagation()"
+                               placeholder="Error message...">
+                    ` : ''}
+                `;
+            } else {
+                bodyHtml = `<div style="font-size: 12px; color: #475569;">User requests withdrawal.</div>`;
+            }
+
+            div.innerHTML = `
+                <div class="node-head">
+                    <div class="node-icon" style="background: ${iconBg}; color: ${iconColor};"><i class="fas ${icon}"></i></div>
+                    <input type="text" class="node-label-input" value="${node.label}" 
+                           onchange="updateNodeData('${node.id}', 'label', this.value)"
+                           onclick="event.stopPropagation()"
+                           onmousedown="event.stopPropagation()"
+                           style="border:none; background:transparent; font-size: 13px; font-weight: 700; flex: 1; color: inherit; padding: 0; outline: none;">
+                    <i class="fas fa-trash" style="cursor:pointer; font-size: 10px; color: #cbd5e1;" onclick="deleteNode('${node.id}')"></i>
+                </div>
+                <div class="node-body">${bodyHtml}</div>
+                ${node.type !== 'trigger' ? `<div class="flow-port port-in" onclick="handlePortClick(event, '${node.id}', 'in')" oncontextmenu="handlePortRightClick(event, '${node.id}', 'in')"></div>` : ''}
+                ${node.type === 'condition' ? `
+                    <div class="flow-port port-out port-true" title="If True" style="top: 35%; right: -8px;" onclick="handlePortClick(event, '${node.id}', 'true')" oncontextmenu="handlePortRightClick(event, '${node.id}', 'true')"></div>
+                    <div class="flow-port port-out port-false" title="If False" style="top: 65%; right: -8px;" onclick="handlePortClick(event, '${node.id}', 'false')" oncontextmenu="handlePortRightClick(event, '${node.id}', 'false')"></div>
+                    <span style="position: absolute; right: 12px; top: 31%; font-size: 8px; font-weight: 900; color: #10b981; pointer-events: none;">TRUE</span>
+                    <span style="position: absolute; right: 12px; top: 61%; font-size: 8px; font-weight: 900; color: #ef4444; pointer-events: none;">FALSE</span>
+                ` : (node.type !== 'action' ? `<div class="flow-port port-out" onclick="handlePortClick(event, '${node.id}', 'out')" oncontextmenu="handlePortRightClick(event, '${node.id}', 'out')"></div>` : '')}
+            `;
+
+            const handleDragStart = (clientX, clientY, target) => {
+                if (target.tagName === 'INPUT' || target.tagName === 'SELECT' || target.classList.contains('fa-trash') || target.classList.contains('flow-port') || target.classList.contains('node-label-input')) return false;
+                draggingNode = node;
+                const rect = div.getBoundingClientRect();
+                offset.x = (clientX - rect.left) / currentZoom;
+                offset.y = (clientY - rect.top) / currentZoom;
+                div.style.zIndex = 1000;
+                return true;
+            };
+
+            div.onmousedown = (e) => handleDragStart(e.clientX, e.clientY, e.target);
+
+            div.ontouchstart = (e) => {
+                if (handleDragStart(e.touches[0].clientX, e.touches[0].clientY, e.target)) {
+                    e.preventDefault(); // Prevent scrolling while dragging
+                }
+            };
+
+            zoomContainer.appendChild(div);
+        }
+
+        canvas.onmousedown = (e) => {
+            if (e.target === canvas || e.target.id === 'zoom-container') {
+                isPanning = true;
+                offset.x = e.clientX - panX;
+                offset.y = e.clientY - panY;
+                canvas.style.cursor = 'grabbing';
+            }
+        };
+
+        canvas.ontouchstart = (e) => {
+            if (e.target === canvas || e.target.id === 'zoom-container') {
+                isPanning = true;
+                offset.x = e.touches[0].clientX - panX;
+                offset.y = e.touches[0].clientY - panY;
+            }
+        };
+
+        function handlePortClick(e, nodeId, portType) {
+            e.stopPropagation();
+            const portEl = e.target;
+
+            // If we haven't selected a source port yet, and this is an output port
+            if (!selectedPort) {
+                if (portType === 'in') return; // Cannot start from input
+                selectedPort = { nodeId, portType, el: portEl };
+                portEl.style.boxShadow = '0 0 0 4px rgba(99, 102, 241, 0.4)';
+                portEl.style.borderColor = '#6366f1';
+                toastr.info('Source port selected. Now click an Input port.');
+            } else {
+                // If we already have a source, and this is an input port
+                if (portType === 'in' && selectedPort.nodeId !== nodeId) {
+                    // Create edge
+                    const newEdge = {
+                        from: selectedPort.nodeId,
+                        to: nodeId,
+                        type: selectedPort.portType === 'out' ? 'default' : selectedPort.portType
+                    };
+
+                    // Remove existing edge from the same output port if any
+                    flowData.edges = flowData.edges.filter(edge =>
+                        !(edge.from === selectedPort.nodeId && edge.type === newEdge.type)
+                    );
+
+                    flowData.edges.push(newEdge);
+                    drawEdges();
+                    toastr.success('Connection created!');
+                }
+
+                // Reset selection
+                selectedPort.el.style.boxShadow = 'none';
+                selectedPort.el.style.borderColor = '#fff';
+                selectedPort = null;
+            }
+        }
+
+        function handlePortRightClick(e, nodeId, portType) {
+            e.preventDefault(); // Stop normal right click menu
+            const type = (portType === 'out' ? 'default' : portType);
+
+            // Remove all edges starting from this port (if output) or ending at this port (if input)
+            if (portType === 'in') {
+                flowData.edges = flowData.edges.filter(edge => edge.to !== nodeId);
+            } else {
+                flowData.edges = flowData.edges.filter(edge => !(edge.from === nodeId && (edge.type === type)));
+            }
+
+            drawEdges();
+            toastr.info('Connection disconnected');
+        }
+
+        function updateNodeData(id, field, value) {
+            const node = flowData.nodes.find(n => n.id === id);
+            if (node) {
+                node[field] = value;
+                if (field === 'action') refreshCanvas();
+            }
+        }
+
+        function deleteNode(id) {
+            flowData.nodes = flowData.nodes.filter(n => n.id !== id);
+            flowData.edges = flowData.edges.filter(e => e.from === id || e.to === id ? false : true);
+            refreshCanvas();
+        }
+
+        const handleMove = (clientX, clientY) => {
+            if (draggingNode) {
+                const rect = zoomContainer.getBoundingClientRect();
+                let x = (clientX - rect.left) / currentZoom - offset.x;
+                let y = (clientY - rect.top) / currentZoom - offset.y;
+
+                x = Math.round(x / 10) * 10;
+                y = Math.round(y / 10) * 10;
+
+                draggingNode.x = x;
+                draggingNode.y = y;
+                const el = document.getElementById(`flnode-${draggingNode.id}`);
+                el.style.left = `${x}px`;
+                el.style.top = `${y}px`;
+                drawEdges();
+            } else if (isPanning) {
+                panX = clientX - offset.x;
+                panY = clientY - offset.y;
+                updateZoomDisplay();
+            }
+        };
+
+        $(canvas).on('mousemove', (e) => handleMove(e.clientX, e.clientY));
+        $(canvas).on('touchmove', (e) => {
+            if (draggingNode || isPanning) {
+                handleMove(e.touches[0].clientX, e.touches[0].clientY);
+                e.preventDefault();
+            }
+        });
+
+        $(window).on('mouseup touchend', () => {
+            draggingNode = null;
+            isPanning = false;
+            canvas.style.cursor = 'crosshair';
+        });
+
+        function drawEdges() {
+            svg.innerHTML = '';
+            
+            flowData.edges.forEach(edge => {
+                const fromNode = document.getElementById(`flnode-${edge.from}`);
+                const toNode = document.getElementById(`flnode-${edge.to}`);
+                const from = flowData.nodes.find(n => n.id === edge.from);
+                const to = flowData.nodes.find(n => n.id === edge.to);
+                
+                if (!fromNode || !toNode || !from || !to) return;
+
+                // Find specific ports
+                let portClass = '.port-out';
+                if (edge.type === 'true') portClass = '.port-true';
+                if (edge.type === 'false') portClass = '.port-false';
+                
+                const fromPort = fromNode.querySelector(portClass);
+                const toPort = toNode.querySelector('.port-in');
+
+                if (fromPort && toPort) {
+                    // Calculate exact logical center of the ports
+                    const startX = from.x + fromPort.offsetLeft + (fromPort.offsetWidth / 2);
+                    const startY = from.y + fromPort.offsetTop + (fromPort.offsetHeight / 2);
+                    const endX = to.x + toPort.offsetLeft + (toPort.offsetWidth / 2);
+                    const endY = to.y + toPort.offsetTop + (toPort.offsetHeight / 2);
+
+                    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    const midX = startX + (endX - startX) * 0.5;
+                    const d = `M ${startX} ${startY} C ${midX} ${startY}, ${midX} ${endY}, ${endX} ${endY}`;
+                    
+                    path.setAttribute('d', d);
+                    path.setAttribute('class', 'flow-line');
+                    path.style.stroke = edge.type === 'true' ? '#10b981' : (edge.type === 'false' ? '#ef4444' : '#94a3b8');
+                    path.style.strokeWidth = '3px';
+                    path.style.fill = 'none';
+                    path.style.pointerEvents = 'stroke';
+                    
+                    path.onclick = (e) => {
+                        e.stopPropagation();
+                        if(confirm('Delete this connection?')) {
+                            flowData.edges = flowData.edges.filter(ed => ed !== edge);
+                            drawEdges();
+                        }
+                    };
+
+                    svg.appendChild(path);
+                }
+            });
+        }
+
+        function refreshCanvas() {
+            zoomContainer.querySelectorAll('.flow-node').forEach(n => zoomContainer.removeChild(n));
+            flowData.nodes.forEach(renderNode);
+            drawEdges();
+        }
+
+        async function loadFlow() {
+            try {
+                const res = await $.get('/api/webapi/admin/withdrawal-flow/get');
+                if (res.status && res.data) {
+                    flowData = JSON.parse(res.data.flow_json);
+                    refreshCanvas();
+                }
+            } catch (e) { console.error(e); }
+        }
+
+
+        $('#save-flow').click(async () => {
+            try {
+                const res = await $.post('/api/webapi/admin/withdrawal-flow/save', { flow_json: JSON.stringify(flowData) });
+                if (res.status) toastr.success('Flow saved successfully!');
+            } catch (e) { toastr.error('Save failed'); }
+        });
+
+        $('#run-sim').click(() => {
+            const vars = {};
+            $('.sim-val').each(function () { vars[$(this).data('var')] = parseFloat($(this).val()) || 0; });
+
+            const evalFormula = (formula, v) => {
+                try {
+                    let f = formula;
+                    for (const [key, val] of Object.entries(v)) f = f.replace(new RegExp(`{{${key}}}`, 'g'), val);
+                    if (/[^0-9\+\-\*\/\(\)\s\.\>\<\=\!\&\|]/.test(f)) return false;
+                    return !!(new Function(`return ${f}`)());
+                } catch (e) { return false; }
+            };
+
+            let current = flowData.nodes.find(n => n.type === 'trigger');
+            let res = { status: 'ERROR', msg: 'No trigger found', color: '#fee2e2', textColor: '#991b1b' };
+            let safety = 0;
+
+            while (current && safety < 50) {
+                safety++;
+                if (current.type === 'action') {
+                    const isAllow = current.action === 'allow';
+                    const isAudit = current.action === 'audit';
+                    res = {
+                        status: current.action.toUpperCase(),
+                        msg: current.action === 'reject' ? current.message : 'Conditions Passed!',
+                        color: isAllow ? '#dcfce7' : (isAudit ? '#fef9c3' : '#fee2e2'),
+                        textColor: isAllow ? '#166534' : (isAudit ? '#854d0e' : '#991b1b')
+                    };
+                    break;
+                }
+                const isCond = current.type === 'condition';
+                const val = isCond ? evalFormula(current.formula, vars) : true;
+                const edge = flowData.edges.find(e => e.from === current.id && (!isCond || e.type === (val ? 'true' : 'false')));
+                if (!edge) { res = { status: 'STUCK', msg: 'No path found', color: '#f1f5f9' }; break; }
+                current = flowData.nodes.find(n => n.id === edge.to);
+            }
+
+            $('#sim-result').css({ 'display': 'block', 'background': res.color, 'color': res.textColor });
+            $('#sim-status').text(res.status);
+            $('#sim-msg').text(res.msg).css('color', res.textColor);
+        });
+
+        $(document).ready(function () {
+            // Initialize mobile state safely
+            if (window.innerWidth <= 768) {
+                const mobileText = document.querySelector('.mobile-toggle-text');
+                if (mobileText) {
+                    mobileText.style.display = 'inline';
+                    mobileText.innerText = 'Open Simulator';
+                    // Arrow already set to 180 (down) by default CSS for collapsed
+                }
+            }
+
+            loadFlow();
+
+            $('#add-condition').click(() => {
+                const id = 'c' + Date.now();
+                flowData.nodes.push({ id, type: 'condition', label: 'Condition', x: 250, y: 150, formula: '' });
+                refreshCanvas();
+            });
+
+            $('#add-action').click(() => {
+                const id = 'a' + Date.now();
+                flowData.nodes.push({ id, type: 'action', label: 'Action Result', x: 550, y: 150, action: 'allow' });
+                refreshCanvas();
+            });
+        });
+    </script>
+</body>
+
+</html>

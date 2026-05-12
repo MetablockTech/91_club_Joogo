@@ -1,0 +1,2912 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Global Settings | <%= locals.SITE_NAME || 'Starworldz' %> Admin</title>
+  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #f4f7fe;
+      --sidebar-bg: #ffffff;
+      --card-bg: #ffffff;
+      --card-border: #e9edf7;
+      --accent: #4361ee;
+      --accent-light: rgba(67, 97, 238, 0.08);
+      --text-primary: #2b3674;
+      --text-secondary: #707eae;
+      --text-muted: #a3aed0;
+      --green: #05cd99;
+      --red: #ee5d50;
+      --blue: #3498db;
+      --sidebar-width: 260px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif !important;
+      background: var(--bg);
+      color: var(--text-primary);
+      overflow-x: hidden;
+    }
+
+    .wrapper {
+      display: flex;
+      min-height: 100vh;
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    .main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s;
+      min-width: 0;
+      width: calc(100% - var(--sidebar-width));
+    }
+
+    @media (max-width: 991.98px) {
+      .main-content {
+        margin-left: 0 !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+        padding-top: 60px !important;
+      }
+
+      .topbar {
+        display: none !important;
+      }
+
+      .page-header {
+        padding: 15px 16px !important;
+        margin: 0 !important;
+        background: #fff;
+        border-bottom: 1px solid var(--card-border);
+      }
+    }
+
+    .topbar {
+      background: var(--sidebar-bg);
+      border-bottom: 1px solid var(--card-border);
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .topbar-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .content-body {
+      padding: 20px;
+      width: 100%;
+    }
+
+    /* ── TABS ── */
+    .tabs-nav {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--card-border);
+      padding-bottom: 10px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      width: 100%;
+    }
+
+    .tabs-nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer !important;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      position: relative;
+      z-index: 100;
+    }
+
+    .tab-btn:hover {
+      background: var(--accent-light);
+      color: var(--accent);
+    }
+
+    .tab-btn.active {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(67, 97, 238, 0.2);
+    }
+
+    .tab-pane {
+      display: none;
+    }
+
+    .tab-pane.active {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+      gap: 20px;
+      align-items: start; /* Fix: Prevent cards from stretching to match tallest item */
+    }
+
+    /* Support for Flex-based flow builder */
+    .tab-pane.active#tab-withdrawal-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    @media (max-width: 768px) {
+      .content-body {
+        padding: 15px;
+      }
+
+      .tab-pane {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+
+      .config-card {
+        padding: 16px;
+        border-radius: 16px;
+      }
+    }
+
+    .tab-pane.active {
+      display: grid;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(5px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ── CONFIG CARD ── */
+    .config-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .card-head {
+      border-bottom: 1px solid #f0f2f8;
+      padding-bottom: 12px;
+    }
+
+    .card-head h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-head h3 i {
+      color: var(--accent);
+      font-size: 14px;
+    }
+
+    .card-head p {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field-group label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .form-control {
+      height: 42px;
+      border-radius: 10px;
+      border: 1.5px solid var(--card-border);
+      padding: 0 14px;
+      font-size: 13px;
+      font-weight: 500;
+      outline: none;
+      transition: all 0.2s;
+      background: #fdfdfe;
+      color: var(--text-primary);
+    }
+
+    .form-control:focus {
+      border-color: var(--accent);
+      background: #fff;
+      box-shadow: 0 0 0 3px var(--accent-light);
+    }
+
+    .btn-save {
+      height: 42px;
+      border-radius: 10px;
+      border: none;
+      background: var(--accent);
+      color: #fff !important;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 5px;
+    }
+
+    .btn-save:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+    }
+
+    /* ── TOGGLE SWITCH ── */
+    .switch-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: #fbfcfe;
+      border-radius: 12px;
+      border: 1.5px solid var(--card-border);
+    }
+
+    .switch-wrap span {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #cbd5e0;
+      transition: .4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked+.slider {
+      background-color: var(--accent);
+    }
+
+    input:checked+.slider:before {
+      transform: translateX(20px);
+    }
+
+    .preview-box {
+      margin-top: 10px;
+      border-radius: 12px;
+      border: 1.5px dashed var(--card-border);
+      padding: 8px;
+      background: #fbfcfe;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100px;
+    }
+
+    .preview-box img {
+      max-width: 100%;
+      max-height: 120px;
+      border-radius: 8px;
+    }
+
+    .file-input-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .file-input-wrap input[type=file] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .file-label {
+      height: 42px;
+      border-radius: 10px;
+      border: 1.5px dashed var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 12px;
+      background: var(--accent-light);
+    }
+
+    /* ── COMPACT SWAL ── */
+    .compact-swal-popup {
+      padding: 1rem !important;
+      border-radius: 16px !important;
+      font-family: 'Inter', sans-serif !important;
+    }
+
+    .compact-swal-title {
+      padding: 0 !important;
+      margin-bottom: 0.5rem !important;
+    }
+
+    .compact-swal-text {
+      font-size: 14px !important;
+      color: #555 !important;
+      margin-bottom: 1rem !important;
+    }
+
+    .compact-swal-confirm,
+    .compact-swal-cancel {
+      padding: 8px 20px !important;
+      font-size: 13px !important;
+      font-weight: 600 !important;
+      border-radius: 8px !important;
+    }
+
+    /* ── MODALS FIX ── */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(26, 29, 46, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    .modal.show {
+      display: block;
+      opacity: 1;
+    }
+
+    .modal.fade .modal-dialog {
+      transition: transform 0.3s ease-out;
+      transform: translateY(-50px);
+    }
+
+    .modal.show .modal-dialog {
+      transform: none;
+    }
+
+    .modal-dialog {
+      margin: 1.75rem auto;
+      max-width: 500px;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      min-height: calc(100% - 3.5rem);
+    }
+
+    .modal-content {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      pointer-events: auto;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid rgba(0, 0, 0, .2);
+      border-radius: 20px;
+      outline: 0;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--card-border);
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+    }
+
+    .modal-title {
+      margin-bottom: 0;
+      line-height: 1.5;
+    }
+
+    .modal-body {
+      position: relative;
+      flex: 1 1 auto;
+      padding: 1.5rem;
+    }
+
+    .close {
+      padding: 1rem 1.5rem;
+      margin: -1rem -1.5rem -1rem auto;
+      background: transparent;
+      border: 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1;
+      color: #000;
+      text-shadow: 0 1px 0 #fff;
+      opacity: .5;
+      cursor: pointer;
+    }
+
+    .close:hover {
+      opacity: .75;
+    }
+    /* ── WITHDRAWAL FLOW BUILDER ── */
+    #flow-canvas {
+      width: 100%;
+      height: 600px;
+      background-color: #f8f9fa;
+      background-image: radial-gradient(#d1d5db 1px, transparent 1px);
+      background-size: 20px 20px;
+      position: relative;
+      overflow: hidden;
+      border: 1.5px solid var(--card-border);
+      border-radius: 12px;
+      cursor: crosshair;
+    }
+
+    .flow-node {
+      position: absolute;
+      min-width: 180px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      cursor: grab;
+      z-index: 10;
+      border: 2px solid transparent;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .flow-node:active { cursor: grabbing; }
+    .flow-node:hover { border-color: var(--accent); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
+
+    .node-header {
+      padding: 8px 12px;
+      border-radius: 8px 8px 0 0;
+      font-weight: 700;
+      color: white;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .node-trigger .node-header { background: var(--accent); }
+    .node-condition .node-header { background: #f59e0b; }
+    .node-action .node-header { background: #10b981; }
+
+    .node-body {
+      padding: 12px;
+      font-size: 12px;
+    }
+
+    .flow-port {
+      width: 10px;
+      height: 10px;
+      background: #4b5563;
+      border-radius: 50%;
+      position: absolute;
+      border: 2px solid white;
+    }
+
+    .port-in { left: -5px; top: 50%; transform: translateY(-50%); }
+    .port-out { right: -5px; top: 50%; transform: translateY(-50%); }
+    .port-true { right: -5px; top: 30%; background: #10b981; }
+    .port-false { right: -5px; top: 70%; background: #ef4444; }
+
+    svg#flow-connections {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .flow-line {
+      fill: none;
+      stroke: #9ca3af;
+      stroke-width: 2.5;
+    }
+
+    .var-badge {
+      font-size: 10px;
+      padding: 2px 6px;
+      background: #f3f4f6;
+      border: 1px solid #e5e7eb;
+      border-radius: 4px;
+      color: #374151;
+      margin-right: 4px;
+      margin-bottom: 4px;
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <%- include('nav') %>
+
+      <div class="main-content">
+        <header class="topbar">
+          <div class="topbar-title">Control Panel &rsaquo; Global Settings</div>
+        </header>
+
+        <div class="content-body">
+          <div class="tabs-nav">
+            <button class="tab-btn active" data-target="tab-general"><i class="fas fa-cog"></i> General</button>
+            <button class="tab-btn" data-target="tab-social"><i class="fas fa-share-alt"></i> Social & App</button>
+            <button class="tab-btn" data-target="tab-payment"><i class="fas fa-wallet"></i> Payments</button>
+            <button class="tab-btn" data-target="tab-incentives"><i class="fas fa-gift"></i> Incentives</button>
+            <button class="tab-btn" data-target="tab-banners"><i class="fas fa-image"></i> Banners Setup</button>
+            <button class="tab-btn" data-target="tab-sms"><i class="fas fa-sms"></i> SMS Settings</button>
+            <button class="tab-btn" data-target="tab-api"><i class="fas fa-code"></i> API Setting</button>
+            <button class="tab-btn" data-target="tab-withdrawal-methods"><i class="fas fa-money-check-alt"></i>
+              Withdrawal Methods</button>
+
+          </div>
+
+
+          <!-- TAB: GENERAL -->
+          <div class="tab-pane active" id="tab-general">
+            <!-- SITE BRANDING FIRST -->
+            <div class="config-card">
+              <div class="card-head" style="border-bottom: 1px solid #f1f5f9; padding-bottom: 16px; margin-bottom: 16px;">
+                <h3 style="font-size: 16px; font-weight: 800; color: #1e293b; display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-palette text-primary" style="background: var(--accent-light); padding: 8px; border-radius: 8px;"></i> Site Branding
+                </h3>
+                <p style="font-size: 12px; color: #64748b; margin-top: 4px;">Customize your site name and logo.</p>
+              </div>
+
+              <div
+                style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--accent-light);border-radius:12px;border:1px solid var(--card-border);">
+                <div id="logo-preview-wrap">
+                  <% if (locals.SITE_LOGO) { %>
+                    <img id="logo-live-preview" src="<%= locals.SITE_LOGO %>"
+                      style="width:36px;height:36px;border-radius:8px;object-fit:cover;">
+                    <% } %>
+                </div>
+                <div>
+                  <div id="sitename-live-preview" style="font-size:14px;font-weight:700;color:var(--accent);">
+                    <%= locals.SITE_NAME || 'Starworldz' %>
+                  </div>
+                  <div style="font-size:10px;color:var(--text-secondary);">Live Branding Preview</div>
+                </div>
+              </div>
+
+              <div class="field-group">
+                <label>Site Name</label>
+                <input type="text" class="form-control" id="site_name_input"
+                  value="<%= locals.SITE_NAME || 'Starworldz' %>">
+              </div>
+              <div class="field-group">
+                <label>Website Link</label>
+                <input type="text" class="form-control" id="website_link" placeholder="Website Link">
+              </div>
+              <div class="field-group">
+                <label>Site Logo</label>
+                <div class="file-input-wrap">
+                  <input type="file" id="site_logo_input" accept="image/*">
+                  <div class="file-label"><i class="fas fa-image"></i> Change Logo</div>
+                </div>
+                <div class="preview-box" id="site_logo_show">
+                  <% if (locals.SITE_LOGO) { %><img src="<%= locals.SITE_LOGO %>"
+                      style="max-width: 100%; max-height: 120px; border-radius: 8px;">
+                    <% } %>
+                </div>
+              </div>
+              <button class="btn btn-primary w-100" id="save-branding" style="height: 42px; border-radius: 8px; font-weight: 700; background: var(--accent); border: none; color: #fff !important; box-shadow: 0 4px 12px rgba(67, 97, 238, 0.2); transition: all 0.2s;">
+                <i class="fas fa-check mr-2"></i> Apply Branding
+              </button>
+            </div>
+
+            <!-- SYSTEM MANAGEMENT (Status + IP) -->
+            <div class="config-card">
+              <!-- System Status Section -->
+              <div class="card-head" style="border-bottom: 1px solid #f1f5f9; padding-bottom: 16px; margin-bottom: 16px;">
+                <h3 style="font-size: 16px; font-weight: 800; color: #1e293b; display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-tools text-primary" style="background: var(--accent-light); padding: 8px; border-radius: 8px;"></i> System Status
+                </h3>
+                <p style="font-size: 12px; color: #64748b; margin-top: 4px;">Control global site accessibility.</p>
+              </div>
+
+              <div class="switch-wrap">
+                <span><i class="fas fa-exclamation-triangle" style="color: var(--red);"></i> Maintenance Mode</span>
+                <label class="switch">
+                  <input type="checkbox" id="maintenance_toggle">
+                  <span class="slider"></span>
+                </label>
+              </div>
+              
+              <div class="field-group mt-3 w-100" id="maintenance_time_group" style="display: none;">
+                <label>Estimated Completion Time (Optional)</label>
+                <div style="display: grid; grid-template-columns: 1fr auto; gap: 10px; width: 100%;">
+                  <input type="datetime-local" id="maintenance_end_time" class="form-control" style="height: 42px; border-radius: 8px; border: 1px solid #e2e8f0; width: 100%;">
+                  <button class="btn btn-danger" id="reset_maintenance_timer" style="white-space: nowrap; height: 42px; border-radius: 8px; padding: 0 15px; font-weight: 700; display: flex; align-items: center; gap: 6px; font-size: 13px; border: none; box-shadow: 0 4px 12px rgba(238, 93, 80, 0.2);">
+                      <i class="fas fa-undo-alt"></i> Reset
+                  </button>
+                </div>
+                <div class="mt-3">
+                  <div class="custom-control custom-switch">
+                      <input type="checkbox" class="custom-control-input" id="maintenance_auto_off">
+                      <label class="custom-control-label" for="maintenance_auto_off" style="font-size: 13px; font-weight: 600; color: #475569; cursor: pointer;">Auto-Live when time ends</label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Divider -->
+              <div style="height: 1px; background: #f1f5f9; margin: 24px 0;"></div>
+
+              <!-- IP Control Section -->
+              <div class="card-head" style="border-bottom: 1px solid #f1f5f9; padding-bottom: 16px; margin-bottom: 16px;">
+                <h3 style="font-size: 16px; font-weight: 800; color: #1e293b; display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-network-wired text-primary" style="background: var(--accent-light); padding: 8px; border-radius: 8px;"></i> IP Registration Control
+                </h3>
+                <p style="font-size: 12px; color: #64748b; margin-top: 4px;">Manage multi-account registration limits.</p>
+              </div>
+
+              <div class="field-group mb-4">
+                <label style="font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; display: block;">Allow Same IP Registration</label>
+                <div class="custom-control custom-switch p-0">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="ip_reg_status">
+                        <label class="custom-control-label" for="ip_reg_status" style="font-size: 13px; font-weight: 600; color: #475569; cursor: pointer;">Enable multi-registration from same IP</label>
+                    </div>
+                </div>
+              </div>
+
+              <div class="field-group mb-4">
+                <label style="font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display: block;">Registration Limit Per IP</label>
+                <input type="number" id="ip_reg_limit" class="form-control" value="5" style="height: 42px; border-radius: 10px; border: 1.5px solid var(--card-border); font-weight: 600;">
+                <p style="font-size: 11px; color: var(--text-secondary); margin-top: 6px;">Max accounts allowed per unique IP address.</p>
+              </div>
+
+              <button class="btn btn-primary w-100" id="save-ip-settings" style="height: 42px; border-radius: 10px; font-weight: 700; background: var(--accent); border: none; color: #fff !important; box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3); transition: all 0.2s;">
+                <i class="fas fa-save mr-2"></i> Save IP Settings
+              </button>
+            </div>
+
+            <!-- CURRENCY CONFIGURATION -->
+            <div class="config-card">
+              <div class="card-head">
+                <h3><i class="fas fa-coins"></i> Platform Currency</h3>
+                <p>Define the primary currency for your site.</p>
+              </div>
+              <div class="field-group">
+                <label>Currency Name (e.g. INR, BDT, USDT)</label>
+                <input type="text" class="form-control" id="currency_name_input" placeholder="INR">
+              </div>
+              <div class="field-group">
+                <label>Currency Symbol (e.g. ₹, ৳, $)</label>
+                <input type="text" class="form-control" id="currency_symbol_input" placeholder="₹">
+              </div>
+              <button class="btn btn-primary w-100" id="save-currency" style="height: 42px; border-radius: 10px; font-weight: 700; background: var(--accent); border: none; color: #fff !important; box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3); transition: all 0.2s;">
+                <i class="fas fa-save mr-2"></i> Save Currency Settings
+              </button>
+            </div>
+          </div>
+
+          <!-- TAB: SOCIAL & APP -->
+          <div class="tab-pane" id="tab-social">
+            <div class="config-card">
+              <div class="card-head">
+                <h3><i class="fas fa-headset"></i> Support & Social</h3>
+                <p>Configure official group and support links.</p>
+              </div>
+              <div class="field-group">
+                <label>WhatsApp Link</label>
+                <input type="text" class="form-control" id="whatsapp" placeholder="https://wa.me/...">
+              </div>
+              <div class="field-group">
+                <label>Telegram Group</label>
+                <input type="text" class="form-control" id="telegram" placeholder="https://t.me/...">
+              </div>
+              <div class="field-group">
+                <label>Online CS Link</label>
+                <input type="text" class="form-control" id="cskh" placeholder="Customer service URL">
+              </div>
+
+              <div style="border-top: 1px solid var(--card-border); margin: 10px 0; padding-top: 15px;">
+                <h4 style="font-size: 13px; margin-bottom: 10px;">Mobile Application (APK)</h4>
+                <div class="field-group">
+                  <label><i class="fas fa-tag"></i> Display Name (e.g. 91Club.apk)</label>
+                  <input type="text" class="form-control" id="apk_name" placeholder="91Club.apk">
+                </div>
+                <div class="field-group" style="margin-top: 10px;">
+                  <label><i class="fas fa-upload"></i> Upload APK File</label>
+                  <div class="file-input-wrap">
+                    <input type="file" id="apk_file_input" accept=".apk">
+                    <div class="file-label"><i class="fas fa-file-download"></i> Select APK File</div>
+                  </div>
+                  <div id="apk_file_status" style="font-size: 11px; color: var(--green); margin-top: 5px;"></div>
+                </div>
+                <div class="field-group" style="margin-top: 10px;">
+                  <label><i class="fas fa-link"></i> External URL (Optional fallback)</label>
+                  <input type="text" class="form-control" id="myapp_web" placeholder="Or provide an external link">
+                </div>
+              </div>
+
+              <div style="border-top: 1px solid var(--card-border); margin: 10px 0; padding-top: 15px;">
+                <h4 style="font-size: 13px; margin-bottom: 10px;">Visibility Toggles</h4>
+                <div class="switch-wrap" style="margin-bottom: 10px;">
+                  <span><i class="fab fa-whatsapp" style="color: #25D366;"></i> WhatsApp Button</span>
+                  <label class="switch">
+                    <input type="checkbox" id="whatsapp_status">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+                <div class="switch-wrap" style="margin-bottom: 10px;">
+                  <span><i class="fab fa-telegram" style="color: #0088cc;"></i> Telegram Button</span>
+                  <label class="switch">
+                    <input type="checkbox" id="telegram_status">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+                <div class="switch-wrap" style="margin-bottom: 10px;">
+                  <span><i class="fas fa-headset" style="color: var(--blue);"></i> Customer Service Button</span>
+                  <label class="switch">
+                    <input type="checkbox" id="cskh_status">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+                <div class="switch-wrap">
+                  <span><i class="fas fa-download" style="color: var(--accent);"></i> App Download</span>
+                  <label class="switch">
+                    <input type="checkbox" id="app_download_status">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+
+              <button class="btn-save telegram">
+                <i class="fas fa-save"></i> Save Social & App Settings
+              </button>
+            </div>
+          </div>
+
+          <!-- TAB: API SETTING -->
+          <div class="tab-pane" id="tab-api">
+            <div class="config-card">
+              <div class="card-head">
+                <h3><i class="fas fa-code"></i> WC API Settings</h3>
+                <p>Configure your external game API credentials.</p>
+              </div>
+              <div class="field-group">
+                <label>AG Code</label>
+                <input type="text" class="form-control" id="wc_ag_code" placeholder="MTB00EB">
+              </div>
+              <div class="field-group">
+                <label>AG Token</label>
+                <input type="text" class="form-control" id="wc_ag_token" placeholder="JfMe9MLSzeuFnBunSwQ6Sc1vVAkKv9hL">
+              </div>
+              <div class="field-group">
+                <label>AG Secret</label>
+                <input type="text" class="form-control" id="wc_ag_secret" placeholder="K3L1iZywVjAddME8DP4ZNFANyZ7y0hsV">
+              </div>
+              <button class="btn-save save-api-settings">
+                <i class="fas fa-save"></i> Save API Settings
+              </button>
+            </div>
+          </div>
+
+          <!-- TAB: PAYMENTS -->
+          <div class="tab-pane" id="tab-payment">
+            <div class="config-card" style="grid-column: span 2;">
+              <div class="card-head">
+                <h3><i class="fas fa-wallet"></i> Payment Management</h3>
+                <p>Configure manual deposits and automated API gateways.</p>
+              </div>
+
+              <!-- Global Exchange Rate Section -->
+              <div
+                style="background: var(--accent-light); padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--accent);">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                  <!-- Deposit Rate -->
+                  <div
+                    style="display: flex; align-items: center; justify-content: space-between; background: white; padding: 10px 15px; border-radius: 8px; border: 1px solid var(--accent);">
+                    <div>
+                      <h4 style="font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 2px;">Deposit
+                        USDT Rate</h4>
+                      <p style="font-size: 10px; color: var(--text-secondary);">1 USDT = ? Platform Currency (Deposit)
+                      </p>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <input type="number" step="0.01" class="form-control" id="global_usdt_deposit_rate"
+                        style="width: 80px; text-align: center; height: 32px;" placeholder="92.00">
+                      <span class="currency-label-span" style="font-weight: 600; font-size: 12px;">INR</span>
+                    </div>
+                  </div>
+                  <!-- Withdraw Rate -->
+                  <div
+                    style="display: flex; align-items: center; justify-content: space-between; background: white; padding: 10px 15px; border-radius: 8px; border: 1px solid var(--accent);">
+                    <div>
+                      <h4 style="font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 2px;">Withdraw
+                        USDT Rate</h4>
+                      <p style="font-size: 10px; color: var(--text-secondary);">1 USDT = ? Platform Currency (Withdraw)
+                      </p>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <input type="number" step="0.01" class="form-control" id="global_usdt_withdraw_rate"
+                        style="width: 80px; text-align: center; height: 32px;" placeholder="90.00">
+                      <span class="currency-label-span" style="font-weight: 600; font-size: 12px;">INR</span>
+                    </div>
+                  </div>
+                </div>
+                <div style="margin-top: 15px; text-align: right;">
+                  <button class="btn-save" id="save-global-rates"
+                    style="height: 38px; padding: 0 25px; margin-top: 0; width: auto;">
+                    <i class="fas fa-save"></i> Save Global Rates
+                  </button>
+                </div>
+              </div>
+
+              <!-- Gateway Tabs Navigation -->
+              <div class="gateway-tabs-nav"
+                style="display: flex; gap: 10px; margin-bottom: 15px; border-bottom: 1px solid var(--card-border); padding-bottom: 8px; flex-wrap: wrap;">
+                <button class="gateway-tab-btn active" data-gateway="upi_manual"
+                  style="border: none; background: transparent; cursor: pointer; font-weight: 600; color: var(--text-secondary); padding: 5px 10px; border-radius: 6px;">UPI
+                  Manual</button>
+                <button class="gateway-tab-btn" data-gateway="usdt_manual"
+                  style="border: none; background: transparent; cursor: pointer; font-weight: 600; color: var(--text-secondary); padding: 5px 10px; border-radius: 6px;">USDT
+                  Manual</button>
+                <button class="gateway-tab-btn" data-gateway="ccpayment"
+                  style="border: none; background: transparent; cursor: pointer; font-weight: 600; color: var(--text-secondary); padding: 5px 10px; border-radius: 6px;">CCPayment</button>
+                <button class="gateway-tab-btn" data-gateway="wowpay"
+                  style="border: none; background: transparent; cursor: pointer; font-weight: 600; color: var(--text-secondary); padding: 5px 10px; border-radius: 6px;">WowPay</button>
+                <button class="gateway-tab-btn" data-gateway="rspay"
+                  style="border: none; background: transparent; cursor: pointer; font-weight: 600; color: var(--text-secondary); padding: 5px 10px; border-radius: 6px;">RSPay</button>
+                <button class="gateway-tab-btn" data-gateway="cloudpay"
+                  style="border: none; background: transparent; cursor: pointer; font-weight: 600; color: var(--text-secondary); padding: 5px 10px; border-radius: 6px;">CloudPay</button>
+                <button class="gateway-tab-btn" data-gateway="upay"
+                  style="border: none; background: transparent; cursor: pointer; font-weight: 600; color: var(--text-secondary); padding: 5px 10px; border-radius: 6px;">Upay</button>
+                <button class="gateway-tab-btn" data-gateway="upigateway"
+                  style="border: none; background: transparent; cursor: pointer; font-weight: 600; color: var(--text-secondary); padding: 5px 10px; border-radius: 6px;">UPI
+                  Gateway</button>
+                <button class="gateway-tab-btn" data-gateway="watchpay"
+                  style="border: none; background: transparent; cursor: pointer; font-weight: 600; color: var(--text-secondary); padding: 5px 10px; border-radius: 6px;">WatchPay</button>
+              </div>
+
+              <!-- UPI Manual Config -->
+              <div class="gateway-pane active" id="pane-upi_manual">
+                <div class="field-group">
+                  <label>Account Holder Name</label>
+                  <input type="text" class="form-control" id="upi_m_name" placeholder="Enter Name">
+                </div>
+                <div class="field-group">
+                  <label>UPI ID</label>
+                  <input type="text" class="form-control" id="upi_m_id" placeholder="example@upi">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                  <div class="field-group">
+                    <label>Min Recharge</label>
+                    <input type="number" class="form-control" id="upi_m_min" placeholder="100">
+                  </div>
+                  <div class="field-group">
+                    <label>Max Recharge</label>
+                    <input type="number" class="form-control" id="upi_m_max" placeholder="1000000">
+                  </div>
+                </div>
+                <div class="field-group" style="margin-top: 15px;">
+                  <label>Quick Recharge Amounts (Comma separated)</label>
+                  <input type="text" class="form-control" id="upi_m_quick_amounts" placeholder="100,500,1000,5000">
+                </div>
+                <div class="field-group" style="margin-top: 15px;">
+                  <label>UPI QR Code</label>
+                  <div class="file-input-wrap">
+                    <input type="file" id="upi_m_qr_input" accept="image/*">
+                    <div class="file-label"><i class="fas fa-qrcode"></i> Replace QR Code</div>
+                  </div>
+                  <div class="preview-box" id="upi_m_qr_show"></div>
+                </div>
+                <div class="field-group" style="margin-top: 15px;">
+                  <label>Gateway Instructions (Visible to User)</label>
+                  <textarea class="form-control" id="upi_m_instructions" style="height: 100px;"
+                    placeholder="Enter instructions for the user..."></textarea>
+                </div>
+                <div class="switch-wrap" style="margin-top: 15px;">
+                  <span>Status (Enable/Disable)</span>
+                  <label class="switch">
+                    <input type="checkbox" id="upi_m_status">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+                <button class="btn-save save-gateway" data-gateway="upi_manual" style="margin-top: 15px; width: 100%;">
+                  <i class="fas fa-save"></i> Save UPI Manual Config
+                </button>
+              </div>
+
+              <!-- USDT Manual Config -->
+              <div class="gateway-pane" id="pane-usdt_manual" style="display: none;">
+                <div class="field-group">
+                  <label>USDT Address (TRC20)</label>
+                  <input type="text" class="form-control" id="usdt_m_addr" placeholder="T...">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                  <div class="field-group">
+                    <label>Min Recharge (USDT)</label>
+                    <input type="number" class="form-control" id="usdt_m_min" placeholder="10">
+                  </div>
+                  <div class="field-group">
+                    <label>Max Recharge (USDT)</label>
+                    <input type="number" class="form-control" id="usdt_m_max" placeholder="1000000">
+                  </div>
+                </div>
+                <div class="field-group" style="margin-top: 15px;">
+                  <label>Quick Recharge Amounts (Comma separated)</label>
+                  <input type="text" class="form-control" id="usdt_m_quick_amounts" placeholder="10,50,100,500,1000">
+                </div>
+                <div class="field-group" style="margin-top: 15px;">
+                  <label>Address QR Code</label>
+                  <div class="file-input-wrap">
+                    <input type="file" id="usdt_m_qr_input" accept="image/*">
+                    <div class="file-label"><i class="fas fa-qrcode"></i> Replace QR Code</div>
+                  </div>
+                  <div class="preview-box" id="usdt_m_qr_show"></div>
+                </div>
+                <div class="field-group" style="margin-top: 15px;">
+                  <label>Gateway Instructions (Visible to User)</label>
+                  <textarea class="form-control" id="usdt_m_instructions" style="height: 100px;"
+                    placeholder="Enter instructions for the user..."></textarea>
+                </div>
+                <div class="switch-wrap" style="margin-top: 15px;">
+                  <span>Status (Enable/Disable)</span>
+                  <label class="switch">
+                    <input type="checkbox" id="usdt_m_status">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+                <button class="btn-save save-gateway" data-gateway="usdt_manual" style="margin-top: 15px; width: 100%;">
+                  <i class="fas fa-save"></i> Save USDT Manual Config
+                </button>
+              </div>
+
+              <!-- Upay Config -->
+              <div class="gateway-pane" id="pane-upay" style="display: none;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                  <div class="field-group">
+                    <label>App ID</label>
+                    <input type="text" class="form-control" id="upay_app_id" placeholder="Enter App ID">
+                  </div>
+                  <div class="field-group">
+                    <label>App Secret</label>
+                    <input type="password" class="form-control" id="upay_app_secret" placeholder="Enter App Secret">
+                  </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                  <div class="field-group">
+                    <label>Min Recharge</label>
+                    <input type="number" class="form-control" id="upay_min" placeholder="0">
+                  </div>
+                  <div class="field-group">
+                    <label>Max Recharge</label>
+                    <input type="number" class="form-control" id="upay_max" placeholder="1000000">
+                  </div>
+                </div>
+                <div class="field-group" style="margin-top: 15px;">
+                  <label>Quick Recharge Amounts (Comma separated)</label>
+                  <input type="text" class="form-control" id="upay_quick_amounts" placeholder="100,500,1000,5000">
+                </div>
+                <div class="field-group" style="margin-top: 15px;">
+                  <label>Return URL</label>
+                  <input type="text" class="form-control" id="upay_return_url" placeholder="https://...">
+                </div>
+                <div class="field-group" style="margin-top: 15px;">
+                  <label>Gateway Instructions (Visible to User)</label>
+                  <textarea class="form-control" id="upay_instructions" style="height: 100px;"
+                    placeholder="Enter instructions for the user..."></textarea>
+                </div>
+                <div class="switch-wrap" style="margin-top: 15px;">
+                  <span>Status (Enable/Disable)</span>
+                  <label class="switch">
+                    <input type="checkbox" id="upay_status">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+                <button class="btn-save save-gateway" data-gateway="upay" style="margin-top: 15px; width: 100%;">
+                  <i class="fas fa-save"></i> Save Upay Config
+                </button>
+              </div>
+
+              <!-- UPI Gateway Config -->
+              <div class="gateway-pane" id="pane-upigateway" style="display: none;">
+                <div class="field-group">
+                  <label>UPI Gateway Key (ekqr.in)</label>
+                  <input type="password" class="form-control" id="ug_key" placeholder="Enter Gateway Key">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                  <div class="field-group">
+                    <label>Min Recharge</label>
+                    <input type="number" class="form-control" id="ug_min" placeholder="0">
+                  </div>
+                  <div class="field-group">
+                    <label>Max Recharge</label>
+                    <input type="number" class="form-control" id="ug_max" placeholder="1000000">
+                  </div>
+                </div>
+                <div class="field-group" style="margin-top: 15px;">
+                  <label>Return URL</label>
+                  <input type="text" class="form-control" id="ug_return_url" placeholder="https://...">
+                </div>
+                <div class="field-group" style="margin-top: 15px;">
+                  <label>Quick Recharge Amounts (Comma separated)</label>
+                  <input type="text" class="form-control" id="ug_quick_amounts" placeholder="100,500,1000,5000">
+                </div>
+                <div class="field-group" style="margin-top: 15px;">
+                  <label>Gateway Instructions (Visible to User)</label>
+                  <textarea class="form-control" id="ug_instructions" style="height: 100px;"
+                    placeholder="Enter instructions for the user..."></textarea>
+                </div>
+                <div class="switch-wrap" style="margin-top: 15px;">
+                  <span>Status (Enable/Disable)</span>
+                  <label class="switch">
+                    <input type="checkbox" id="ug_status">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+                <button class="btn-save save-gateway" data-gateway="upigateway" style="margin-top: 15px; width: 100%;">
+                  <i class="fas fa-save"></i> Save UPI Gateway Config
+                </button>
+              </div>
+
+              <!-- CCPayment Config -->
+              <div class="gateway-pane" id="pane-ccpayment" style="display: none;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                  <div class="field-group">
+                    <label>App ID</label>
+                    <input type="text" class="form-control" id="cc_app_id" placeholder="Enter App ID">
+                  </div>
+                  <div class="field-group">
+                    <label>App Secret</label>
+                    <input type="password" class="form-control" id="cc_app_secret" placeholder="Enter App Secret">
+                  </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                  <div class="field-group">
+                    <label>Min Recharge</label>
+                    <input type="number" class="form-control" id="cc_min" placeholder="0">
+                  </div>
+                  <div class="field-group">
+                    <label>Max Recharge</label>
+                    <input type="number" class="form-control" id="cc_max" placeholder="1000000">
+                  </div>
+                </div>
+                <div class="field-group" style="margin-top: 15px;">
+                  <label>Quick Recharge Amounts (Comma separated)</label>
+                  <input type="text" class="form-control" id="cc_quick_amounts" placeholder="10,50,100,500,1000,5000">
+                </div>
+                <div class="field-group" style="margin-top: 15px;">
+                  <label>Return URL</label>
+                  <input type="text" class="form-control" id="cc_return_url" placeholder="https://...">
+                </div>
+                <div class="field-group" style="margin-top: 15px;">
+                  <label>Gateway Instructions (Visible to User)</label>
+                  <textarea class="form-control" id="cc_instructions" style="height: 100px;"
+                    placeholder="Enter instructions for the user..."></textarea>
+                </div>
+                <div class="switch-wrap" style="margin-top: 15px;">
+                  <span>Status (Enable/Disable)</span>
+                  <label class="switch">
+                    <input type="checkbox" id="cc_status">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+                <button class="btn-save save-gateway" data-gateway="ccpayment" style="margin-top: 15px; width: 100%;">
+                  <i class="fas fa-save"></i> Save CCPayment Config
+                </button>
+              </div>
+
+              <!-- WowPay Config -->
+              <div class="gateway-pane" id="pane-wowpay" style="display: none;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                  <div class="field-group">
+                    <label>Merchant ID</label>
+                    <input type="text" class="form-control" id="wow_mch_id" placeholder="Enter Merchant ID">
+                  </div>
+                  <div class="field-group">
+                    <label>Merchant Key</label>
+                    <input type="password" class="form-control" id="wow_mch_key" placeholder="Enter Merchant Key">
+                  </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                  <div class="field-group">
+                    <label>Min Recharge</label>
+                    <input type="number" class="form-control" id="wow_min" placeholder="0">
+                  </div>
+                  <div class="field-group">
+                    <label>Max Recharge</label>
+                    <input type="number" class="form-control" id="wow_max" placeholder="1000000">
+                  </div>
+                </div>
+                <div class="field-group" style="margin-top: 15px;">
+                  <label>Quick Recharge Amounts (Comma separated)</label>
+                  <input type="text" class="form-control" id="wow_quick_amounts" placeholder="100,500,1000,5000">
+                </div>
+                <div class="field-group" style="margin-top: 15px;">
+                  <label>Return URL</label>
+                  <input type="text" class="form-control" id="wow_return_url" placeholder="https://...">
+                </div>
+                <div class="field-group" style="margin-top: 15px;">
+                  <label>Gateway Instructions (Visible to User)</label>
+                  <textarea class="form-control" id="wow_instructions" style="height: 100px;"
+                    placeholder="Enter instructions for the user..."></textarea>
+                </div>
+                <div class="switch-wrap" style="margin-top: 15px;">
+                  <span>Status (Enable/Disable)</span>
+                  <label class="switch">
+                    <input type="checkbox" id="wow_status">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+                <button class="btn-save save-gateway" data-gateway="wowpay" style="margin-top: 15px; width: 100%;">
+                  <i class="fas fa-save"></i> Save WowPay Config
+                </button>
+              </div>
+
+              <!-- RSPay Config -->
+              <div class="gateway-pane" id="pane-rspay" style="display: none;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                  <div class="field-group">
+                    <label>Merchant ID</label>
+                    <input type="text" class="form-control" id="rs_mch_id" placeholder="Enter Merchant ID">
+                  </div>
+                  <div class="field-group">
+                    <label>Merchant Key</label>
+                    <input type="password" class="form-control" id="rs_mch_key" placeholder="Enter Merchant Key">
+                  </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                  <div class="field-group">
+                    <label>Min Recharge</label>
+                    <input type="number" class="form-control" id="rs_min" placeholder="0">
+                  </div>
+                  <div class="field-group">
+                    <label>Max Recharge</label>
+                    <input type="number" class="form-control" id="rs_max" placeholder="1000000">
+                  </div>
+                </div>
+                <div class="field-group" style="margin-top: 15px;">
+                  <label>Quick Recharge Amounts (Comma separated)</label>
+                  <input type="text" class="form-control" id="rs_quick_amounts" placeholder="100,500,1000,5000">
+                </div>
+                <div class="field-group" style="margin-top: 15px;">
+                  <label>Return URL</label>
+                  <input type="text" class="form-control" id="rs_return_url" placeholder="https://...">
+                </div>
+                <div class="field-group" style="margin-top: 15px;">
+                  <label>Gateway Instructions (Visible to User)</label>
+                  <textarea class="form-control" id="rs_instructions" style="height: 100px;"
+                    placeholder="Enter instructions for the user..."></textarea>
+                </div>
+                <div class="switch-wrap" style="margin-top: 15px;">
+                  <span>Status (Enable/Disable)</span>
+                  <label class="switch">
+                    <input type="checkbox" id="rs_status">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+                <button class="btn-save save-gateway" data-gateway="rspay" style="margin-top: 15px; width: 100%;">
+                  <i class="fas fa-save"></i> Save RSPay Config
+                </button>
+              </div>
+
+              <!-- CloudPay Config -->
+              <div class="gateway-pane" id="pane-cloudpay" style="display: none;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                  <div class="field-group">
+                    <label>Merchant ID</label>
+                    <input type="text" class="form-control" id="cp_mch_id" placeholder="Enter Merchant ID">
+                  </div>
+                  <div class="field-group">
+                    <label>Merchant Key</label>
+                    <textarea class="form-control" id="cp_mch_key" style="height: 100px;"
+                      placeholder="Enter Merchant Key"></textarea>
+                  </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                  <div class="field-group">
+                    <label>Min Recharge</label>
+                    <input type="number" class="form-control" id="cp_min" placeholder="0">
+                  </div>
+                  <div class="field-group">
+                    <label>Max Recharge</label>
+                    <input type="number" class="form-control" id="cp_max" placeholder="1000000">
+                  </div>
+                </div>
+                <div class="field-group" style="margin-top: 15px;">
+                  <label>Quick Recharge Amounts (Comma separated)</label>
+                  <input type="text" class="form-control" id="cp_quick_amounts" placeholder="100,500,1000,5000">
+                </div>
+                <div class="field-group" style="margin-top: 15px;">
+                  <label>Return URL</label>
+                  <input type="text" class="form-control" id="cp_return_url" placeholder="https://...">
+                </div>
+                <div class="field-group" style="margin-top: 15px;">
+                  <label>Gateway Instructions (Visible to User)</label>
+                  <textarea class="form-control" id="cp_instructions" style="height: 100px;"
+                    placeholder="Enter instructions for the user..."></textarea>
+                </div>
+                <div class="switch-wrap" style="margin-top: 15px;">
+                  <span>Status (Enable/Disable)</span>
+                  <label class="switch">
+                    <input type="checkbox" id="cp_status">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+                <button class="btn-save save-gateway" data-gateway="cloudpay" style="margin-top: 15px; width: 100%;">
+                  <i class="fas fa-save"></i> Save CloudPay Config
+                </button>
+              </div>
+
+              <!-- WatchPay Config (Placeholder) -->
+              <div class="gateway-pane" id="pane-watchpay" style="display: none;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                  <div class="field-group">
+                    <label>Merchant ID</label>
+                    <input type="text" class="form-control" id="wp_mch_id" placeholder="Enter Merchant ID">
+                  </div>
+                  <div class="field-group">
+                    <label>Agent Key / Secret</label>
+                    <input type="password" class="form-control" id="wp_agent_key" placeholder="Enter Agent Key">
+                  </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                  <div class="field-group">
+                    <label>Min Recharge</label>
+                    <input type="number" class="form-control" id="wp_min" placeholder="0">
+                  </div>
+                  <div class="field-group">
+                    <label>Max Recharge</label>
+                    <input type="number" class="form-control" id="wp_max" placeholder="1000000">
+                  </div>
+                </div>
+                <div class="field-group" style="margin-top: 15px;">
+                  <label>Quick Recharge Amounts (Comma separated)</label>
+                  <input type="text" class="form-control" id="wp_quick_amounts" placeholder="100,500,1000,5000">
+                </div>
+                <div class="field-group" style="margin-top: 15px;">
+                  <label>Return URL</label>
+                  <input type="text" class="form-control" id="wp_return_url" placeholder="https://...">
+                </div>
+                <div class="field-group" style="margin-top: 15px;">
+                  <label>Gateway Instructions (Visible to User)</label>
+                  <textarea class="form-control" id="wp_instructions" style="height: 100px;"
+                    placeholder="Enter instructions for the user..."></textarea>
+                </div>
+                <div class="switch-wrap" style="margin-top: 15px;">
+                  <span>Status (Enable/Disable)</span>
+                  <label class="switch">
+                    <input type="checkbox" id="wp_status">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+                <button class="btn-save save-gateway" data-gateway="watchpay" style="margin-top: 15px; width: 100%;">
+                  <i class="fas fa-save"></i> Save WatchPay Config
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB: INCENTIVES -->
+          <div class="tab-pane" id="tab-incentives">
+            <div class="config-card">
+              <div class="card-head">
+                <h3><i class="fas fa-coins"></i> Growth Incentives</h3>
+                <p>Configure signup and referral bonuses.</p>
+              </div>
+              <div class="field-group">
+                <label>Registration Signup Bonus</label>
+                <input type="number" class="form-control" id="signup_bonus" placeholder="Fixed amount">
+              </div>
+              <div class="field-group">
+                <label>Registration Referral Bonus</label>
+                <input type="number" class="form-control" id="referral_bonus" placeholder="Fixed amount">
+              </div>
+              <button class="btn-save" id="save-bonus-percent">
+                <i class="fas fa-sync"></i> Save Bonuses
+              </button>
+            </div>
+          </div>
+
+          <!-- TAB: BANNERS -->
+          <div class="tab-pane" id="tab-banners">
+            <div class="config-card">
+              <div class="card-head">
+                <h3><i class="fas fa-plus-circle"></i> Add New Banner</h3>
+                <p>Upload banners for various sections of the site.</p>
+              </div>
+              <div class="field-group">
+                <label>Banner Type</label>
+                <select class="form-control" id="banner_type">
+                  <option value="home_slider">Home Slider (Top)</option>
+                  <option value="activity">Activity Page Banner</option>
+                  <option value="guide">Guide Page Banner</option>
+                  <option value="deposit_popup">Deposit Bonus Popup (Singleton)</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label>Banner Image</label>
+                <div class="file-input-wrap">
+                  <input type="file" id="banner_image_input" accept="image/*">
+                  <div class="file-label"><i class="fas fa-upload"></i> Upload Banner</div>
+                </div>
+                <div class="preview-box" id="banner_preview"></div>
+              </div>
+              <div class="field-group">
+                <label>Redirect URL (Optional)</label>
+                <input type="text" class="form-control" id="banner_link" placeholder="e.g. /activity or https://...">
+              </div>
+              <div class="field-group">
+                <label>Priority (Lower number = Higher position)</label>
+                <input type="number" class="form-control" id="banner_priority" value="0" placeholder="e.g. 1">
+              </div>
+              <div class="field-group">
+                <label>Content (Used for Guide text)</label>
+                <textarea class="form-control" id="banner_content"
+                  style="height: 80px; padding: 10px; resize: vertical;"
+                  placeholder="Enter guide text or HTML..."></textarea>
+              </div>
+              <button class="btn-save" id="save-banner">
+                <i class="fas fa-plus"></i> Add Banner
+              </button>
+            </div>
+
+            <div class="config-card" style="grid-column: span 2;">
+              <div class="card-head">
+                <h3><i class="fas fa-images"></i> Active Banners</h3>
+                <p>Manage existing banners and their visibility.</p>
+              </div>
+              <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                  <thead>
+                    <tr
+                      style="text-align: left; border-bottom: 1px solid var(--card-border); color: var(--text-secondary);">
+                      <th style="padding: 12px 8px;">Image</th>
+                      <th style="padding: 12px 8px;">Type</th>
+                      <th style="padding: 12px 8px;">Priority</th>
+                      <th style="padding: 12px 8px;">Link</th>
+                      <th style="padding: 12px 8px;">Status</th>
+                      <th style="padding: 12px 8px; text-align: right;">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="banner-list">
+                    <!-- Banners will be loaded here -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- TAB: SMS SETTINGS -->
+          <div class="tab-pane" id="tab-sms">
+            <!-- Tab Header with Save Button -->
+            <div
+              style="grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 15px 20px; border-radius: 15px; border: 1px solid var(--card-border); margin-bottom: 5px;">
+              <div>
+                <h2 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin: 0;">SMS Gateway
+                  Settings</h2>
+                <p style="font-size: 12px; color: var(--text-secondary); margin: 0;">Configure OTP modules, timing, and
+                  credentials.</p>
+              </div>
+              <button class="btn-save" id="save-sms-all-btn"
+                style="padding: 0 25px; height: 40px; margin: 0; white-space: nowrap;">
+                <i class="fas fa-save"></i> Save All Settings
+              </button>
+            </div>
+
+            <!-- OTP Toggles Card -->
+            <div class="config-card">
+              <div class="card-head">
+                <h3><i class="fas fa-toggle-on"></i> OTP Toggles</h3>
+                <p>Enable/Disable OTP verification.</p>
+              </div>
+              <div class="switch-wrap"
+                style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--card-border);">
+                <span>OTP on Registration</span>
+                <label class="switch">
+                  <input type="checkbox" id="sms_otp_on_register">
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <div class="switch-wrap"
+                style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--card-border);">
+                <span>OTP on Forgot Password</span>
+                <label class="switch">
+                  <input type="checkbox" id="sms_otp_on_forgot">
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <div class="switch-wrap"
+                style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--card-border);">
+                <span>OTP on Adding Bank Account</span>
+                <label class="switch">
+                  <input type="checkbox" id="sms_otp_on_add_bank">
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <div class="switch-wrap"
+                style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0;">
+                <span>OTP on Withdrawal Request</span>
+                <label class="switch">
+                  <input type="checkbox" id="sms_otp_on_withdraw">
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+
+            <!-- OTP Timing Settings Card -->
+            <div class="config-card">
+              <div class="card-head">
+                <h3><i class="fas fa-hourglass-half"></i> Timing Settings</h3>
+                <p>OTP validity & resend intervals.</p>
+              </div>
+              <div class="field-group">
+                <label><i class="fas fa-history"></i> OTP Expiry Time (Minutes)</label>
+                <input type="number" class="form-control" id="sms_otp_expiry" placeholder="e.g. 5" min="1">
+                <small style="font-size: 11px; color: var(--text-secondary);">How long the OTP remains valid.</small>
+              </div>
+              <div class="field-group" style="margin-top: 10px;">
+                <label><i class="fas fa-clock"></i> OTP Cooldown Time (Seconds)</label>
+                <input type="number" class="form-control" id="sms_otp_cooldown" placeholder="e.g. 60" min="10">
+                <small style="font-size: 11px; color: var(--text-secondary);">Wait time before user can resend
+                  OTP.</small>
+              </div>
+            </div>
+
+            <!-- Active Gateway Card -->
+            <div class="config-card">
+              <div class="card-head">
+                <h3><i class="fas fa-plug"></i> Active Gateway</h3>
+                <p>Choose the SMS gateway to use.</p>
+              </div>
+              <div class="field-group">
+                <label>Select Gateway</label>
+                <select class="form-control" id="sms_active_gateway">
+                  <option value="none">None (Debug/Disabled)</option>
+                  <option value="authkey">AuthKey (SendOTPLess)</option>
+                  <option value="twilio">Twilio</option>
+                  <option value="fast2sms">Fast2SMS</option>
+                </select>
+              </div>
+              <p style="font-size: 11px; color: var(--text-secondary); margin-top: 5px;">
+                * Make sure to save credentials for the selected gateway.
+              </p>
+            </div>
+
+            <!-- Gateway Credentials Card -->
+            <div class="config-card">
+              <div class="card-head">
+                <h3><i class="fas fa-key"></i> Gateway Credentials</h3>
+                <p>Configure gateway API keys.</p>
+              </div>
+
+              <div class="gateway-tabs-nav"
+                style="display: flex; gap: 8px; margin-bottom: 12px; border-bottom: 1px solid var(--card-border); padding-bottom: 8px; overflow-x: auto;">
+                <button class="gateway-tab-btn active" data-gateway="sms-authkey"
+                  style="border: none; background: #f0f0f0; cursor: pointer; font-size: 11px; font-weight: 700; padding: 6px 12px; border-radius: 6px;">AuthKey</button>
+                <button class="gateway-tab-btn" data-gateway="sms-twilio"
+                  style="border: none; background: transparent; cursor: pointer; font-size: 11px; font-weight: 700; padding: 6px 12px; border-radius: 6px;">Twilio</button>
+                <button class="gateway-tab-btn" data-gateway="sms-fast2sms"
+                  style="border: none; background: transparent; cursor: pointer; font-size: 11px; font-weight: 700; padding: 6px 12px; border-radius: 6px;">Fast2SMS</button>
+              </div>
+
+              <div class="sms-gateway-pane active" id="pane-sms-authkey">
+                <div class="field-group">
+                  <label>API Key</label>
+                  <input type="text" class="form-control" id="sms_authkey_api_key">
+                </div>
+                <div class="field-group" style="margin-top: 10px;">
+                  <label>SID</label>
+                  <input type="text" class="form-control" id="sms_authkey_sid">
+                </div>
+              </div>
+
+              <div class="sms-gateway-pane" id="pane-sms-twilio" style="display: none;">
+                <div class="field-group">
+                  <label>Account SID</label>
+                  <input type="text" class="form-control" id="sms_twilio_sid">
+                </div>
+                <div class="field-group" style="margin-top: 10px;">
+                  <label>Messaging Service SID (MG...)</label>
+                  <input type="text" class="form-control" id="sms_twilio_messaging_service_sid">
+                </div>
+                <div class="field-group" style="margin-top: 10px;">
+                  <label>Auth Token</label>
+                  <input type="password" class="form-control" id="sms_twilio_auth_token">
+                </div>
+                <div class="field-group" style="margin-top: 10px;">
+                  <label>Phone Number / Alphanumeric Sender ID</label>
+                  <input type="text" class="form-control" id="sms_twilio_phone_number" placeholder="+1...">
+                </div>
+                <div class="field-group" style="margin-top: 10px;">
+                  <label>OTP Template</label>
+                  <textarea class="form-control" id="sms_twilio_otp_template" placeholder="Your OTP code is {{otp}}"
+                    style="height: 60px; padding: 8px;"></textarea>
+                </div>
+              </div>
+
+              <div class="sms-gateway-pane" id="pane-sms-fast2sms" style="display: none;">
+                <div class="field-group">
+                  <label>API Key</label>
+                  <input type="text" class="form-control" id="sms_fast2sms_api_key">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB: WITHDRAWAL METHODS -->
+          <div class="tab-pane" id="tab-withdrawal-methods">
+            <div class="config-card" style="grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: #fdfdfd; border: 1px dashed var(--accent);">
+              <div style="display: flex; align-items: center; gap: 15px;">
+                <div style="width: 45px; height: 45px; background: var(--accent-light); color: var(--accent); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                  <i class="fas fa-project-diagram"></i>
+                </div>
+                <div>
+                  <h3 style="margin: 0; font-size: 15px; font-weight: 700;">Withdrawal Logic Flow</h3>
+                  <p style="margin: 2px 0 0; font-size: 11px; color: var(--text-secondary);">Create custom wagering and eligibility rules visually.</p>
+                </div>
+              </div>
+              <a href="/admin/manager/withdraw-flow" target="_blank" class="btn-save" style="width: auto; padding: 0 25px; height: 40px; margin: 0; line-height: 40px; background: var(--accent); font-size: 12px; border-radius: 10px;">
+                <i class="fas fa-external-link-alt"></i> Open Visual Builder
+              </a>
+            </div>
+
+            <div class="config-card">
+              <div class="card-head">
+                <h3><i class="fas fa-university"></i> Bank Card Withdrawal</h3>
+                <p>Configure limits for Bank Card withdrawals.</p>
+              </div>
+              <div class="field-group">
+                <label>Minimum Amount</label>
+                <input type="number" class="form-control" id="withdraw_bank_min" placeholder="300">
+              </div>
+              <div class="field-group">
+                <label>Maximum Amount</label>
+                <input type="number" class="form-control" id="withdraw_bank_max" placeholder="1000000">
+              </div>
+              <div class="switch-wrap"
+                style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0;">
+                <span>Enable Method</span>
+                <label class="switch">
+                  <input type="checkbox" id="withdraw_bank_status">
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <button class="btn-save save-withdraw-config" data-method="BANK_CARD" style="width: 100%;">
+                <i class="fas fa-save"></i> Save Bank Card Config
+              </button>
+            </div>
+
+            <div class="config-card">
+              <div class="card-head">
+                <h3><i class="fas fa-coins"></i> USDT Withdrawal</h3>
+                <p>Configure limits for USDT withdrawals.</p>
+              </div>
+              <div class="field-group">
+                <label>Minimum Amount (Platform Currency)</label>
+                <input type="number" class="form-control" id="withdraw_usdt_min" placeholder="300">
+              </div>
+              <div class="field-group">
+                <label>Maximum Amount (Platform Currency)</label>
+                <input type="number" class="form-control" id="withdraw_usdt_max" placeholder="1000000">
+              </div>
+              <div class="switch-wrap"
+                style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0;">
+                <span>Enable Method</span>
+                <label class="switch">
+                  <input type="checkbox" id="withdraw_usdt_status">
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <button class="btn-save save-withdraw-config" data-method="USDT_ADDRESS" style="width: 100%;">
+                <i class="fas fa-save"></i> Save USDT Config
+              </button>
+            </div>
+
+            <div class="config-card">
+              <div class="card-head">
+                <h3><i class="fas fa-qrcode"></i> UPI Withdrawal</h3>
+                <p>Configure limits for UPI withdrawals.</p>
+              </div>
+              <div class="field-group">
+                <label>Minimum Amount</label>
+                <input type="number" class="form-control" id="withdraw_upi_min" placeholder="300">
+              </div>
+              <div class="field-group">
+                <label>Maximum Amount</label>
+                <input type="number" class="form-control" id="withdraw_upi_max" placeholder="1000000">
+              </div>
+              <div class="switch-wrap"
+                style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0;">
+                <span>Enable Method</span>
+                <label class="switch">
+                  <input type="checkbox" id="withdraw_upi_status">
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <button class="btn-save save-withdraw-config" data-method="UPI" style="width: 100%;">
+                <i class="fas fa-save"></i> Save UPI Config
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+  </div>
+
+  <!-- Modals for Withdrawal Conditions -->
+  <div class="modal fade" id="addConditionModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0" style="border-radius: 20px; overflow: hidden;">
+        <div class="modal-header" style="background: var(--accent); color: white;">
+          <h5 class="modal-title" style="font-size: 16px; font-weight: 700;">Add Withdrawal Trigger</h5>
+          <button type="button" class="close text-white" data-dismiss="modal"><span>&times;</span></button>
+        </div>
+        <div class="modal-body" style="padding: 24px;">
+          <form id="addConditionForm">
+            <div class="field-group mb-3">
+              <label>Condition Type</label>
+              <select class="form-control" name="type" required>
+                <option value="total_deposit">Total Deposit Amount</option>
+                <option value="total_bet">Total Betting Amount (Multiplier)</option>
+                <option value="deposit_count">Total Deposit Count</option>
+                <option value="bet_count">Total Betting Count</option>
+              </select>
+            </div>
+            <div class="field-group mb-3">
+              <label>Required Value</label>
+              <input type="number" class="form-control" name="value" step="0.01" required>
+              <small style="font-size: 10px; color: var(--text-secondary);">Note: For 'Betting Amount', if you put 1, it
+                means 1x of deposits.</small>
+            </div>
+            <div class="field-group mb-3">
+              <label>Order Index</label>
+              <input type="number" class="form-control" name="order_index" value="0">
+            </div>
+            <div class="field-group mb-3">
+              <label>Description</label>
+              <input type="text" class="form-control" name="description" placeholder="e.g. Complete 1x Betting">
+            </div>
+            <button type="submit" class="btn-save" style="width: 100%;"><i class="fas fa-check"></i> Save
+              Condition</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="editConditionModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0" style="border-radius: 20px; overflow: hidden;">
+        <div class="modal-header" style="background: var(--accent); color: white;">
+          <h5 class="modal-title" style="font-size: 16px; font-weight: 700;">Edit Withdrawal Trigger</h5>
+          <button type="button" class="close text-white" data-dismiss="modal"><span>&times;</span></button>
+        </div>
+        <div class="modal-body" style="padding: 24px;">
+          <form id="editConditionForm">
+            <input type="hidden" name="id">
+            <div class="field-group mb-3">
+              <label>Condition Type</label>
+              <select class="form-control" name="type" required>
+                <option value="total_deposit">Total Deposit Amount</option>
+                <option value="total_bet">Total Betting Amount (Multiplier)</option>
+                <option value="deposit_count">Total Deposit Count</option>
+                <option value="bet_count">Total Betting Count</option>
+              </select>
+            </div>
+            <div class="field-group mb-3">
+              <label>Required Value</label>
+              <input type="number" class="form-control" name="value" step="0.01" required>
+            </div>
+            <div class="field-group mb-3">
+              <label>Order Index</label>
+              <input type="number" class="form-control" name="order_index">
+            </div>
+            <div class="field-group mb-3">
+              <label>Description</label>
+              <input type="text" class="form-control" name="description">
+            </div>
+            <div class="field-group mb-3">
+              <label>Status</label>
+              <select class="form-control" name="status">
+                <option value="1">Active</option>
+                <option value="0">Inactive</option>
+              </select>
+            </div>
+            <button type="submit" class="btn-save" style="width: 100%;"><i class="fas fa-sync"></i> Update
+              Condition</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/plugins/jquery/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    function loadWithdrawalConditions() {
+      $.get('/api/webapi/admin/withdrawal-conditions/list', function (res) {
+        if (res.status) {
+          let html = '';
+          res.data.forEach((item, index) => {
+            const typeLabel = item.type.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+            let logicDesc = '';
+            let icon = 'fa-check-circle';
+
+            if (item.type === 'total_deposit') {
+              logicDesc = `User must deposit at least <strong>₹${item.value}</strong> in total.`;
+              icon = 'fa-wallet';
+            } else if (item.type === 'total_bet') {
+              logicDesc = `User must bet <strong>${item.value}x</strong> of their total deposits.`;
+              icon = 'fa-dice';
+            } else if (item.type === 'deposit_count') {
+              logicDesc = `User must have at least <strong>${item.value}</strong> successful recharges.`;
+              icon = 'fa-history';
+            } else if (item.type === 'bet_count') {
+              logicDesc = `User must have placed at least <strong>${item.value}</strong> bets.`;
+              icon = 'fa-gamepad';
+            }
+
+            html += `
+              <div class="flow-step" style="display: flex; align-items: center; gap: 20px; position: relative; padding: 15px; background: white; border: 1px solid var(--card-border); border-radius: 16px; transition: 0.3s; ${!item.status ? 'opacity: 0.6; filter: grayscale(1);' : ''}">
+                <div class="step-number" style="width: 32px; height: 32px; background: ${item.status ? 'var(--accent)' : 'var(--text-muted)'}; color: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; flex-shrink: 0;">
+                  ${item.order_index || (index + 1)}
+                </div>
+                
+                <div class="step-icon" style="width: 45px; height: 45px; background: var(--accent-light); color: var(--accent); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">
+                  <i class="fas ${icon}"></i>
+                </div>
+
+                <div class="step-content" style="flex: 1;">
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-weight: 700; color: var(--text-primary); font-size: 14px;">${typeLabel}</span>
+                    ${item.status ? '<span style="font-size: 9px; background: #e8f5e9; color: #2e7d32; padding: 2px 8px; border-radius: 10px; font-weight: 700;">ACTIVE</span>' : '<span style="font-size: 9px; background: #eee; color: #999; padding: 2px 8px; border-radius: 10px; font-weight: 700;">DISABLED</span>'}
+                  </div>
+                  <div style="font-size: 12px; color: var(--text-secondary); margin-top: 3px;">${logicDesc}</div>
+                </div>
+
+                <div class="step-actions" style="display: flex; gap: 8px;">
+                  <button class="btn-edit-condition" data-json='${JSON.stringify(item)}' style="width: 36px; height: 36px; border-radius: 10px; background: var(--accent-light); border: none; color: var(--accent); cursor: pointer; transition: 0.2s;">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="btn-delete-condition" data-id="${item.id}" style="width: 36px; height: 36px; border-radius: 10px; background: #fee; border: none; color: var(--red); cursor: pointer; transition: 0.2s;">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+
+                ${index < res.data.length - 1 ? '<div style="position: absolute; bottom: -15px; left: 31px; width: 2px; height: 15px; background: var(--card-border);"></div>' : ''}
+              </div>
+            `;
+          });
+          // Append the final "Withdrawal Unlocked" step
+          html += `
+            <div class="flow-step" style="display: flex; align-items: center; gap: 20px; position: relative; padding: 15px; background: #e8f5e9; border: 2px solid #2e7d32; border-radius: 16px; margin-top: 10px;">
+                <div class="step-number" style="width: 32px; height: 32px; background: #2e7d32; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; flex-shrink: 0;">
+                  <i class="fas fa-check"></i>
+                </div>
+                
+                <div class="step-icon" style="width: 45px; height: 45px; background: rgba(46, 125, 50, 0.1); color: #2e7d32; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;">
+                  <i class="fas fa-money-bill-wave"></i>
+                </div>
+
+                <div class="step-content" style="flex: 1;">
+                  <div style="font-weight: 800; color: #1b5e20; font-size: 15px;">Withdrawal Unlocked</div>
+                  <div style="font-size: 12px; color: #2e7d32; margin-top: 2px;">If all previous triggers are met, the user is allowed to request a withdrawal.</div>
+                </div>
+                
+                <div style="padding: 0 10px; font-size: 10px; font-weight: 800; color: #2e7d32; text-transform: uppercase; letter-spacing: 1px;">
+                   Final Step
+                </div>
+            </div>
+          `;
+
+          $('#withdrawal-conditions-flow').html(html || '<div style="text-align:center; padding: 40px; color: var(--text-muted); border: 2px dashed #eee; border-radius: 20px;">No rules defined yet. Start by adding your first step!</div>');
+        }
+      });
+    }
+
+    function loadBanners() {
+      $.ajax({
+        type: "GET",
+        url: "/api/webapi/admin/banners/list",
+        success: function (res) {
+          if (res.status) {
+            let html = '';
+            res.data.forEach(banner => {
+              const typeLabels = {
+                'home_slider': '<span class="badge" style="background:#e3f2fd;color:#1976d2">Home Slider</span>',
+                'activity': '<span class="badge" style="background:#f3e5f5;color:#7b1fa2">Activity</span>',
+                'guide': '<span class="badge" style="background:#fff3e0;color:#ef6c00">Guide</span>',
+                'deposit_popup': '<span class="badge" style="background:#e8f5e9;color:#2e7d32">Deposit Popup</span>'
+              };
+              html += `
+                <tr style="border-bottom: 1px solid var(--card-border);">
+                  <td style="padding: 10px 8px;"><img src="${banner.image}" style="width:80px;height:40px;object-fit:cover;border-radius:6px;"></td>
+                  <td style="padding: 10px 8px;">${typeLabels[banner.type] || banner.type}</td>
+                  <td style="padding: 10px 8px; font-weight: 700; color: var(--accent);">${banner.priority || 0}</td>
+                  <td style="padding: 10px 8px; color:var(--text-muted); font-size:11px;">${banner.link || '-'}</td>
+                  <td style="padding: 10px 8px;">
+                    <label class="switch" style="width:36px;height:20px;">
+                      <input type="checkbox" class="toggle-banner-status" data-id="${banner.id}" data-type="${banner.type}" ${banner.status == 1 ? 'checked' : ''}>
+                      <span class="slider" style="border-radius:20px;"></span>
+                    </label>
+                  </td>
+                  <td style="padding: 10px 8px; text-align:right; white-space: nowrap;">
+                    <button class="edit-banner" 
+                      data-id="${banner.id}" 
+                      data-type="${banner.type}" 
+                      data-link="${banner.link || ''}" 
+                      data-priority="${banner.priority || 0}"
+                      data-content="${(banner.content || '').replace(/"/g, '&quot;')}"
+                      data-image="${banner.image}"
+                      style="border:none;background:transparent;color:var(--accent);cursor:pointer;font-size:14px;margin-right:15px;"><i class="fas fa-edit"></i></button>
+                    <button class="delete-banner" data-id="${banner.id}" style="border:none;background:transparent;color:var(--red);cursor:pointer;font-size:14px;"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+              `;
+            });
+            $('#banner-list').html(html || '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-muted);">No banners found</td></tr>');
+          }
+        }
+      });
+    }
+
+    $(document).ready(function () {
+      $.ajax({
+        type: "POST",
+        url: "/admin/manager/settings/get",
+        dataType: "json",
+        success: function (res) {
+          const momo = res.momo;
+          $('#edit-momo-name_bank').val(momo.bank_name);
+          $('#edit-momo-name').val(momo.username);
+          $('#edit-momo-info').val(momo.upi_id);
+          if (res.datas[0]?.upi_id_qr) $('#upi_id_qr_show').html(`<img src="${res.datas[0].upi_id_qr}">`);
+          $('#telegram').val(res.settings[0].telegram);
+          $('#cskh').val(res.settings[0].cskh);
+          $('#myapp_web').val(res.settings[0].app);
+          $('#whatsapp').val(res.whatsapp || '');
+          $('#apk_name').val(res.apk_name || '');
+          if (res.whatsapp_status == 1) $('#whatsapp_status').prop('checked', true);
+          if (res.telegram_status == 1) $('#telegram_status').prop('checked', true);
+          if (res.currency_name) $('#currency_name_input').val(res.currency_name);
+          if (res.currency_symbol) $('#currency_symbol_input').val(res.currency_symbol);
+          if (res.app_download_status == 1) $('#app_download_status').prop('checked', true);
+          if (res.usdt_exchange_rate) $('#global_usdt_deposit_rate').val(res.usdt_exchange_rate);
+          if (res.usdt_withdraw_rate) $('#global_usdt_withdraw_rate').val(res.usdt_withdraw_rate);
+          if (res.currency_name) $('.currency-label-span').text(res.currency_name);
+          if (res.cskh_status == 1) $('#cskh_status').prop('checked', true);
+          if (res.apk_link) $('#apk_file_status').text("Current APK: " + res.apk_link);
+          $('#signup_bonus').val(res.signup_bonus);
+          $('#referral_bonus').val(res.referral_bonus);
+          if (res.maintenance) {
+            $('#maintenance_toggle').prop('checked', true);
+            $('#maintenance_time_group').show();
+          }
+          if (res.maintenance_end_time) {
+            // Convert to local datetime-local format (YYYY-MM-DDTHH:mm)
+            const date = new Date(res.maintenance_end_time);
+            const localISO = new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+            $('#maintenance_end_time').val(localISO);
+          }
+          if (res.maintenance_auto_off == 1) $('#maintenance_auto_off').prop('checked', true);
+          if (res.siteBranding) {
+            $('#site_name_input').val(res.siteBranding.site_name);
+            $('#sitename-live-preview').text(res.siteBranding.site_name);
+            if (res.siteBranding.site_logo) {
+              $('#logo-live-preview').attr('src', res.siteBranding.site_logo);
+              $('#site_logo_show').html(`<img src="${res.siteBranding.site_logo}">`);
+            }
+          }
+          if (res.ip_reg_limit) $('#ip_reg_limit').val(res.ip_reg_limit);
+          if (res.ip_reg_status !== undefined) $('#ip_reg_status').prop('checked', res.ip_reg_status == 1);
+
+          // Populate Payment Configs
+          if (res.paymentConfigs) {
+            const wow = res.paymentConfigs.find(c => c.gateway_name === 'wow_pay');
+            if (wow) {
+              $('#wow_mch_id').val(wow.app_id);
+              $('#wow_mch_key').val(wow.app_secret);
+              $('#wow_status').prop('checked', wow.status == 1);
+              $('#wow_min').val(wow.min_recharge);
+              $('#wow_max').val(wow.max_recharge);
+              $('#wow_return_url').val(wow.return_url);
+              $('#wow_quick_amounts').val(wow.quick_amounts || '100,500,1000,5000');
+            }
+            const rs = res.paymentConfigs.find(c => c.gateway_name === 'rs_pay');
+            if (rs) {
+              $('#rs_mch_id').val(rs.app_id);
+              $('#rs_mch_key').val(rs.app_secret);
+              $('#rs_status').prop('checked', rs.status == 1);
+              $('#rs_min').val(rs.min_recharge);
+              $('#rs_max').val(rs.max_recharge);
+              $('#rs_return_url').val(rs.return_url);
+              $('#rs_quick_amounts').val(rs.quick_amounts || '100,500,1000,5000');
+              $('#rs_instructions').val(rs.instructions || '');
+            }
+            const cp = res.paymentConfigs.find(c => c.gateway_name === 'cloud_pay');
+            if (cp) {
+              $('#cp_mch_id').val(cp.app_id);
+              $('#cp_mch_key').val(cp.app_secret);
+              $('#cp_status').prop('checked', cp.status == 1);
+              $('#cp_min').val(cp.min_recharge);
+              $('#cp_max').val(cp.max_recharge);
+              $('#cp_return_url').val(cp.return_url);
+              $('#cp_quick_amounts').val(cp.quick_amounts || '100,500,1000,5000');
+              $('#cp_instructions').val(cp.instructions || '');
+            }
+            const upay = res.paymentConfigs.find(c => c.gateway_name === 'upay');
+            if (upay) {
+              $('#upay_app_id').val(upay.app_id);
+              $('#upay_app_secret').val(upay.app_secret);
+              $('#upay_status').prop('checked', upay.status == 1);
+              $('#upay_min').val(upay.min_recharge);
+              $('#upay_max').val(upay.max_recharge);
+              $('#upay_return_url').val(upay.return_url);
+              $('#upay_quick_amounts').val(upay.quick_amounts || '100,500,1000,5000');
+              $('#upay_instructions').val(upay.instructions || '');
+            }
+            const wp = res.paymentConfigs.find(c => c.gateway_name === 'watchpay');
+            if (wp) {
+              $('#wp_mch_id').val(wp.app_id);
+              $('#wp_agent_key').val(wp.app_secret);
+              $('#wp_status').prop('checked', wp.status == 1);
+              $('#wp_min').val(wp.min_recharge);
+              $('#wp_max').val(wp.max_recharge);
+              $('#wp_return_url').val(wp.return_url);
+              $('#wp_quick_amounts').val(wp.quick_amounts || '100,500,1000,5000');
+              $('#wp_instructions').val(wp.instructions || '');
+            }
+            const upi_m = res.paymentConfigs.find(c => c.gateway_name === 'upi_manual');
+            if (upi_m) {
+              $('#upi_m_name').val(upi_m.app_id);
+              $('#upi_m_id').val(upi_m.app_secret);
+              $('#upi_m_status').prop('checked', upi_m.status == 1);
+              $('#upi_m_min').val(upi_m.min_recharge);
+              $('#upi_m_max').val(upi_m.max_recharge);
+              $('#upi_m_quick_amounts').val(upi_m.quick_amounts || '100,500,1000,5000');
+              $('#upi_m_instructions').val(upi_m.instructions || '');
+              if (upi_m.qr_code) $('#upi_m_qr_show').html(`<img src="${upi_m.qr_code}" style="max-width:100px;">`);
+            }
+            const usdt_m = res.paymentConfigs.find(c => c.gateway_name === 'usdt_manual');
+            if (usdt_m) {
+              $('#usdt_m_addr').val(usdt_m.app_id);
+              $('#usdt_m_status').prop('checked', usdt_m.status == 1);
+              $('#usdt_m_min').val(usdt_m.min_recharge);
+              $('#usdt_m_max').val(usdt_m.max_recharge);
+              $('#usdt_m_quick_amounts').val(usdt_m.quick_amounts || '10,50,100,500,1000');
+              $('#usdt_m_instructions').val(usdt_m.instructions || '');
+              if (usdt_m.qr_code) $('#usdt_m_qr_show').html(`<img src="${usdt_m.qr_code}" style="max-width:100px;">`);
+            }
+            const cc = res.paymentConfigs.find(c => c.gateway_name === 'ccpayment');
+            if (cc) {
+              $('#cc_app_id').val(cc.app_id);
+              $('#cc_app_secret').val(cc.app_secret);
+              $('#cc_status').prop('checked', cc.status == 1);
+              $('#cc_min').val(cc.min_recharge);
+              $('#cc_max').val(cc.max_recharge);
+              $('#cc_return_url').val(cc.return_url);
+              $('#cc_quick_amounts').val(cc.quick_amounts || '10,50,100,500,1000,5000');
+              $('#cc_instructions').val(cc.instructions || '');
+            }
+            const ug = res.paymentConfigs.find(c => c.gateway_name === 'upi_gateway');
+            if (ug) {
+              $('#ug_key').val(ug.app_secret);
+              $('#ug_status').prop('checked', ug.status == 1);
+              $('#ug_min').val(ug.min_recharge);
+              $('#ug_max').val(ug.max_recharge);
+              $('#ug_return_url').val(ug.return_url);
+              $('#ug_quick_amounts').val(ug.quick_amounts || '100,500,1000,5000');
+              $('#ug_instructions').val(ug.instructions || '');
+            }
+          }
+          if (res.website_link) $('#website_link').val(res.website_link);
+          if (res.wc_ag_code) $('#wc_ag_code').val(res.wc_ag_code);
+          if (res.wc_ag_token) $('#wc_ag_token').val(res.wc_ag_token);
+          if (res.wc_ag_secret) $('#wc_ag_secret').val(res.wc_ag_secret);
+          if (res.currency_name) $('#currency_name_input').val(res.currency_name);
+          if (res.currency_symbol) $('#currency_symbol_input').val(res.currency_symbol);
+
+
+          // Populate Withdrawal Configs
+          if (res.daily_withdraw_limit) {
+            $('#daily_withdraw_limit').val(res.daily_withdraw_limit);
+          }
+          if (res.withdrawalConfigs) {
+            const bank = res.withdrawalConfigs.find(c => c.method_name === 'BANK_CARD');
+            if (bank) {
+              $('#withdraw_bank_min').val(bank.min_amount);
+              $('#withdraw_bank_max').val(bank.max_amount);
+              $('#withdraw_bank_status').prop('checked', bank.status == 1);
+            }
+            const usdt = res.withdrawalConfigs.find(c => c.method_name === 'USDT_ADDRESS');
+            if (usdt) {
+              $('#withdraw_usdt_min').val(usdt.min_amount);
+              $('#withdraw_usdt_max').val(usdt.max_amount);
+              $('#withdraw_usdt_status').prop('checked', usdt.status == 1);
+            }
+            const upi = res.withdrawalConfigs.find(c => c.method_name === 'UPI');
+            if (upi) {
+              $('#withdraw_upi_min').val(upi.min_amount);
+              $('#withdraw_upi_max').val(upi.max_amount);
+              $('#withdraw_upi_status').prop('checked', upi.status == 1);
+            }
+          }
+        }
+      });
+
+      loadBanners();
+      loadWithdrawalConditions();
+
+      // --- Tab Logic ---
+      $(document).on('click', '.tab-btn', function () {
+        $('.tab-btn').removeClass('active');
+        $(this).addClass('active');
+        $('.tab-pane').removeClass('active');
+        const target = $(this).data('target');
+        $('#' + target).addClass('active');
+        if (target === 'tab-withdrawal-flow') loadWithdrawalFlow();
+        else if (target === 'tab-banners') loadBanners();
+      });
+
+      // --- API Gateway Tab Logic ---
+      $(document).on('click', '.gateway-tab-btn', function () {
+        $('.gateway-tab-btn').removeClass('active').css('color', 'var(--text-secondary)');
+        $(this).addClass('active').css('color', 'var(--accent)');
+        $('.gateway-pane').hide().removeClass('active');
+        const gateway = $(this).data('gateway');
+        $(`#pane-${gateway}`).show().addClass('active');
+      });
+
+      $('.gateway-tab-btn.active').css('color', 'var(--accent)');
+
+      // Save Gateway Config
+      $(document).on('click', '.save-gateway', async function () {
+        const gateway = $(this).data('gateway');
+
+        if (gateway === 'upi_manual' || gateway === 'usdt_manual') {
+          const fd = new FormData();
+          fd.append('gateway_name', gateway);
+
+          if (gateway === 'upi_manual') {
+            fd.append('app_id', $('#upi_m_name').val());
+            fd.append('app_secret', $('#upi_m_id').val());
+            fd.append('status', $('#upi_m_status').is(':checked') ? 1 : 0);
+            fd.append('min_recharge', $('#upi_m_min').val());
+            fd.append('max_recharge', $('#upi_m_max').val());
+            fd.append('quick_amounts', $('#upi_m_quick_amounts').val());
+            fd.append('instructions', $('#upi_m_instructions').val());
+            if ($('#upi_m_qr_input')[0].files[0]) fd.append('qr_code', $('#upi_m_qr_input')[0].files[0]);
+          } else {
+            fd.append('app_id', $('#usdt_m_addr').val());
+            fd.append('status', $('#usdt_m_status').is(':checked') ? 1 : 0);
+            fd.append('min_recharge', $('#usdt_m_min').val());
+            fd.append('max_recharge', $('#usdt_m_max').val());
+            fd.append('quick_amounts', $('#usdt_m_quick_amounts').val());
+            fd.append('instructions', $('#usdt_m_instructions').val());
+            if ($('#usdt_m_qr_input')[0].files[0]) fd.append('qr_code', $('#usdt_m_qr_input')[0].files[0]);
+          }
+
+          try {
+            const res = await axios.post('/admin/manager/settings/payment-gateway', fd);
+            if (res.data.status) alertMsg(res.data.message);
+            else alertMsg(res.data.message, 'error');
+          } catch (e) { alertMsg("Failed to save config", 'error'); }
+          return;
+        }
+
+        let data = { gateway_name: gateway };
+        if (gateway === 'ccpayment') {
+          data = {
+            gateway_name: 'ccpayment',
+            app_id: $('#cc_app_id').val(),
+            app_secret: $('#cc_app_secret').val(),
+            min_recharge: $('#cc_min').val(),
+            max_recharge: $('#cc_max').val(),
+            return_url: $('#cc_return_url').val(),
+            quick_amounts: $('#cc_quick_amounts').val(),
+            instructions: $('#cc_instructions').val(),
+            status: $('#cc_status').is(':checked') ? 1 : 0
+          };
+        } else if (gateway === 'wowpay') {
+          data = {
+            gateway_name: 'wow_pay',
+            app_id: $('#wow_mch_id').val(),
+            app_secret: $('#wow_mch_key').val(),
+            min_recharge: $('#wow_min').val(),
+            max_recharge: $('#wow_max').val(),
+            return_url: $('#wow_return_url').val(),
+            quick_amounts: $('#wow_quick_amounts').val(),
+            instructions: $('#wow_instructions').val(),
+            status: $('#wow_status').is(':checked') ? 1 : 0
+          };
+        } else if (gateway === 'rspay') {
+          data = {
+            gateway_name: 'rs_pay',
+            app_id: $('#rs_mch_id').val(),
+            app_secret: $('#rs_mch_key').val(),
+            min_recharge: $('#rs_min').val(),
+            max_recharge: $('#rs_max').val(),
+            return_url: $('#rs_return_url').val(),
+            quick_amounts: $('#rs_quick_amounts').val(),
+            instructions: $('#rs_instructions').val(),
+            status: $('#rs_status').is(':checked') ? 1 : 0
+          };
+        } else if (gateway === 'cloudpay') {
+          data = {
+            gateway_name: 'cloud_pay',
+            app_id: $('#cp_mch_id').val(),
+            app_secret: $('#cp_mch_key').val(),
+            min_recharge: $('#cp_min').val(),
+            max_recharge: $('#cp_max').val(),
+            return_url: $('#cp_return_url').val(),
+            quick_amounts: $('#cp_quick_amounts').val(),
+            instructions: $('#cp_instructions').val(),
+            status: $('#cp_status').is(':checked') ? 1 : 0
+          };
+        } else if (gateway === 'upigateway') {
+          data = {
+            gateway_name: 'upi_gateway',
+            app_secret: $('#ug_key').val(),
+            min_recharge: $('#ug_min').val(),
+            max_recharge: $('#ug_max').val(),
+            return_url: $('#ug_return_url').val(),
+            quick_amounts: $('#ug_quick_amounts').val(),
+            instructions: $('#ug_instructions').val(),
+            status: $('#ug_status').is(':checked') ? 1 : 0
+          };
+        } else if (gateway === 'upay') {
+          data = {
+            gateway_name: 'upay',
+            app_id: $('#upay_app_id').val(),
+            app_secret: $('#upay_app_secret').val(),
+            min_recharge: $('#upay_min').val(),
+            max_recharge: $('#upay_max').val(),
+            return_url: $('#upay_return_url').val(),
+            quick_amounts: $('#upay_quick_amounts').val(),
+            instructions: $('#upay_instructions').val(),
+            status: $('#upay_status').is(':checked') ? 1 : 0
+          };
+        } else if (gateway === 'watchpay') {
+          data = {
+            gateway_name: 'watchpay',
+            app_id: $('#wp_mch_id').val(),
+            app_secret: $('#wp_agent_key').val(),
+            min_recharge: $('#wp_min').val(),
+            max_recharge: $('#wp_max').val(),
+            return_url: $('#wp_return_url').val(),
+            quick_amounts: $('#wp_quick_amounts').val(),
+            instructions: $('#wp_instructions').val(),
+            status: $('#wp_status').is(':checked') ? 1 : 0
+          };
+        }
+
+        try {
+          const res = await axios.post('/admin/manager/settings/payment-gateway', data);
+          if (res.data.status) alertMsg(res.data.message);
+          else alertMsg(res.data.message, 'error');
+        } catch (e) {
+          alertMsg("Failed to save config", 'error');
+        }
+      });
+
+      // Save IP Registration Settings
+      $('#save-ip-settings').click(async function() {
+        const data = {
+          ip_reg_limit: $('#ip_reg_limit').val(),
+          ip_reg_status: $('#ip_reg_status').is(':checked') ? 1 : 0
+        };
+        try {
+          const res = await axios.post('/admin/manager/settings/ip-registration', data);
+          if (res.data.status) alertMsg(res.data.message);
+          else alertMsg(res.data.message, 'error');
+        } catch (e) {
+          alertMsg("Failed to save IP settings", 'error');
+        }
+      });
+
+      // Save Global Withdrawal Settings
+      $('#save-withdrawal-global').click(async function() {
+        const data = {
+          daily_withdraw_limit: $('#daily_withdraw_limit').val()
+        };
+        try {
+          const res = await axios.post('/admin/manager/settings/withdrawal-global', data);
+          if (res.data.status) alertMsg(res.data.message);
+          else alertMsg(res.data.message, 'error');
+        } catch (e) {
+          alertMsg("Failed to save global settings", 'error');
+        }
+      });
+
+      // Save Withdrawal Config
+      $(document).on('click', '.save-withdraw-config', async function () {
+        const method = $(this).data('method');
+        let data = { method_name: method };
+
+        if (method === 'BANK_CARD') {
+          data.min_amount = $('#withdraw_bank_min').val();
+          data.max_amount = $('#withdraw_bank_max').val();
+          data.status = $('#withdraw_bank_status').is(':checked') ? 1 : 0;
+        } else if (method === 'USDT_ADDRESS') {
+          data.min_amount = $('#withdraw_usdt_min').val();
+          data.max_amount = $('#withdraw_usdt_max').val();
+          data.status = $('#withdraw_usdt_status').is(':checked') ? 1 : 0;
+        } else if (method === 'UPI') {
+          data.min_amount = $('#withdraw_upi_min').val();
+          data.max_amount = $('#withdraw_upi_max').val();
+          data.status = $('#withdraw_upi_status').is(':checked') ? 1 : 0;
+        }
+
+        try {
+          const res = await axios.post('/admin/manager/settings/withdraw-config-update', data);
+          if (res.data.status) alertMsg(res.data.message);
+          else alertMsg(res.data.message, 'error');
+        } catch (e) {
+          alertMsg("Failed to save withdrawal config", 'error');
+        }
+      });
+
+      // Modal triggers (Since we are using custom Modal CSS)
+      $(document).on('click', '[data-toggle="modal"]', function () {
+        const target = $(this).data('target');
+        $(target).addClass('show');
+        $('body').addClass('modal-open');
+      });
+
+      $(document).on('click', '[data-dismiss="modal"], .modal', function (e) {
+        if (e.target !== this && !$(e.target).closest('.modal-content').length && !$(e.target).is('[data-dismiss="modal"]')) return;
+        $('.modal').removeClass('show');
+        $('body').removeClass('modal-open');
+      });
+
+      $('#maintenance_toggle').change(async function () {
+        const status = $(this).is(':checked') ? 1 : 0;
+        if (status) $('#maintenance_time_group').show();
+        else $('#maintenance_time_group').hide();
+        
+        const endTime = $('#maintenance_end_time').val();
+        const autoOff = $('#maintenance_auto_off').is(':checked') ? 1 : 0;
+        const res = await axios.post("/admin/manager/settings/maintenance", { status, end_time: endTime, auto_off: autoOff });
+        alertMsg(res.data.message, res.data.status ? 'success' : 'error');
+      });
+
+      $('#maintenance_end_time, #maintenance_auto_off').change(async function() {
+        if ($('#maintenance_toggle').is(':checked')) {
+            const status = 1;
+            const endTime = $('#maintenance_end_time').val();
+            const autoOff = $('#maintenance_auto_off').is(':checked') ? 1 : 0;
+            const res = await axios.post("/admin/manager/settings/maintenance", { status, end_time: endTime, auto_off: autoOff });
+            if (res.data.status) alertMsg("Maintenance settings updated!");
+        }
+      });
+
+      $('#reset_maintenance_timer').click(async function() {
+        $('#maintenance_end_time').val('');
+        const status = $('#maintenance_toggle').is(':checked') ? 1 : 0;
+        const res = await axios.post("/admin/manager/settings/maintenance", { status, end_time: null });
+        if (res.data.status) alertMsg("Timer reset successfully!");
+      });
+
+      // Set min date for maintenance_end_time to current time
+      function setMinMaintenanceTime() {
+          const now = new Date();
+          const localISO = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+          $('#maintenance_end_time').attr('min', localISO);
+      }
+      setMinMaintenanceTime();
+      setInterval(setMinMaintenanceTime, 60000); // Update every minute
+
+      $('#save-branding').click(async () => {
+        const formData = new FormData();
+        formData.append('site_name', $('#site_name_input').val());
+        if ($('#site_logo_input')[0].files[0]) formData.append('site_logo', $('#site_logo_input')[0].files[0]);
+        const res = await axios.post('/admin/manager/settings/branding', formData);
+        if (res.data.status) alertMsg(res.data.message);
+      });
+
+      $('.edit-momo').click(async () => {
+        const formData = new FormData();
+        formData.append('bank_name', $('#edit-momo-name_bank').val());
+        formData.append('username', $('#edit-momo-name').val());
+        formData.append('upi_id', $('#edit-momo-info').val());
+        formData.append('typer', 'momo');
+        if ($('#upi_id_qr')[0].files[0]) formData.append('upi_id_qr', $('#upi_id_qr')[0].files[0]);
+        const res = await axios.post("/admin/manager/settings/bank", formData);
+        if (res.data.status) alertMsg(res.data.message);
+      });
+
+      $('.telegram').click(() => {
+        const formData = new FormData();
+        formData.append('telegram', $('#telegram').val());
+        formData.append('cskh', $('#cskh').val());
+        formData.append('myapp_web', $('#myapp_web').val());
+        formData.append('whatsapp', $('#whatsapp').val());
+        formData.append('apk_name', $('#apk_name').val());
+        formData.append('whatsapp_status', $('#whatsapp_status').is(':checked') ? 1 : 0);
+        formData.append('telegram_status', $('#telegram_status').is(':checked') ? 1 : 0);
+        formData.append('app_download_status', $('#app_download_status').is(':checked') ? 1 : 0);
+        formData.append('cskh_status', $('#cskh_status').is(':checked') ? 1 : 0);
+        formData.append('website_link', $('#website_link').val());
+        formData.append('wc_ag_code', $('#wc_ag_code').val());
+        formData.append('wc_ag_token', $('#wc_ag_token').val());
+        formData.append('wc_ag_secret', $('#wc_ag_secret').val());
+
+        const apkFile = $('#apk_file_input')[0].files[0];
+        if (apkFile) formData.append('apk_file', apkFile);
+        $.ajax({
+          type: "POST", url: "/admin/manager/settings/cskh", data: formData, processData: false, contentType: false,
+          success: (res) => {
+            if (res.status) {
+              alertMsg("Settings updated!");
+              if (res.apk_link) $('#apk_file_status').text("Current APK: " + res.apk_link);
+            } else alertMsg(res.message, "error");
+          }
+        });
+      });
+
+      $('.save-api-settings').click(() => {
+        $('.telegram').click();
+      });
+
+      $('#save-bonus-percent').click(async () => {
+        const res = await axios.post('/admin/manager/settings/bonus_percent', {
+          signup_bonus: $('#signup_bonus').val(),
+          referral_bonus: $('#referral_bonus').val(),
+        });
+        if (res.data.status) alertMsg(res.data.message);
+      });
+
+      $('#save-banner').click(async () => {
+        const formData = new FormData();
+        const file = $('#banner_image_input')[0].files[0];
+        if (!file) return alertMsg("Select image", "error");
+        formData.append('type', $('#banner_type').val());
+        formData.append('link', $('#banner_link').val());
+        formData.append('priority', $('#banner_priority').val());
+        formData.append('content', $('#banner_content').val());
+        formData.append('banner_image', file);
+        try {
+          const res = await axios.post('/api/webapi/admin/banners/add', formData);
+          if (res.data.status) {
+            alertMsg(res.data.message);
+            $('#banner_image_input').val('');
+            loadBanners();
+          }
+        } catch (e) { alertMsg("Failed", "error"); }
+      });
+
+      $(document).on('change', '.toggle-banner-status', async function () {
+        const id = $(this).data('id');
+        const type = $(this).data('type');
+        const status = $(this).is(':checked') ? 1 : 0;
+        const res = await axios.post('/api/webapi/admin/banners/update-status', { id, status, type });
+        if (res.data.status) alertMsg(res.data.message);
+      });
+
+      $(document).on('click', '.delete-banner', async function () {
+        const id = $(this).closest('.delete-banner').attr('data-id');
+        if (confirm('Delete banner?')) {
+          const res = await axios.post('/api/webapi/admin/banners/delete', { id });
+          if (res.data.status) { alertMsg(res.data.message); loadBanners(); }
+        }
+      });
+
+      $(document).on('click', '.edit-banner', function () {
+        const btn = $(this).closest('.edit-banner');
+        const id = btn.attr('data-id');
+        Swal.fire({
+          title: 'Edit Banner',
+          html: `
+                    <div style="text-align: left;">
+                        <select id="swal-banner-type" class="form-control mb-2">
+                            <option value="home_slider" ${btn.attr('data-type') === 'home_slider' ? 'selected' : ''}>Home Slider</option>
+                            <option value="activity" ${btn.attr('data-type') === 'activity' ? 'selected' : ''}>Activity</option>
+                            <option value="guide" ${btn.attr('data-type') === 'guide' ? 'selected' : ''}>Guide</option>
+                            <option value="deposit_popup" ${btn.attr('data-type') === 'deposit_popup' ? 'selected' : ''}>Deposit Popup</option>
+                        </select>
+                        <input id="swal-banner-link" class="form-control mb-2" value="${btn.attr('data-link')}" placeholder="Link">
+                        <input id="swal-banner-priority" type="number" class="form-control mb-2" value="${btn.attr('data-priority')}" placeholder="Priority">
+                        <textarea id="swal-banner-content" class="form-control mb-2" placeholder="Content">${btn.attr('data-content')}</textarea>
+                        <input type="file" id="swal-banner-file" accept="image/*">
+                    </div>
+                `,
+          showCancelButton: true,
+          preConfirm: async () => {
+            const fd = new FormData();
+            fd.append('id', id);
+            fd.append('type', $('#swal-banner-type').val());
+            fd.append('link', $('#swal-banner-link').val());
+            fd.append('priority', $('#swal-banner-priority').val());
+            fd.append('content', $('#swal-banner-content').val());
+            if ($('#swal-banner-file')[0].files[0]) fd.append('banner_image', $('#swal-banner-file')[0].files[0]);
+            return (await axios.post('/api/webapi/admin/banners/update', fd)).data;
+          }
+        }).then(r => { if (r.isConfirmed) { alertMsg("Updated"); loadBanners(); } });
+      });
+
+      $('#addConditionForm').submit(function (e) {
+        e.preventDefault();
+        $.post('/api/webapi/admin/withdrawal-conditions/add', $(this).serialize(), function (res) {
+          if (res.status) { alertMsg(res.message); $('#addConditionModal').modal('hide'); loadWithdrawalConditions(); }
+          else alertMsg(res.message, 'error');
+        });
+      });
+
+      $(document).on('click', '.btn-edit-condition', function () {
+        const data = $(this).data('json');
+        const form = $('#editConditionForm');
+        form.find('input[name="id"]').val(data.id);
+        form.find('select[name="type"]').val(data.type);
+        form.find('input[name="value"]').val(data.value);
+        form.find('input[name="order_index"]').val(data.order_index);
+        form.find('input[name="description"]').val(data.description);
+        form.find('select[name="status"]').val(data.status);
+        $('#editConditionModal').modal('show');
+      });
+
+      $('#editConditionForm').submit(function (e) {
+        e.preventDefault();
+        $.post('/api/webapi/admin/withdrawal-conditions/update', $(this).serialize(), function (res) {
+          if (res.status) { alertMsg(res.message); $('#editConditionModal').modal('hide'); loadWithdrawalConditions(); }
+          else alertMsg(res.message, 'error');
+        });
+      });
+
+      $(document).on('click', '.btn-delete-condition', function () {
+        if (confirm('Delete?')) {
+          $.post('/api/webapi/admin/withdrawal-conditions/delete', { id: $(this).data('id') }, function (res) {
+            if (res.status) { alertMsg(res.message); loadWithdrawalConditions(); }
+            else alertMsg(res.message, 'error');
+          });
+        }
+      });
+
+      $('#site_name_input').on('input', function () { $('#sitename-live-preview').text($(this).val() || 'Starworldz'); });
+      $('input[type=file]').change(function () {
+        const file = this.files[0];
+        if (file) {
+          const reader = new FileReader();
+          const preview = $(this).closest('.field-group').find('.preview-box');
+          reader.onload = (e) => {
+            preview.html(`<img src="${e.target.result}" style="max-width:100%; max-height:120px;">`);
+            if (this.id === 'site_logo_input') $('#logo-live-preview').attr('src', e.target.result);
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+      $('#save-global-rates').click(async function () {
+        const deposit_rate = $('#global_usdt_deposit_rate').val();
+        const withdraw_rate = $('#global_usdt_withdraw_rate').val();
+        if (!deposit_rate || !withdraw_rate) return alertMsg("Both rates are required", "error");
+        try {
+          const res = await axios.post('/admin/manager/settings/global-exchange-rate', {
+            deposit_rate,
+            withdraw_rate
+          });
+          if (res.data.status) alertMsg(res.data.message);
+          else alertMsg(res.data.message, 'error');
+        } catch (e) { alertMsg("Failed to save rates", 'error'); }
+      });
+
+      $('#save-currency').click(async function () {
+        const name = $('#currency_name_input').val();
+        const symbol = $('#currency_symbol_input').val();
+        if (!name || !symbol) return alertMsg("Both name and symbol are required", "error");
+        try {
+          const res = await axios.post('/admin/manager/settings/currency', { name, symbol });
+          if (res.data.status) {
+            alertMsg(res.data.message);
+            $('.currency-label-span').text(name);
+          } else alertMsg(res.data.message, 'error');
+        } catch (e) { alertMsg("Failed to save currency settings", 'error'); }
+      });
+
+      $('#apk_file_input').change(function () {
+        const fileName = $(this).val().split('\\').pop();
+        if (fileName) $(this).next('.file-label').html(`<i class="fas fa-check"></i> ${fileName}`);
+      });
+
+      // SMS SETTINGS LOGIC
+      $('.gateway-tab-btn').click(function () {
+        $('.gateway-tab-btn').removeClass('active').css('background', 'transparent');
+        $(this).addClass('active').css('background', '#f0f0f0');
+        $('.sms-gateway-pane').hide();
+        const target = $(this).data('gateway');
+        $(`#pane-${target}`).show();
+      });
+
+      async function loadSMSSettings() {
+        try {
+          const res = await axios.get('/admin/manager/settings/sms-get');
+          if (res.data.status) {
+            const d = res.data.data;
+            $('#sms_otp_on_register').prop('checked', d.otp_on_register == 1);
+            $('#sms_otp_on_forgot').prop('checked', d.otp_on_forgot == 1);
+            $('#sms_otp_on_add_bank').prop('checked', d.otp_on_add_bank == 1);
+            $('#sms_otp_on_withdraw').prop('checked', d.otp_on_withdraw == 1);
+            $('#sms_otp_expiry').val(d.otp_expiry || 5);
+            $('#sms_otp_cooldown').val(d.otp_cooldown || 60);
+            $('#sms_active_gateway').val(d.active_gateway || 'none');
+
+            $('#sms_authkey_api_key').val(d.authkey_api_key || '');
+            $('#sms_authkey_sid').val(d.authkey_sid || '');
+            $('#sms_twilio_sid').val(d.twilio_sid || '');
+            $('#sms_twilio_messaging_service_sid').val(d.twilio_messaging_service_sid || '');
+            $('#sms_twilio_auth_token').val(d.twilio_auth_token || '');
+            $('#sms_twilio_phone_number').val(d.twilio_phone_number || '');
+            $('#sms_twilio_otp_template').val(d.twilio_otp_template || '');
+            $('#sms_fast2sms_api_key').val(d.fast2sms_api_key || '');
+          }
+        } catch (e) {
+          console.error("Failed to load SMS settings", e);
+        }
+      }
+      loadSMSSettings();
+
+      $('#save-sms-all-btn').click(async function () {
+        const data = {
+          otp_on_register: $('#sms_otp_on_register').is(':checked'),
+          otp_on_forgot: $('#sms_otp_on_forgot').is(':checked'),
+          otp_on_add_bank: $('#sms_otp_on_add_bank').is(':checked'),
+          otp_on_withdraw: $('#sms_otp_on_withdraw').is(':checked'),
+          otp_expiry: $('#sms_otp_expiry').val(),
+          otp_cooldown: $('#sms_otp_cooldown').val(),
+          active_gateway: $('#sms_active_gateway').val(),
+          authkey_api_key: $('#sms_authkey_api_key').val(),
+          authkey_sid: $('#sms_authkey_sid').val(),
+          twilio_sid: $('#sms_twilio_sid').val(),
+          twilio_messaging_service_sid: $('#sms_twilio_messaging_service_sid').val(),
+          twilio_auth_token: $('#sms_twilio_auth_token').val(),
+          twilio_phone_number: $('#sms_twilio_phone_number').val(),
+          twilio_otp_template: $('#sms_twilio_otp_template').val(),
+          fast2sms_api_key: $('#sms_fast2sms_api_key').val()
+        };
+
+        try {
+          const res = await axios.post('/admin/manager/settings/sms-update', data);
+          if (res.data.status) {
+            alertMsg(res.data.message);
+          } else {
+            alertMsg(res.data.message, 'error');
+          }
+        } catch (e) {
+          alertMsg("Failed to update SMS settings", 'error');
+        }
+      });
+      // --- WITHDRAWAL FLOW LOGIC (Polished n8n Style) ---
+      let flowData = { nodes: [], edges: [] };
+      const flowCanvas = document.getElementById('flow-canvas');
+      const flowSvg = document.getElementById('flow-connections');
+      let flowDraggingNode = null;
+      let flowDragOffset = { x: 0, y: 0 };
+
+      function renderFlowNode(node) {
+        const div = document.createElement('div');
+        div.className = `flow-node node-${node.type}`;
+        div.id = `flnode-${node.id}`;
+        div.style.left = `${node.x}px`;
+        div.style.top = `${node.y}px`;
+        div.style.padding = '0'; // Custom padding for polished look
+        div.style.width = '220px';
+
+        let icon = 'fa-play-circle';
+        if(node.type === 'condition') icon = 'fa-filter';
+        if(node.type === 'action') icon = 'fa-bolt';
+
+        let bodyHtml = '';
+        if (node.type === 'condition') {
+          bodyHtml = `
+            <div style="padding: 10px; border-bottom: 1px solid #f1f5f9;">
+              <div style="font-size: 10px; color: #64748b; margin-bottom: 4px; text-transform: uppercase; font-weight: 700;">Logic Formula</div>
+              <input type="text" class="form-control" style="height: 30px; font-family: 'Fira Code', monospace; font-size: 11px; background: #f8fafc;" 
+                     value="${node.formula || ''}" onchange="updateFlowNode('${node.id}', 'formula', this.value)" placeholder="{{deposit}} > 500">
+            </div>
+          `;
+        } else if (node.type === 'action') {
+          bodyHtml = `
+            <div style="padding: 10px; border-bottom: 1px solid #f1f5f9;">
+               <select class="form-control" style="height: 32px; font-size: 12px; font-weight: 600;" onchange="updateFlowNode('${node.id}', 'action', this.value)">
+                <option value="allow" ${node.action === 'allow' ? 'selected' : ''}>✅ ALLOW</option>
+                <option value="reject" ${node.action === 'reject' ? 'selected' : ''}>❌ REJECT</option>
+                <option value="audit" ${node.action === 'audit' ? 'selected' : ''}>🔍 MANUAL AUDIT</option>
+              </select>
+            </div>
+            ${node.action === 'reject' ? `
+              <div style="padding: 10px;">
+                <input type="text" class="form-control" style="height: 30px; font-size: 11px;" 
+                       value="${node.message || ''}" onchange="updateFlowNode('${node.id}', 'message', this.value)" placeholder="Error message for user">
+              </div>
+            ` : ''}
+          `;
+        } else if (node.type === 'trigger') {
+          bodyHtml = `<div style="padding: 15px; font-size: 12px; color: #475569; font-weight: 500;">User submits a withdrawal request.</div>`;
+        }
+
+        div.innerHTML = `
+          <div style="padding: 10px 12px; background: #fff; border-radius: 10px 10px 0 0; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; gap: 10px;">
+            <div style="width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; background: ${node.type==='condition'?'#fef3c7':(node.type==='action'?'#dcfce7':'#dbeafe')}; color: ${node.type==='condition'?'#d97706':(node.type==='action'?'#059669':'#2563eb')};">
+              <i class="fas ${icon}" style="font-size: 12px;"></i>
+            </div>
+            <span style="font-size: 12px; font-weight: 700; color: #1e293b; flex: 1;">${node.label}</span>
+            <i class="fas fa-trash" style="cursor:pointer; font-size: 10px; color: #cbd5e1;" onclick="deleteFlowNode('${node.id}')"></i>
+          </div>
+          <div class="node-body" style="background: #fff; border-radius: 0 0 10px 10px;">${bodyHtml}</div>
+          
+          ${node.type !== 'trigger' ? '<div class="flow-port port-in" style="background: #94a3b8; border: 2px solid #fff; width: 12px; height: 12px;"></div>' : ''}
+          
+          ${node.type === 'condition' ? `
+            <div class="flow-port port-out port-true" title="If True" style="top: 30%; right: -6px; width: 12px; height: 12px;"></div>
+            <div class="flow-port port-out port-false" title="If False" style="top: 70%; right: -6px; width: 12px; height: 12px;"></div>
+            <div style="position: absolute; right: 10px; top: 25%; font-size: 9px; font-weight: 800; color: #10b981;">TRUE</div>
+            <div style="position: absolute; right: 10px; top: 65%; font-size: 9px; font-weight: 800; color: #ef4444;">FALSE</div>
+          ` : (node.type !== 'action' ? '<div class="flow-port port-out" style="background: #94a3b8; border: 2px solid #fff; width: 12px; height: 12px;"></div>' : '')}
+        `;
+
+        div.onmousedown = (e) => {
+          if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.classList.contains('fa-trash')) return;
+          flowDraggingNode = node;
+          const rect = div.getBoundingClientRect();
+          flowDragOffset.x = e.clientX - rect.left;
+          flowDragOffset.y = e.clientY - rect.top;
+          div.style.zIndex = 1000;
+        };
+
+        flowCanvas.appendChild(div);
+      }
+
+      window.updateFlowNode = (id, field, value) => {
+        const node = flowData.nodes.find(n => n.id === id);
+        if (node) {
+          node[field] = value;
+          if (field === 'action') refreshFlowCanvas();
+        }
+      };
+
+      window.deleteFlowNode = (id) => {
+        flowData.nodes = flowData.nodes.filter(n => n.id !== id);
+        flowData.edges = flowData.edges.filter(e => e.from !== id && e.to !== id);
+        refreshFlowCanvas();
+      };
+
+      function drawFlowEdges() {
+        flowSvg.innerHTML = '';
+        flowData.edges.forEach(edge => {
+          const from = flowData.nodes.find(n => n.id === edge.from);
+          const to = flowData.nodes.find(n => n.id === edge.to);
+          if (!from || !to) return;
+
+          const fromEl = document.getElementById(`flnode-${from.id}`);
+          const toEl = document.getElementById(`flnode-${to.id}`);
+          if (!fromEl || !toEl) return;
+
+          let startX = from.x + fromEl.offsetWidth;
+          let startY = from.y + (fromEl.offsetHeight / 2);
+          if (from.type === 'condition') {
+            startY = from.y + (fromEl.offsetHeight * (edge.type === 'true' ? 0.3 : 0.7));
+          }
+
+          let endX = to.x;
+          let endY = to.y + (toEl.offsetHeight / 2);
+
+          const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          const midX = (startX + endX) / 2;
+          const d = `M ${startX} ${startY} C ${midX} ${startY}, ${midX} ${endY}, ${endX} ${endY}`;
+          path.setAttribute('d', d);
+          path.setAttribute('class', 'flow-line');
+          path.style.stroke = edge.type === 'true' ? '#10b981' : (edge.type === 'false' ? '#ef4444' : '#94a3b8');
+          flowSvg.appendChild(path);
+        });
+      }
+
+      function refreshFlowCanvas() {
+        flowCanvas.querySelectorAll('.flow-node').forEach(n => flowCanvas.removeChild(n));
+        flowData.nodes.forEach(renderFlowNode);
+        drawFlowEdges();
+      }
+
+      $(flowCanvas).mousemove((e) => {
+        if (!flowDraggingNode) return;
+        const rect = flowCanvas.getBoundingClientRect();
+        let x = e.clientX - rect.left - flowDragOffset.x;
+        let y = e.clientY - rect.top - flowDragOffset.y;
+        x = Math.round(x / 10) * 10;
+        y = Math.round(y / 10) * 10;
+        flowDraggingNode.x = x;
+        flowDraggingNode.y = y;
+        const el = document.getElementById(`flnode-${flowDraggingNode.id}`);
+        el.style.left = `${x}px`;
+        el.style.top = `${y}px`;
+        drawFlowEdges();
+      });
+
+      $(window).mouseup(() => {
+        if (flowDraggingNode) {
+          document.getElementById(`flnode-${flowDraggingNode.id}`).style.zIndex = 10;
+          flowDraggingNode = null;
+        }
+      });
+
+      async function loadWithdrawalFlow() {
+        try {
+          const res = await $.get('/api/webapi/admin/withdrawal-flow/get');
+          if (res.status && res.data) {
+            flowData = JSON.parse(res.data.flow_json);
+            refreshFlowCanvas();
+          }
+        } catch (e) { console.error("Flow Load Error", e); }
+      }
+
+      $('#add-condition-node').click(() => {
+        const id = 'c' + Date.now();
+        flowData.nodes.push({ id, type: 'condition', label: 'Condition Node', x: 250, y: 150, formula: '' });
+        refreshFlowCanvas();
+      });
+
+      $('#add-action-node').click(() => {
+        const id = 'a' + Date.now();
+        flowData.nodes.push({ id, type: 'action', label: 'Action Node', x: 550, y: 150, action: 'allow' });
+        refreshFlowCanvas();
+      });
+
+      $('#save-withdrawal-flow').click(async () => {
+        try {
+          const res = await $.post('/api/webapi/admin/withdrawal-flow/save', { flow_json: JSON.stringify(flowData) });
+          if (res.status) alertMsg('Workflow saved successfully!');
+          else alertMsg(res.message, 'error');
+        } catch (e) { alertMsg('Failed to save flow', 'error'); }
+      });
+
+      $('#run-simulation').click(function() {
+        const testVars = {};
+        $('.sim-val').each(function() {
+          testVars[$(this).data('var')] = parseFloat($(this).val()) || 0;
+        });
+
+        const evalFormulaLocal = (formula, vars) => {
+          try {
+            let processed = formula;
+            for (const [key, value] of Object.entries(vars)) {
+              const regex = new RegExp(`{{${key}}}`, 'g');
+              processed = processed.replace(regex, value);
+            }
+            if (/[^0-9\+\-\*\/\(\)\s\.\>\<\=\!\&\|]/.test(processed)) return false;
+            return !!(new Function(`return ${processed}`)());
+          } catch (e) { return false; }
+        };
+
+        let currentNode = flowData.nodes.find(n => n.type === 'trigger');
+        let simResult = { status: 'Unknown', msg: 'No trigger found' };
+        let safety = 0;
+
+        while (currentNode && safety < 50) {
+          safety++;
+          if (currentNode.type === 'action') {
+            simResult = { 
+              status: currentNode.action.toUpperCase(), 
+              msg: currentNode.action === 'reject' ? currentNode.message : 'Conditions passed!',
+              color: currentNode.action === 'allow' ? '#dcfce7' : (currentNode.action === 'audit' ? '#fef9c3' : '#fee2e2'),
+              textColor: currentNode.action === 'allow' ? '#166534' : (currentNode.action === 'audit' ? '#854d0e' : '#991b1b')
+            };
+            break;
+          }
+
+          if (currentNode.type === 'condition') {
+            const val = evalFormulaLocal(currentNode.formula, testVars);
+            const edge = flowData.edges.find(e => e.from === currentNode.id && e.type === (val ? 'true' : 'false'));
+            if (!edge) {
+                simResult = { status: 'STUCK', msg: `No path found`, color: '#eee' };
+                break;
+            }
+            currentNode = flowData.nodes.find(n => n.id === edge.to);
+          } else {
+            const edge = flowData.edges.find(e => e.from === currentNode.id);
+            if (!edge) break;
+            currentNode = flowData.nodes.find(n => n.id === edge.to);
+          }
+        }
+
+        $('#sim-result').css({ 'display': 'block', 'background': simResult.color, 'color': simResult.textColor });
+        $('#sim-status').text(simResult.status);
+        $('#sim-msg').text(simResult.msg).css('color', simResult.textColor);
+      });
+
+      loadWithdrawalFlow();
+    });
+
+  </script>
+  <input type="file" id="edit_banner_image_input" style="display:none" accept="image/*">
+</body>
+
+</html>

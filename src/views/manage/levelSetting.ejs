@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Level Settings | <%= locals.SITE_NAME || 'Starworldz' %> Admin</title>
+  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@600&display=swap');
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #f0f2f8;
+      --sidebar-bg: #ffffff;
+      --card-bg: #ffffff;
+      --card-border: #e3e7f0;
+      --accent: #6c63ff;
+      --accent-light: rgba(108, 99, 255, 0.08);
+      --text-primary: #1a1d2e;
+      --text-secondary: #5a5f7a;
+      --text-muted: #9ea3b8;
+      --green: #00b894;
+      --blue: #3498db;
+      --sidebar-width: 260px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif !important;
+      background: var(--bg);
+      color: var(--text-primary);
+      overflow-x: hidden;
+    }
+
+    .wrapper {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s;
+      min-width: 0;
+    }
+
+    @media (max-width: 991.98px) {
+      .main-content {
+        margin-left: 0;
+      }
+    }
+
+    .topbar {
+      background: var(--sidebar-bg);
+      border-bottom: 1px solid var(--card-border);
+      padding: 0 28px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 50;
+    }
+
+    .topbar-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .content-body {
+      padding: 28px;
+    }
+
+    /* ── TOOLBAR ── */
+    .toolbar {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 20px 24px;
+      margin-bottom: 28px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    }
+
+    .toolbar h2 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    .toolbar p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* ── TABLE ── */
+    .table-card {
+      background: #fff;
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+      width: 100%;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 900px;
+    }
+
+    thead th {
+      background: #fbfcfe;
+      padding: 18px 20px;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    tbody tr {
+      border-bottom: 1px solid #f8f9fb;
+      transition: background 0.2s;
+    }
+
+    tbody tr:hover {
+      background: rgba(108, 99, 255, 0.02);
+    }
+
+    td {
+      padding: 12px 15px;
+      vertical-align: middle;
+    }
+
+    .level-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--accent-light);
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+    }
+
+    .inp-commission {
+      width: 70px;
+      height: 40px;
+      border-radius: 8px;
+      border: 1.5px solid var(--card-border);
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 14px;
+      background: #f9fbfd;
+      transition: all 0.2s;
+      outline: none;
+    }
+
+    .inp-commission:focus {
+      border-color: var(--accent);
+      background: #fff;
+      box-shadow: 0 0 0 4px var(--accent-light);
+    }
+
+    .btn-update {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+    }
+
+    .btn-update:hover {
+      transform: translateY(-2px) rotate(15deg);
+      box-shadow: 0 6px 15px rgba(108, 99, 255, 0.3);
+    }
+
+    /* ── RESPONSIVE OVERRIDES ── */
+    @media (max-width: 991.98px) {
+      .main-content {
+        margin-left: 0 !important;
+        padding-top: 60px !important;
+      }
+
+      .topbar {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .content-body {
+        padding: 12px !important;
+      }
+
+      .toolbar {
+        padding: 15px;
+        text-align: center;
+        border-radius: 12px;
+        margin-bottom: 15px;
+      }
+
+      .toolbar h2 {
+        font-size: 18px;
+      }
+
+      .table-card {
+        border-radius: 12px;
+      }
+
+      .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      table {
+        min-width: 900px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <%- include('nav') %>
+
+      <div class="main-content">
+        <header class="topbar">
+          <div class="topbar-title">Configuration &rsaquo; Commission Levels</div>
+        </header>
+
+        <div class="content-body">
+
+          <div class="toolbar">
+            <h2>Levels Settings</h2>
+            <p>Configure recursive commission percentages for referral tiers (F1 to F7).</p>
+          </div>
+
+          <div class="table-card">
+            <div class="table-responsive">
+              <table id="tableget">
+                <thead>
+                  <tr>
+                    <th class="text-center">Tier</th>
+                    <th class="text-center">F1 (%)</th>
+                    <th class="text-center">F2 (%)</th>
+                    <th class="text-center">F3 (%)</th>
+                    <th class="text-center">F4 (%)</th>
+                    <th class="text-center">F5 (%)</th>
+                    <th class="text-center">F6 (%)</th>
+                    <th class="text-center">F7 (%)</th>
+                    <th class="text-center">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="levels-body">
+                  <!-- Data injected via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+  </div>
+
+  <script src="/plugins/jquery/jquery.min.js"></script>
+  <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/dist/js/adminlte.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    const loadLevels = () => {
+      $.ajax({
+        type: "GET",
+        url: "/api/webapi/admin/getLevelInfo",
+        dataType: "json",
+        success: function (response) {
+          if (Array.isArray(response.rows) && response.rows.length > 0) {
+            let html = "";
+            response.rows.forEach(function (item) {
+              html += `<tr>
+                <td><div class="level-badge">${item.level}</div></td>
+                <td class="text-center"><input type="text" class="inp-commission" name="f1" value="${item.f1}"></td>
+                <td class="text-center"><input type="text" class="inp-commission" name="f2" value="${item.f2}"></td>
+                <td class="text-center"><input type="text" class="inp-commission" name="f3" value="${item.f3}"></td>
+                <td class="text-center"><input type="text" class="inp-commission" name="f4" value="${item.f4}"></td>
+                <td class="text-center"><input type="text" class="inp-commission" name="f5" value="${item.f5 || 0}"></td>
+                <td class="text-center"><input type="text" class="inp-commission" name="f6" value="${item.f6 || 0}"></td>
+                <td class="text-center"><input type="text" class="inp-commission" name="f7" value="${item.f7 || 0}"></td>
+                <td>
+                  <button class="btn-update update-btn" data-id="${item.id}" title="Save Changes">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                  </button>
+                </td>
+              </tr>`;
+            });
+            $('#levels-body').html(html);
+          }
+        }
+      });
+    };
+
+    $('#levels-body').on('click', '.update-btn', function (e) {
+      e.preventDefault();
+      const row = $(this).closest('tr');
+      const id = $(this).data('id');
+      const data = {
+        id: id,
+        f1: row.find('input[name="f1"]').val(),
+        f2: row.find('input[name="f2"]').val(),
+        f3: row.find('input[name="f3"]').val(),
+        f4: row.find('input[name="f4"]').val(),
+        f5: row.find('input[name="f5"]').val(),
+        f6: row.find('input[name="f6"]').val(),
+        f7: row.find('input[name="f7"]').val()
+      };
+
+      $.ajax({
+        type: "POST",
+        url: "/api/webapi/admin/updateLevel",
+        dataType: "json",
+        data: data,
+        success: function (response) {
+          alertMsg(`Commission levels for Tier ${row.find('.level-badge').text()} updated successfully.`);
+        },
+        error: function () {
+          alertMsg('Failed to update levels. Please try again.', 'error');
+        }
+      });
+    });
+
+    loadLevels();
+  </script>
+</body>
+
+</html>

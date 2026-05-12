@@ -1,0 +1,114 @@
+<script>
+    const RenderWithdraw = (datas) => {
+        if (!datas || datas.length == 0) {
+            $('#list-withdraw').html(`<tr><td colspan="6" class="text-center text-muted">no data...</td></tr>`);
+            return;
+        }
+        let html = '';
+        datas.map((data) => {
+            let statusClass = data.status == '1' ? 'status-success' : data.status == '2' ? 'status-danger' : 'status-warning';
+            let statusText = data.status == '1' ? 'Success' : data.status == '2' ? 'Rejected' : 'Pending';
+            
+            let methodDisplay = data.method || 'BANK';
+            if (methodDisplay === 'BANK_CARD') methodDisplay = 'BANK';
+            
+            let details = '';
+            if (methodDisplay === 'USDT_ADDRESS' || methodDisplay === 'USDT') {
+                methodDisplay = 'USDT';
+                details = `
+                    <div style="font-size: 11px; text-align: left;">
+                        <b>Net:</b> ${data.name_bank}<br>
+                        <b>Addr:</b> <span style="font-family: monospace;">${data.account_number}</span><br>
+                        <b>Rate:</b> ${data.usdt_rate}<br>
+                        <b>USDT:</b> ${data.usdt_amount}
+                    </div>
+                `;
+            } else if (methodDisplay === 'UPI') {
+                details = `
+                    <div style="font-size: 11px; text-align: left;">
+                        <b>UPI:</b> ${data.upi_id || data.account_number}
+                    </div>
+                `;
+            } else {
+                methodDisplay = 'BANK';
+                details = `
+                    <div style="font-size: 11px; text-align: left;">
+                        <b>Bank:</b> ${data.name_bank}<br>
+                        <b>Name:</b> ${data.name_user}<br>
+                        <b>Acc:</b> ${data.account_number}<br>
+                        <b>IFSC:</b> ${data.ifsc}
+                    </div>
+                `;
+            }
+
+            html += `
+            <tr>
+                <td style="color: var(--accent3); font-weight: 600; font-size: 12px;">${data.id_order}</td>
+                <td><b style="color: var(--accent)">${(data.money)}</b></td>
+                <td><span class="status-badge" style="background: rgba(108, 99, 255, 0.1); color: var(--accent);">${methodDisplay}</span></td>
+                <td>${details}</td>
+                <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                <td style="font-size: 12px;">${timerJoin(data.time)}</td>
+            </tr>`;
+        });
+        $("#list-withdraw").html(html);
+    }
+
+    var pagenoW = 0;
+    var limitW = 15;
+    var pageW = 1;
+    
+    function loadWithdraw() {
+        $.ajax({
+            type: "POST",
+            url: "/admin/member/listWithdraw/" + phone,
+            data: { typeid: "1", pageno: pagenoW, limit: limitW, language: "vi" },
+            dataType: "json",
+            success: function (response) {
+                $('#text-withdraw').text(pageW + ' / ' + (response?.page_total || 1));
+                if (response?.status === true) return RenderWithdraw(response?.datas);
+            }
+        });
+    }
+
+    loadWithdraw();
+
+    $('#nextWithdraw').click(function (e) {
+        e.preventDefault();
+        pagenoW += limitW;
+        $.ajax({
+            type: "POST",
+            url: "/admin/member/listWithdraw/" + phone,
+            data: { typeid: "1", pageno: pagenoW, limit: limitW, language: "vi" },
+            dataType: "json",
+            success: function (response) {
+                if (response?.datas.length == 0) {
+                    $('#nextWithdraw').addClass('block-click');
+                    pagenoW -= limitW;
+                    return;
+                }
+                $('#text-withdraw').text(++pageW + ' / ' + response?.page_total);
+                if (response?.status === true) return RenderWithdraw(response?.datas);
+            }
+        });
+    });
+
+    $('#previousWithdraw').click(function (e) {
+        e.preventDefault();
+        $('#nextWithdraw').removeClass('block-click');
+        pagenoW -= limitW;
+        if (pagenoW < 0) pagenoW = 0;
+        else pageW--;
+        
+        $.ajax({
+            type: "POST",
+            url: "/admin/member/listWithdraw/" + phone,
+            data: { typeid: "1", pageno: pagenoW, limit: limitW, language: "vi" },
+            dataType: "json",
+            success: function (response) {
+                $('#text-withdraw').text(pageW + ' / ' + response?.page_total);
+                if (response?.status === true) return RenderWithdraw(response?.datas);
+            }
+        });
+    });
+</script>

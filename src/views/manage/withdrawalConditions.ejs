@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Withdrawal Conditions Management</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+        .content-wrapper {
+            background: #f4f6f9;
+        }
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        .card-header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 1.5rem;
+        }
+        .btn-add {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--glass-border);
+            color: white;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+        .btn-add:hover {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            transform: translateY(-2px);
+        }
+        .condition-type-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .type-deposit-amount { background: #e3f2fd; color: #1976d2; }
+        .type-bet-amount { background: #f3e5f5; color: #7b1fa2; }
+        .type-deposit-count { background: #e8f5e9; color: #388e3c; }
+        .type-bet-count { background: #fff3e0; color: #f57c00; }
+        
+        .flow-line {
+            width: 2px;
+            height: 20px;
+            background: #dee2e6;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+    <%- include('nav') %>
+    <%- include('menu') %>
+
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Withdrawal Conditions <small class="text-muted">Dynamic Flow Management</small></h1>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <h3 class="card-title">Configured Conditions Flow</h3>
+                        <button class="btn btn-add ml-auto" data-toggle="modal" data-target="#addModal">
+                            <i class="fas fa-plus mr-2"></i> Add New Condition
+                        </button>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th style="width: 80px">Order</th>
+                                    <th>Condition Type</th>
+                                    <th>Required Value</th>
+                                    <th>Description</th>
+                                    <th>Status</th>
+                                    <th style="width: 150px">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="conditionsList">
+                                <!-- Data populated via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Add Modal -->
+    <div class="modal fade" id="addModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Add Condition</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal"><span>&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addForm">
+                        <div class="form-group">
+                            <label>Condition Type</label>
+                            <select class="form-control" name="type" required>
+                                <option value="total_deposit">Total Deposit Amount</option>
+                                <option value="total_bet">Total Betting Amount</option>
+                                <option value="deposit_count">Total Deposit Count</option>
+                                <option value="bet_count">Total Betting Count</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Required Value</label>
+                            <input type="number" class="form-control" name="value" step="0.01" required>
+                            <small class="text-muted">For 'Total Betting Amount', this is treated as a multiplier of total deposits if you want 1x, 2x, etc. (Set it as the absolute value for now or we can implement logic later).</small>
+                        </div>
+                        <div class="form-group">
+                            <label>Order Index</label>
+                            <input type="number" class="form-control" name="order_index" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <input type="text" class="form-control" name="description" placeholder="e.g. User must deposit at least 500">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Save Condition</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title">Edit Condition</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal"><span>&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editForm">
+                        <input type="hidden" name="id">
+                        <div class="form-group">
+                            <label>Condition Type</label>
+                            <select class="form-control" name="type" required>
+                                <option value="total_deposit">Total Deposit Amount</option>
+                                <option value="total_bet">Total Betting Amount</option>
+                                <option value="deposit_count">Total Deposit Count</option>
+                                <option value="bet_count">Total Betting Count</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Required Value</label>
+                            <input type="number" class="form-control" name="value" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Order Index</label>
+                            <input type="number" class="form-control" name="order_index">
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <input type="text" class="form-control" name="description">
+                        </div>
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select class="form-control" name="status">
+                                <option value="1">Active</option>
+                                <option value="0">Inactive</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-info btn-block">Update Condition</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('footer') %>
+</div>
+
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/dist/js/adminlte.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<script>
+    function loadConditions() {
+        $.get('/api/webapi/admin/withdrawal-conditions/list', function(res) {
+            if (res.status) {
+                let html = '';
+                res.data.forEach(item => {
+                    const typeClass = 'type-' + item.type.replace('_', '-');
+                    const typeLabel = item.type.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                    html += `
+                        <tr>
+                            <td><span class="badge badge-secondary">${item.order_index}</span></td>
+                            <td><span class="condition-type-badge ${typeClass}">${typeLabel}</span></td>
+                            <td><strong>${item.value}</strong></td>
+                            <td>${item.description || '-'}</td>
+                            <td>
+                                <span class="badge badge-${item.status ? 'success' : 'danger'}">
+                                    ${item.status ? 'Active' : 'Inactive'}
+                                </span>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-info edit-btn" data-json='${JSON.stringify(item)}'>
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger delete-btn" data-id="${item.id}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                $('#conditionsList').html(html);
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        loadConditions();
+
+        $('#addForm').submit(function(e) {
+            e.preventDefault();
+            const data = $(this).serialize();
+            $.post('/api/webapi/admin/withdrawal-conditions/add', data, function(res) {
+                if (res.status) {
+                    toastr.success(res.message);
+                    $('#addModal').modal('hide');
+                    $('#addForm')[0].reset();
+                    loadConditions();
+                } else {
+                    toastr.error(res.message);
+                }
+            });
+        });
+
+        $(document).on('click', '.edit-btn', function() {
+            const data = $(this).data('json');
+            $('#editForm input[name="id"]').val(data.id);
+            $('#editForm select[name="type"]').val(data.type);
+            $('#editForm input[name="value"]').val(data.value);
+            $('#editForm input[name="order_index"]').val(data.order_index);
+            $('#editForm input[name="description"]').val(data.description);
+            $('#editForm select[name="status"]').val(data.status);
+            $('#editModal').modal('show');
+        });
+
+        $('#editForm').submit(function(e) {
+            e.preventDefault();
+            const data = $(this).serialize();
+            $.post('/api/webapi/admin/withdrawal-conditions/update', data, function(res) {
+                if (res.status) {
+                    toastr.success(res.message);
+                    $('#editModal').modal('hide');
+                    loadConditions();
+                } else {
+                    toastr.error(res.message);
+                }
+            });
+        });
+
+        $(document).on('click', '.delete-btn', function() {
+            if (confirm('Are you sure you want to delete this condition?')) {
+                const id = $(this).data('id');
+                $.post('/api/webapi/admin/withdrawal-conditions/delete', { id: id }, function(res) {
+                    if (res.status) {
+                        toastr.success(res.message);
+                        loadConditions();
+                    } else {
+                        toastr.error(res.message);
+                    }
+                });
+            }
+        });
+    });
+</script>
+</body>
+</html>

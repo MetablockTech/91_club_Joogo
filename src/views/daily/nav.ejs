@@ -1,0 +1,284 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  .modern-sidebar {
+    width: 260px;
+    height: 100vh;
+    background: #ffffff;
+    border-right: 1px solid #e3e7f0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .sidebar-brand {
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid #f0f2f8;
+  }
+
+  .brand-logo {
+    width: 36px;
+    height: 36px;
+    background: #6c63ff;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 18px;
+    box-shadow: 0 4px 10px rgba(108, 99, 255, 0.2);
+  }
+
+  .brand-name {
+    font-size: 16px;
+    font-weight: 800;
+    color: #1a1d2e;
+    letter-spacing: -0.5px;
+  }
+
+  .sidebar-content {
+    flex: 1;
+    padding: 20px 14px;
+    overflow-y: auto;
+  }
+
+  .sidebar-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #9ea3b8;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    padding: 0 16px 12px;
+    margin-top: 20px;
+  }
+
+  .sidebar-nav {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .nav-item-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    color: #5a5f7a;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .nav-item-link i {
+    width: 20px;
+    font-size: 16px;
+    text-align: center;
+    transition: transform 0.2s ease;
+  }
+
+  .nav-item-link:hover {
+    background: #f7f8fc;
+    color: #6c63ff;
+  }
+
+  .nav-item-link:hover i {
+    transform: scale(1.1);
+  }
+
+  .nav-item-link.active {
+    background: rgba(108, 99, 255, 0.08);
+    color: #6c63ff;
+  }
+
+  .sidebar-footer {
+    padding: 20px;
+    border-top: 1px solid #f0f2f8;
+  }
+
+  .user-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: #fbfcfe;
+    border-radius: 16px;
+    border: 1px solid #e3e7f0;
+  }
+
+  .user-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    object-fit: cover;
+  }
+
+  .user-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .user-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a1d2e;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .user-role {
+    font-size: 11px;
+    font-weight: 600;
+    color: #9ea3b8;
+  }
+
+  /* Sidebar Overlay */
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    z-index: 99;
+  }
+
+  .sidebar-toggle {
+    display: none;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 101;
+    background: #fff;
+    border: 1px solid #e3e7f0;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    color: #6c63ff;
+    font-size: 18px;
+  }
+
+  @media (max-width: 991.98px) {
+    .modern-sidebar {
+      transform: translateX(-100%);
+    }
+    .modern-sidebar.open {
+      transform: translateX(0);
+    }
+    .sidebar-toggle {
+      display: flex;
+    }
+    .sidebar-overlay.open {
+      display: block;
+    }
+    /* Global Content Adjustment */
+    .main-content {
+      margin-left: 0 !important;
+      padding-top: 60px; /* Space for hamburger */
+    }
+  }
+
+  /* Hide old elements */
+  .main-header, .main-sidebar, #preloader { display: none !important; }
+</style>
+
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<div class="sidebar-toggle" onclick="toggleSidebar()">
+  <i class="fas fa-bars"></i>
+</div>
+
+<aside class="modern-sidebar" id="mainSidebar">
+  <div class="sidebar-brand">
+    <div class="brand-logo"><i class="fas fa-shield-alt"></i></div>
+    <span class="brand-name">PARTNER PANEL</span>
+  </div>
+
+  <div class="sidebar-content">
+    <div class="sidebar-label">Analytics</div>
+    <ul class="sidebar-nav">
+      <li>
+        <a href="/manager/index" class="nav-item-link <%= (locals.activePage == 'dashboard') ? 'active' : '' %>">
+          <i class="fas fa-chart-line"></i> Dashboard
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-label">Management</div>
+    <ul class="sidebar-nav">
+      <li>
+        <a href="/manager/members" class="nav-item-link <%= (locals.activePage == 'members') ? 'active' : '' %>">
+          <i class="fas fa-users"></i> Subordinates
+        </a>
+      </li>
+      <li>
+        <a href="/manager/listRecharge" class="nav-item-link <%= (locals.activePage == 'recharge') ? 'active' : '' %>">
+          <i class="fas fa-wallet"></i> Recharge Logs
+        </a>
+      </li>
+      <li>
+        <a href="/manager/listWithdraw" class="nav-item-link <%= (locals.activePage == 'withdraw') ? 'active' : '' %>">
+          <i class="fas fa-university"></i> Withdraw Logs
+        </a>
+      </li>
+      <li>
+        <a href="/manager/gift-history" class="nav-item-link <%= (locals.activePage == 'gift-history') ? 'active' : '' %>">
+          <i class="fas fa-gift"></i> Gift History
+        </a>
+      </li>
+      <li>
+        <a href="/manager/gifts" class="nav-item-link <%= (locals.activePage == 'gifts') ? 'active' : '' %>">
+          <i class="fas fa-gift"></i> Giftcodes
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-label">Support</div>
+    <ul class="sidebar-nav">
+      <li>
+        <a href="/manager/support" class="nav-item-link <%= (locals.activePage == 'support') ? 'active' : '' %>">
+          <i class="fas fa-headset"></i> Contact Admin
+        </a>
+      </li>
+      <li>
+        <a href="/manager/settings" class="nav-item-link <%= (locals.activePage == 'settings') ? 'active' : '' %>">
+          <i class="fas fa-cog"></i> Preferences
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sidebar-footer">
+    <div class="user-profile">
+      <img src="/images/facebook.jpg" class="user-img" alt="User">
+      <div class="user-info">
+        <div class="user-name">Collaborator</div>
+        <div class="user-role">Partner</div>
+      </div>
+      <a href="/home" style="color: #9ea3b8;"><i class="fas fa-sign-out-alt"></i></a>
+    </div>
+  </div>
+</aside>
+
+<script>
+  function toggleSidebar() {
+    document.getElementById('mainSidebar').classList.toggle('open');
+    document.getElementById('sidebarOverlay').classList.toggle('open');
+  }
+</script>

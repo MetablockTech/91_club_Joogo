@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+  <title>Rank Config | Admin</title>
+  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@600&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f8fafc;
+      --sidebar-bg: #ffffff;
+      --card-bg: #ffffff;
+      --card-border: #e2e8f0;
+      --accent: #4f46e5;
+      --accent-light: rgba(79, 70, 229, 0.06);
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #94a3b8;
+      --sidebar-width: 240px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif !important;
+      background: var(--bg);
+      color: var(--text-primary);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .wrapper { display: flex; min-height: 100vh; }
+
+    .main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1; display: flex; flex-direction: column; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); min-width: 0;
+    }
+
+    @media (max-width: 991.98px) { 
+      .main-content { margin-left: 0; padding-top: 60px !important; } 
+    }
+
+    .topbar {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 0 20px; height: 56px; display: flex; align-items: center; justify-content: space-between;
+      z-index: 50;
+    }
+    .topbar-title { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+
+    .content-body { padding: 16px; }
+
+    /* ── COMPACT TOOLBAR ── */
+    .toolbar {
+      background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px;
+      padding: 14px 18px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;
+    }
+    .toolbar-info h2 { font-size: 16px; font-weight: 700; color: var(--text-primary); }
+    .toolbar-info p { font-size: 12px; color: var(--text-muted); }
+
+    /* ── COMPACT TABLE ── */
+    .table-card {
+      background: #fff; border: 1px solid var(--card-border); border-radius: 12px;
+      overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .table-responsive { overflow-x: auto; width: 100%; -webkit-overflow-scrolling: touch; }
+    table { width: 100%; border-collapse: collapse; min-width: 700px; }
+    
+    thead th {
+      background: #fdfdfe; padding: 12px 14px; text-align: left;
+      font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    
+    tbody tr { border-bottom: 1px solid #f1f5f9; transition: all 0.1s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #f8fafc; }
+    
+    td { padding: 10px 14px; vertical-align: middle; font-size: 12.5px; }
+
+    .level-badge {
+      padding: 4px 8px; border-radius: 6px; background: var(--accent-light);
+      color: var(--accent); font-weight: 700; font-size: 11px;
+      display: inline-flex; align-items: center; gap: 4px;
+    }
+    .level-badge.default { background: #f1f5f9; color: var(--text-muted); }
+
+    /* ── COMPACT INPUTS ── */
+    .inp-threshold {
+      width: 100%; max-width: 120px; height: 32px; border-radius: 6px; border: 1px solid var(--card-border);
+      padding: 0 8px; font-family: 'JetBrains Mono', monospace; font-weight: 600;
+      font-size: 13px; background: #fff; transition: all 0.15s; outline: none;
+    }
+    .inp-threshold:focus:not([readonly]) { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light); }
+    .inp-threshold[readonly] { background: #f8fafc; color: var(--text-muted); border-style: dashed; cursor: default; }
+
+    /* ── ACTION BUTTONS ── */
+    .btn-update {
+      height: 32px; padding: 0 12px; border-radius: 6px; border: 1px solid var(--accent); background: #fff;
+      color: var(--accent); cursor: pointer; transition: all 0.15s; font-size: 12px; font-weight: 600;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .btn-update:hover { background: var(--accent); color: #fff; }
+    .btn-update:active { transform: scale(0.96); }
+    
+    .status-badge {
+      padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: 700;
+      background: #f1f5f9; color: var(--text-muted); text-transform: uppercase;
+    }
+
+    @media (max-width: 768px) {
+      .content-body { padding: 12px; }
+      .toolbar { flex-direction: column; align-items: flex-start; gap: 10px; }
+      .table-card { border-radius: 8px; border-left: none; border-right: none; }
+      td { padding: 12px 10px; }
+      .inp-threshold { max-width: 100px; }
+    }
+
+    .text-center { text-align: center; }
+    .text-right { text-align: right; }
+
+  </style>
+</head>
+<body>
+
+  <div class="wrapper">
+    <%- include('nav') %>
+
+    <div class="main-content">
+      <header class="topbar">
+        <div class="topbar-title">Settings &rsaquo; Rank Thresholds</div>
+      </header>
+
+      <div class="content-body">
+        
+        <div class="toolbar">
+          <div class="toolbar-info">
+            <h2>Rank Settings</h2>
+            <p>Configure automated promotion requirements for membership levels.</p>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-responsive">
+            <table id="tableget">
+              <thead>
+                <tr>
+                  <th width="120">Rank</th>
+                  <th>Min Team Size</th>
+                  <th>Min Betting (Today)</th>
+                  <th>Min Deposit (Today)</th>
+                  <th width="100" class="text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="rank-body">
+                <!-- JS data -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="/plugins/jquery/jquery.min.js"></script>
+  <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/dist/js/adminlte.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    function alertMsg(msg, icon = 'success') {
+      Swal.fire({
+        text: msg,
+        icon: icon,
+        timer: 1500,
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end'
+      });
+    }
+
+    function loadRanks() {
+      $.ajax({
+        type: "GET",
+        url: "/api/webapi/admin/getRebetRankInfo",
+        dataType: "json",
+        success: function (response) {
+          if (response.status && response.rows.length > 0) {
+            let html = "";
+            response.rows.forEach(function (item) {
+              const isLevel0 = (item.level === 0);
+              const badgeClass = isLevel0 ? 'default' : '';
+              
+              html += `<tr>
+                <td>
+                  <div class="level-badge ${badgeClass}"><i class="fa-solid fa-crown"></i> LVL ${item.level}</div>
+                </td>
+                <td>
+                  <input type="number" name="min_team" value="${item.min_team}" class="inp-threshold" ${isLevel0 ? 'readonly' : ''}>
+                </td>
+                <td>
+                  <input type="number" name="min_betting" value="${item.min_betting}" class="inp-threshold" ${isLevel0 ? 'readonly' : ''}>
+                </td>
+                <td>
+                  <input type="number" name="min_deposit" value="${item.min_deposit}" class="inp-threshold" ${isLevel0 ? 'readonly' : ''}>
+                </td>
+                <td class="text-right">
+                  ${isLevel0 
+                    ? '<span class="status-badge">Locked</span>' 
+                    : `<button class="btn-update confirm-btn" data-id="${item.id}"><i class="fa-solid fa-check"></i> Save</button>`
+                  }
+                </td>
+              </tr>`;
+            });
+            $('#rank-body').html(html);
+          }
+        }
+      });
+    }
+
+    $(document).ready(function() {
+      loadRanks();
+
+      $('#rank-body').on('click', '.confirm-btn', function (e) {
+        e.preventDefault();
+        const $btn = $(this);
+        const row = $btn.closest('tr');
+        const id = $btn.data('id');
+        const data = {
+          id: id,
+          min_team: row.find('input[name="min_team"]').val(),
+          min_betting: row.find('input[name="min_betting"]').val(),
+          min_deposit: row.find('input[name="min_deposit"]').val()
+        };
+
+        $btn.html('<i class="fa-solid fa-spinner fa-spin"></i>').prop('disabled', true);
+
+        $.ajax({
+          type: "POST",
+          url: "/api/webapi/admin/updateRebetRank",
+          dataType: "json",
+          data: data,
+          success: function (response) {
+            alertMsg('Settings updated');
+            $btn.html('<i class="fa-solid fa-check"></i> Save').prop('disabled', false);
+          },
+          error: function () {
+            alertMsg('Update failed', 'error');
+            $btn.html('<i class="fa-solid fa-check"></i> Save').prop('disabled', false);
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

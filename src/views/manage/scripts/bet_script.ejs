@@ -1,0 +1,90 @@
+<script>
+    const RenderBet = (datas) => {
+        if (!datas || datas.length == 0) {
+            $('#list-bet').html(`<tr><td colspan="8" class="text-center text-muted">no data...</td></tr>`);
+            return;
+        }
+        let html = '';
+        datas.map((data) => {
+            let statusText = data.status == '1' ? 'Win' : 'Loss';
+            let statusClass = data.status == '1' ? 'status-success' : 'status-danger';
+            let sign = data.status == '1' ? '+' : '-';
+            
+            let detailHtml = data.detail || '-';
+            if (data.game.toLowerCase().includes('trx') && detailHtml && detailHtml !== '-') {
+                detailHtml = `<span style="font-family: monospace; font-size: 0.85em;" title="${detailHtml}">${detailHtml.substring(0, 4)}...${detailHtml.substring(detailHtml.length - 4)}</span>`;
+            }
+
+            html += `
+            <tr>
+                <td style="color: var(--accent3); font-weight: 600;">${data.stage}</td>
+                <td><b>${(data.game.toUpperCase())}</b></td>
+                <td><b style="color: var(--accent)">${sign} ${(data.amount)}</b></td>
+                <td style="font-weight: 700; color: #5a5f7a;">${data.bet.toUpperCase()}</td>
+                <td style="font-weight: 700; color: var(--accent2);">${data.result}</td>
+                <td>${detailHtml}</td>
+                <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                <td>${timerJoin(data.time)}</td>
+            </tr>`;
+        });
+        $("#list-bet").html(html);
+    }
+
+    var pageno3 = 0;
+    var limit3 = 30;
+    var page3 = 1;
+
+    function loadBet() {
+        $.ajax({
+            type: "POST",
+            url: "/admin/member/bet/" + phone,
+            data: { typeid: "1", pageno: pageno3, limit: limit3, language: "vi" },
+            dataType: "json",
+            success: function (response) {
+                $('#text-bet').text(page3 + ' / ' + (response?.page_total || 1));
+                if (response?.status === true) return RenderBet(response?.datas);
+            }
+        });
+    }
+
+    loadBet();
+
+    $('#nextBet').click(function (e) {
+        e.preventDefault();
+        pageno3 += limit3;
+        $.ajax({
+            type: "POST",
+            url: "/admin/member/bet/" + phone,
+            data: { typeid: "1", pageno: pageno3, limit: limit3, language: "vi" },
+            dataType: "json",
+            success: function (response) {
+                if (response?.datas.length == 0) {
+                    $('#nextBet').addClass('block-click');
+                    pageno3 -= limit3;
+                    return;
+                }
+                $('#text-bet').text(++page3 + ' / ' + response?.page_total);
+                if (response?.status === true) return RenderBet(response?.datas);
+            }
+        });
+    });
+
+    $('#previousBet').click(function (e) {
+        e.preventDefault();
+        $('#nextBet').removeClass('block-click');
+        pageno3 -= limit3;
+        if (pageno3 < 0) pageno3 = 0;
+        else page3--;
+        
+        $.ajax({
+            type: "POST",
+            url: "/admin/member/bet/" + phone,
+            data: { typeid: "1", pageno: pageno3, limit: limit3, language: "vi" },
+            dataType: "json",
+            success: function (response) {
+                $('#text-bet').text(page3 + ' / ' + response?.page_total);
+                if (response?.status === true) return RenderBet(response?.datas);
+            }
+        });
+    });
+</script>

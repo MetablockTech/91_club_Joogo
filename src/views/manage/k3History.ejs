@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>K3 History | <%= locals.SITE_NAME || 'Admin' %></title>
+  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f0f2f8;
+      --sidebar-bg: #ffffff;
+      --card-bg: #ffffff;
+      --card-border: #e3e7f0;
+      --accent: #6c63ff;
+      --accent-light: rgba(108, 99, 255, 0.08);
+      --text-primary: #1a1d2e;
+      --text-secondary: #5a5f7a;
+      --text-muted: #9ea3b8;
+      --green: #00b894;
+      --red: #e17055;
+      --sidebar-width: 260px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif !important;
+      background: var(--bg);
+      color: var(--text-primary);
+      overflow-x: hidden;
+    }
+
+    .wrapper { display: flex; min-height: 100vh; }
+
+    .main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1; display: flex; flex-direction: column; transition: all 0.3s; min-width: 0;
+    }
+
+    @media (max-width: 991.98px) { .main-content { margin-left: 0; } }
+
+    .topbar {
+      background: var(--sidebar-bg); border-bottom: 1px solid var(--card-border);
+      padding: 0 28px; height: 70px; display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 50;
+    }
+    .topbar-title { font-size: 18px; font-weight: 700; color: var(--text-primary); }
+
+    .content-body { padding: 28px; }
+
+    /* ── TOOLBAR ── */
+    .toolbar {
+      background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px;
+      padding: 20px 24px; display: flex; align-items: center; gap: 16px; margin-bottom: 28px;
+      flex-wrap: wrap; box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    }
+    .search-wrap {
+      flex: 1; min-width: 250px; display: flex; align-items: center; gap: 12px;
+      background: #f7f8fc; border: 1px solid var(--card-border); border-radius: 12px;
+      padding: 12px 18px; transition: all 0.2s;
+    }
+    .search-wrap:focus-within { border-color: var(--accent); background: #fff; box-shadow: 0 0 0 4px var(--accent-light); }
+    .search-wrap input { background: none; border: none; outline: none; width: 100%; font-size: 14px; font-weight: 500; }
+
+    .filter-select {
+      background: #f7f8fc; border: 1px solid var(--card-border); border-radius: 12px;
+      padding: 12px 16px; font-size: 14px; font-weight: 600; color: var(--text-secondary);
+      outline: none; cursor: pointer; transition: all 0.2s; min-width: 150px;
+    }
+    .filter-select:hover { border-color: var(--accent); background: #fff; }
+
+    /* ── TABLE ── */
+    .table-card {
+      background: #fff; border: 1px solid var(--card-border); border-radius: 24px;
+      overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+    }
+    .table-responsive { overflow-x: auto; width: 100%; }
+    table { width: 100%; border-collapse: collapse; min-width: 1000px; }
+    thead th {
+      background: #fbfcfe; padding: 16px 20px; text-align: left;
+      font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    tbody tr { border-bottom: 1px solid #f8f9fb; transition: background 0.2s; }
+    tbody tr:hover { background: rgba(108, 99, 255, 0.02); }
+    td { padding: 16px 20px; font-size: 14px; font-weight: 500; vertical-align: middle; }
+
+    .status-badge {
+      padding: 6px 12px; border-radius: 30px; font-size: 11px; font-weight: 700;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .status-hit { background: rgba(0, 184, 148, 0.1); color: var(--green); }
+    .status-miss { background: rgba(225, 112, 85, 0.1); color: var(--red); }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+    .game-badge {
+      background: var(--accent-light); color: var(--accent);
+      padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: 700;
+      white-space: nowrap;
+    }
+
+    /* ── PAGINATION ── */
+    .pagination-wrap {
+      display: flex; align-items: center; justify-content: center; gap: 15px; padding: 25px;
+    }
+    .pag-btn {
+      width: 40px; height: 40px; border-radius: 12px; border: 1px solid var(--card-border);
+      background: #fff; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.2s; color: var(--text-secondary);
+    }
+    .pag-btn:hover:not(.disabled) { border-color: var(--accent); color: var(--accent); }
+    .pag-btn.disabled { opacity: 0.4; cursor: not-allowed; }
+    .page-info { font-size: 14px; font-weight: 700; color: var(--text-primary); }
+
+    /* ── RESPONSIVE OVERRIDES ── */
+    @media (max-width: 991.98px) {
+      .main-content { margin-left: 0; }
+      .topbar { padding: 0 16px; }
+    }
+
+    @media (max-width: 768px) {
+      .content-body { padding: 16px; }
+      .toolbar { padding: 16px; flex-direction: column; align-items: stretch; gap: 12px; }
+      .search-wrap { min-width: 0; width: 100%; }
+      .filter-select { min-width: 0; width: 100%; }
+      
+      .table-card { border-radius: 16px; }
+      .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      table { min-width: 1000px; } /* Keep wide for data integrity, allow scroll */
+      
+      .pagination-wrap { padding: 16px; gap: 10px; }
+      .pag-btn { width: 36px; height: 36px; border-radius: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wrapper">
+    <%- include('nav') %>
+
+    <div class="main-content">
+      <header class="topbar">
+        <div class="topbar-title">Management &rsaquo; K3 History</div>
+      </header>
+
+      <div class="content-body">
+        
+        <div class="toolbar">
+          <div class="search-wrap">
+            <i class="fas fa-search"></i>
+            <input type="text" id="search" placeholder="Search by Phone, ID or Period...">
+          </div>
+          
+          <select class="filter-select" id="filter-game">
+            <option value="">All Game Types</option>
+            <option value="1">K3 1 Min</option>
+            <option value="3">K3 3 Min</option>
+            <option value="5">K3 5 Min</option>
+            <option value="10">K3 10 Min</option>
+          </select>
+
+          <select class="filter-select" id="filter-status">
+            <option value="">All Statuses</option>
+            <option value="1">Hit (Win)</option>
+            <option value="2">Missed (Loss)</option>
+          </select>
+        </div>
+
+        <div class="table-card">
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>User Details</th>
+                  <th>Order ID</th>
+                  <th>Period</th>
+                  <th>Game</th>
+                  <th>Type</th>
+                  <th>Bet</th>
+                  <th>Result</th>
+                  <th>Amount</th>
+                  <th>Profit</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody id="table-body">
+                <!-- Data injected via JS -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination-wrap">
+            <div class="pag-btn" id="previous"><i class="fas fa-chevron-left"></i></div>
+            <div class="page-info" id="text-page">1 / 1</div>
+            <div class="pag-btn" id="next"><i class="fas fa-chevron-right"></i></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="/plugins/jquery/jquery.min.js"></script>
+  <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    function formateT(params) {
+      let result = (params < 10) ? "0" + params : params;
+      return result;
+    }
+
+    function timerJoin(params = '') {
+      let date = params ? new Date(Number(params)) : new Date();
+      let years = formateT(date.getFullYear());
+      let months = formateT(date.getMonth() + 1);
+      let days = formateT(date.getDate());
+      let hours = formateT(date.getHours());
+      let minutes = formateT(date.getMinutes());
+      let seconds = formateT(date.getSeconds());
+      return `${years}/${months}/${days} ${hours}:${minutes}:${seconds}`;
+    }
+
+    const Render = (datas) => {
+      let html = "";
+      if (!datas || datas.length === 0) {
+        $("#table-body").html('<tr><td colspan="11" style="text-align:center; padding: 40px; color: var(--text-muted);">No records found matching your filters.</td></tr>');
+        return;
+      }
+
+      datas.map((data) => {
+        const gameName = `${data.game} Min`;
+        const result = data.result || '---';
+
+        html += `
+          <tr>
+            <td>
+              <div style="font-weight: 700; color: var(--accent);">ID: ${data.id_user}</div>
+              <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">91${data.phone.slice(0, 2)}***${data.phone.slice(-3)}</div>
+            </td>
+            <td><code style="font-size: 11px; background: #f0f2f8; padding: 2px 6px; border-radius: 4px;">K3${data.id_product}</code></td>
+            <td style="font-weight: 700;">${data.stage}</td>
+            <td><span class="game-badge">${gameName}</span></td>
+            <td><span style="font-size: 11px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">${data.typeGame.replace('-', ' ')}</span></td>
+            <td style="font-weight: 800; color: var(--text-primary); min-width: 100px;">
+              ${data.bet}
+            </td>
+            <td><span style="font-weight: 800; color: var(--accent); white-space: nowrap;">${result}</span></td>
+            <td style="font-weight: 700;">₹${data.money.toFixed(2)}</td>
+            <td style="font-weight: 800; color: ${data.get > 0 ? "var(--green)" : "var(--red)"}">
+              ${data.get > 0 ? "+" : ""}${data.get.toFixed(2)}
+            </td>
+            <td>
+              <span class="status-badge ${data.status == 1 ? "status-hit" : "status-miss"}">
+                <span class="dot"></span> ${data.status == 1 ? "Hit" : "Missed"}
+              </span>
+            </td>
+            <td style="font-size: 12px; color: var(--text-muted);">${timerJoin(data.time)}</td>
+          </tr>
+        `;
+      });
+      $("#table-body").html(html);
+    };
+
+    let pageno = 1;
+    let limit = 20;
+
+    const loadPage = () => {
+      const search = $("#search").val().trim();
+      const game = $("#filter-game").val();
+      const status = $("#filter-status").val();
+
+      $.ajax({
+        type: "POST",
+        url: "/api/webapi/admin/getK3History",
+        data: {
+          pageno: pageno,
+          limit: limit,
+          search: search,
+          game: game,
+          status: status
+        },
+        dataType: "json",
+        success: function (response) {
+          $("#text-page").text(pageno + " / " + (response.page_total || 1));
+          
+          if (pageno >= response.page_total) $("#next").addClass("disabled");
+          else $("#next").removeClass("disabled");
+          
+          if (pageno <= 1) $("#previous").addClass("disabled");
+          else $("#previous").removeClass("disabled");
+
+          Render(response.datas);
+        }
+      });
+    };
+
+    loadPage();
+
+    $("#next").click(function () {
+      if ($(this).hasClass("disabled")) return;
+      pageno++;
+      loadPage();
+    });
+
+    $("#previous").click(function () {
+      if ($(this).hasClass("disabled")) return;
+      pageno--;
+      loadPage();
+    });
+
+    $("#filter-game, #filter-status").change(function() {
+      pageno = 1;
+      loadPage();
+    });
+
+    let typingTimer;
+    $("#search").on("keyup", function() {
+      clearTimeout(typingTimer);
+      typingTimer = setTimeout(() => {
+        pageno = 1;
+        loadPage();
+      }, 500);
+    });
+  </script>
+</body>
+</html>

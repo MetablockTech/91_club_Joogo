@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Member Profile | <%= locals.SITE_NAME || 'Starworldz' %></title>
+  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #f0f2f8;
+      --sidebar-bg: #ffffff;
+      --card-bg: #ffffff;
+      --card-border: #e3e7f0;
+      --accent: #6c63ff;
+      --accent2: #00b894;
+      --accent3: #e17055;
+      --accent4: #fdcb6e;
+      --text-primary: #1a1d2e;
+      --text-secondary: #5a5f7a;
+      --text-muted: #9ea3b8;
+      --green: #00b894;
+      --red: #e17055;
+      --sidebar-width: 260px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif !important;
+      background: var(--bg);
+      color: var(--text-primary);
+      overflow-x: hidden;
+    }
+
+    .wrapper {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s;
+      min-width: 0;
+    }
+
+    @media (max-width: 991.98px) {
+      .main-content {
+        margin-left: 0;
+      }
+    }
+
+    .topbar {
+      background: var(--sidebar-bg);
+      border-bottom: 1px solid var(--card-border);
+      padding: 0 28px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .topbar-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .content-body {
+      padding: 28px;
+    }
+
+    /* ── PROFILE CARD ── */
+    .profile-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+      margin-bottom: 28px;
+    }
+
+    .profile-header {
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      border-bottom: 1px solid var(--card-border);
+      background: linear-gradient(135deg, rgba(108, 99, 255, 0.05), rgba(108, 99, 255, 0.01));
+    }
+
+    @media (min-width: 768px) {
+      .profile-header {
+        flex-direction: row;
+        text-align: left;
+        gap: 32px;
+      }
+    }
+
+    .profile-avatar {
+      width: 110px;
+      height: 110px;
+      border-radius: 35px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 44px;
+      color: var(--accent);
+      box-shadow: 0 8px 25px rgba(108, 99, 255, 0.15);
+      border: 4px solid #fff;
+    }
+
+    .profile-info h2 {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .profile-info p {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge-level {
+      margin-top: 12px;
+      display: inline-block;
+      padding: 6px 16px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ── STATS GRID ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      background: #fff;
+    }
+
+    .stat-item {
+      padding: 24px;
+      border-right: 1px solid #f0f2f8;
+      border-bottom: 1px solid #f0f2f8;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .stat-item:nth-child(3n) {
+      border-right: none;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stat-value {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    .stat-value.money { color: var(--green); }
+    .stat-value.withdraw { color: var(--red); }
+
+    /* ── TEAM STATS ── */
+    .team-stats {
+      padding: 24px;
+      background: #fbfcfe;
+      border-top: 1px solid var(--card-border);
+    }
+
+    .team-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .team-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .team-pill {
+      background: #fff;
+      border: 1px solid var(--card-border);
+      padding: 10px 18px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 100px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+    }
+
+    .pill-label { font-size: 11px; font-weight: 700; color: var(--text-muted); }
+    .pill-value { font-size: 14px; font-weight: 800; color: var(--accent); }
+
+    /* ── TABS ── */
+    .tabs-section {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    }
+
+    .tabs-header {
+      display: flex;
+      border-bottom: 1px solid var(--card-border);
+      background: #fbfcfe;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .tab-btn {
+      padding: 20px 28px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      border: none;
+      background: none;
+      cursor: pointer;
+      white-space: nowrap;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .tab-btn:hover { color: var(--accent); }
+    .tab-btn.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+      background: #fff;
+    }
+
+    .tab-content { padding: 0; }
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+
+    /* ── TABLES ── */
+    .table-responsive { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 800px; }
+    thead th {
+      padding: 18px 24px;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      background: #fafbfc;
+      border-bottom: 1px solid var(--card-border);
+    }
+    tbody td {
+      padding: 18px 24px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      border-bottom: 1px solid #f8f9fb;
+    }
+
+    /* ── STATUS BADGES ── */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+    .status-success { background: rgba(0, 184, 148, 0.1); color: var(--green); }
+    .status-danger { background: rgba(225, 112, 85, 0.1); color: var(--red); }
+    .status-warning { background: rgba(253, 203, 110, 0.1); color: #f39c12; }
+
+    /* ── BANK CARDS ── */
+    .bank-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 24px;
+      padding: 24px;
+    }
+    
+    .bank-card-new {
+      background: #fff;
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 24px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+    }
+    
+    .bank-card-new:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+      border-color: var(--accent);
+    }
+    
+    .bank-card-type-icon {
+      position: absolute;
+      top: -15px;
+      right: -15px;
+      font-size: 70px;
+      opacity: 0.04;
+      transform: rotate(-15deg);
+      pointer-events: none;
+    }
+    
+    .bank-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #f1f3f9;
+      padding-bottom: 16px;
+      margin-bottom: 4px;
+    }
+    
+    .bank-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .type-badge {
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 8px;
+      letter-spacing: 0.8px;
+    }
+    
+    .badge-bank { background: rgba(0, 184, 148, 0.1); color: var(--green); }
+    .badge-upi { background: rgba(45, 108, 223, 0.1); color: #2d6cdf; }
+    .badge-usdt { background: rgba(108, 99, 255, 0.1); color: var(--accent); }
+    
+    .bank-card-body {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .bank-detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+    }
+    
+    .bank-detail-row .label { 
+      color: var(--text-muted); 
+      font-weight: 600; 
+    }
+    
+    .bank-detail-row .value { 
+      color: var(--text-primary); 
+      font-weight: 700;
+      font-family: monospace;
+    }
+
+    .bank-footer {
+      margin-top: auto;
+      padding-top: 14px;
+      border-top: 1px solid #f1f3f9;
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+    }
+
+    /* ── PAGINATION ── */
+    .pagination-wrap {
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      background: #fff;
+      border-top: 1px solid var(--card-border);
+    }
+    .pag-btn {
+      background: #fff;
+      border: 1px solid var(--card-border);
+      color: var(--text-secondary);
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .pag-btn:hover:not(.disabled) { border-color: var(--accent); color: var(--accent); }
+    .pag-btn.disabled { opacity: 0.5; cursor: not-allowed; }
+    .pag-info { font-size: 14px; font-weight: 800; background: #f0f2f8; padding: 8px 18px; border-radius: 10px; min-width: 100px; text-align: center; }
+
+  </style>
+</head>
+
+<body id="<%=phone%>">
+  <div class="wrapper">
+    <%- include('nav') %>
+
+    <div class="main-content">
+      <header class="topbar">
+        <div class="topbar-title">Management &rsaquo; Member Profile</div>
+      </header>
+
+      <div class="content-body">
+        
+        <!-- Profile Overview Card -->
+        <div class="profile-card">
+          <div class="profile-header">
+            <div class="profile-avatar"><i class="fas fa-user"></i></div>
+            <div class="profile-info">
+              <h2 id="name_user">Loading...</h2>
+              <p><i class="fas fa-id-badge"></i> <span id="id_user">ID: 0</span> &bull; <i class="fas fa-phone"></i> 91<%=phone%></p>
+              <div class="badge-level" id="level_badge">MEMBER</div>
+            </div>
+            <div style="margin-left: auto; text-align: right;" class="desktop-only">
+               <div style="font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 4px;">LAST LOGIN IP</div>
+               <div style="font-size: 14px; font-weight: 800; color: var(--text-primary);" id="ip_address">0.0.0.0</div>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-item">
+              <span class="stat-label"><i class="fas fa-wallet" style="color: var(--accent);"></i> Wallet Balance</span>
+              <span class="stat-value money" id="money">₹0.00</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label"><i class="fas fa-arrow-up" style="color: var(--green);"></i> Total Recharge</span>
+              <span class="stat-value" id="total_r" style="color: var(--green);">₹0.00</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label"><i class="fas fa-arrow-down" style="color: var(--red);"></i> Total Withdraw</span>
+              <span class="stat-value" id="total_w" style="color: var(--red);">₹0.00</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label"><i class="fas fa-coins" style="color: #f1c40f;"></i> Total Commission</span>
+              <span class="stat-value" id="total_commission">₹0.00</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label"><i class="fas fa-gift" style="color: #e67e22;"></i> Total Rewards</span>
+              <span class="stat-value" id="total_claimed_rewards">₹0.00</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label"><i class="fas fa-gamepad" style="color: var(--accent2);"></i> Total Bet</span>
+              <span class="stat-value" id="total_bet_amount">₹0.00</span>
+            </div>
+          </div>
+
+          <div class="team-stats">
+            <div class="team-title"><i class="fas fa-network-wired"></i> TEAM HIERARCHY (7 LEVELS)</div>
+            <div class="team-row">
+              <div class="team-pill"><span class="pill-label">F1</span><span class="pill-value" id="f1">0</span></div>
+              <div class="team-pill"><span class="pill-label">F2</span><span class="pill-value" id="f2">0</span></div>
+              <div class="team-pill"><span class="pill-label">F3</span><span class="pill-value" id="f3">0</span></div>
+              <div class="team-pill"><span class="pill-label">F4</span><span class="pill-value" id="f4">0</span></div>
+              <div class="team-pill"><span class="pill-label">F5</span><span class="pill-value" id="f5">0</span></div>
+              <div class="team-pill"><span class="pill-label">F6</span><span class="pill-value" id="f6">0</span></div>
+              <div class="team-pill"><span class="pill-label">F7</span><span class="pill-value" id="f7">0</span></div>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="font-size: 18px; font-weight: 800; color: var(--text-primary); margin: 32px 0 20px 0; display: flex; align-items: center; gap: 12px;">
+           <i class="fas fa-university" style="color: var(--accent);"></i> Linked Bank & Wallet Accounts
+        </h3>
+
+        <!-- Bank Accounts Section -->
+        <div id="bank-list" class="bank-grid" style="margin-bottom: 32px;">
+           <!-- Dynamic bank cards -->
+        </div>
+
+        <!-- History Tabs -->
+        <div class="tabs-section">
+          <div class="tabs-header">
+            <button class="tab-btn active" data-tab="tab-recharge">RECHARGE</button>
+            <button class="tab-btn" data-tab="tab-withdraw">WITHDRAW</button>
+            <button class="tab-btn" data-tab="tab-bet">BET HISTORY</button>
+            <button class="tab-btn" data-tab="tab-apibet">API BETS</button>
+            <button class="tab-btn" data-tab="tab-comm">COMMISSIONS</button>
+            <button class="tab-btn" data-tab="tab-rewards">REWARDS</button>
+            <button class="tab-btn" data-tab="tab-redenvelope">GIFT CARDS</button>
+          </div>
+
+          <div class="tab-content">
+            <!-- Recharge Pane -->
+            <div class="tab-pane active" id="tab-recharge">
+              <div class="table-responsive">
+                <table>
+                  <thead>
+                    <tr><th>TXN ID</th><th>Amount</th><th>Method</th><th>Status</th><th>Time</th></tr>
+                  </thead>
+                  <tbody id="list-recharge"></tbody>
+                </table>
+              </div>
+              <div class="pagination-wrap">
+                <button class="pag-btn" id="prev-recharge">Prev</button>
+                <span class="pag-info" id="info-recharge">1 / 1</span>
+                <button class="pag-btn" id="next-recharge">Next</button>
+              </div>
+            </div>
+
+            <!-- Withdraw Pane -->
+            <div class="tab-pane" id="tab-withdraw">
+              <div class="table-responsive">
+                <table>
+                  <thead>
+                    <tr><th>Order ID</th><th>Amount</th><th>Method</th><th>Status</th><th>Time</th></tr>
+                  </thead>
+                  <tbody id="list-withdraw"></tbody>
+                </table>
+              </div>
+              <div class="pagination-wrap">
+                <button class="pag-btn" id="prev-withdraw">Prev</button>
+                <span class="pag-info" id="info-withdraw">1 / 1</span>
+                <button class="pag-btn" id="next-withdraw">Next</button>
+              </div>
+            </div>
+
+            <!-- Bet History Pane -->
+            <div class="tab-pane" id="tab-bet">
+              <div class="table-responsive">
+                <table>
+                  <thead>
+                    <tr><th>Stage</th><th>Game</th><th>Stake</th><th>Bet</th><th>Result</th><th>Status</th><th>Time</th></tr>
+                  </thead>
+                  <tbody id="list-bet"></tbody>
+                </table>
+              </div>
+              <div class="pagination-wrap">
+                <button class="pag-btn" id="prev-bet">Prev</button>
+                <span class="pag-info" id="info-bet">1 / 1</span>
+                <button class="pag-btn" id="next-bet">Next</button>
+              </div>
+            </div>
+
+            <!-- API Bet Pane -->
+            <div class="tab-pane" id="tab-apibet">
+              <div class="table-responsive">
+                <table>
+                  <thead>
+                    <tr>
+                       <th>Txn ID</th>
+                       <th>Round ID</th>
+                       <th>G/T/P IDs</th>
+                       <th>Amount</th>
+                       <th>Cancel</th>
+                       <th>Resettle Time</th>
+                       <th>Created At</th>
+                    </tr>
+                  </thead>
+                  <tbody id="list-apibet"></tbody>
+                </table>
+              </div>
+              <div class="pagination-wrap">
+                <button class="pag-btn" id="prev-apibet">Prev</button>
+                <span class="pag-info" id="info-apibet">1 / 1</span>
+                <button class="pag-btn" id="next-apibet">Next</button>
+              </div>
+            </div>
+
+            <!-- Commissions Pane -->
+            <div class="tab-pane" id="tab-comm">
+              <div class="table-responsive">
+                <table>
+                  <thead>
+                    <tr><th>User</th><th>Amount</th><th>Level</th><th>From ID</th><th>Time</th></tr>
+                  </thead>
+                  <tbody id="list-comm"></tbody>
+                </table>
+              </div>
+              <div class="pagination-wrap">
+                <button class="pag-btn" id="prev-comm">Prev</button>
+                <span class="pag-info" id="info-comm">1 / 1</span>
+                <button class="pag-btn" id="next-comm">Next</button>
+              </div>
+            </div>
+
+            <!-- Rewards Pane -->
+            <div class="tab-pane" id="tab-rewards">
+              <div class="table-responsive">
+                <table>
+                  <thead>
+                    <tr><th>Reward ID</th><th>Type</th><th>Amount</th><th>Status</th><th>Time</th></tr>
+                  </thead>
+                  <tbody id="list-rewards"></tbody>
+                </table>
+              </div>
+              <div class="pagination-wrap">
+                <button class="pag-btn" id="prev-rewards">Prev</button>
+                <span class="pag-info" id="info-rewards">1 / 1</span>
+                <button class="pag-btn" id="next-rewards">Next</button>
+              </div>
+            </div>
+
+            <!-- Gift Card Pane -->
+            <div class="tab-pane" id="tab-redenvelope">
+              <div class="table-responsive">
+                <table>
+                  <thead>
+                    <tr><th>Creator</th><th>Amount</th><th>Time</th></tr>
+                  </thead>
+                  <tbody id="list-redenvelope"></tbody>
+                </table>
+              </div>
+              <div class="pagination-wrap">
+                <button class="pag-btn" id="prev-redenvelope">Prev</button>
+                <span class="pag-info" id="info-redenvelope">1 / 1</span>
+                <button class="pag-btn" id="next-redenvelope">Next</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/plugins/jquery/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    const phone = "<%=phone%>";
+    
+    function formatMoney(n) {
+      return "₹" + Number(n).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function timerJoin(params = '') {
+      let date = params ? new Date(Number(params)) : new Date();
+      if(isNaN(date.getTime())) {
+          date = new Date(params);
+      }
+      if(isNaN(date.getTime())) return '-';
+
+      let Y = date.getFullYear();
+      let M = (date.getMonth() + 1).toString().padStart(2, '0');
+      let D = date.getDate().toString().padStart(2, '0');
+      let h = date.getHours() % 12 || 12;
+      let m = date.getMinutes().toString().padStart(2, '0');
+      let s = date.getSeconds().toString().padStart(2, '0');
+      let ampm = date.getHours() >= 12 ? 'PM' : 'AM';
+      return `${Y}-${M}-${D} ${h}:${m}:${s} ${ampm}`;
+    }
+
+    // Tab Switching
+    $('.tab-btn').click(function() {
+      $('.tab-btn').removeClass('active');
+      $('.tab-pane').removeClass('active');
+      $(this).addClass('active');
+      $(`#${$(this).data('tab')}`).addClass('active');
+    });
+
+    // Main Profile Load
+    function loadProfile() {
+      $.ajax({
+        type: "POST",
+        url: `/manager/member/info/${phone}`,
+        success: function (res) {
+          if (!res.status) return;
+          const u = res.datas;
+          $('#name_user').text(u.name_user || 'Partner Member');
+          $('#id_user').text("ID: " + u.id_user);
+          $('#level_badge').text(u.level == 1 ? 'ADMIN' : (u.level == 2 ? 'CTV' : 'MEMBER'));
+          $('#ip_address').text(u.ip_address || '0.0.0.0');
+          
+          $('#money').text(formatMoney(u.money));
+          $('#total_r').text(formatMoney(res.total_recharge || 0));
+          $('#total_w').text(formatMoney(res.total_withdraw || 0));
+          $('#total_commission').text(formatMoney(res.total_commission || 0));
+          $('#total_claimed_rewards').text(formatMoney(res.total_claimed_rewards || 0));
+          $('#total_bet_amount').text(formatMoney(res.total_bet_amount || 0));
+
+          for(let i=1; i<=7; i++) $(`#f${i}`).text((res[`f${i}`] || 0) + ' member');
+
+          renderBanks(res.bank_user);
+        }
+      });
+    }
+
+    function renderBanks(banks) {
+        if (!banks || banks.length === 0) {
+            $('#bank-list').html('<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted); background:#fff; border-radius:18px; border:1px solid var(--card-border);"><i class="fas fa-info-circle mr-2"></i> No bank or wallet accounts linked</div>');
+            return;
+        }
+        let html = '';
+        banks.forEach(bank => {
+            let name = (bank.name_user && bank.name_user !== 'undefined' && bank.name_user !== '0') ? bank.name_user : 'N/A';
+            let stk = (bank.account_number && bank.account_number !== 'undefined') ? bank.account_number : 'N/A';
+            let method = String(bank.method || '').toUpperCase();
+            let bankNameFromDb = String(bank.name_bank || '').toUpperCase();
+
+            let type = "BANK CARD";
+            let icon = "fa-university";
+            let badgeClass = "badge-bank";
+            let rows = [];
+
+            if (method.includes('USDT') || bankNameFromDb.includes('USDT') || (stk && stk.length > 20)) {
+                type = "USDT";
+                icon = "fa-bitcoin";
+                badgeClass = "badge-usdt";
+                rows.push({ label: "Wallet Network", value: bank.name_bank || "TRC" });
+                rows.push({ label: "Wallet Address", value: stk });
+                rows.push({ label: "Alias", value: bank.address_alias || 'N/A' });
+            } else if (method.includes('UPI') || bank.upi_id) {
+                type = "UPI";
+                icon = "fa-mobile-alt";
+                badgeClass = "badge-upi";
+                rows.push({ label: "UPI ID", value: bank.upi_id || stk || 'N/A' });
+            } else {
+                rows.push({ label: "Account Name", value: name });
+                rows.push({ label: "Account Number", value: stk });
+                if (bank.ifsc && bank.ifsc !== '0') rows.push({ label: "IFSC Code", value: bank.ifsc });
+                if (bank.bank_phoneNo && bank.bank_phoneNo !== '0') rows.push({ label: "Bank Phone", value: bank.bank_phoneNo });
+            }
+
+            let bankTitle = bank.name_bank || type;
+
+            html += `
+                <div class="bank-card-new">
+                    <i class="fas ${icon} bank-card-type-icon"></i>
+                    <div class="bank-card-header">
+                        <div class="bank-title"><i class="fas ${icon}" style="color:var(--accent)"></i> ${bankTitle}</div>
+                        <span class="type-badge ${badgeClass}">${type}</span>
+                    </div>
+                    <div class="bank-card-body">
+                        ${rows.map(row => `
+                            <div class="bank-detail-row">
+                                <span class="label">${row.label}:</span>
+                                <span class="value">${row.value}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="bank-footer"><i class="far fa-clock"></i> Added: ${timerJoin(bank.time)}</div>
+                </div>`;
+        });
+        $('#bank-list').html(html);
+    }
+
+    // Generic Pagination Loader
+    function initPag(btnPrev, btnNext, infoLabel, tableBody, url, renderRow, limit = 30) {
+      let page = 1;
+      let totalPages = 1;
+
+      function load() {
+        $.ajax({
+          type: "POST",
+          url: url,
+          data: { pageno: (page - 1) * limit, limit: limit },
+          success: function(res) {
+            if(!res.status) return;
+            totalPages = res.page_total || 1;
+            $(infoLabel).text(`${page} / ${totalPages}`);
+            
+            let html = '';
+            const dataArr = res.datas || res.data || [];
+            if(dataArr.length === 0) {
+              html = `<tr><td colspan="10" style="padding: 40px; color: var(--text-muted);">No records found.</td></tr>`;
+            } else {
+              dataArr.forEach(item => html += renderRow(item));
+            }
+            $(tableBody).html(html);
+
+            $(btnPrev).toggleClass('disabled', page <= 1);
+            $(btnNext).toggleClass('disabled', page >= totalPages);
+          }
+        });
+      }
+
+      $(btnNext).click(() => { if(page < totalPages) { page++; load(); } });
+      $(btnPrev).click(() => { if(page > 1) { page--; load(); } });
+      load();
+    }
+
+    // Renderers
+    const rowRecharge = d => `<tr><td>${d.id_order}</td><td style="color:var(--green)">${formatMoney(d.money)}</td><td>${d.type.toUpperCase()}</td><td><span class="status-badge ${d.status==1?'status-success':'status-warning'}">${d.status==1?'SUCCESS':'PENDING'}</span></td><td>${timerJoin(d.time)}</td></tr>`;
+    
+    const rowWithdraw = d => `<tr><td>${d.id_order}</td><td style="color:var(--red)">${formatMoney(d.money)}</td><td>${d.name_bank}</td><td><span class="status-badge ${d.status==1?'status-success':(d.status==2?'status-danger':'status-warning')}">${d.status==1?'SUCCESS':(d.status==2?'FAILED':'PENDING')}</span></td><td>${timerJoin(d.time)}</td></tr>`;
+    
+    const rowBet = d => {
+       const statusClass = d.status == 1 ? 'status-success' : 'status-danger';
+       const statusText = d.status == 1 ? 'WIN' : 'LOSS';
+       const amount = (d.status == 1 ? '+' : '-') + formatMoney(d.amount);
+       const amountColor = d.status == 1 ? 'var(--green)' : 'var(--red)';
+       return `<tr><td>${d.stage}</td><td><b>${d.game}</b></td><td><b style="color:${amountColor}">${amount}</b></td><td>${d.bet.toUpperCase()}</td><td>${d.result}</td><td><span class="status-badge ${statusClass}">${statusText}</span></td><td>${timerJoin(d.time)}</td></tr>`;
+    };
+
+    const rowApiBet = d => {
+       let bet = parseFloat(d.bet) || 0;
+       let win = parseFloat(d.win) || 0;
+       let amount = win > 0 ? win : -bet;
+       let amountColor = win > 0 ? 'var(--green)' : 'var(--red)';
+       let amountSign = win > 0 ? '+' : '';
+       let resettleTime = (d.resettle_time && d.resettle_time > 0) ? timerJoin(d.resettle_time) : '-';
+       let cancelClass = d.is_cancel == 1 ? 'status-danger' : 'status-success';
+       let cancelText = d.is_cancel == 1 ? 'YES' : 'NO';
+
+       return `<tr>
+          <td style="font-size: 0.85em;">${d.txn_id}</td>
+          <td style="font-size: 0.85em;">${d.round_id || '-'}</td>
+          <td style="font-size: 0.8em; line-height: 1.4; text-align: left; padding-left: 24px;">
+             <strong>Game ID:</strong> ${d.game_id || '-'}<br>
+             <strong>Table ID:</strong> ${d.table_id || '-'}<br>
+             <strong>Prd ID:</strong> ${d.prd_id || '-'}
+          </td>
+          <td><b style="color: ${amountColor}">${amountSign}${amount}</b></td>
+          <td><span class="status-badge ${cancelClass}">${cancelText}</span></td>
+          <td style="font-size: 0.8em;">${resettleTime}</td>
+          <td style="font-size: 0.8em;">${timerJoin(d.time)}</td>
+       </tr>`;
+    };
+
+    const rowComm = d => `<tr><td>91${d.phone}</td><td style="color:var(--accent)">+${formatMoney(d.money)}</td><td>Level ${d.level}</td><td>ID: ${d.id_user}</td><td>${timerJoin(d.time)}</td></tr>`;
+
+    const rowRewards = d => `<tr><td style="font-size:11px">${d.reward_id}</td><td>${d.type}</td><td style="color:var(--accent)">+${formatMoney(d.amount)}</td><td><span class="status-badge status-success">CLAIMED</span></td><td>${timerJoin(d.time)}</td></tr>`;
+
+    const rowRedEnvelope = d => `<tr><td>91${d.phone}</td><td style="color:var(--accent)">+${formatMoney(d.money)}</td><td>${timerJoin(d.time)}</td></tr>`;
+
+    // Init All
+    loadProfile();
+    initPag('#prev-recharge', '#next-recharge', '#info-recharge', '#list-recharge', `/manager/member/listRecharge/${phone}`, rowRecharge);
+    initPag('#prev-withdraw', '#next-withdraw', '#info-withdraw', '#list-withdraw', `/manager/member/listWithdraw/${phone}`, rowWithdraw);
+    initPag('#prev-bet', '#next-bet', '#info-bet', '#list-bet', `/manager/member/bet/${phone}`, rowBet, 30);
+    initPag('#prev-apibet', '#next-apibet', '#info-apibet', '#list-apibet', `/manager/member/apibet/${phone}`, rowApiBet, 30);
+    initPag('#prev-comm', '#next-comm', '#info-comm', '#list-comm', `/manager/member/commission/${phone}`, rowComm);
+    initPag('#prev-rewards', '#next-rewards', '#info-rewards', '#list-rewards', `/manager/member/rewards/${phone}`, rowRewards);
+    initPag('#prev-redenvelope', '#next-redenvelope', '#info-redenvelope', '#list-redenvelope', `/manager/member/redenvelope/${phone}`, rowRedEnvelope);
+
+  </script>
+</body>
+
+</html>

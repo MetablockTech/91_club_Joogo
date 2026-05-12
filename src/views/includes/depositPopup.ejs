@@ -1,0 +1,259 @@
+<style>
+    #depositPopupOverlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0); /* No black shadow */
+        z-index: 10000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .deposit-popup-container {
+        width: 8rem;
+        max-width: 90vw;
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+        animation: popupFadeUp 0.4s ease-out;
+    }
+
+    @keyframes popupFadeUp {
+        from { transform: translateY(30px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+
+    .popup-header {
+        background: #5DEB7D
+        color: white;
+        padding: 10px 5px;
+        text-align: center;
+        position: relative;
+    }
+    .popup-header .company-name {
+        color: #fff;
+        font-size: 0.42667rem;
+        font-weight: 700;
+        margin: 0;
+        letter-spacing: 0.02rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    .limited-offer-badge {
+        position: absolute;
+        left: 0;
+        top: 10px;
+        background: linear-gradient(90deg, #ff8c00 0%, #ff4500 100%);
+        color: white;
+        font-size: 9px;
+        font-weight: 900;
+        padding: 5px 15px; /* Longer and sleeker */
+        border-radius: 0 20px 20px 0;
+        text-transform: uppercase;
+        z-index: 5;
+        letter-spacing: 0.5px;
+    }
+
+    .close-popup-btn {
+        position: absolute;
+        right: 8px;
+        top: 8px;
+        width: 22px;
+        height: 22px;
+        background: #ff4d4d;
+        border: 1.5px solid white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 12px;
+        cursor: pointer;
+        z-index: 10;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .popup-banner {
+        width: 100%;
+        height: auto;
+        min-height: 100px;
+        max-height: 5rem;
+        object-fit: cover;
+        display: block;
+    }
+    
+    .close-popup-btn:hover {
+        transform: scale(1.1);
+        background: #ff0000;
+    }
+
+    .popup-body {
+        padding: 15px;
+        max-height: 450px;
+        overflow-y: auto;
+        background: #fff;
+    }
+
+    .bonus-item {
+        background: #fff;
+        border-radius: 0;
+        padding: 10px 0;
+        margin-bottom: 5px;
+        text-align: center;
+    }
+
+    .bonus-item-title {
+        font-size: 18px; /* Balanced for 320px width */
+        font-weight: 900;
+        color: #ff4d4d;
+        margin-bottom: 5px;
+    }
+
+    .bonus-item-desc {
+        font-size: 11px;
+        color: #555;
+        margin-bottom: 12px;
+        line-height: 1.4;
+        padding: 0 10px;
+    }
+
+    .item-deposit-btn {
+        width: 100%;
+        padding: 10px;
+        background: #5DEB7D;
+        border-radius: 20px;
+        color: #fff;
+        font-size: 15px;
+        font-weight: 800;
+        cursor: pointer;
+        box-shadow: 0 5px 15px rgba(114, 9, 183, 0.3);
+    }
+
+    .item-deposit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(142, 45, 226, 0.4);
+    }
+
+    .popup-footer {
+        padding: 8px 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #fff;
+        border-top: 1px solid #f0f0f0;
+    }
+
+    .reminder-opt {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 10px;
+        color: #5a5f7a;
+        font-weight: 500;
+    }
+
+    .activity-main-btn {
+        background: linear-gradient(135deg, #ff006e 0%, #ff4d4d 100%);
+        border: none;
+        color: white;
+        padding: 5px 12px;
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 10px;
+        cursor: pointer;
+    }
+    
+    .activity-main-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 25px rgba(255, 0, 110, 0.35);
+    }
+</style>
+
+<div id="depositPopupOverlay">
+    <div class="deposit-popup-container">
+        <div class="popup-header">
+            <div class="close-popup-btn" onclick="closeDepositPopup()">&times;</div>
+            <div class="company-name">
+                <span style="font-size: 1.2em; display: inline-flex; align-items: center;">🎁</span>
+                <%= locals.SITE_NAME || 'Starworldz' %> Special Offer
+            </div>
+        </div>
+        <div class="popup-body" id="bonusItemsList">
+            <div style="position: relative; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 10px;">
+                <img src="<%= (typeof popup !== 'undefined' && popup.image) ? popup.image : 'https://img.freepik.com/free-vector/gift-card-concept-illustration_114360-5246.jpg' %>" 
+                     class="popup-banner" 
+                     alt="Special Offer Banner"
+                     onclick="<% if (typeof popup !== 'undefined' && popup.link) { %> window.location.href='<%= popup.link %>' <% } %>">
+                <div class="limited-offer-badge">Limited Offer</div>
+            </div>
+            <div id="bonusRulesContainer">
+                <!-- Items loaded dynamically -->
+            </div>
+        </div>
+        <div class="popup-footer">
+            <div class="reminder-opt">
+                <input type="checkbox" id="dontShowTodayCheck" style="width:18px; height:18px; cursor:pointer">
+                <label for="dontShowTodayCheck" style="cursor:pointer">Don't show today</label>
+            </div>
+            <button class="activity-main-btn" onclick="location.href='/activity'">Activity Center</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function loadDepositBonuses() {
+        const lastDismiss = localStorage.getItem('deposit_popup_dismiss');
+        const today = new Date().toDateString();
+        
+        if (lastDismiss === today) return;
+
+        try {
+            const response = await fetch('/api/webapi/admin/deposit-bonuses/list');
+            const res = await response.json();
+            
+            if (res.status && res.data && res.data.length > 0) {
+                const listContainer = document.getElementById('bonusRulesContainer');
+                listContainer.innerHTML = '';
+
+                res.data.forEach(rule => {
+                    const item = document.createElement('div');
+                    item.className = 'bonus-item';
+                    
+                    const bonusValue = rule.user_bonus_type === 'percentage' ? `${rule.user_bonus}%` : `₹${rule.user_bonus}`;
+                    const minDeposit = rule.min_deposit || 0;
+                    
+                    item.innerHTML = `
+                        <div class="bonus-item-title">${rule.name} <span style="color:#7209b7; font-size: 0.85em;">(Min ₹${minDeposit} Deposit)</span></div>
+                        <div class="bonus-item-desc" style="margin-bottom: 5px; color:#ff4d4d; font-weight:700;">+ ${bonusValue} Extra Bonus</div>
+                        <div class="bonus-item-desc">Get a ${bonusValue} bonus when you recharge ₹${minDeposit} or more.</div>
+                        <button class="item-deposit-btn" onclick="location.href='/wallet/recharge'">Claim Now</button>
+                    `;
+                    listContainer.appendChild(item);
+                });
+
+                document.getElementById('depositPopupOverlay').style.display = 'flex';
+            }
+        } catch (e) {
+            console.error('Error loading deposit bonuses:', e);
+        }
+    }
+
+    function closeDepositPopup() {
+        if (document.getElementById('dontShowTodayCheck').checked) {
+            localStorage.setItem('deposit_popup_dismiss', new Date().toDateString());
+        }
+        document.getElementById('depositPopupOverlay').style.display = 'none';
+    }
+
+    window.addEventListener('load', () => {
+        setTimeout(loadDepositBonuses, 1500);
+    });
+</script>

@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Team Incentives | <%= locals.SITE_NAME || 'Starworldz' %></title>
+  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #f0f2f8;
+      --sidebar-bg: #ffffff;
+      --card-bg: #ffffff;
+      --card-border: #e3e7f0;
+      --accent: #6c63ff;
+      --accent-light: rgba(108, 99, 255, 0.08);
+      --text-primary: #1a1d2e;
+      --text-secondary: #5a5f7a;
+      --text-muted: #9ea3b8;
+      --green: #00b894;
+      --red: #e17055;
+      --yellow: #f1c40f;
+      --blue: #3498db;
+      --sidebar-width: 260px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif !important;
+      background: var(--bg);
+      color: var(--text-primary);
+      overflow-x: hidden;
+    }
+
+    .wrapper {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s;
+      min-width: 0;
+    }
+
+    @media (max-width: 991.98px) {
+      .main-content {
+        margin-left: 0;
+        padding-top: 60px;
+      }
+      .content-body {
+        padding: 16px;
+      }
+      .topbar {
+        padding: 0 16px;
+      }
+      .topbar-title {
+        font-size: 15px;
+      }
+    }
+
+    .topbar {
+      background: var(--sidebar-bg);
+      border-bottom: 1px solid var(--card-border);
+      padding: 0 28px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .topbar-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .content-body {
+      padding: 28px;
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .page-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    .page-breadcrumb {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .page-breadcrumb span {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* ── GRID LAYOUT ── */
+    .tools-grid {
+      display: grid;
+      /* grid-template-columns: 1fr 1fr; */
+      grid-template-columns: 1fr;
+      gap: 28px;
+      margin-bottom: 28px;
+    }
+
+    @media (max-width: 992px) {
+      .tools-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── ACTION CARDS ── */
+    .action-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .balance-badge {
+      display: inline-block;
+      background: var(--accent-light);
+      color: var(--accent);
+      padding: 6px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .form-group { margin-bottom: 20px; }
+    .form-label { display: block; font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; }
+    
+    .form-control, .form-select {
+      width: 100%;
+      background: #f7f8fc;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .form-control:focus, .form-select:focus {
+      border-color: var(--accent);
+      background: #fff;
+      box-shadow: 0 0 0 4px var(--accent-light);
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-submit:hover {
+      background: #5a52e6;
+      transform: translateY(-2px);
+    }
+
+    /* ── RESULT BOX ── */
+    .result-box {
+      margin-top: 20px;
+      background: #fbfcfe;
+      border: 1px dashed var(--accent);
+      border-radius: 12px;
+      padding: 16px;
+      display: none;
+    }
+
+    .copy-input-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .copy-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      width: 44px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    /* ── SECTION CARDS ── */
+    .section-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      margin-bottom: 28px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    }
+
+    .section-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--card-border);
+      background: #fbfcfe;
+    }
+
+    .table-responsive { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    thead th { padding: 14px 20px; text-align: center; font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; border-bottom: 1px solid var(--card-border); }
+    tbody tr { border-bottom: 1px solid #f8f9fb; }
+    td { padding: 14px 20px; font-size: 13px; font-weight: 600; text-align: center; vertical-align: middle; }
+
+    .badge { padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: 700; }
+    .bg-success-light { background: rgba(0, 184, 148, 0.1); color: var(--green); }
+    .bg-warning-light { background: rgba(241, 196, 15, 0.1); color: var(--yellow); }
+
+    @media (max-width: 768px) {
+      .content-body { padding: 16px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <%- include('nav') %>
+
+    <div class="main-content">
+      <header class="topbar">
+        <div class="topbar-title">Team Incentives</div>
+      </header>
+
+      <div class="content-body">
+        <div class="page-header">
+          <div>
+            <h2 class="page-title">Gifts & Adjustments</h2>
+            <div class="page-breadcrumb">Partner Panel &rsaquo; <span>Rewards</span></div>
+          </div>
+        </div>
+
+        <div class="tools-grid">
+          <!-- Create Giftcode -->
+          <div class="action-card">
+            <h3 class="card-title"><i class="fas fa-gift" style="color: var(--accent);"></i> Generate Giftcode</h3>
+            <div class="balance-badge" id="label_money">Available Balance: ₹<%=money%></div>
+            
+            <div class="form-group">
+              <label class="form-label">Gift Amount</label>
+              <input type="text" id="money" class="form-control" placeholder="Enter amount to generate link">
+            </div>
+
+            <button type="button" class="btn-submit" id="submit">
+              <i class="fas fa-magic"></i> Generate Code
+            </button>
+
+            <div class="result-box" id="resultWrap">
+              <label class="form-label" style="color: var(--accent);">CODE GENERATED SUCCESSFULLY</label>
+              <div class="copy-input-group">
+                <input type="text" id="money_result" class="form-control" readonly>
+                <button class="copy-btn copy_link"><i class="fas fa-copy"></i></button>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Member Adjustment -->
+          <!-- 
+          <div class="action-card">
+            <h3 class="card-title"><i class="fas fa-user-cog" style="color: var(--blue);"></i> Direct Adjustment</h3>
+            <div class="balance-badge" id="label_money2" style="background: rgba(52, 152, 219, 0.1); color: var(--blue);">Adjustment Fund: ₹<%=money2%></div>
+
+            <div class="form-group">
+              <label class="form-label">Target Member ID</label>
+              <input type="text" id="buff-username" class="form-control" placeholder="Enter Member ID">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Action Type</label>
+              <select id="buff-select" class="form-select">
+                <option value="">Choose an action...</option>
+                <option value="1">Increase Balance (+)</option>
+                <option value="2">Decrease Balance (-)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Amount</label>
+              <input type="text" id="buff-money" class="form-control" placeholder="Enter amount">
+            </div>
+
+            <button type="button" class="btn-submit" id="buff-submit" style="background: var(--blue);">
+              <i class="fas fa-check-circle"></i> Apply Adjustment
+            </button>
+          </div>
+          -->
+        </div>
+
+        <!-- History Table -->
+        <div class="section-card">
+          <div class="section-header">
+            <h3 class="card-title"><i class="fas fa-history"></i> Giftcode History</h3>
+          </div>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Code ID</th>
+                  <th>Value</th>
+                  <th>Status</th>
+                  <th>Generated Time</th>
+                </tr>
+              </thead>
+              <tbody id="table-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="/plugins/jquery/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    function formatMoney(n) { return "₹" + Number(n).toLocaleString(); }
+    function formateT(params) { return (params < 10) ? "0" + params : params; }
+    function timerJoin(params = '') {
+      let date = params ? new Date(Number(params)) : new Date();
+      let years = formateT(date.getFullYear());
+      let months = formateT(date.getMonth() + 1);
+      let days = formateT(date.getDate());
+      let hours = date.getHours() % 12 || 12;
+      let ampm = date.getHours() < 12 ? "AM" : "PM";
+      let mins = formateT(date.getMinutes());
+      return `${years}/${months}/${days} ${hours}:${mins} ${ampm}`;
+    }
+
+    const alertMsg = (text, icon) => {
+      Swal.fire({
+        text: text,
+        icon: icon,
+        toast: true,
+        position: 'top',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+      });
+    }
+
+    const RenderHistory = (datas) => {
+      let html = datas.length === 0 ? '<tr><td colspan="4" style="padding: 30px; color: var(--text-muted);">No giftcodes generated yet.</td></tr>' : '';
+      datas.forEach((data) => {
+        html += `
+          <tr>
+            <td style="font-size: 12px; font-weight: 700; color: var(--accent);">${data.id_redenvelope}</td>
+            <td style="font-weight: 800; color: var(--green);">${formatMoney(data.money)}</td>
+            <td><span class="badge ${data.status == 1 ? 'bg-success-light' : 'bg-warning-light'}">${data.status == 1 ? 'USED' : 'PENDING'}</span></td>
+            <td style="font-size: 11px;">${timerJoin(data.time)}</td>
+          </tr>`;
+      });
+      $("#table-body").html(html);
+    }
+
+    // Initial Load
+    $.ajax({
+      type: "POST",
+      url: "/manager/listRedenvelops",
+      success: function (res) { RenderHistory(res.redenvelopes); }
+    });
+
+    // Create Giftcode
+    $('#submit').click(function () {
+      let money = $('#money').val().trim();
+      if (!money) return alertMsg('Enter amount', 'error');
+      
+      $.ajax({
+        type: "POST",
+        url: "/manager/createBonus",
+        data: { money: money },
+        success: function (res) {
+          if (res.status) {
+            $('#money_result').val(res.id);
+            $('#resultWrap').fadeIn();
+            $('#label_money').text('Available Balance: ' + formatMoney(res.money));
+            alertMsg('Giftcode created successfully.', 'success');
+          } else {
+            alertMsg(res.message, 'error');
+          }
+        }
+      });
+    });
+
+    // Buff Submit
+    $('#buff-submit').click(function () {
+      let username = $('#buff-username').val().trim();
+      let select = $('#buff-select').val().trim();
+      let money = $('#buff-money').val().trim();
+
+      if (!username || !select || !money) return alertMsg('Fill all fields', 'warning');
+
+      $.ajax({
+        type: "POST",
+        url: "/api/webapi/manager/buff",
+        data: { username: username, select: select, money: money },
+        success: function (res) {
+          if (res.status) {
+            $('#label_money2').text('Adjustment Fund: ' + formatMoney(res.money));
+            alertMsg(res.message, 'success');
+          } else {
+            alertMsg(res.message, 'error');
+          }
+        }
+      });
+    });
+
+    $('.copy_link').click(function () {
+      $('#money_result').select();
+      document.execCommand('copy');
+      alertMsg('Copied!', 'success');
+    });
+  </script>
+</body>
+
+</html>

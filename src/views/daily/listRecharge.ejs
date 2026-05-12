@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recharge List | <%= locals.SITE_NAME || 'Starworldz' %></title>
+  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #f0f2f8;
+      --sidebar-bg: #ffffff;
+      --card-bg: #ffffff;
+      --card-border: #e3e7f0;
+      --accent: #6c63ff;
+      --accent-light: rgba(108, 99, 255, 0.08);
+      --text-primary: #1a1d2e;
+      --text-secondary: #5a5f7a;
+      --text-muted: #9ea3b8;
+      --green: #00b894;
+      --red: #e17055;
+      --yellow: #f1c40f;
+      --sidebar-width: 260px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif !important;
+      background: var(--bg);
+      color: var(--text-primary);
+      overflow-x: hidden;
+    }
+
+    .wrapper {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s;
+      min-width: 0;
+    }
+
+    @media (max-width: 991.98px) {
+      .main-content {
+        margin-left: 0;
+        padding-top: 60px;
+      }
+      .content-body {
+        padding: 16px;
+      }
+      .topbar {
+        padding: 0 16px;
+      }
+      .topbar-title {
+        font-size: 15px;
+      }
+    }
+
+    .topbar {
+      background: var(--sidebar-bg);
+      border-bottom: 1px solid var(--card-border);
+      padding: 0 28px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .topbar-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .content-body {
+      padding: 28px;
+    }
+
+    /* ── FILTERS ── */
+    .filter-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      align-items: flex-end;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .filter-group label {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .filter-group input, .filter-group select {
+      padding: 10px 14px;
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      background: #fbfcfe;
+      transition: all 0.2s;
+    }
+
+    .filter-group input:focus, .filter-group select:focus {
+      border-color: var(--accent);
+      outline: none;
+      background: #fff;
+    }
+
+    .btn-search {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      height: 42px;
+    }
+
+    .btn-search:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    /* ── TABLES ── */
+    .section-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    }
+
+    .table-responsive { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    thead th {
+      padding: 18px 20px;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      background: #fafbfc;
+      border-bottom: 1px solid var(--card-border);
+    }
+    tbody td {
+      padding: 16px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      border-bottom: 1px solid #f8f9fb;
+    }
+
+    .status-badge {
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .status-success { background: rgba(0, 184, 148, 0.1); color: var(--green); }
+    .status-warning { background: rgba(241, 196, 15, 0.1); color: var(--yellow); }
+
+    /* ── PAGINATION ── */
+    .pagination-wrap {
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      background: #fafbfc;
+      border-top: 1px solid var(--card-border);
+    }
+    .pag-btn {
+      background: #fff;
+      border: 1px solid var(--card-border);
+      color: var(--text-secondary);
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .pag-btn:hover:not(.disabled) { border-color: var(--accent); color: var(--accent); }
+    .pag-btn.disabled { opacity: 0.5; cursor: not-allowed; }
+    .pag-info { font-size: 14px; font-weight: 800; background: #f0f2f8; padding: 8px 18px; border-radius: 10px; min-width: 100px; text-align: center; }
+
+    @media (max-width: 768px) {
+      .filter-card { flex-direction: column; align-items: stretch; }
+      .filter-group { min-width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <%- include('nav') %>
+
+    <div class="main-content">
+      <header class="topbar">
+        <div class="topbar-title">Financial Audit &rsaquo; Recharge Logs</div>
+      </header>
+
+      <div class="content-body">
+        
+        <!-- Filters -->
+        <div class="filter-card">
+          <div class="filter-group">
+            <label>Member Phone</label>
+            <input type="text" id="filter-phone" placeholder="Search phone...">
+          </div>
+          <div class="filter-group">
+            <label>Order ID / Txn ID</label>
+            <input type="text" id="filter-order" placeholder="Search ID...">
+          </div>
+          <div class="filter-group">
+            <label>Status</label>
+            <select id="filter-status">
+              <option value="">All Status</option>
+              <option value="1">Success</option>
+              <option value="0">Pending</option>
+              <option value="2">Failed/Closed</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Start Date</label>
+            <input type="date" id="filter-start">
+          </div>
+          <div class="filter-group">
+            <label>End Date</label>
+            <input type="date" id="filter-end">
+          </div>
+          <button class="btn-search" id="btn-search"><i class="fas fa-search mr-2"></i> Filter</button>
+        </div>
+
+        <div class="section-card">
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Order/Txn ID</th>
+                  <th>Member</th>
+                  <th>Method</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Time</th>
+                </tr>
+              </thead>
+              <tbody id="table-body">
+                <tr><td colspan="6" class="text-center text-muted py-5">Loading recharge data...</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination-wrap">
+            <button class="pag-btn" id="prev-btn">Previous</button>
+            <span class="pag-info" id="pag-info">1 / 1</span>
+            <button class="pag-btn" id="next-btn">Next</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/plugins/jquery/jquery.min.js"></script>
+  <script>
+    function timerJoin(params = '') {
+      let date = params ? new Date(Number(params)) : new Date();
+      if(isNaN(date.getTime())) return '-';
+      let Y = date.getFullYear();
+      let M = (date.getMonth() + 1).toString().padStart(2, '0');
+      let D = date.getDate().toString().padStart(2, '0');
+      let h = date.getHours() % 12 || 12;
+      let m = date.getMinutes().toString().padStart(2, '0');
+      let s = date.getSeconds().toString().padStart(2, '0');
+      let ampm = date.getHours() >= 12 ? 'PM' : 'AM';
+      return `${Y}/${M}/${D} ${h}:${m}:${s} ${ampm}`;
+    }
+
+    let pageno = 0;
+    let limit = 20;
+    let page = 1;
+    let totalPages = 1;
+
+    function loadData() {
+      const filters = {
+        phone: $('#filter-phone').val(),
+        id_order: $('#filter-order').val(),
+        status: $('#filter-status').val(),
+        startDate: $('#filter-start').val(),
+        endDate: $('#filter-end').val(),
+        pageno: pageno,
+        limit: limit
+      };
+
+      $.ajax({
+        type: "POST",
+        url: "/manager/listRecharge",
+        data: filters,
+        dataType: "json",
+        success: function (res) {
+          if (!res.status) return;
+          totalPages = res.page_total || 1;
+          $('#pag-info').text(`${page} / ${totalPages}`);
+          
+          let html = '';
+          const datas = res.list_recharge_news;
+          if(datas.length === 0) {
+            html = '<tr><td colspan="6" class="text-center text-muted py-5">No recharge records found matching filters.</td></tr>';
+          } else {
+            datas.forEach((d) => {
+              const statusClass = d.status == 1 ? 'status-success' : 'status-warning';
+              const statusText = d.status == 1 ? 'SUCCESS' : (d.status == 2 ? 'FAILED' : 'PENDING');
+              html += `
+                <tr>
+                  <td style="font-size: 11px;">#${d.id_order}</td>
+                  <td style="color: var(--accent); font-weight: 700;">91${d.phone}</td>
+                  <td><span style="font-size: 11px; opacity: 0.7;">${d.type.toUpperCase()}</span></td>
+                  <td style="color: var(--green); font-weight: 800;">₹${Number(d.money).toFixed(2)}</td>
+                  <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                  <td style="font-size: 11px;">${timerJoin(d.time)}</td>
+                </tr>`;
+            });
+          }
+          $("#table-body").html(html);
+
+          $('#prev-btn').toggleClass('disabled', page <= 1);
+          $('#next-btn').toggleClass('disabled', page >= totalPages);
+        }
+      });
+    }
+
+    $('#btn-search').click(() => { pageno = 0; page = 1; loadData(); });
+    $('#next-btn').click(() => { if(page < totalPages) { pageno += limit; page++; loadData(); } });
+    $('#prev-btn').click(() => { if(page > 1) { pageno -= limit; page--; loadData(); } });
+
+    loadData();
+  </script>
+</body>
+</html>

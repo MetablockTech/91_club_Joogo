@@ -1,0 +1,408 @@
+  <script src="/plugins/jquery/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const alertMsg = (text, icon = 'success') => {
+      Swal.fire({ text, icon, toast: true, position: 'top-end', showConfirmButton: false, timer: 3000 });
+    };
+
+    // --- Withdrawal Conditions Logic ---
+    function loadWithdrawalConditions() {
+      $.get('/api/webapi/admin/withdrawal-conditions/list', function(res) {
+        if (res.status) {
+          let html = '';
+          res.data.forEach(item => {
+            const typeLabel = item.type.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+            html += `
+              <tr style="border-bottom: 1px solid var(--card-border);">
+                <td style="padding: 12px 8px;"><span style="background: var(--accent-light); color: var(--accent); padding: 2px 8px; border-radius: 4px; font-weight: 700;">${item.order_index}</span></td>
+                <td style="padding: 12px 8px; font-weight: 600;">${typeLabel}</td>
+                <td style="padding: 12px 8px; font-weight: 700; color: var(--text-primary);">${item.value}</td>
+                <td style="padding: 12px 8px; color: var(--text-secondary);">${item.description || '-'}</td>
+                <td style="padding: 12px 8px;">
+                  <span style="background: ${item.status ? 'var(--green)' : 'var(--red)'}; color: white; padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: 700;">
+                    ${item.status ? 'ACTIVE' : 'INACTIVE'}
+                  </span>
+                </td>
+                <td style="padding: 12px 8px; text-align: right;">
+                  <button class="btn-edit-condition" data-json='${JSON.stringify(item)}' style="background: var(--accent-light); border: none; color: var(--accent); padding: 5px 10px; border-radius: 8px; cursor: pointer; transition: 0.2s;">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="btn-delete-condition" data-id="${item.id}" style="background: #fee; border: none; color: var(--red); padding: 5px 10px; border-radius: 8px; cursor: pointer; margin-left: 5px; transition: 0.2s;">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            `;
+          });
+          $('#withdrawal-conditions-list').html(html);
+        }
+      });
+    }
+
+    // --- Banners Logic ---
+    function loadBanners() {
+      $.ajax({
+        type: "GET",
+        url: "/api/webapi/admin/banners/list",
+        success: function (res) {
+          if (res.status) {
+            let html = '';
+            res.data.forEach(banner => {
+              const typeLabels = {
+                'home_slider': '<span class="badge" style="background:#e3f2fd;color:#1976d2">Home Slider</span>',
+                'activity': '<span class="badge" style="background:#f3e5f5;color:#7b1fa2">Activity</span>',
+                'guide': '<span class="badge" style="background:#fff3e0;color:#ef6c00">Guide</span>',
+                'deposit_popup': '<span class="badge" style="background:#e8f5e9;color:#2e7d32">Deposit Popup</span>'
+              };
+              html += `
+                <tr style="border-bottom: 1px solid var(--card-border);">
+                  <td style="padding: 10px 8px;"><img src="${banner.image}" style="width:80px;height:40px;object-fit:cover;border-radius:6px;"></td>
+                  <td style="padding: 10px 8px;">${typeLabels[banner.type] || banner.type}</td>
+                  <td style="padding: 10px 8px; font-weight: 700; color: var(--accent);">${banner.priority || 0}</td>
+                  <td style="padding: 10px 8px; color:var(--text-muted); font-size:11px;">${banner.link || '-'}</td>
+                  <td style="padding: 10px 8px;">
+                    <label class="switch" style="width:36px;height:20px;">
+                      <input type="checkbox" class="toggle-banner-status" data-id="${banner.id}" data-type="${banner.type}" ${banner.status == 1 ? 'checked' : ''}>
+                      <span class="slider" style="border-radius:20px;"></span>
+                    </label>
+                  </td>
+                  <td style="padding: 10px 8px; text-align:right; white-space: nowrap;">
+                    <button class="edit-banner" 
+                      data-id="${banner.id}" 
+                      data-type="${banner.type}" 
+                      data-link="${banner.link || ''}" 
+                      data-priority="${banner.priority || 0}"
+                      data-content="${(banner.content || '').replace(/"/g, '&quot;')}"
+                      data-image="${banner.image}"
+                      style="border:none;background:transparent;color:var(--accent);cursor:pointer;font-size:14px;margin-right:15px;"><i class="fas fa-edit"></i></button>
+                    <button class="delete-banner" data-id="${banner.id}" style="border:none;background:transparent;color:var(--red);cursor:pointer;font-size:14px;"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+              `;
+            });
+            $('#banner-list').html(html || '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-muted);">No banners found</td></tr>');
+          }
+        }
+      });
+    }
+
+    $(document).ready(function() {
+        // Load Initial Data
+        $.ajax({
+            type: "POST",
+            url: "/admin/manager/settings/get",
+            dataType: "json",
+            success: function (res) {
+                const momo = res.momo;
+                $('#edit-momo-name_bank').val(momo.bank_name);
+                $('#edit-momo-name').val(momo.username);
+                $('#edit-momo-info').val(momo.upi_id);
+                if (res.datas[0]?.upi_id_qr) $('#upi_id_qr_show').html(`<img src="${res.datas[0].upi_id_qr}">`);
+
+                $('#telegram').val(res.settings[0].telegram);
+                $('#cskh').val(res.settings[0].cskh);
+                $('#myapp_web').val(res.settings[0].app);
+                
+                $('#whatsapp').val(res.whatsapp || '');
+                $('#apk_name').val(res.apk_name || '');
+                if (res.whatsapp_status == 1) $('#whatsapp_status').prop('checked', true);
+                if (res.telegram_status == 1) $('#telegram_status').prop('checked', true);
+                if (res.app_download_status == 1) $('#app_download_status').prop('checked', true);
+                if (res.cskh_status == 1) $('#cskh_status').prop('checked', true);
+                if (res.apk_link) $('#apk_file_status').text("Current APK: " + res.apk_link);
+
+                $('#signup_bonus').val(res.signup_bonus);
+                $('#referral_bonus').val(res.referral_bonus);
+
+                if (res.maintenance) $('#maintenance_toggle').prop('checked', true);
+
+                if (res.siteBranding) {
+                    $('#site_name_input').val(res.siteBranding.site_name);
+                    $('#sitename-live-preview').text(res.siteBranding.site_name);
+                    if (res.siteBranding.site_logo) {
+                        $('#logo-live-preview').attr('src', res.siteBranding.site_logo);
+                        $('#site_logo_show').html(`<img src="${res.siteBranding.site_logo}">`);
+                    }
+                }
+            }
+        });
+
+        loadBanners();
+        loadWithdrawalConditions();
+
+        // --- Tab Logic ---
+        $('.tab-btn').click(function () {
+            $('.tab-btn').removeClass('active');
+            $(this).addClass('active');
+            $('.tab-pane').removeClass('active');
+            const target = $(this).data('target');
+            $('#' + target).addClass('active');
+            
+            if (target === 'tab-withdrawal-flow') {
+                loadWithdrawalConditions();
+            } else if (target === 'tab-banners') {
+                loadBanners();
+            }
+        });
+
+        // --- Maintenance ---
+        $('#maintenance_toggle').change(async function () {
+            const status = $(this).is(':checked') ? 1 : 0;
+            const res = await axios.post("/admin/manager/settings/maintenance", { status: status });
+            alertMsg(res.data.message, res.data.status ? 'success' : 'error');
+        });
+
+        // --- Save Handlers ---
+        $('#save-branding').click(async () => {
+            const formData = new FormData();
+            formData.append('site_name', $('#site_name_input').val());
+            if ($('#site_logo_input')[0].files[0]) formData.append('site_logo', $('#site_logo_input')[0].files[0]);
+            const res = await axios.post('/admin/manager/settings/branding', formData);
+            if (res.data.status) alertMsg(res.data.message);
+        });
+
+        $('.edit-momo').click(async () => {
+            const formData = new FormData();
+            formData.append('bank_name', $('#edit-momo-name_bank').val());
+            formData.append('username', $('#edit-momo-name').val());
+            formData.append('upi_id', $('#edit-momo-info').val());
+            formData.append('typer', 'momo');
+            if ($('#upi_id_qr')[0].files[0]) formData.append('upi_id_qr', $('#upi_id_qr')[0].files[0]);
+            const res = await axios.post("/admin/manager/settings/bank", formData);
+            if (res.data.status) alertMsg(res.data.message);
+        });
+
+        $('.telegram').click(() => {
+            const formData = new FormData();
+            formData.append('telegram', $('#telegram').val());
+            formData.append('cskh', $('#cskh').val());
+            formData.append('myapp_web', $('#myapp_web').val());
+            formData.append('whatsapp', $('#whatsapp').val());
+            formData.append('apk_name', $('#apk_name').val());
+            formData.append('whatsapp_status', $('#whatsapp_status').is(':checked') ? 1 : 0);
+            formData.append('telegram_status', $('#telegram_status').is(':checked') ? 1 : 0);
+            formData.append('app_download_status', $('#app_download_status').is(':checked') ? 1 : 0);
+            formData.append('cskh_status', $('#cskh_status').is(':checked') ? 1 : 0);
+            
+            const apkFile = $('#apk_file_input')[0].files[0];
+            if (apkFile) formData.append('apk_file', apkFile);
+
+            $.ajax({
+                type: "POST",
+                url: "/admin/manager/settings/cskh",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: (res) => {
+                    if (res.status) {
+                        alertMsg("Social & App settings updated!");
+                        if (res.apk_link) $('#apk_file_status').text("Current APK: " + res.apk_link);
+                    } else {
+                        alertMsg("Failed: " + res.message, "error");
+                    }
+                }
+            });
+        });
+
+        $('#save-bonus-percent').click(async () => {
+            const res = await axios.post('/admin/manager/settings/bonus_percent', {
+                signup_bonus: $('#signup_bonus').val(),
+                referral_bonus: $('#referral_bonus').val(),
+            });
+            if (res.data.status) alertMsg(res.data.message);
+        });
+
+        // --- Banner Actions ---
+        $('#save-banner').click(async () => {
+            const formData = new FormData();
+            const file = $('#banner_image_input')[0].files[0];
+            if (!file) return alertMsg("Please select an image", "error");
+
+            formData.append('type', $('#banner_type').val());
+            formData.append('link', $('#banner_link').val());
+            formData.append('priority', $('#banner_priority').val());
+            formData.append('content', $('#banner_content').val());
+            formData.append('banner_image', file);
+
+            try {
+                const res = await axios.post('/api/webapi/admin/banners/add', formData);
+                if (res.data.status) {
+                    alertMsg(res.data.message);
+                    $('#banner_image_input').val('');
+                    $('#banner_preview').html('');
+                    $('#banner_link').val('');
+                    $('#banner_priority').val('0');
+                    $('#banner_content').val('');
+                    loadBanners();
+                }
+            } catch (error) {
+                alertMsg(error.response?.data?.message || "Operation failed", "error");
+            }
+        });
+
+        $(document).on('change', '.toggle-banner-status', async function () {
+            const id = $(this).data('id');
+            const type = $(this).data('type');
+            const status = $(this).is(':checked') ? 1 : 0;
+            const res = await axios.post('/api/webapi/admin/banners/update-status', { id, status, type });
+            if (res.data.status) {
+                alertMsg(res.data.message);
+                if (type === 'deposit_popup' && status == 1) loadBanners();
+            }
+        });
+
+        $(document).on('click', '.delete-banner', function (e) {
+            e.preventDefault();
+            const id = $(this).closest('.delete-banner').attr('data-id');
+            Swal.fire({
+                title: 'Delete Banner?',
+                text: "This action cannot be undone.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ff4d4d',
+                confirmButtonText: 'Delete'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    const res = await axios.post('/api/webapi/admin/banners/delete', { id });
+                    if (res.data.status) {
+                        alertMsg(res.data.message);
+                        loadBanners();
+                    }
+                }
+            });
+        });
+
+        $(document).on('click', '.edit-banner', function (e) {
+            e.preventDefault();
+            const btn = $(this).closest('.edit-banner');
+            const id = btn.attr('data-id');
+            const type = btn.attr('data-type');
+            const link = btn.attr('data-link');
+            const priority = btn.attr('data-priority');
+            const content = btn.attr('data-content');
+            const image = btn.attr('data-image');
+
+            Swal.fire({
+                title: 'Edit Banner',
+                html: `
+                    <div style="text-align: left;">
+                        <div class="field-group mb-2"><label>Banner Type</label>
+                            <select id="swal-banner-type" class="form-control">
+                                <option value="home_slider" ${type === 'home_slider' ? 'selected' : ''}>Home Slider</option>
+                                <option value="activity" ${type === 'activity' ? 'selected' : ''}>Activity</option>
+                                <option value="guide" ${type === 'guide' ? 'selected' : ''}>Guide</option>
+                                <option value="deposit_popup" ${type === 'deposit_popup' ? 'selected' : ''}>Deposit Popup</option>
+                            </select>
+                        </div>
+                        <div class="field-group mb-2"><label>Redirect URL</label><input id="swal-banner-link" class="form-control" value="${link}"></div>
+                        <div class="field-group mb-2"><label>Priority</label><input id="swal-banner-priority" type="number" class="form-control" value="${priority}"></div>
+                        <div class="field-group mb-2"><label>Content</label><textarea id="swal-banner-content" class="form-control">${content}</textarea></div>
+                        <div class="mb-2"><img src="${image}" style="width: 100%; max-height: 100px; object-fit: cover; border-radius: 8px;"></div>
+                        <div class="field-group"><label>Replace Image</label><input type="file" id="swal-banner-file" accept="image/*"></div>
+                    </div>
+                `,
+                showCancelButton: true,
+                preConfirm: async () => {
+                    const formData = new FormData();
+                    formData.append('id', id);
+                    formData.append('type', document.getElementById('swal-banner-type').value);
+                    formData.append('link', document.getElementById('swal-banner-link').value);
+                    formData.append('priority', document.getElementById('swal-banner-priority').value);
+                    formData.append('content', document.getElementById('swal-banner-content').value);
+                    const file = document.getElementById('swal-banner-file').files[0];
+                    if (file) formData.append('banner_image', file);
+
+                    const res = await axios.post('/api/webapi/admin/banners/update', formData);
+                    return res.data;
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    alertMsg("Banner updated successfully!");
+                    loadBanners();
+                }
+            });
+        });
+
+        // --- Withdrawal Conditions Actions ---
+        $('#addConditionForm').submit(function(e) {
+            e.preventDefault();
+            const data = $(this).serialize();
+            $.post('/api/webapi/admin/withdrawal-conditions/add', data, function(res) {
+                if (res.status) {
+                    alertMsg(res.message);
+                    $('#addConditionModal').modal('hide');
+                    $('#addConditionForm')[0].reset();
+                    loadWithdrawalConditions();
+                } else {
+                    alertMsg(res.message, 'error');
+                }
+            });
+        });
+
+        $(document).on('click', '.btn-edit-condition', function() {
+            const data = $(this).data('json');
+            const form = $('#editConditionForm');
+            form.find('input[name="id"]').val(data.id);
+            form.find('select[name="type"]').val(data.type);
+            form.find('input[name="value"]').val(data.value);
+            form.find('input[name="order_index"]').val(data.order_index);
+            form.find('input[name="description"]').val(data.description);
+            form.find('select[name="status"]').val(data.status);
+            $('#editConditionModal').modal('show');
+        });
+
+        $('#editConditionForm').submit(function(e) {
+            e.preventDefault();
+            const data = $(this).serialize();
+            $.post('/api/webapi/admin/withdrawal-conditions/update', data, function(res) {
+                if (res.status) {
+                    alertMsg(res.message);
+                    $('#editConditionModal').modal('hide');
+                    loadWithdrawalConditions();
+                } else {
+                    alertMsg(res.message, 'error');
+                }
+            });
+        });
+
+        $(document).on('click', '.btn-delete-condition', function() {
+            if (confirm('Are you sure you want to delete this trigger?')) {
+                const id = $(this).data('id');
+                $.post('/api/webapi/admin/withdrawal-conditions/delete', { id: id }, function(res) {
+                    if (res.status) {
+                        alertMsg(res.message);
+                        loadWithdrawalConditions();
+                    } else {
+                        alertMsg(res.message, 'error');
+                    }
+                });
+            }
+        });
+
+        // --- Live Previews & File Inputs ---
+        $('#site_name_input').on('input', function () {
+            $('#sitename-live-preview').text($(this).val() || 'Starworldz');
+        });
+
+        $('input[type=file]').change(function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                const showDiv = $(this).closest('.field-group').find('.preview-box');
+                reader.onload = (e) => {
+                    showDiv.html(`<img src="${e.target.result}" style="max-width:100%; max-height:120px;">`);
+                    if (this.id === 'site_logo_input') $('#logo-live-preview').attr('src', e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        $('#apk_file_input').change(function() {
+            const fileName = $(this).val().split('\\').pop();
+            if (fileName) $(this).next('.file-label').html(`<i class="fas fa-check"></i> ${fileName}`);
+        });
+    });
+  </script>

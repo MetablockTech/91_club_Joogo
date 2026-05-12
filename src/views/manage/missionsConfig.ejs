@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Missions Configuration | Admin Panel</title>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="/css/admin.css">
+    <style>
+        .compact-swal-popup {
+            padding: 1rem !important;
+            border-radius: 16px !important;
+            font-family: 'Inter', sans-serif !important;
+        }
+
+        .compact-swal-title {
+            padding: 0 !important;
+            margin-bottom: 0.5rem !important;
+            font-size: 18px !important;
+            font-weight: 700 !important;
+        }
+
+        .compact-swal-text {
+            font-size: 14px !important;
+            color: #555 !important;
+            margin-bottom: 1rem !important;
+        }
+
+        .compact-swal-confirm,
+        .compact-swal-cancel {
+            padding: 8px 20px !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            border-radius: 8px !important;
+        }
+
+        .topbar {
+            background: #fff;
+            border-bottom: 1px solid #e3e7f0;
+            padding: 0 28px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 50;
+        }
+
+        .topbar-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1d2e;
+        }
+
+        @media (max-width: 991.98px) {
+            .content-wrapper {
+                margin-left: 0 !important;
+                padding-top: 60px !important;
+            }
+
+            .topbar {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-body { padding: 12px !important; }
+            .toolbar { padding: 16px; border-radius: 15px; margin-bottom: 20px; }
+            .content-header h1 {
+                font-size: 1.25rem;
+            }
+        }
+
+        /* Breadcrumb styling */
+        .page-header { margin-bottom: 24px; padding: 0 4px; }
+        .page-title { font-size: 20px; font-weight: 800; color: #1a1d2e; }
+        .page-breadcrumb { font-size: 13px; color: #9ea3b8; margin-bottom: 4px; }
+        .page-breadcrumb span { color: #6c63ff; font-weight: 600; }
+
+        .action-buttons { display: flex; justify-content: center; }
+        .action-buttons .btn { margin: 0 10px !important; }
+
+            .table-responsive {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            table {
+                min-width: 700px;
+            }
+
+            .table th,
+            .table td {
+                font-size: 12px;
+                padding: 10px 8px;
+            }
+
+            .btn-xs {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+
+            .premium-card {
+                margin-bottom: 15px;
+                border-radius: 16px;
+            }
+
+            .card-body {
+                padding: 1rem;
+            }
+
+            .content-wrapper {
+                padding-bottom: 30px;
+            }
+
+            .col-lg-4,
+            .col-lg-8,
+            .col-md-5,
+            .col-md-7 {
+                width: 100% !important;
+                max-width: 100% !important;
+                flex: 0 0 100% !important;
+            }
+
+            .btn-premium {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <%- include('nav') %>
+            <div class="content-wrapper">
+                <header class="topbar">
+                    <div class="topbar-title">Settings &rsaquo; Missions Settings</div>
+                </header>
+
+                <section class="content pt-4">
+                    <div class="container-fluid">
+                        <div class="page-header">
+                            <div class="page-breadcrumb">Configuration &rsaquo; <span>Mission Settings</span></div>
+                            <h2 class="page-title">Missions List</h2>
+                        </div>
+                        <div class="row">
+                            <!-- Add Mission Form -->
+                            <div class="col-lg-4 col-md-5">
+                                <div class="card premium-card">
+                                    <div class="card-header bg-primary py-2">
+                                        <h3 class="card-title" style="font-size: 1rem;">Add New Mission</h3>
+                                    </div>
+                                    <form id="missionForm">
+                                        <div class="card-body py-3">
+                                            <div class="form-group mb-2">
+                                                <label>Category</label>
+                                                <select class="form-control form-control-sm" name="category"
+                                                    id="category" required>
+                                                    <option value="daily">Daily</option>
+                                                    <option value="weekly">Weekly</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group mb-2">
+                                                <label>Target Type</label>
+                                                <select class="form-control form-control-sm" name="target_type"
+                                                    id="target_type" required>
+                                                    <option value="deposit">Deposit Only</option>
+                                                    <option value="bet">Bet (Turnover) Only</option>
+                                                    <option value="both">Both (Deposit & Bet)</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group mb-2" id="depositGroup">
+                                                <label>Required Deposit (₹)</label>
+                                                <input type="number" class="form-control form-control-sm"
+                                                    name="required_deposit" placeholder="Enter amount">
+                                            </div>
+                                            <div class="form-group mb-2" id="betGroup" style="display: none;">
+                                                <label>Required Bet (₹)</label>
+                                                <input type="number" class="form-control form-control-sm"
+                                                    name="required_bet" placeholder="Enter amount">
+                                            </div>
+                                            <div class="form-group mb-2">
+                                                <label>Bonus Reward (₹)</label>
+                                                <input type="number" class="form-control form-control-sm"
+                                                    name="bonus_amount" placeholder="Enter reward" required>
+                                            </div>
+                                            <div class="form-group mb-0">
+                                                <label>Description</label>
+                                                <textarea class="form-control form-control-sm" name="description"
+                                                    rows="2" placeholder="Task description..."></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer bg-white pt-0">
+                                            <button type="submit" class="btn btn-primary btn-block btn-premium">Save
+                                                Mission</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <!-- Mission List -->
+                            <div class="col-lg-8 col-md-7">
+                                <div class="card premium-card">
+                                    <div class="card-header bg-dark py-2">
+                                        <h3 class="card-title" style="font-size: 1rem;">Active Missions</h3>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover text-nowrap mb-0">
+                                                <thead class="bg-light">
+                                                    <tr>
+                                                        <th>Mission</th>
+                                                        <th>Target</th>
+                                                        <th>Reward</th>
+                                                        <th class="text-center">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="missionTableBody">
+                                                    <!-- Data will be loaded via AJAX -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Edit Modal -->
+            <div class="modal fade" id="editMissionModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                    <div class="modal-content"
+                        style="border-radius: 12px; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                        <div class="modal-header bg-dark py-2" style="border-radius: 12px 12px 0 0;">
+                            <h6 class="modal-title m-0"><i class="fas fa-edit mr-2"></i>Edit Mission</h6>
+                            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"
+                                style="padding: 0.5rem 1rem;">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form id="editMissionForm">
+                            <input type="hidden" name="id" id="edit_id">
+                            <div class="modal-body py-2">
+                                <div class="form-group mb-2">
+                                    <label style="font-size: 12px; margin-bottom: 2px;">Category</label>
+                                    <select class="form-control form-control-sm" name="category" id="edit_category"
+                                        required>
+                                        <option value="daily">Daily</option>
+                                        <option value="weekly">Weekly</option>
+                                    </select>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label style="font-size: 12px; margin-bottom: 2px;">Target Type</label>
+                                    <select class="form-control form-control-sm" name="target_type"
+                                        id="edit_target_type" required>
+                                        <option value="deposit">Deposit Only</option>
+                                        <option value="bet">Bet (Turnover) Only</option>
+                                        <option value="both">Both (Deposit & Bet)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group mb-2" id="editDepositGroup">
+                                    <label style="font-size: 12px; margin-bottom: 2px;">Required Deposit (₹)</label>
+                                    <input type="number" class="form-control form-control-sm" name="required_deposit"
+                                        id="edit_required_deposit">
+                                </div>
+                                <div class="form-group mb-2" id="editBetGroup">
+                                    <label style="font-size: 12px; margin-bottom: 2px;">Required Bet (₹)</label>
+                                    <input type="number" class="form-control form-control-sm" name="required_bet"
+                                        id="edit_required_bet">
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label style="font-size: 12px; margin-bottom: 2px;">Bonus Reward (₹)</label>
+                                    <input type="number" class="form-control form-control-sm" name="bonus_amount"
+                                        id="edit_bonus_amount" required>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label style="font-size: 12px; margin-bottom: 2px;">Description</label>
+                                    <textarea class="form-control form-control-sm" name="description"
+                                        id="edit_description" rows="2"></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer py-2">
+                                <button type="button" class="btn btn-sm btn-secondary"
+                                    data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <script src="/plugins/jquery/jquery.min.js"></script>
+    <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/dist/js/adminlte.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        let allMissions = [];
+
+        $(document).ready(function () {
+            loadMissions();
+
+            $('#target_type').change(function () {
+                const val = $(this).val();
+                $('#depositGroup').toggle(val === 'deposit' || val === 'both');
+                $('#betGroup').toggle(val === 'bet' || val === 'both');
+            });
+
+            $('#edit_target_type').change(function () {
+                const val = $(this).val();
+                $('#editDepositGroup').toggle(val === 'deposit' || val === 'both');
+                $('#editBetGroup').toggle(val === 'bet' || val === 'both');
+            });
+
+            $('#missionForm').submit(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "/api/webapi/admin/missions/add",
+                    data: $(this).serialize(),
+                    success: function (res) {
+                        if (res.status) {
+                            Swal.fire('Success', 'Mission added!', 'success');
+                            $('#missionForm')[0].reset();
+                            loadMissions();
+                        } else {
+                            Swal.fire('Error', res.message, 'error');
+                        }
+                    }
+                });
+            });
+
+            $('#editMissionForm').submit(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "/api/webapi/admin/missions/update",
+                    data: $(this).serialize(),
+                    success: function (res) {
+                        if (res.status) {
+                            Swal.fire('Updated', 'Mission updated successfully!', 'success');
+                            $('#editMissionModal').modal('hide');
+                            loadMissions();
+                        } else {
+                            Swal.fire('Error', res.message, 'error');
+                        }
+                    }
+                });
+            });
+        });
+
+        function loadMissions() {
+            $.ajax({
+                type: "GET",
+                url: "/api/webapi/admin/missions/list",
+                success: function (res) {
+                    if (res.status) {
+                        allMissions = res.data;
+                        let html = '';
+                        res.data.forEach(item => {
+                            const targetInfo = item.target_type === 'both'
+                                ? `D:₹${item.required_deposit}<br>B:₹${item.required_bet}`
+                                : (item.target_type === 'deposit' ? `D:₹${item.required_deposit}` : `B:₹${item.required_bet}`);
+
+                            html += `
+                            <tr>
+                                <td>
+                                    <span class="mission-category category-${item.category}">${item.category}</span><br>
+                                    <small class="text-muted">${item.description || ''}</small>
+                                </td>
+                                <td style="line-height: 1.2;">
+                                    <span class="type-badge type-${item.target_type}">${item.target_type}</span><br>
+                                    <small>${targetInfo}</small>
+                                </td>
+                                <td class="text-success font-weight-bold">₹${item.bonus_amount}</td>
+                                <td class="text-center" style="min-width: 100px;">
+                                    <div class="action-buttons">
+                                        <button class="btn btn-xs btn-info" onclick="editMission(${item.id})">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-xs btn-danger" onclick="deleteMission(${item.id})">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                        });
+                        $('#missionTableBody').html(html);
+                    }
+                }
+            });
+        }
+
+        function editMission(id) {
+            const mission = allMissions.find(m => m.id === id);
+            if (mission) {
+                $('#edit_id').val(mission.id);
+                $('#edit_category').val(mission.category);
+                $('#edit_target_type').val(mission.target_type).trigger('change');
+                $('#edit_required_deposit').val(mission.required_deposit);
+                $('#edit_required_bet').val(mission.required_bet);
+                $('#edit_bonus_amount').val(mission.bonus_amount);
+                $('#edit_description').val(mission.description);
+                $('#editMissionModal').modal('show');
+            }
+        }
+
+        function deleteMission(id) {
+            Swal.fire({
+                title: 'Delete Mission?',
+                text: "This task will be permanently removed.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ff4d4d',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Delete',
+                width: '350px',
+                customClass: {
+                    popup: 'compact-swal-popup',
+                    title: 'compact-swal-title',
+                    htmlContainer: 'compact-swal-text',
+                    confirmButton: 'compact-swal-confirm',
+                    cancelButton: 'compact-swal-cancel'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/webapi/admin/missions/delete",
+                        data: { id: id },
+                        success: function (res) {
+                            if (res.status) {
+                                Swal.fire({ text: 'Deleted!', icon: 'success', toast: true, position: 'top-end', showConfirmButton: false, timer: 3000 });
+                                loadMissions();
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

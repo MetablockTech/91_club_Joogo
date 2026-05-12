@@ -1,0 +1,456 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --bg: #f0f2f8;
+    --sidebar-bg: #ffffff;
+    --card-bg: #ffffff;
+    --card-border: #e3e7f0;
+    --accent: #6c63ff;
+    --accent-light: rgba(108, 99, 255, 0.08);
+    --text-primary: #1a1d2e;
+    --text-secondary: #5a5f7a;
+    --text-muted: #9ea3b8;
+    --sidebar-width: 260px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  body {
+    font-family: 'Inter', sans-serif !important;
+    background: var(--bg);
+    overflow-x: hidden;
+  }
+
+  /* ── CUSTOM SIDEBAR ── */
+  .custom-sidebar {
+    width: var(--sidebar-width);
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--card-border);
+    box-shadow: 4px 0 15px rgba(0,0,0,0.03);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    z-index: 1050;
+    transition: var(--transition);
+  }
+
+  .sidebar-logo {
+    padding: 20px 24px;
+    display: flex; align-items: center; gap: 12px;
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  .logo-icon {
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, var(--accent), #9c27b0);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 800; color: #fff;
+    box-shadow: 0 4px 10px rgba(108, 99, 255, 0.3);
+  }
+
+  .logo-text { font-size: 18px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.5px; }
+  .logo-sub  { font-size: 11px; color: var(--text-muted); font-weight: 500; }
+
+  .sidebar-user {
+    padding: 18px 24px;
+    display: flex; align-items: center; gap: 12px;
+    background: linear-gradient(to right, var(--accent-light), transparent);
+    margin: 10px 0;
+  }
+
+  .avatar-sm {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; color: #fff;
+  }
+
+  .user-info .name { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+  .user-info .role { font-size: 11px; color: var(--text-secondary); opacity: 0.8; }
+
+  .sidebar-nav {
+    padding: 10px 0;
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--card-border) transparent;
+  }
+
+  .nav-section-label {
+    padding: 16px 24px 8px;
+    font-size: 10px; font-weight: 700;
+    color: var(--text-muted); letter-spacing: 1.2px; text-transform: uppercase;
+  }
+
+  .sidebar-nav-item {
+    display: flex; align-items: center; gap: 14px;
+    padding: 10px 24px;
+    color: var(--text-secondary);
+    font-size: 13.5px; font-weight: 500;
+    transition: var(--transition);
+    text-decoration: none !important;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .sidebar-nav-item:hover {
+    color: var(--accent);
+    background: var(--accent-light);
+  }
+
+  .sidebar-nav-item.active {
+    color: var(--accent) !important;
+    font-weight: 600;
+    background: var(--accent-light) !important;
+  }
+
+  .sidebar-nav-item.active::after {
+    content: '';
+    position: absolute; right: 0; top: 10px; bottom: 10px;
+    width: 4px; border-radius: 4px 0 0 4px;
+    background: var(--accent) !important;
+  }
+
+  .nav-icon {
+    font-size: 16px; width: 22px; text-align: center;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0.8;
+  }
+
+  .badge {
+    margin-left: auto;
+    font-size: 9px; font-weight: 700; padding: 2px 7px;
+    border-radius: 6px; text-transform: uppercase;
+  }
+  .badge-vip { background: #fff8e1; color: #ffa000; border: 1px solid #ffe082; }
+  .badge-new { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+
+  /* ── MOBILE OVERLAYS & TOGGLES ── */
+  .sidebar-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+    z-index: 1040; display: none; backdrop-filter: blur(4px);
+  }
+
+  /* ── MOBILE HEADER ── */
+  .mobile-header {
+    display: none;
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 60px; background: #fff;
+    border-bottom: 1px solid var(--card-border);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    z-index: 1030; align-items: center; padding: 0 15px;
+  }
+  .mobile-header-title {
+    font-weight: 700; font-size: 18px; color: var(--text-primary);
+    margin-left: 15px;
+  }
+  .mobile-toggle {
+    width: 38px; height: 38px; border-radius: 8px;
+    background: var(--bg); color: var(--text-primary);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 18px; transition: 0.2s;
+  }
+  .mobile-toggle:hover { background: var(--accent-light); color: var(--accent); }
+
+  /* Override AdminLTE bits */
+  .main-sidebar, .main-sidebar::before { width: var(--sidebar-width) !important; background: #fff !important; }
+  .content-wrapper { margin-left: var(--sidebar-width) !important; background: var(--bg) !important; }
+  .main-header { margin-left: var(--sidebar-width) !important; border-bottom: 1px solid var(--card-border) !important; background: #fff !important; }
+
+  /* Kill AdminLTE default blue active states */
+  .nav-pills .nav-link.active, 
+  .nav-sidebar .nav-item > .nav-link.active,
+  [class*="sidebar-dark-"] .nav-sidebar > .nav-item > .nav-link.active,
+  [class*="sidebar-light-"] .nav-sidebar > .nav-item > .nav-link.active {
+    background-color: transparent !important;
+    color: inherit !important;
+    box-shadow: none !important;
+  }
+
+  /* ── RESPONSIVENESS ── */
+  @media (max-width: 991.98px) {
+    .custom-sidebar { transform: translateX(-100%); }
+    .custom-sidebar.sidebar-open { transform: translateX(0); }
+    .sidebar-overlay.sidebar-open { display: block; }
+    .mobile-header { display: flex; }
+    .content-wrapper, .main-header, .main-footer { 
+        margin-left: 0 !important; 
+        padding-top: 60px !important; /* Push content down so header doesn't overlap */
+    }
+  }
+
+  .sidebar-submenu {
+    display: none;
+    background: #f9faff !important;
+    margin: 0 12px 10px;
+    border-radius: 0 0 12px 12px;
+    padding: 5px 0;
+    border: 1px solid rgba(108, 99, 255, 0.05);
+    border-top: none;
+  }
+  .sidebar-submenu.active { display: block; }
+  .sidebar-nav-item.has-dropdown .arrow {
+    margin-left: auto;
+    font-size: 10px;
+    transition: transform 0.3s;
+    opacity: 0.5;
+  }
+  .sidebar-nav-item.has-dropdown.open {
+    background: #f9faff !important;
+    border-radius: 12px 12px 0 0;
+    margin: 0 12px;
+    padding-left: 12px;
+  }
+  .sidebar-nav-item.has-dropdown.open .arrow { transform: rotate(90deg); }
+  .sidebar-submenu .sidebar-nav-item { 
+    padding: 8px 20px; 
+    font-size: 13px;
+    margin: 0;
+  }
+
+  /* ── PREMIUM LOADER ── */
+  .premium-loader {
+    width: 48px; height: 48px; border: 4px solid var(--accent-light);
+    border-radius: 50%; display: inline-block; position: relative;
+    box-sizing: border-box; animation: rotation 1s linear infinite;
+  }
+  .premium-loader::after {
+    content: ''; box-sizing: border-box; position: absolute;
+    left: 0; top: 0; width: 48px; height: 48px;
+    border-radius: 50%; border: 4px solid transparent;
+    border-bottom-color: var(--accent);
+  }
+  @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+  /* ── PREMIUM TOAST NOTIFICATION ── */
+  .premium-toast-popup {
+    background: rgba(26, 29, 46, 0.95) !important;
+    backdrop-filter: blur(12px) !important;
+    border-radius: 16px !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2) !important;
+    padding: 12px 20px !important;
+    color: #ffffff !important;
+  }
+  .premium-toast-title {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.3px !important;
+    color: #ffffff !important;
+  }
+  .premium-toast-progress {
+    background: linear-gradient(90deg, #6c63ff, #00d2ff) !important;
+    border-radius: 0 0 16px 16px !important;
+    height: 3px !important;
+  }
+  .swal2-success-circular-line-left, .swal2-success-circular-line-right, .swal2-success-fix {
+    background-color: transparent !important;
+  }
+</style>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="mobile-header">
+  <div class="mobile-toggle" id="mobileToggle">☰</div>
+  <div class="mobile-header-title"><%= locals.SITE_NAME || 'Starworldz' %></div>
+</div>
+
+<aside class="custom-sidebar" id="customSidebar">
+  <div class="sidebar-logo">
+    <% if (locals.SITE_LOGO) { %>
+      <img src="<%= locals.SITE_LOGO %>" alt="Logo" style="width:40px;height:40px;border-radius:12px;object-fit:cover;box-shadow:0 4px 10px rgba(108,99,255,0.3);">
+    <% } else { %>
+      <div class="logo-icon"><%= (locals.SITE_NAME||'S').charAt(0).toUpperCase() %></div>
+    <% } %>
+    <div style="flex:1">
+      <div class="logo-text"><%= locals.SITE_NAME || 'Starworldz' %></div>
+      <div class="logo-sub">Premium Admin</div>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Main</div>
+    <a href="/admin/manager/dashboard" class="sidebar-nav-item <%= (typeof page !== 'undefined' && page === 'dashboard') ? 'active' : '' %>">
+      <span class="nav-icon">📊</span> Dashboard
+    </a>
+    <!-- <a href="/admin/manager/dashboard2" class="sidebar-nav-item <%= (typeof page !== 'undefined' && page === 'dashboard2') ? 'active' : '' %>">
+      <span class="nav-icon">👤</span> Agent Dashboard
+    </a> -->
+
+    <div class="nav-section-label">Games</div>
+    <a href="/admin/manager/index" class="sidebar-nav-item">
+      <span class="nav-icon">🎮</span> Wingo <span class="badge badge-vip">VIP</span>
+    </a>
+    <a href="/admin/manager/5d" class="sidebar-nav-item">
+      <span class="nav-icon">🎲</span> 5D <span class="badge badge-new">New</span>
+    </a>
+    <a href="/admin/manager/k3" class="sidebar-nav-item">
+      <span class="nav-icon">🎯</span> K3 <span class="badge badge-new">New</span>
+    </a>
+
+    <div class="nav-section-label">History Management</div>
+    <div class="nav-group">
+      <a href="javascript:void(0)" class="sidebar-nav-item has-dropdown" id="betHistoryToggle">
+        <span class="nav-icon">📋</span> Bet History <i class="fas fa-chevron-right arrow"></i>
+      </a>
+      <div class="sidebar-submenu" id="betHistorySubmenu">
+        <a href="/admin/manager/k3History" class="sidebar-nav-item">
+          <span class="nav-icon">🎯</span> K3 History
+        </a>
+        <a href="/admin/manager/5dHistory" class="sidebar-nav-item">
+          <span class="nav-icon">🎲</span> 5D History
+        </a>
+        <a href="/admin/manager/betHistory" class="sidebar-nav-item">
+          <span class="nav-icon">🎮</span> Wingo History
+        </a>
+        <a href="/admin/manager/trxHistory" class="sidebar-nav-item">
+          <span class="nav-icon">🔄</span> TRX History
+        </a>
+        <a href="/admin/manager/apiGamesHistory" class="sidebar-nav-item">
+          <span class="nav-icon">🕹️</span> Api Games History
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-section-label">Users</div>
+    <a href="/admin/manager/members" class="sidebar-nav-item <%= (typeof page !== 'undefined' && page === 'members') ? 'active' : '' %>">
+      <span class="nav-icon">👥</span> Members
+    </a>
+    <a href="/admin/manager/referrals" class="sidebar-nav-item">
+      <span class="nav-icon">🔗</span> Referrals
+    </a>
+    <a href="/admin/manager/ctv" class="sidebar-nav-item">
+      <span class="nav-icon">🤝</span> Collaborator
+    </a>
+
+    <div class="nav-section-label">Finance</div>
+    <a href="/admin/manager/recharge" class="sidebar-nav-item">
+      <span class="nav-icon">💳</span> Recharge
+    </a>
+    <a href="/admin/manager/rechargeRecord" class="sidebar-nav-item">
+      <span class="nav-icon">📜</span> Recharge History
+    </a>
+    <a href="/admin/manager/withdraw" class="sidebar-nav-item">
+      <span class="nav-icon">💸</span> Withdrawal
+    </a>
+    <a href="/admin/manager/withdrawRecord" class="sidebar-nav-item">
+      <span class="nav-icon">📜</span> Withdrawal History
+    </a>
+
+    <div class="nav-section-label">Reports & Analytics</div>
+    <a href="/admin/manager/claimedRewards" class="sidebar-nav-item">
+      <span class="nav-icon">🎁</span> Claimed Rewards
+    </a>
+    <a href="/admin/manager/commissionReports" class="sidebar-nav-item">
+      <span class="nav-icon">📈</span> Commission Reports
+    </a>
+
+    <div class="nav-section-label">Settings</div>
+    <a href="/admin/manager/levelSetting" class="sidebar-nav-item">
+      <span class="nav-icon">⚙️</span> Level Settings
+    </a>
+    <a href="/admin/manager/rebetRank" class="sidebar-nav-item">
+      <span class="nav-icon">🏆</span> Rebet Rank
+    </a>
+    <a href="/admin/manager/attendance-config" class="sidebar-nav-item">
+      <span class="nav-icon">📅</span> Attendance Settings
+    </a>
+    <a href="/admin/manager/missions-config" class="sidebar-nav-item">
+      <span class="nav-icon">📋</span> Missions Settings
+    </a>
+    <a href="/admin/manager/invitation-bonus-config" class="sidebar-nav-item">
+      <span class="nav-icon">🎁</span> Invitation Bonus
+    </a>
+    <a href="/admin/manager/deposit-bonuses-config" class="sidebar-nav-item">
+      <span class="nav-icon">💰</span> Deposit Bonuses
+    </a>
+
+    <a href="/admin/manager/CreatedSalaryRecord" class="sidebar-nav-item">
+      <span class="nav-icon">💰</span> Salary Record
+    </a>
+    <a href="/admin/manager/giftHistory" class="sidebar-nav-item">
+      <span class="nav-icon">📜</span> Giftcode History
+    </a>
+    <a href="/admin/manager/createBonus" class="sidebar-nav-item">
+      <span class="nav-icon">🎁</span> Giftcode
+    </a>
+    <a href="/admin/manager/settings" class="sidebar-nav-item">
+      <span class="nav-icon">🛠️</span> General Settings
+    </a>
+
+    <div class="nav-section-label">Exit</div>
+    <a href="/home" class="sidebar-nav-item">
+      <span class="nav-icon">🚪</span> Go To Website
+    </a>
+  </nav>
+</aside>
+
+<!-- Global Plugins -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const mobileToggle = document.getElementById('mobileToggle');
+    const customSidebar = document.getElementById('customSidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+    function toggleSidebar() {
+      customSidebar.classList.toggle('sidebar-open');
+      sidebarOverlay.classList.toggle('sidebar-open');
+    }
+
+    mobileToggle.addEventListener('click', toggleSidebar);
+    sidebarOverlay.addEventListener('click', toggleSidebar);
+
+    // Collapsible Bet History Logic
+    const betHistoryToggle = document.getElementById('betHistoryToggle');
+    const betHistorySubmenu = document.getElementById('betHistorySubmenu');
+
+    if (betHistoryToggle) {
+      betHistoryToggle.addEventListener('click', function() {
+        this.classList.toggle('open');
+        betHistorySubmenu.classList.toggle('active');
+      });
+    }
+
+    // Active Link Highlighting based on URL
+    const currentPath = window.location.pathname;
+    document.querySelectorAll('.sidebar-nav-item').forEach(link => {
+      if (link.getAttribute('href') === currentPath) {
+        link.classList.add('active');
+        
+        // If it's a submenu item, also open the parent
+        const parentSubmenu = link.closest('.sidebar-submenu');
+        if (parentSubmenu) {
+          parentSubmenu.classList.add('active');
+          const toggle = parentSubmenu.previousElementSibling;
+          if (toggle) toggle.classList.add('open');
+        }
+      }
+    });
+  });
+
+  // Global Toast Implementation
+  window.alertMsg = (title, icon = 'success') => {
+    if (typeof Swal !== 'undefined') {
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        icon: icon,
+        title: title,
+        background: '#fff',
+        customClass: {
+          popup: 'premium-toast-popup-standard',
+        }
+      });
+    } else {
+      console.log(`Alert [${icon}]: ${title}`);
+    }
+  };
+</script>

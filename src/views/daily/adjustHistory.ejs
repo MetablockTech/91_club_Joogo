@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adjustment Logs | <%= locals.SITE_NAME || 'Starworldz' %></title>
+  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    :root {
+      --bg: #f0f2f8;
+      --sidebar-bg: #ffffff;
+      --card-bg: #ffffff;
+      --card-border: #e3e7f0;
+      --accent: #6c63ff;
+      --text-primary: #1a1d2e;
+      --text-secondary: #5a5f7a;
+      --text-muted: #9ea3b8;
+      --green: #00b894;
+      --red: #e17055;
+      --sidebar-width: 260px;
+    }
+    body { font-family: 'Inter', sans-serif !important; background: var(--bg); color: var(--text-primary); }
+    .wrapper { display: flex; min-height: 100vh; }
+    .main-content { margin-left: var(--sidebar-width); flex: 1; display: flex; flex-direction: column; min-width: 0; }
+    .topbar { background: var(--sidebar-bg); border-bottom: 1px solid var(--card-border); padding: 0 28px; height: 70px; display: flex; align-items: center; position: sticky; top: 0; z-index: 50; }
+    .topbar-title { font-size: 18px; font-weight: 700; }
+    .content-body { padding: 28px; }
+    .filter-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 20px; margin-bottom: 24px; display: flex; flex-wrap: wrap; gap: 15px; align-items: flex-end; }
+    .filter-group { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 180px; }
+    .filter-group label { font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; }
+    .filter-group input { padding: 10px 14px; border: 1px solid var(--card-border); border-radius: 10px; font-size: 14px; background: #fbfcfe; }
+    .btn-search { background: var(--accent); color: #fff; border: none; padding: 10px 24px; border-radius: 10px; font-weight: 700; cursor: pointer; height: 42px; }
+    .section-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 24px; overflow: hidden; }
+    .table-responsive { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    thead th { padding: 18px 20px; text-align: center; font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; background: #fafbfc; border-bottom: 1px solid var(--card-border); }
+    tbody td { padding: 16px 20px; font-size: 13px; font-weight: 600; text-align: center; border-bottom: 1px solid #f8f9fb; }
+    .pagination-wrap { padding: 20px; display: flex; justify-content: center; align-items: center; gap: 15px; background: #fafbfc; border-top: 1px solid var(--card-border); }
+    .pag-btn { background: #fff; border: 1px solid var(--card-border); padding: 10px 20px; border-radius: 12px; font-weight: 700; cursor: pointer; }
+    .pag-info { font-size: 14px; font-weight: 800; background: #f0f2f8; padding: 8px 18px; border-radius: 10px; }
+    @media (max-width: 991px) { .main-content { margin-left: 0; } }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <%- include('nav') %>
+    <div class="main-content">
+      <header class="topbar"><div class="topbar-title">Financial Audit &rsaquo; Adjustment Logs</div></header>
+      <div class="content-body">
+        <div class="filter-card">
+          <div class="filter-group"><label>Start Date</label><input type="date" id="filter-start"></div>
+          <div class="filter-group"><label>End Date</label><input type="date" id="filter-end"></div>
+          <button class="btn-search" id="btn-search"><i class="fas fa-search"></i> Filter</button>
+        </div>
+        <div class="section-card">
+          <div class="table-responsive">
+            <table>
+              <thead><tr><th>ID</th><th>Action</th><th>Member</th><th>Amount</th><th>Time</th></tr></thead>
+              <tbody id="table-body"><tr><td colspan="5">Loading data...</td></tr></tbody>
+            </table>
+          </div>
+          <div class="pagination-wrap">
+            <button class="pag-btn" id="prev-btn">Previous</button>
+            <span class="pag-info" id="pag-info">1 / 1</span>
+            <button class="pag-btn" id="next-btn">Next</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/plugins/jquery/jquery.min.js"></script>
+  <script>
+    function timerJoin(params = '') {
+      let date = params ? new Date(Number(params)) : new Date();
+      return date.toLocaleString();
+    }
+    let pageno = 0, limit = 20, page = 1, totalPages = 1;
+    function loadData() {
+      $.post("/manager/listAdjustmentHistory", { pageno, limit, startDate: $('#filter-start').val(), endDate: $('#filter-end').val() }, function(res) {
+        if(!res.status) return;
+        totalPages = res.page_total || 1;
+        $('#pag-info').text(`${page} / ${totalPages}`);
+        let html = res.datas.map(d => `<tr><td>#${d.id}</td><td style="font-weight:700">${d.type == '1' ? 'INCREASE' : 'DECREASE'}</td><td>91${d.phone_used}</td><td style="color:${d.type == '1' ? 'var(--green)' : 'var(--red)'}">${d.type == '1' ? '+' : '-'} ₹${Number(d.money).toFixed(2)}</td><td>${timerJoin(d.time)}</td></tr>`).join('') || '<tr><td colspan="5">No records found</td></tr>';
+        $("#table-body").html(html);
+      });
+    }
+    $('#btn-search').click(() => { pageno = 0; page = 1; loadData(); });
+    $('#next-btn').click(() => { if(page < totalPages) { pageno += limit; page++; loadData(); } });
+    $('#prev-btn').click(() => { if(page > 1) { pageno -= limit; page--; loadData(); } });
+    loadData();
+  </script>
+</body>
+</html>

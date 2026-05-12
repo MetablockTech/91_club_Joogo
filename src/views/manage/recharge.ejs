@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pending Recharges | <%= locals.SITE_NAME || 'Starworldz' %> Admin</title>
+  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f0f2f8;
+      --sidebar-bg: #ffffff;
+      --card-bg: #ffffff;
+      --card-border: #e3e7f0;
+      --accent: #6c63ff;
+      --accent-light: rgba(108, 99, 255, 0.08);
+      --text-primary: #1a1d2e;
+      --text-secondary: #5a5f7a;
+      --text-muted: #9ea3b8;
+      --green: #00b894;
+      --red: #e17055;
+      --blue: #3498db;
+      --sidebar-width: 260px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif !important;
+      background: var(--bg);
+      color: var(--text-primary);
+      overflow-x: hidden;
+    }
+
+    .wrapper { display: flex; min-height: 100vh; }
+
+    .main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1; display: flex; flex-direction: column; transition: all 0.3s; min-width: 0;
+    }
+
+    @media (max-width: 991.98px) { .main-content { margin-left: 0; } }
+
+    .topbar {
+      background: var(--sidebar-bg); border-bottom: 1px solid var(--card-border);
+      padding: 0 28px; height: 70px; display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 50;
+    }
+    .topbar-title { font-size: 18px; font-weight: 700; color: var(--text-primary); }
+
+    .content-body { padding: 28px; }
+
+    /* ── TOOLBAR ── */
+    .toolbar {
+      background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px;
+      padding: 20px 24px; display: flex; align-items: center; gap: 16px; margin-bottom: 28px;
+      flex-wrap: wrap; box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    }
+    .page-header-info { flex: 1; min-width: 200px; }
+    .page-header-info h2 { font-size: 20px; font-weight: 800; color: var(--text-primary); }
+    .page-header-info p { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+
+    /* ── TABLE ── */
+    .table-card {
+      background: #fff; border: 1px solid var(--card-border); border-radius: 24px;
+      overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+    }
+    .table-responsive { overflow-x: auto; width: 100%; }
+    table { width: 100%; border-collapse: collapse; min-width: 1100px; }
+    thead th {
+      background: #fbfcfe; padding: 16px 20px; text-align: left;
+      font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    tbody tr { border-bottom: 1px solid #f8f9fb; transition: background 0.2s; }
+    tbody tr:hover { background: rgba(108, 99, 255, 0.02); }
+    td { padding: 16px 20px; font-size: 14px; font-weight: 500; vertical-align: middle; }
+
+    .badge {
+      padding: 6px 12px; border-radius: 30px; font-size: 11px; font-weight: 700;
+      display: inline-flex; align-items: center; gap: 6px; border: 1px solid transparent;
+      white-space: nowrap;
+    }
+    .badge-waiting { background: rgba(241, 196, 15, 0.1); color: #f39c12; }
+    .badge-upi { background: rgba(108, 99, 255, 0.1); color: var(--accent); border-color: rgba(108, 99, 255, 0.2); }
+    .badge-bank { background: rgba(52, 152, 219, 0.1); color: var(--blue); border-color: rgba(52, 152, 219, 0.2); }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+    .amount-cell { font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 15px; color: var(--text-primary); }
+    .utr-cell { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted); font-weight: 600; }
+
+    .action-group { display: flex; align-items: center; gap: 10px; }
+    .btn-action {
+      width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      border: none; cursor: pointer; transition: all 0.2s; font-size: 16px;
+    }
+    .btn-approve { background: rgba(0, 184, 148, 0.1); color: var(--green); }
+    .btn-approve:hover { background: var(--green); color: #fff; transform: scale(1.05); }
+    .btn-reject { background: rgba(225, 112, 85, 0.1); color: var(--red); }
+    .btn-reject:hover { background: var(--red); color: #fff; transform: scale(1.05); }
+
+    /* ── RESPONSIVE OVERRIDES ── */
+    @media (max-width: 991.98px) {
+      .main-content { margin-left: 0; padding-top: 60px !important; }
+      .topbar { padding: 0 16px; height: 60px; }
+    }
+
+    @media (max-width: 768px) {
+      .content-body { padding: 12px !important; }
+      .toolbar { padding: 16px; border-radius: 15px; margin-bottom: 20px; flex-direction: column; text-align: center; }
+      .page-header { text-align: center; }
+      
+      .table-card { border-radius: 15px; }
+      .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      table { min-width: 1000px; } 
+      
+      .action-group { gap: 12px; }
+      .btn-action { width: 42px; height: 42px; }
+      .btn-refresh { width: 100% !important; }
+    }
+    
+    /* Breadcrumb styling */
+    .page-header { margin-bottom: 24px; }
+    .page-title { font-size: 20px; font-weight: 800; color: var(--text-primary); }
+    .page-breadcrumb { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+    .page-breadcrumb span { color: var(--accent); font-weight: 600; }
+  </style>
+</head>
+<body>
+
+  <div class="wrapper">
+    <%- include('nav') %>
+
+    <div class="main-content">
+      <header class="topbar" style="position: relative;">
+        <div class="topbar-title">Recharge Management</div>
+      </header>
+
+      <div class="content-body">
+        
+        <div class="page-header">
+          <h2 class="page-title">Pending Recharges</h2>
+          <div class="page-breadcrumb">Dashboard &rsaquo; Finance &rsaquo; <span>Recharge Requests</span></div>
+        </div>
+
+        <div class="toolbar">
+          <div style="flex: 1;">
+            <h2 style="font-size: 18px; font-weight: 700;">Action Queue</h2>
+            <p style="font-size: 12px; color: var(--text-muted);">Manage and verify incoming transaction requests.</p>
+          </div>
+          <button class="btn-action btn-refresh" style="width: auto; padding: 0 20px; background: var(--accent); color: #fff; font-size: 14px; font-weight: 700; border-radius: 12px;" onclick="initRecharge()">
+            <i class="fas fa-sync-alt" style="margin-right: 8px;"></i> Refresh Queue
+          </button>
+        </div>
+
+        <div class="table-card">
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Request ID</th>
+                  <th>Account</th>
+                  <th>Method</th>
+                  <th>Amount</th>
+                  <th>Crypto Details</th>
+                  <th>UTR / Order ID</th>
+                  <th>Time Request</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="recharge-table-body">
+                <!-- Data injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="/plugins/jquery/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    function formateT(params) {
+      let result = (params < 10) ? "0" + params : params;
+      return result;
+    }
+
+    function timerJoin(params = '') {
+      let date = params ? new Date(Number(params)) : new Date();
+      let years = formateT(date.getFullYear());
+      let months = formateT(date.getMonth() + 1);
+      let days = formateT(date.getDate());
+      let hours = date.getHours();
+      let minutes = formateT(date.getMinutes());
+      let ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12 || 12;
+      return `${years}/${months}/${days} ${formateT(hours)}:${minutes} ${ampm}`;
+    }
+
+    const PaymentMethodsMap = {
+      upi_gateway: "UPI GATEWAY",
+      upi_manual: "UPI Manual",
+      usdt_manual: "USDT Manual",
+      wow_pay: "WOW Pay",
+      rs_pay: "RS Pay",
+      usdt: "USDT",
+    };
+
+    const StatusMap = {
+      PENDING: 0,
+      SUCCESS: 1,
+      CANCELLED: 2,
+    };
+
+    const Render = (datas) => {
+      let html = "";
+      if (!datas || datas.length === 0) {
+        $("#recharge-table-body").html('<tr><td colspan="8" style="text-align:center; padding: 60px; color: var(--text-muted);">Queued requests will appear here. Everything is up to date!</td></tr>');
+        return;
+      }
+
+      datas.map((data) => {
+        const methodBadge = data.type === 'bank' ? 'badge-bank' : 'badge-upi';
+        const methodName = PaymentMethodsMap[data.type] || data.type;
+
+        html += `
+          <tr>
+            <td style="font-weight: 800; color: var(--text-muted);">#${data.id}</td>
+            <td>
+              <div style="font-weight: 700; color: var(--accent);">91${data.phone}</div>
+            </td>
+            <td><span class="badge ${methodBadge}">${methodName}</span></td>
+            <td class="amount-cell">₹${Number(data.money).toFixed(2)}</td>
+            <td>
+              ${data.usdt_amount ? `
+                <div style="font-weight: 700; color: var(--green); font-size: 13px;">$${data.usdt_amount} USDT</div>
+                <div style="font-size: 11px; color: var(--text-muted);">Rate: ₹${data.exchange_rate}</div>
+              ` : '<span style="color: var(--text-muted); font-size: 12px;">---</span>'}
+            </td>
+            <td>
+              <div class="utr-cell">${data.utr || '---'}</div>
+              <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">Order: ${data.id_order}</div>
+            </td>
+            <td style="font-size: 13px; color: var(--text-secondary); font-weight: 600;">${timerJoin(data.time)}</td>
+            <td>
+              <span class="badge badge-waiting">
+                <span class="dot"></span> Waiting Approval
+              </span>
+            </td>
+            <td>
+              <div class="action-group">
+                <button class="btn-action btn-approve approve-btn" data-id="${data.id}" title="Approve Request">
+                  <i class="fas fa-check"></i>
+                </button>
+                <button class="btn-action btn-reject reject-btn" data-id="${data.id}" title="Reject Request">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+      $("#recharge-table-body").html(html);
+
+      $('.approve-btn').click(function() {
+        const id = $(this).attr('data-id');
+        handleRecharge(id, StatusMap.SUCCESS, 'Accepted');
+      });
+
+      $('.reject-btn').click(function() {
+        const id = $(this).attr('data-id');
+        handleRecharge(id, StatusMap.CANCELLED, 'Rejected');
+      });
+    };
+
+    const handleRecharge = (id, status, actionName) => {
+      Swal.fire({
+        title: `${actionName} Request?`,
+        text: `Are you sure you want to ${actionName.toLowerCase()} this recharge request?`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: status === StatusMap.SUCCESS ? '#00b894' : '#e17055',
+        confirmButtonText: `Yes, ${actionName}`
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            type: "POST",
+            url: "/api/webapi/admin/recharge/status",
+            data: { id: id, status: status },
+            dataType: "json",
+            success: function (response) {
+              alertMsg(`Recharge ${actionName} successfully`);
+              initRecharge();
+            }
+          });
+        }
+      });
+    };
+
+    const initRecharge = () => {
+      $.ajax({
+        type: "GET",
+        url: "/api/webapi/admin/recharge/pending",
+        dataType: "json",
+        success: function (response) {
+          Render(response.list);
+        }
+      });
+    };
+
+    initRecharge();
+    // Auto refresh every 30 seconds
+    setInterval(initRecharge, 30000);
+  </script>
+</body>
+</html>

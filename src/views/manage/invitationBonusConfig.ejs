@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Invitation Bonus Configuration | Admin Panel</title>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="/css/admin.css">
+    <style>
+        .compact-swal-popup {
+            padding: 1rem !important;
+            border-radius: 16px !important;
+            font-family: 'Inter', sans-serif !important;
+        }
+
+        .compact-swal-title {
+            padding: 0 !important;
+            margin-bottom: 0.5rem !important;
+            font-size: 18px !important;
+            font-weight: 700 !important;
+        }
+
+        .compact-swal-text {
+            font-size: 14px !important;
+            color: #555 !important;
+            margin-bottom: 1rem !important;
+        }
+
+        .compact-swal-confirm,
+        .compact-swal-cancel {
+            padding: 8px 20px !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            border-radius: 8px !important;
+        }
+
+        .topbar {
+            background: #fff;
+            border-bottom: 1px solid #e3e7f0;
+            padding: 0 28px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 50;
+        }
+
+        .topbar-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1d2e;
+        }
+
+        @media (max-width: 991.98px) {
+            .content-wrapper {
+                margin-left: 0 !important;
+                padding-top: 60px !important;
+            }
+
+            .topbar {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-body { padding: 12px !important; }
+            .toolbar { padding: 16px; border-radius: 15px; margin-bottom: 20px; }
+            .content-header h1 {
+                font-size: 1.25rem;
+            }
+        }
+
+        /* Breadcrumb styling */
+        .page-header { margin-bottom: 24px; padding: 0 4px; }
+        .page-title { font-size: 20px; font-weight: 800; color: #1a1d2e; }
+        .page-breadcrumb { font-size: 13px; color: #9ea3b8; margin-bottom: 4px; }
+        .page-breadcrumb span { color: #6c63ff; font-weight: 600; }
+
+        .action-buttons { display: flex; justify-content: center; }
+        .action-buttons .btn { margin: 0 10px !important; }
+
+            .table-responsive {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            table {
+                min-width: 800px;
+            }
+
+            .table th,
+            .table td {
+                font-size: 12px;
+                padding: 10px 8px;
+            }
+
+            .btn-xs {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+
+            .col-lg-4,
+            .col-lg-8 {
+                width: 100% !important;
+                max-width: 100% !important;
+                flex: 0 0 100% !important;
+            }
+
+            .premium-card {
+                margin-bottom: 20px;
+                border-radius: 16px;
+            }
+
+            .btn-premium {
+                width: 100%;
+            }
+        }
+
+        .scrollable-table {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .scrollable-table thead th {
+            position: sticky;
+            top: 0;
+            background: #f8f9fa !important;
+            z-index: 1;
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <%- include('nav') %>
+            <div class="content-wrapper">
+                <header class="topbar">
+                    <div class="topbar-title">Settings &rsaquo; Invitation Bonus Settings</div>
+                </header>
+
+                <section class="content pt-4">
+                    <div class="container-fluid">
+                        <div class="page-header">
+                            <div class="page-breadcrumb">Configuration &rsaquo; <span>Invitation Bonus Settings</span></div>
+                            <h2 class="page-title">Invitation Bonus List</h2>
+                        </div>
+                        <div class="row">
+                            <!-- Add Bonus Form -->
+                            <div class="col-lg-4">
+                                <div class="card premium-card">
+                                    <div class="card-header bg-primary py-2">
+                                        <h3 class="card-title" style="font-size: 1rem;">Add New Milestone</h3>
+                                    </div>
+                                    <form id="bonusForm">
+                                        <div class="card-body py-3">
+                                            <div class="form-group mb-2">
+                                                <label>Required Invited Members</label>
+                                                <input type="number" class="form-control form-control-sm"
+                                                    name="number_invited" placeholder="e.g. 3" required>
+                                            </div>
+                                            <div class="form-group mb-2">
+                                                <label>Required Depositors</label>
+                                                <input type="number" class="form-control form-control-sm"
+                                                    name="number_deposits" placeholder="e.g. 3" required>
+                                            </div>
+                                            <div class="form-group mb-2">
+                                                <label>Min Recharge per Person (₹)</label>
+                                                <input type="number" class="form-control form-control-sm"
+                                                    name="amount_recharge" placeholder="e.g. 555" required>
+                                            </div>
+                                            <div class="form-group mb-2">
+                                                <label>Bonus Reward Amount (₹)</label>
+                                                <input type="number" class="form-control form-control-sm"
+                                                    name="bonus_amount" placeholder="e.g. 199" required>
+                                            </div>
+                                            <hr>
+                                            <div class="form-group mb-2">
+                                                <label>Start Date (Event Only)</label>
+                                                <input type="datetime-local" class="form-control form-control-sm"
+                                                    id="start_time_picker">
+                                                <input type="hidden" name="start_time" id="start_time">
+                                            </div>
+                                            <div class="form-group mb-2">
+                                                <label>End Date (Event Only)</label>
+                                                <input type="datetime-local" class="form-control form-control-sm"
+                                                    id="end_time_picker">
+                                                <input type="hidden" name="end_time" id="end_time">
+                                            </div>
+                                            <small class="text-muted">Leave dates blank for lifetime missions.</small>
+                                        </div>
+                                        <div class="card-footer bg-white pt-0">
+                                            <button type="submit" class="btn btn-primary btn-block btn-premium">Save
+                                                Milestone</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <!-- Bonus List -->
+                            <div class="col-lg-8">
+                                <div class="card premium-card">
+                                    <div class="card-header bg-dark py-2">
+                                        <h3 class="card-title" style="font-size: 1rem;">Invitation Milestones</h3>
+                                    </div>
+                                    <div class="card-body p-2 bg-light border-bottom">
+                                        <div class="row">
+                                            <div class="col-md-3 mb-1">
+                                                <input type="text" id="searchInput" class="form-control form-control-sm"
+                                                    placeholder="Search rewards/reqs...">
+                                            </div>
+                                            <div class="col-md-3 mb-1">
+                                                <select id="statusFilter" class="form-control form-control-sm">
+                                                    <option value="all">All Status</option>
+                                                    <option value="active">Active</option>
+                                                    <option value="inactive">Inactive</option>
+                                                    <option value="expired">Expired</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 mb-1">
+                                                <div class="input-group input-group-sm">
+                                                    <div class="input-group-prepend"><span
+                                                            class="input-group-text">From</span></div>
+                                                    <input type="date" id="dateFrom" class="form-control">
+                                                    <div class="input-group-prepend"><span
+                                                            class="input-group-text">To</span></div>
+                                                    <input type="date" id="dateTo" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <div class="table-responsive scrollable-table">
+
+
+                                            <table class="table table-hover text-nowrap mb-0">
+                                                <thead class="bg-light">
+                                                    <tr>
+                                                        <th>Milestone</th>
+                                                        <th>Requirements</th>
+                                                        <th>Reward</th>
+                                                        <th>Timing</th>
+                                                        <th class="text-center">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="bonusTableBody">
+                                                    <!-- Data will be loaded via AJAX -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Edit Modal -->
+            <div class="modal fade" id="editBonusModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                    <div class="modal-content" style="border-radius: 12px; border: none;">
+                        <div class="modal-header bg-dark py-2">
+                            <h6 class="modal-title m-0">Edit Milestone</h6>
+                            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form id="editBonusForm">
+                            <input type="hidden" name="id" id="edit_id">
+                            <div class="modal-body py-2">
+                                <div class="form-group mb-2">
+                                    <label>Invited Members</label>
+                                    <input type="number" class="form-control form-control-sm" name="number_invited"
+                                        id="edit_number_invited" required>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label>Depositors</label>
+                                    <input type="number" class="form-control form-control-sm" name="number_deposits"
+                                        id="edit_number_deposits" required>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label>Min Recharge (₹)</label>
+                                    <input type="number" class="form-control form-control-sm" name="amount_recharge"
+                                        id="edit_amount_recharge" required>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label>Reward (₹)</label>
+                                    <input type="number" class="form-control form-control-sm" name="bonus_amount"
+                                        id="edit_bonus_amount" required>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label>Status</label>
+                                    <select class="form-control form-control-sm" name="status" id="edit_status">
+                                        <option value="1">Active</option>
+                                        <option value="0">Inactive</option>
+                                    </select>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label>Start Time</label>
+                                    <input type="datetime-local" class="form-control form-control-sm"
+                                        id="edit_start_time_picker">
+                                    <input type="hidden" name="start_time" id="edit_start_time">
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label>End Time</label>
+                                    <input type="datetime-local" class="form-control form-control-sm"
+                                        id="edit_end_time_picker">
+                                    <input type="hidden" name="end_time" id="edit_end_time">
+                                </div>
+                            </div>
+                            <div class="modal-footer py-2">
+                                <button type="button" class="btn btn-sm btn-secondary"
+                                    data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <script src="/plugins/jquery/jquery.min.js"></script>
+    <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/dist/js/adminlte.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        let allBonuses = [];
+
+        $(document).ready(function () {
+            loadBonuses();
+
+            // Filter listeners
+            $('#searchInput, #statusFilter, #dateFrom, #dateTo').on('input change', function () {
+                renderBonuses();
+            });
+
+
+            $('#bonusForm').submit(function (e) {
+                e.preventDefault();
+
+                // Convert dates to timestamps
+                const start = $('#start_time_picker').val();
+                const end = $('#end_time_picker').val();
+                $('#start_time').val(start ? new Date(start).getTime() : '');
+                $('#end_time').val(end ? new Date(end).getTime() : '');
+
+                $.ajax({
+                    type: "POST",
+                    url: "/api/webapi/admin/invitation-bonus/add",
+                    data: $(this).serialize(),
+                    success: function (res) {
+                        if (res.status) {
+                            Swal.fire('Success', 'Milestone added!', 'success');
+                            $('#bonusForm')[0].reset();
+                            loadBonuses();
+                        } else {
+                            Swal.fire('Error', res.message, 'error');
+                        }
+                    }
+                });
+            });
+
+            $('#editBonusForm').submit(function (e) {
+                e.preventDefault();
+
+                const start = $('#edit_start_time_picker').val();
+                const end = $('#edit_end_time_picker').val();
+                $('#edit_start_time').val(start ? new Date(start).getTime() : '');
+                $('#edit_end_time').val(end ? new Date(end).getTime() : '');
+
+                $.ajax({
+                    type: "POST",
+                    url: "/api/webapi/admin/invitation-bonus/update",
+                    data: $(this).serialize(),
+                    success: function (res) {
+                        if (res.status) {
+                            Swal.fire('Updated', 'Milestone updated!', 'success');
+                            $('#editBonusModal').modal('hide');
+                            loadBonuses();
+                        } else {
+                            Swal.fire('Error', res.message, 'error');
+                        }
+                    }
+                });
+            });
+        });
+
+        function loadBonuses() {
+            $.ajax({
+                type: "GET",
+                url: "/api/webapi/admin/invitation-bonus/list",
+                success: function (res) {
+                    if (res.status) {
+                        allBonuses = res.data;
+                        renderBonuses();
+                    }
+                }
+            });
+        }
+
+        function renderBonuses() {
+            const searchTerm = $('#searchInput').val().toLowerCase();
+            const statusFilter = $('#statusFilter').val();
+            const fromDate = $('#dateFrom').val() ? new Date($('#dateFrom').val()).getTime() : null;
+            const toDate = $('#dateTo').val() ? new Date($('#dateTo').val()).getTime() : null;
+            const now = new Date().getTime();
+
+            let filtered = allBonuses.filter(item => {
+                // Search filter
+                const matchesSearch = !searchTerm ||
+                    item.number_invited.toString().includes(searchTerm) ||
+                    item.bonus_amount.toString().includes(searchTerm) ||
+                    item.amount_recharge.toString().includes(searchTerm);
+
+                // Status filter
+                let matchesStatus = true;
+                if (statusFilter === 'active') matchesStatus = item.status === 1;
+                if (statusFilter === 'inactive') matchesStatus = item.status === 0;
+                if (statusFilter === 'expired') matchesStatus = item.end_time && item.end_time < now;
+
+                // Date filter
+                let matchesDate = true;
+                if (fromDate && item.start_time) matchesDate = matchesDate && item.start_time >= fromDate;
+                if (toDate && item.end_time) matchesDate = matchesDate && item.end_time <= toDate;
+
+                return matchesSearch && matchesStatus && matchesDate;
+            });
+
+            let html = '';
+            filtered.forEach((item, index) => {
+                const isExpired = item.end_time && item.end_time < now;
+                const statusClass = item.status ? (isExpired ? 'status-inactive' : 'status-active') : 'status-inactive';
+                const statusText = item.status ? (isExpired ? 'Expired' : 'Active') : 'Inactive';
+
+                let timing = '<span class="text-muted">Lifetime</span>';
+                if (item.start_time && item.end_time) {
+                    timing = `<span class="event-badge ${isExpired ? 'bg-danger text-white' : ''}">Event</span><br>
+                            <small>${formatDate(item.start_time)}</small><br>
+                            <small>${formatDate(item.end_time)}</small>`;
+                }
+
+                html += `
+                <tr>
+                    <td>
+                        <b>Milestone ${index + 1}</b><br>
+                        <span class="status-badge ${statusClass}">${statusText}</span>
+                    </td>
+                    <td>
+                        Invites: ${item.number_invited}<br>
+                        Depositors: ${item.number_deposits}<br>
+                        Min Dep: ₹${item.amount_recharge}
+                    </td>
+                    <td class="text-success font-weight-bold">₹${item.bonus_amount}</td>
+                    <td>${timing}</td>
+                    <td class="text-center">
+                        <div class="action-buttons">
+                            <button class="btn btn-xs btn-info" onclick="editBonus(${item.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-xs btn-danger" onclick="deleteBonus(${item.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+            });
+            $('#bonusTableBody').html(html || '<tr><td colspan="5" class="text-center">No milestones found matching filters.</td></tr>');
+        }
+
+        function editBonus(id) {
+            const item = allBonuses.find(b => b.id === id);
+            if (item) {
+                $('#edit_id').val(item.id);
+                $('#edit_number_invited').val(item.number_invited);
+                $('#edit_number_deposits').val(item.number_deposits);
+                $('#edit_amount_recharge').val(item.amount_recharge);
+                $('#edit_bonus_amount').val(item.bonus_amount);
+                $('#edit_status').val(item.status);
+
+                if (item.start_time) {
+                    const localStart = new Date(Number(item.start_time) - (new Date().getTimezoneOffset() * 60000));
+                    $('#edit_start_time_picker').val(localStart.toISOString().slice(0, 16));
+                } else {
+                    $('#edit_start_time_picker').val('');
+                }
+
+                if (item.end_time) {
+                    const localEnd = new Date(Number(item.end_time) - (new Date().getTimezoneOffset() * 60000));
+                    $('#edit_end_time_picker').val(localEnd.toISOString().slice(0, 16));
+                } else {
+                    $('#edit_end_time_picker').val('');
+                }
+
+
+                $('#editBonusModal').modal('show');
+            }
+        }
+
+        function deleteBonus(id) {
+            Swal.fire({
+                title: 'Delete Milestone?',
+                text: "This milestone will be permanently removed.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ff4d4d',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Delete',
+                width: '350px',
+                customClass: {
+                    popup: 'compact-swal-popup',
+                    title: 'compact-swal-title',
+                    htmlContainer: 'compact-swal-text',
+                    confirmButton: 'compact-swal-confirm',
+                    cancelButton: 'compact-swal-cancel'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/webapi/admin/invitation-bonus/delete",
+                        data: { id: id },
+                        success: function (res) {
+                            if (res.status) {
+                                Swal.fire({ text: 'Deleted!', icon: 'success', toast: true, position: 'top-end', showConfirmButton: false, timer: 3000 });
+                                loadBonuses();
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        function formatDate(ts) {
+            const d = new Date(Number(ts));
+            return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+    </script>
+</body>
+
+</html>

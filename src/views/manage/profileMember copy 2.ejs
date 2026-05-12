@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>User Profile</title>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <%- include('nav') %>
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1>User Information</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.container-fluid -->
+                </section>
+
+                <!-- Main content -->
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-3">
+
+                                <!-- Profile Image -->
+                                <div class="card card-primary card-outline">
+                                    <div class="card-body box-profile">
+                                        <div class="text-center">
+                                            <img class="profile-user-img img-fluid img-circle" src="/images/avatar.svg"
+                                                alt="User profile picture">
+                                        </div>
+
+                                        <h3 class="profile-username text-center">Member...</h3>
+
+                                        <p class="text-muted text-center" id="id_user">ID: 0</p>
+
+                                        <ul class="list-group list-group-unbordered mb-3">
+                                            <li class="list-group-item">
+                                                <b>Surplus</b> <a class="float-right" id="money">0</a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>Total charge</b> <a class="float-right" id="total_money">0</a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>Total draw</b> <a class="float-right" id="total_withdraw">0</a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>Total commission</b> <a class="float-right" id="roses_all">0</a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>Roses today</b> <a class="float-right" id="roses_today">0</a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>F1</b> <a class="float-right" id="f1">0</a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>F2</b> <a class="float-right" id="f2">0</a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>F3</b> <a class="float-right" id="f3">0</a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>F4</b> <a class="float-right" id="f4">0</a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>General invitation</b> <a class="float-right" id="total_mem">0</a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>IP</b> <a class="float-right" id="ip">157.296.591.22</a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>Telegram</b> <a class="float-right" id="telegram"
+                                                    href="Loading...">Loading...</a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>Inviter</b> <a class="float-right" id="invite">Loading...</a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b>DAILY</b> <a class="float-right" id="daily">Loading...</a>
+                                            </li>
+                                        </ul>
+
+                                        <a href="#" class="btn btn-primary btn-block">
+                                            <b style="text-transform: uppercase;" id="level">USER</b>
+                                        </a>
+                                    </div>
+                                    <!-- /.card-body -->
+                                </div>
+                                <!-- /.card -->
+
+                                <!-- About Me Box -->
+                                <div class="card card-primary">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Bank information</h3>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <div id="bankList" class="px-3"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-9" style="overflow: auto;">
+                                <!-- Table Recharge -->
+                                <%- include('table/listRecharge.ejs') %>
+                                    <!-- END TABLE -->
+                                    <!-- Table Withdraw -->
+                                    <%- include('table/listWithdraw.ejs') %>
+                                        <!-- END TABLE -->
+                                        <!-- Table Withdraw -->
+                                        <%- include('table/listRedenvelope.ejs') %>
+                                            <!-- END TABLE -->
+                                            <!-- Table Withdraw -->
+                                            <%- include('table/listBet.ejs') %>
+
+                                                <%- include('table/apiListBet.ejs') %>
+                                                    <!-- END TABLE -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+    </div>
+    <script src="/plugins/jquery/jquery.min.js"></script>
+    <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/dist/js/adminlte.min.js"></script>
+    <script src="/js/admin/admin.js"></script>
+
+   <script>
+    // Helper: format datetime
+    function formatDateTime(timestamp) {
+        if (!timestamp) return 'N/A';
+        let date = new Date(Number(timestamp));
+        if (isNaN(date.getTime())) return timestamp;
+        let year = date.getFullYear();
+        let month = String(date.getMonth() + 1).padStart(2, '0');
+        let day = String(date.getDate()).padStart(2, '0');
+        let hours = date.getHours();
+        let ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12 || 12;
+        let minutes = String(date.getMinutes()).padStart(2, '0');
+        let seconds = String(date.getSeconds()).padStart(2, '0');
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds} ${ampm}`;
+    }
+
+    // get phone from URL
+    let pathSegments = window.location.pathname.split('/');
+    let phone = pathSegments[pathSegments.length - 1];
+    if (!phone || phone === 'profile') phone = ''; // fallback
+
+    // ---------- MAIN USER INFO ----------
+   $.ajax({
+    type: "POST",
+    url: "/api/webapi/admin/member/info",
+    data: { phone: phone },
+    dataType: "json",
+    beforeSend: function() { 
+        $('#profileUsername').text('Loading...'); 
+    },
+    success: function(resp) {
+
+        if (!resp?.status || !resp?.datas?.length) {
+            $('#profileUsername').text('User not found');
+            console.error("Invalid user response", resp);
+            return;
+        }
+
+        let user = resp.datas?.[0];
+
+        $('#profileUsername').text(user?.name_user || user?.username || 'Member');
+        $('#userIdDisplay').text(`ID: ${user?.id_user || '--'}`);
+        $('#money').text((user?.money || 0).toFixed(2));
+        $('#roses_all').text(((user?.roses_f || 0) + (user?.roses_f1 || 0)).toFixed(2));
+        $('#roses_today').text((user?.roses_today || 0).toFixed(2));
+        $('#ip').text(user?.ip_address || 'N/A');
+
+        $('#levelBadge').text(
+            user?.level == 1 ? 'ADMIN' : (user?.level == 2 ? 'CTV' : 'USER')
+        );
+
+        // invite info
+        $('#invite').text(resp?.phone || 'No inviter');
+        $('#daily').text(resp?.daily || '0');
+        $('#telegram').text(resp?.telegram || 'N/A');
+
+        if (resp?.telegram && resp.telegram !== 'N/A') {
+            $('#telegram').attr('href', resp.telegram);
+        }
+
+        // referral counts
+        $('#f1').text((resp?.f1 || 0) + ' member');
+        $('#f2').text((resp?.f2 || 0) + ' member');
+        $('#f3').text((resp?.f3 || 0) + ' member');
+        $('#f4').text((resp?.f4 || 0) + ' member');
+
+        let totalRef = (resp?.f1 || 0) + (resp?.f2 || 0) + (resp?.f3 || 0) + (resp?.f4 || 0);
+        $('#total_mem').text(totalRef);
+
+        // total charge and withdraw
+        let totalCharge = resp?.total_r?.[0]?.total || 0;
+        let totalWithdraw = resp?.total_w?.[0]?.total || 0;
+
+        $('#total_money').text(totalCharge.toFixed(2));
+        $('#total_withdraw').text(totalWithdraw.toFixed(2));
+
+        // Bank info rendering if any
+        if (resp?.banklist?.length) {
+            let bankHtml = '<ul class="list-group list-group-flush">';
+
+            resp.banklist.forEach(b => {
+                bankHtml += `
+                    <li class="list-group-item bg-dark">
+                        <b>${b?.bank_name || 'Bank'}</b><br/>
+                        <small>${b?.account_number || ''}<br/>${b?.holder_name || ''}</small>
+                    </li>`;
+            });
+
+            bankHtml += '</ul>';
+            $('#bankList').html(bankHtml);
+
+        } else {
+            $('#bankList').html('<div class="text-muted">No bank info</div>');
+        }
+    },
+    error: function(err) { 
+        console.error("Profile API error", err); 
+        $('#profileUsername').text('Error loading'); 
+    }
+});
+    // ---------- GENERIC PAGINATION HELPER ----------
+    function createPaginatedHandler(urlTemplate, renderFn, listId, pageTextId, limit = 15) {
+        let pageno = 0;
+        let currentPage = 1;
+        let totalPages = 1;
+
+        function fetchData(pagenoVal, pageNum, callback) {
+            let url = urlTemplate.replace('__PAGENO__', pagenoVal).replace('__LIMIT__', limit);
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: { typeid: "1", pageno: pagenoVal, limit: limit, language: "vi" },
+                dataType: "json",
+                success: function(resp) {
+                    if (resp && resp.status === true) {
+                        totalPages = resp.page_total || 1;
+                        $(pageTextId).text(`${pageNum} / ${totalPages}`);
+                        if (renderFn) renderFn(resp.datas || resp.data, resp);
+                    } else {
+                        $(listId).html(`<tr><td colspan="7">No data</td></tr>`);
+                    }
+                    if (callback) callback(resp);
+                },
+                error: () => { $(listId).html(`<tr><td colspan="7">Error loading</td></tr>`); }
+            });
+        }
+
+        function loadPage(pageNum) {
+            let newOffset = (pageNum - 1) * limit;
+            pageno = newOffset;
+            currentPage = pageNum;
+            fetchData(pageno, currentPage);
+        }
+
+        // Attach events dynamically
+        $(document).off('click', `#${pageTextId.replace('#','')}_next`).on('click', `#${pageTextId.replace('#','')}_next`, function(e) {
+            e.preventDefault();
+            if (currentPage < totalPages) loadPage(currentPage + 1);
+            else $(this).addClass('block-click').delay(300).queue(function(){ $(this).removeClass('block-click').dequeue(); });
+        });
+        $(document).off('click', `#${pageTextId.replace('#','')}_prev`).on('click', `#${pageTextId.replace('#','')}_prev`, function(e) {
+            e.preventDefault();
+            if (currentPage > 1) loadPage(currentPage - 1);
+        });
+
+        loadPage(1);
+        return { loadPage };
+    }
+
+    // 1. Withdraw table
+    function renderWithdraw(datas) {
+        if (!datas || datas.length === 0) { $('#list-withdraw').html('<tr><td colspan="5">No withdrawal data</td></tr>'); return; }
+        let html = '';
+        datas.forEach(d => {
+            let statusBadge = d.status == '1' ? 'success' : (d.status == '2' ? 'danger' : 'warning');
+            let statusText = d.status == '1' ? 'Success' : (d.status == '2' ? 'Rejected' : 'Pending');
+            html += `<tr><td style="font-weight:600">${d.id_order || '--'}</td><td><b>₹${parseFloat(d.money).toFixed(2)}</b></td><td>${d.name_bank || 'Bank'}</td><td><span class="badge badge-${statusBadge}">${statusText}</span></td><td>${formatDateTime(d.time)}</td></tr>`;
+        });
+        $('#list-withdraw').html(html);
+    }
+    createPaginatedHandler(`/admin/member/listWithdraw/${phone}`, renderWithdraw, '#list-withdraw', '#text-withdraw', 15);
+    // rebind custom IDs: because handler uses generic suffix, we need to rebind unique ids
+    $('#previousWithdraw').off('click').on('click', function(e){ e.preventDefault(); $('#text-withdraw_prev').trigger('click'); });
+    $('#nextWithdraw').off('click').on('click', function(e){ e.preventDefault(); $('#text-withdraw_next').trigger('click'); });
+    
+    // 2. Recharge
+    function renderRecharge(datas) {
+        if (!datas || datas.length === 0) { $('#list-recharge').html('<tr><td colspan="5">No recharge data</td></tr>'); return; }
+        let html = '';
+        datas.forEach(d => {
+            let statusBadge = d.status == '1' ? 'success' : (d.status == '2' ? 'danger' : 'warning');
+            let statusText = d.status == '1' ? 'Success' : (d.status == '2' ? 'Rejected' : 'Pending');
+            let method = (d.type == "bank") ? "BANK" : "UPI";
+            html += `<tr><td>${d.transaction_id || '--'}</td><td><b>₹${parseFloat(d.money).toFixed(2)}</b></td><td>${method}</td><td><span class="badge badge-${statusBadge}">${statusText}</span></td><td>${formatDateTime(d.time)}</td></tr>`;
+        });
+        $('#list-recharge').html(html);
+    }
+    createPaginatedHandler(`/admin/member/listRecharge/${phone}`, renderRecharge, '#list-recharge', '#text-recharge', 15);
+    $('#previousRecharge').off('click').on('click', function(e){ e.preventDefault(); $('#text-recharge_prev').trigger('click'); });
+    $('#nextRecharge').off('click').on('click', function(e){ e.preventDefault(); $('#text-recharge_next').trigger('click'); });
+    
+    // 3. Red envelope
+    function renderRedEnvelope(datas, fullResp) {
+        if (!datas || datas.length === 0) { $('#list-redenvelope').html('<tr><td colspan="5">No red envelope data</td></tr>'); return; }
+        let html = '';
+        let totalSum = 0, totalCount = 0;
+        datas.forEach(d => {
+            totalSum += parseFloat(d.money || 0);
+            totalCount++;
+            html += `<tr><td>${d.phone || '--'}</td><td><b>₹${parseFloat(d.money).toFixed(2)}</b></td><td>${d.id_redenvelops || '--'}</td><td><span class="badge badge-success">Success</span></td><td>${formatDateTime(d.time)}</td></tr>`;
+        });
+        $('#list-redenvelope').html(html);
+        $('#totlaide').html(`Total: ₹${totalSum.toFixed(2)} / ${totalCount} Lixi`);
+    }
+    createPaginatedHandler(`/admin/member/redenvelope/${phone}`, renderRedEnvelope, '#list-redenvelope', '#text-redenvelope', 15);
+    $('#previousRedenvelope').off('click').on('click', function(e){ e.preventDefault(); $('#text-redenvelope_prev').trigger('click'); });
+    $('#nextRedenvelope').off('click').on('click', function(e){ e.preventDefault(); $('#text-redenvelope_next').trigger('click'); });
+    
+    // 4. Bet Table (internal game)
+    function renderBet(datas) {
+        if (!datas || datas.length === 0) { $('#list-bet').html('<tr><td colspan="5">No bet records</td></tr>'); return; }
+        let html = '';
+        datas.forEach(d => {
+            let isWin = (d.status == 1);
+            let net = isWin ? `+ ${parseFloat(d.money).toFixed(2)}` : `- ${parseFloat(d.money).toFixed(2)}`;
+            let badgeClass = isWin ? 'success' : 'danger';
+            let resultText = isWin ? 'win' : 'loss';
+            html += `<tr><td>${d.stage || 'N/A'}</td><td><b style="color:${isWin?'#2ecc71':'#e74c3c'}">${net}</b></td><td>${(d.game || '').toUpperCase()}</td><td><span class="badge badge-${badgeClass}">${resultText}</span></td><td>${formatDateTime(d.time)}</td></tr>`;
+        });
+        $('#list-bet').html(html);
+    }
+    createPaginatedHandler(`/admin/member/bet/${phone}`, renderBet, '#list-bet', '#text-bet', 30);
+    $('#previousBet').off('click').on('click', function(e){ e.preventDefault(); $('#text-bet_prev').trigger('click'); });
+    $('#nextBet').off('click').on('click', function(e){ e.preventDefault(); $('#text-bet_next').trigger('click'); });
+    
+    // 5. API Bet Table (Jili / external) - separate without pagination controls? But we implement independent fetch
+    let apiPageno = 0;
+    let apiLimit = 30;
+    let apiCurrentPage = 1;
+    let apiTotalPages = 1;
+    function renderApiBet(datas) {
+        if (!datas || datas.length === 0) { $('#api-list-bet').html('<tr><td colspan="5">No API bet data</td></tr>'); return; }
+        let html = '';
+        datas.forEach(data => {
+            let isWinApi = false;
+            let netResult = '';
+            let statusText = '';
+            let statusClass = '';
+            let gameName = '';
+            let gameCode = data.gameCode || 'N/A';
+            let formattedTime = formatDateTime(data.time || data.today);
+            if (!data.game) {
+                let betAmt = parseFloat(data.betAmount) || 0;
+                let winAmt = parseFloat(data.winAmount) || 0;
+                isWinApi = winAmt > 0;
+                netResult = isWinApi ? `+ ${winAmt.toFixed(2)}` : `- ${betAmt.toFixed(2)}`;
+                statusText = isWinApi ? 'win' : 'loss';
+                statusClass = isWinApi ? 'success' : 'danger';
+                gameName = data.game ? data.game : "Jili";
+            } else {
+                let withdrawal = parseFloat(data.withdrawal_amount) || 0;
+                isWinApi = withdrawal <= 0;
+                netResult = isWinApi ? `+ ${Math.abs(withdrawal).toFixed(2)}` : `- ${withdrawal.toFixed(2)}`;
+                statusText = isWinApi ? 'win' : 'loss';
+                statusClass = isWinApi ? 'success' : 'danger';
+                gameName = data.game.toUpperCase();
+            }
+            html += `<tr><td>${gameCode}</td><td><b style="color:${statusText==='win'?'#2ecc71':'#e74c3c'}">${netResult}</b></td><td>${gameName}</td><td><span class="badge badge-${statusClass}">${statusText}</span></td><td>${formattedTime}</td></tr>`;
+        });
+        $('#api-list-bet').html(html);
+    }
+    
+    function fetchApiBet(pageNum) {
+        let offset = (pageNum - 1) * apiLimit;
+        $.ajax({
+            type: "POST",
+            url: `/admin/member/apibet/${phone}`,
+            data: { typeid: "1", pageno: offset, limit: apiLimit, language: "vi" },
+            dataType: "json",
+            success: function(resp) {
+                if (resp && resp.status === true && resp.data) {
+                    apiTotalPages = resp.page_total || 1;
+                    renderApiBet(resp.data);
+                } else {
+                    $('#api-list-bet').html('<tr><td colspan="5">No API records</td></tr>');
+                }
+            },
+            error: () => { $('#api-list-bet').html('<tr><td colspan="5">API error</td></tr>'); }
+        });
+    }
+    fetchApiBet(1);
+    // optional no pagination controls for API but we keep first load
+    
+    // additional fix: ensure loading spinners are replaced
+    function showLoadingSpinner(selector) { $(selector).html('<tr><td colspan="7" class="text-center">Loading...</td></tr>'); }
+    showLoadingSpinner('#list-recharge');
+    showLoadingSpinner('#list-withdraw');
+    showLoadingSpinner('#list-redenvelope');
+    showLoadingSpinner('#list-bet');
+    
+    // After 2 secs if any table still loading? but our AJAX will replace.
+    // Also handle bank info if separate endpoint, but from previous /info we already have.
+    // Extra: if need bank list via separate API we could add but profile info covers it.
+    
+    // fix double loading for API bet: call once
+    console.log("Profile page fully loaded for phone:", phone);
+</script>
+</body>
+
+</html>

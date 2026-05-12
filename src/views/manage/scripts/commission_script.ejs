@@ -1,0 +1,78 @@
+<script>
+    const RenderCommission = (datas) => {
+        if (!datas || datas.length == 0) {
+            $('#list-commission').html(`<tr><td colspan="5" class="text-center text-muted">no data...</td></tr>`);
+            return;
+        }
+        let html = '';
+        datas.map((data) => {
+            html += `
+            <tr>
+                <td style="color: var(--accent3); font-weight: 600;">${data.commission_id || data.id}</td>
+                <td><b>${data.from_user_phone || "N/A"}</b></td>
+                <td><b>${data.level || "N/A"}</b></td>
+                <td><b style="color: var(--accent2)">+ ${(data.money)}</b></td>
+                <td>${timerJoin(data.time)}</td>
+            </tr>`;
+        });
+        $("#list-commission").html(html);
+    }
+
+    var pagenoC = 0;
+    var limitC = 15;
+    var pageC = 1;
+
+    function loadCommission() {
+        $.ajax({
+            type: "POST",
+            url: "/admin/member/commission/" + phone,
+            data: { typeid: "1", pageno: pagenoC, limit: limitC, language: "vi" },
+            dataType: "json",
+            success: function (response) {
+                $('#text-commission').text(pageC + ' / ' + (response?.page_total || 1));
+                if (response?.status === true) return RenderCommission(response?.datas);
+            }
+        });
+    }
+
+    loadCommission();
+
+    $('#nextCommission').click(function (e) {
+        e.preventDefault();
+        pagenoC += limitC;
+        $.ajax({
+            type: "POST",
+            url: "/admin/member/commission/" + phone,
+            data: { typeid: "1", pageno: pagenoC, limit: limitC, language: "vi" },
+            dataType: "json",
+            success: function (response) {
+                if (response?.datas.length == 0) {
+                    $('#nextCommission').addClass('block-click');
+                    pagenoC -= limitC;
+                    return;
+                }
+                $('#text-commission').text(++pageC + ' / ' + response?.page_total);
+                if (response?.status === true) return RenderCommission(response?.datas);
+            }
+        });
+    });
+
+    $('#previousCommission').click(function (e) {
+        e.preventDefault();
+        $('#nextCommission').removeClass('block-click');
+        pagenoC -= limitC;
+        if (pagenoC < 0) pagenoC = 0;
+        else pageC--;
+        
+        $.ajax({
+            type: "POST",
+            url: "/admin/member/commission/" + phone,
+            data: { typeid: "1", pageno: pagenoC, limit: limitC, language: "vi" },
+            dataType: "json",
+            success: function (response) {
+                $('#text-commission').text(pageC + ' / ' + response?.page_total);
+                if (response?.status === true) return RenderCommission(response?.datas);
+            }
+        });
+    });
+</script>

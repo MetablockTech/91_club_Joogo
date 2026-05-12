@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<% let typeid_val = (typeof typeid !== 'undefined') ? typeid : '4'; %>
+<html lang="en" data-change="<%= typeid_val %>">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WinGo 30S Management | <%= locals.SITE_NAME || 'Admin' %></title>
+  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+  <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f0f2f8;
+      --sidebar-bg: #ffffff;
+      --card-bg: #ffffff;
+      --card-border: #e3e7f0;
+      --accent: #6c63ff;
+      --accent-light: rgba(108, 99, 255, 0.08);
+      --text-primary: #1a1d2e;
+      --text-secondary: #5a5f7a;
+      --text-muted: #9ea3b8;
+      --green: #00b894;
+      --red: #e17055;
+      --violet: #eb43dd;
+      --orange: #e67e22;
+      --blue: #2d6cdf;
+      --sidebar-width: 260px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif !important;
+      background: var(--bg);
+      color: var(--text-primary);
+      overflow-x: hidden;
+    }
+
+    .wrapper { display: flex; min-height: 100vh; }
+
+    /* ── MAIN CONTENT ── */
+    .main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s;
+      min-width: 0;
+    }
+
+    @media (max-width: 991.98px) {
+      .main-content { margin-left: 0; }
+    }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      background: var(--sidebar-bg);
+      border-bottom: 1px solid var(--card-border);
+      padding: 0 28px;
+      height: 70px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 50;
+    }
+
+    .topbar-left { display: flex; align-items: center; gap: 16px; }
+    .topbar-title { font-size: 18px; font-weight: 700; color: var(--text-primary); }
+    
+    /* ── GAME NAV ── */
+    .game-nav {
+      display: flex; gap: 10px; padding: 16px 24px;
+      background: #fff; border-bottom: 1px solid var(--card-border);
+      overflow-x: auto; white-space: nowrap;
+    }
+    .game-nav::-webkit-scrollbar { height: 4px; }
+    .game-nav::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 4px; }
+
+    .game-mode {
+      padding: 8px 18px; border-radius: 12px;
+      font-size: 13px; font-weight: 600; color: var(--text-secondary);
+      text-decoration: none; border: 1px solid var(--card-border);
+      transition: all 0.2s;
+    }
+    .game-mode:hover { background: #f7f8fc; color: var(--accent); }
+    .game-mode.active {
+      background: var(--accent); color: #fff; border-color: var(--accent);
+      box-shadow: 0 4px 12px rgba(108, 99, 255, 0.25);
+    }
+
+    /* ── PAGE LAYOUT ── */
+    .content-body { padding: 24px; }
+    
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px; margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 20px;
+      position: relative; overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+      transition: transform 0.3s;
+    }
+    .stat-card:hover { transform: translateY(-5px); }
+    .stat-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    }
+    .stat-card.red::before { background: var(--red); }
+    .stat-card.green::before { background: var(--green); }
+    .stat-card.violet::before { background: var(--violet); }
+    .stat-card.blue::before { background: var(--blue); }
+
+    .stat-label { font-size: 11px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; }
+    .stat-value { font-size: 24px; font-weight: 800; margin-top: 6px; color: var(--text-primary); }
+
+    /* Number Grid */
+    .number-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px; margin-bottom: 24px;
+    }
+    .num-card {
+      background: #fff; border: 1px solid var(--card-border);
+      border-radius: 14px; padding: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .num-card:hover { border-color: var(--accent); background: var(--accent-light); }
+    .num-badge {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--accent); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 800; margin-bottom: 8px;
+    }
+    .num-val { font-size: 14px; font-weight: 700; color: var(--text-primary); }
+
+    /* ── Middle Section ── */
+    .row-middle {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px; margin-bottom: 24px;
+    }
+    @media (max-width: 1200px) {
+      .row-middle { grid-template-columns: 1fr; }
+    }
+
+    /* Activity Feed */
+    .activity-card {
+      background: #fff; border: 1px solid var(--card-border); border-radius: 20px;
+      overflow: hidden; display: flex; flex-direction: column;
+      height: 580px;
+    }
+    .activity-header {
+      padding: 18px 24px; border-bottom: 1px solid var(--card-border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .activity-title { font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
+
+    .activity-body { flex: 1; overflow-y: auto; padding: 20px; background: #fbfcfe; }
+    .bet-item {
+      display: flex; gap: 14px; margin-bottom: 20px; align-items: flex-start;
+      animation: fadeIn 0.3s ease-out;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .user-avatar { width: 40px; height: 40px; border-radius: 50%; background: #eee; flex-shrink: 0; }
+    .bet-bubble {
+      padding: 14px 18px; border-radius: 0 16px 16px 16px;
+      color: #fff; font-size: 14px; font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      max-width: 80%;
+    }
+    .bet-time { font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
+
+    /* Control Panel */
+    .control-col { display: flex; flex-direction: column; gap: 20px; }
+    .control-card {
+      background: #fff; border: 1px solid var(--card-border); border-radius: 20px; padding: 24px;
+    }
+    
+    .live-status { text-align: center; }
+    .period-id { font-size: 14px; font-weight: 600; color: var(--text-muted); margin-bottom: 10px; }
+    .timer-wrap {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      font-size: 42px; font-weight: 800; font-family: 'Courier New', Courier, monospace;
+      color: var(--accent); background: #f7f8fc; padding: 15px; border-radius: 16px;
+    }
+    .time-sub { color: var(--text-primary); }
+
+    .调整-section { margin-top: 10px; }
+    .调整-title { font-size: 15px; font-weight: 700; margin-bottom: 15px; color: var(--text-secondary); }
+    .form-group { margin-bottom: 18px; }
+    .form-label { display: block; font-size: 13px; color: var(--text-muted); font-weight: 600; margin-bottom: 8px; }
+    .form-input {
+      width: 100%; padding: 12px 16px; border: 2px solid var(--card-border); border-radius: 12px;
+      font-size: 14px; outline: none; transition: border-color 0.2s;
+    }
+    .form-input:focus { border-color: var(--accent); }
+
+    .btn-submit {
+      width: 100%; padding: 14px; background: var(--accent); color: #fff;
+      border: none; border-radius: 12px; font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .btn-submit:hover { opacity: 0.9; transform: translateY(-2px); }
+
+    /* ── History Table ── */
+    .table-card {
+      background: #fff; border: 1px solid var(--card-border); border-radius: 20px; overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    }
+    table { width: 100%; border-collapse: collapse; }
+    thead th {
+      background: #f7f8fc; padding: 14px; text-align: left;
+      font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;
+      border-bottom: 1px solid var(--card-border);
+    }
+    tbody tr { border-bottom: 1px solid var(--card-border); transition: background 0.2s; }
+    tbody tr:hover { background: #fbfcfe; }
+    td { padding: 16px 14px; font-size: 13px; font-weight: 600; }
+
+    .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+    .dot.red { background: var(--red); }
+    .dot.green { background: var(--green); }
+    .dot.violet { background: var(--violet); }
+
+    .text-red { color: var(--red); }
+    .text-green { color: var(--green); }
+    .text-violet { color: var(--violet); }
+
+    /* ── RESPONSIVE OVERRIDES ── */
+    @media (max-width: 1200px) {
+      .row-middle { grid-template-columns: 1fr !important; }
+    }
+
+    @media (max-width: 991.98px) {
+      .main-content { margin-left: 0; }
+      .topbar { padding: 0 16px; }
+    }
+
+    @media (max-width: 768px) {
+      .content-body { padding: 16px 12px; }
+      .stats-row { grid-template-columns: repeat(2, 1fr) !important; gap: 12px; }
+      .stat-card { padding: 16px; min-height: 100px; display: flex; flex-direction: column; justify-content: center; }
+      .stat-label { font-size: 10px; }
+      .stat-value { font-size: 20px; margin-top: 4px; }
+      
+      .number-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 10px; }
+      .num-card { padding: 12px 8px; }
+      .num-badge { width: 26px; height: 26px; font-size: 12px; margin-bottom: 6px; }
+      .num-val { font-size: 13px; }
+      
+      .activity-card { height: 400px; }
+      .timer-wrap { font-size: 34px; padding: 12px; border-radius: 12px; }
+      .period-id { font-size: 12px; }
+      
+      .table-card { border-radius: 16px; }
+      .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      table { min-width: 650px; }
+      thead th, td { padding: 12px 10px; font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wrapper">
+    <%- include('../nav') %>
+
+    <div class="main-content">
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="topbar-title">Game Management &rsaquo; WinGo 30S</div>
+        </div>
+        <div class="topbar-right">
+          <div class="topbar-btn">👤</div>
+        </div>
+      </header>
+
+      <!-- GAME NAVIGATION -->
+      <div class="game-nav">
+        <a href="/admin/manager/index" class="game-mode <%= typeid_val == '1' ? 'active' : '' %>">1 Min</a>
+        <a href="/admin/manager/index/3" class="game-mode <%= typeid_val == '2' ? 'active' : '' %>">3 Min</a>
+        <a href="/admin/manager/index/5" class="game-mode <%= typeid_val == '3' ? 'active' : '' %>">5 Min</a>
+        <a href="/admin/manager/index/10" class="game-mode <%= typeid_val == '4' ? 'active' : '' %>">30 Sec</a>
+      </div>
+
+      <div class="content-body">
+        
+        <!-- MAIN OVERVIEW -->
+        <div class="stats-row">
+          <div class="stat-card red">
+            <div class="stat-label">Order Red</div>
+            <div class="stat-value orderRed" totalMoney="0">₹0</div>
+          </div>
+          <div class="stat-card violet">
+            <div class="stat-label">Order Violet</div>
+            <div class="stat-value orderViolet" totalMoney="0">₹0</div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-label">Order Green</div>
+            <div class="stat-value orderGreen" totalMoney="0">₹0</div>
+          </div>
+          <div class="stat-card blue">
+            <div class="stat-label">Total Volume</div>
+            <div class="stat-value orderNumbers" totalMoney="0">₹0</div>
+          </div>
+        </div>
+
+        <!-- NUMBER GRID -->
+        <div class="number-grid">
+          <% for(let n=0; n<=9; n++){ %>
+            <div class="num-card">
+              <div class="num-badge"><%= n %></div>
+              <div class="stat-label" style="font-size:9px">Join <%= n %></div>
+              <div class="num-val orderNumber" totalMoney="0">₹0</div>
+            </div>
+          <% } %>
+          <div class="num-card">
+            <div class="num-badge" style="background:var(--orange)">B</div>
+            <div class="stat-label" style="font-size:9px">Join Big</div>
+            <div class="num-val orderNumber" totalMoney="0">₹0</div>
+          </div>
+          <div class="num-card">
+            <div class="num-badge" style="background:var(--blue)">S</div>
+            <div class="stat-label" style="font-size:9px">Join Small</div>
+            <div class="num-val orderNumber" totalMoney="0">₹0</div>
+          </div>
+        </div>
+
+        <div class="row-middle">
+          <!-- ACTIVITY FEED -->
+          <div class="activity-card">
+            <div class="activity-header">
+              <div class="activity-title"><span class="live-dot"></span> Live Betting Stream</div>
+              <div class="stat-label">Real-time Activity (30S)</div>
+            </div>
+            <div class="activity-body direct-chat-messages">
+              <div class="bet-container direct-chat-msg">
+                <!-- Data injected by index.js -->
+              </div>
+            </div>
+          </div>
+
+          <!-- CONTROL SIDEBAR -->
+          <div class="control-col">
+            <!-- LIVE STATUS -->
+            <div class="control-card live-status">
+              <div class="stat-label" style="margin-bottom:15px">Current Period Status</div>
+              <div class="period-id reservation-chunk-sub-num">00000000000000</div>
+              <div class="timer-wrap time">
+                <span class="time-sub">0</span>
+                <span class="time-sub">0</span>
+                <span>:</span>
+                <span class="time-sub">0</span>
+                <span class="time-sub">0</span>
+              </div>
+            </div>
+
+            <!-- RESULT ADJUSTMENT -->
+            <div class="control-card">
+              <div class="调整-title"><i class="fas fa-sliders-h"></i> Outcome Control</div>
+              <div class="form-group">
+                <label class="form-label" id="ketQua">Next Expected Result: Random</label>
+                <input type="text" class="form-input" id="editResult" placeholder="Enter number (0-9)">
+              </div>
+              <div class="form-group" style="margin-top:-10px; margin-bottom: 20px;">
+                <p style="font-size: 11px; color: var(--text-muted); line-height: 1.4;">
+                  <span class="text-red">0,5: Violet</span> | 
+                  <span class="text-green">1,3,7,9: Green</span> | 
+                  <span class="text-red">2,4,6,8: Red</span>
+                </p>
+              </div>
+              <button class="btn-submit start-order">Apply Force Result</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- HISTORY TABLE -->
+        <div class="table-card">
+          <div class="activity-header">
+            <div class="activity-title">Game History (Periods)</div>
+            <div class="stat-label">Previous Outcomes</div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Period ID</th>
+                <th>Outcome</th>
+                <th>Size</th>
+                <th>Colors</th>
+              </tr>
+            </thead>
+            <tbody id="list-orders">
+              <!-- Data injected by index.js -->
+            </tbody>
+          </table>
+        </div>
+
+      </div><!-- /.content-body -->
+    </div><!-- /.main-content -->
+  </div><!-- /.wrapper -->
+
+  <script src="/plugins/jquery/jquery.min.js"></script>
+  <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="/js/admin/admin.js"></script>
+  <script src="/js/admin/index.js"></script>
+  <style>
+    .direct-chat-timestamp { font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 4px; }
+    .direct-chat-img { width: 34px; height: 34px; border-radius: 50%; float: left; margin-right: 12px; border: 2px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .direct-chat-text {
+      position: relative; padding: 12px 16px; border-radius: 0 16px 16px 16px;
+      color: #fff; font-weight: 600; font-size: 13px; display: inline-block;
+      margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      clear: both; margin-left: 46px;
+    }
+  </style>
+</body>
+</html>

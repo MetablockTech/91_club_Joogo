@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Collaborators List | <%= locals.SITE_NAME || 'Starworldz' %> Admin</title>
+  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #f0f2f8;
+      --sidebar-bg: #ffffff;
+      --card-bg: #ffffff;
+      --card-border: #e3e7f0;
+      --accent: #6c63ff;
+      --accent-light: rgba(108, 99, 255, 0.08);
+      --text-primary: #1a1d2e;
+      --text-secondary: #5a5f7a;
+      --text-muted: #9ea3b8;
+      --green: #00b894;
+      --red: #e17055;
+      --yellow: #f1c40f;
+      --orange: #f39c12;
+      --sidebar-width: 260px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif !important;
+      background: var(--bg);
+      color: var(--text-primary);
+      overflow-x: hidden;
+    }
+
+    .wrapper {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s;
+      min-width: 0;
+    }
+
+    @media (max-width: 991.98px) {
+      .main-content {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding-top: 60px !important;
+        /* Adjust for mobile header in nav.ejs */
+      }
+
+      .topbar {
+        display: none !important;
+        /* nav.ejs provides mobile-header */
+      }
+
+      .content-body {
+        padding: 16px;
+      }
+
+      .toolbar {
+        padding: 16px;
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .search-wrap {
+        min-width: 100%;
+      }
+
+      .btn-action {
+        width: 100%;
+        justify-content: center;
+        height: 48px !important;
+      }
+
+      .action-group .btn-action {
+        width: auto;
+        min-width: auto;
+        padding: 6px 10px;
+        font-size: 10px;
+        height: 30px !important;
+      }
+    }
+
+    .topbar {
+      background: var(--sidebar-bg);
+      border-bottom: 1px solid var(--card-border);
+      padding: 0 28px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .topbar-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .content-body {
+      padding: 28px;
+    }
+
+    .page-header {
+      margin-bottom: 24px;
+    }
+
+    .page-title {
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    @media (max-width: 768px) {
+      .page-header {
+        margin-bottom: 16px;
+      }
+
+      .page-title {
+        font-size: 18px;
+      }
+    }
+
+    /* ── TOOLBAR ── */
+    .toolbar {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    }
+
+    .search-wrap {
+      flex: 1;
+      min-width: 300px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #f7f8fc;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 12px 18px;
+      transition: all 0.2s;
+    }
+
+    .search-wrap:focus-within {
+      border-color: var(--accent);
+      background: #fff;
+      box-shadow: 0 0 0 4px var(--accent-light);
+    }
+
+    .search-wrap input {
+      background: none;
+      border: none;
+      outline: none;
+      width: 100%;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    /* ── TABLE ── */
+    .table-card {
+      background: #fff;
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+      width: 100%;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .table-responsive::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb {
+      background: var(--card-border);
+      border-radius: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1100px;
+      /* Reduced slightly but enforced */
+      table-layout: auto;
+    }
+
+    thead th {
+      background: #fbfcfe;
+      padding: 16px 20px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 1px solid var(--card-border);
+      white-space: nowrap;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid #f8f9fb;
+      transition: background 0.2s;
+    }
+
+    tbody tr:hover {
+      background: rgba(108, 99, 255, 0.02);
+    }
+
+    td {
+      padding: 16px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+
+    .badge {
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+
+    .status-badge {
+      border-radius: 30px;
+      font-size: 11px;
+      padding: 6px 12px;
+    }
+
+    .status-online {
+      background: rgba(0, 184, 148, 0.1);
+      color: var(--green);
+    }
+
+    .status-banned {
+      background: rgba(225, 112, 85, 0.1);
+      color: var(--red);
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .role-badge {
+      background: var(--accent-light);
+      color: var(--accent);
+      text-transform: uppercase;
+      border-color: rgba(108, 99, 255, 0.2);
+    }
+
+    .action-group {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: nowrap;
+    }
+
+    .btn-action {
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 700;
+      text-decoration: none !important;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .btn-profile {
+      background: var(--accent-light);
+      color: var(--accent);
+    }
+
+    .btn-profile:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-wallet {
+      background: rgba(0, 184, 148, 0.1);
+      color: var(--green);
+    }
+
+    .btn-wallet:hover {
+      background: var(--green);
+      color: #fff;
+    }
+
+    .btn-lock {
+      background: rgba(225, 112, 85, 0.1);
+      color: var(--red);
+    }
+
+    .btn-lock:hover {
+      background: var(--red);
+      color: #fff;
+    }
+
+    .btn-unlock {
+      background: rgba(0, 184, 148, 0.1);
+      color: var(--green);
+    }
+
+    .btn-unlock:hover {
+      background: var(--green);
+      color: #fff;
+    }
+
+    /* ── PAGINATION ── */
+    .pagination-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      padding: 25px;
+    }
+
+    .pag-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--text-secondary);
+    }
+
+    .pag-btn:hover:not(.disabled) {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .pag-btn.disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .page-info {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 576px) {
+      .pagination-wrap {
+        padding: 15px;
+        gap: 10px;
+      }
+
+      .pag-btn {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        font-size: 12px;
+      }
+
+      .page-info {
+        font-size: 12px;
+      }
+    }
+
+    /* Custom Styles for Wallet Modal */
+    .wallet-toggle {
+      display: flex;
+      background: #f1f5f9;
+      padding: 4px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .wallet-toggle button {
+      flex: 1;
+      border: none;
+      padding: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 8px;
+      background: transparent;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .wallet-toggle button.active {
+      background: #fff;
+      color: var(--accent);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <%- include('nav') %>
+
+      <div class="main-content">
+        <header class="topbar">
+          <div class="topbar-title">Collaborators Management</div>
+        </header>
+
+        <div class="content-body">
+
+          <div class="page-header">
+            <h2 class="page-title">Collaborators List</h2>
+            <div class="page-breadcrumb">Dashboard &rsaquo; <span>Collaborators Management</span></div>
+          </div>
+
+          <div class="toolbar">
+            <div class="search-wrap">
+              <i class="fas fa-search"></i>
+              <input type="text" id="search" placeholder="Search by Phone or User ID...">
+            </div>
+            <button class="btn-action btn-profile" id="btn-create-ctv" style="height: 48px; padding: 0 24px;">
+              <i class="fas fa-user-plus"></i> Create Collaborator
+            </button>
+            <button class="btn-action" id="btn-bulk-wallet"
+              style="height: 48px; padding: 0 24px; background: rgba(243, 156, 18, 0.1); color: var(--orange); border: 1px solid rgba(243, 156, 18, 0.2);">
+              <i class="fas fa-users-cog"></i> Bulk Wallet Action
+            </button>
+            <a href="/admin/manager/statistical" class="btn-action btn-profile"
+              style="height: 48px; padding: 0 24px; background: rgba(0, 184, 148, 0.1); color: var(--green); border: 1px solid rgba(0, 184, 148, 0.2);">
+              <i class="fas fa-chart-line"></i> View Global Matrix
+            </a>
+          </div>
+
+          <div class="table-card">
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th>User ID</th>
+                    <th>Account</th>
+                    <th>Level</th>
+                    <th>Gift Wallet (Avail)</th>
+                    <th>Adjustment (Avail)</th>
+                    <th>Total Dep.</th>
+                    <th>Status</th>
+                    <th class="text-center" style="min-width: 450px;">Quick Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="table-body">
+                  <!-- Data injected via JS -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="pagination-wrap">
+              <div class="pag-btn" id="previous"><i class="fas fa-chevron-left"></i></div>
+              <div class="page-info" id="text-page">1 / 1</div>
+              <div class="pag-btn" id="next"><i class="fas fa-chevron-right"></i></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+  </div>
+
+  <script src="/plugins/jquery/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    let pageno = 1;
+    let limit = 30;
+
+    const Render = (datas) => {
+      let html = "";
+      if (!datas || datas.length === 0) {
+        $("#table-body").html('<tr><td colspan="8" style="text-align:center; padding: 40px; color: var(--text-muted);">No collaborators found.</td></tr>');
+        return;
+      }
+
+      datas.map((data) => {
+        const role = data.level == 2 ? 'CTV' : (data.level == 1 ? 'ADMIN' : 'USER');
+        const statusClass = (data.status == 1) ? 'status-online' : 'status-banned';
+        const statusLabel = (data.status == 1) ? 'Active' : 'Banned';
+
+        html += `
+          <tr>
+            <td style="font-weight: 800; color: var(--text-secondary);">#${data.id_user}</td>
+            <td><div style="font-weight: 700; color: var(--accent);">91${data.phone}</div></td>
+            <td><span class="badge role-badge">${role}</span></td>
+            <td style="font-weight: 700; color: #9b59b6;">₹${parseFloat(data.ctv_gift_wallet || 0).toLocaleString()}</td>
+            <td style="font-weight: 700; color: #e67e22;">₹${parseFloat(data.ctv_adjustment_wallet || 0).toLocaleString()}</td>
+            <td style="font-weight: 700; color: var(--blue);">₹${parseFloat(data.total_deposit || 0).toLocaleString()}</td>
+            <td>
+              <span class="badge status-badge ${statusClass}">
+                <span class="dot"></span> ${statusLabel}
+              </span>
+            </td>
+            <td>
+              <div class="action-group">
+                <a href="/admin/manager/ctv/team/${data.phone}" class="btn-action btn-profile" style="background: rgba(52, 152, 219, 0.1); color: var(--blue);">
+                  <i class="fas fa-users"></i> View Team
+                </a>
+                <button class="btn-action btn-wallet wallet-btn" data-phone="${data.phone}">
+                  <i class="fas fa-wallet"></i> Manage Wallet
+                </button>
+                <a href="/admin/manager/ctv/profile/${data.phone}" class="btn-action btn-profile">
+                  <i class="fas fa-user-shield"></i> Profile
+                </a>
+                <a href="/admin/member/info/${data.phone}" class="btn-action btn-profile">
+                  <i class="fas fa-user"></i> Info
+                </a>
+                ${(data.status == 1)
+            ? `<button class="btn-action btn-lock ban-btn" data-id="${data.id}" data-type="close"><i class="fas fa-lock"></i> Lock</button>`
+            : `<button class="btn-action btn-unlock ban-btn" data-id="${data.id}" data-type="open"><i class="fas fa-lock-open"></i> Unlock</button>`
+          }
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+      $("#table-body").html(html);
+    };
+
+    // Wallet Management Modal
+    $(document).on('click', '.wallet-btn', function () {
+      const phone = $(this).data('phone');
+      Swal.fire({
+        title: '<span style="font-size: 18px; font-weight: 800;">Wallet Management</span>',
+        width: 380,
+        padding: '1.5rem',
+        html: `
+                <div style="text-align: left;">
+                    <div style="margin-bottom: 12px; font-size: 13px; font-weight: 700; color: var(--text-secondary);">
+                        <i class="fas fa-user mr-1"></i> Partner: 91${phone}
+                    </div>
+                    
+                    <label style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Select Target Wallet</label>
+                    <div class="wallet-toggle" id="swal-wallet-toggle">
+                        <button class="active" data-wallet="gift"><i class="fas fa-gift mr-1"></i> Gift Wallet</button>
+                        <button data-wallet="adjustment"><i class="fas fa-adjust mr-1"></i> Adjustment</button>
+                    </div>
+
+                    <label style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Operation</label>
+                    <select id="swal-op-type" class="swal2-input" style="width: 100%; margin: 5px 0 15px; height: 40px; font-size: 13px;">
+                        <option value="1">Credit (+) Add Funds</option>
+                        <option value="2">Debit (-) Deduct Funds</option>
+                    </select>
+
+                    <label style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Amount (₹)</label>
+                    <input type="number" id="swal-amount" class="swal2-input" style="width: 100%; margin: 5px 0; height: 40px; font-size: 14px;" placeholder="0.00">
+                </div>
+            `,
+        showCancelButton: true,
+        confirmButtonText: 'Confirm Transaction',
+        confirmButtonColor: 'var(--accent)',
+        didOpen: () => {
+          $('#swal-wallet-toggle button').click(function () {
+            $('#swal-wallet-toggle button').removeClass('active');
+            $(this).addClass('active');
+          });
+        },
+        preConfirm: () => {
+          const amount = $('#swal-amount').val();
+          const wallet = $('#swal-wallet-toggle button.active').data('wallet');
+          const select = $('#swal-op-type').val();
+          if (!amount || amount <= 0) {
+            Swal.showValidationMessage('Please enter a valid amount');
+            return false;
+          }
+          return { amount, wallet, select };
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const { amount, wallet, select } = result.value;
+          const type = wallet === 'gift' ? 'one' : 'three';
+
+          $.post("/admin/manager/createBonus", {
+            select, type, money: amount, phone
+          }, (res) => {
+            if (res.status) {
+              alertMsg(res.message);
+              loadPage();
+            } else {
+              alertMsg(res.message, 'error');
+            }
+          });
+        }
+      });
+    });
+
+    // Bulk Wallet Management
+    $('#btn-bulk-wallet').click(function () {
+      Swal.fire({
+        title: '<span style="font-size: 18px; font-weight: 800; color: var(--orange);">Bulk Wallet Action</span>',
+        width: 400,
+        padding: '1.5rem',
+        html: `
+                <div style="text-align: left;">
+                    <div style="margin-bottom: 15px; padding: 12px; background: rgba(243, 156, 18, 0.1); border-radius: 10px; border: 1px solid rgba(243, 156, 18, 0.2);">
+                        <p style="margin: 0; font-size: 12px; color: #d35400; font-weight: 600;">
+                            <i class="fas fa-exclamation-triangle mr-1"></i> <strong>WARNING:</strong> This action will update the wallets of <strong>ALL</strong> collaborators simultaneously.
+                        </p>
+                    </div>
+                    
+                    <label style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Select Target Wallet</label>
+                    <div class="wallet-toggle" id="swal-bulk-wallet-toggle">
+                        <button class="active" data-wallet="gift"><i class="fas fa-gift mr-1"></i> All Gift Wallets</button>
+                        <button data-wallet="adjustment"><i class="fas fa-adjust mr-1"></i> All Adjustment Funds</button>
+                    </div>
+
+                    <label style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Operation</label>
+                    <select id="swal-bulk-op-type" class="swal2-input" style="width: 100%; margin: 5px 0 15px; height: 40px; font-size: 13px;">
+                        <option value="1">Credit (+) Add to All</option>
+                        <option value="2">Debit (-) Deduct from All</option>
+                    </select>
+
+                    <label style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Amount (₹)</label>
+                    <input type="number" id="swal-bulk-amount" class="swal2-input" style="width: 100%; margin: 5px 0; height: 40px; font-size: 14px;" placeholder="0.00">
+                </div>
+            `,
+        showCancelButton: true,
+        confirmButtonText: 'Execute Bulk Action',
+        confirmButtonColor: 'var(--orange)',
+        didOpen: () => {
+          $('#swal-bulk-wallet-toggle button').click(function () {
+            $('#swal-bulk-wallet-toggle button').removeClass('active');
+            $(this).addClass('active');
+          });
+        },
+        preConfirm: () => {
+          const amount = $('#swal-bulk-amount').val();
+          const wallet = $('#swal-bulk-wallet-toggle button.active').data('wallet');
+          const select = $('#swal-bulk-op-type').val();
+          if (!amount || amount <= 0) {
+            Swal.showValidationMessage('Please enter a valid amount');
+            return false;
+          }
+          return { amount, wallet, select };
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const { amount, wallet, select } = result.value;
+          const type = wallet === 'gift' ? 'all' : 'two';
+
+          $.post("/admin/manager/createBonus", {
+            select, type, money: amount, phone: ''
+          }, (res) => {
+            if (res.status) {
+              alertMsg(res.message);
+              loadPage();
+            } else {
+              alertMsg(res.message, 'error');
+            }
+          });
+        }
+      });
+    });
+
+    const loadPage = () => {
+      $.post("/api/webapi/admin/listctv", { pageno: pageno - 1, pageto: limit }, (response) => {
+        if (response.status) {
+          Render(response.datas);
+          $("#text-page").text(pageno);
+        }
+      });
+    };
+
+    $(document).on('click', '.ban-btn', function () {
+      const id = $(this).attr('data-id');
+      const type = $(this).attr('data-type');
+      Swal.fire({
+        title: type === 'close' ? "Lock Account?" : "Unlock Account?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+        confirmButtonColor: type === 'close' ? '#ff5252' : '#00b894',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.post("/api/webapi/admin/banned", { id, type }, (res) => {
+            alertMsg(res.message);
+            loadPage();
+          });
+        }
+      });
+    });
+
+    $('#btn-create-ctv').click(function () {
+      Swal.fire({
+        title: '<span style="font-size: 18px; font-weight: 800;">New Collaborator</span>',
+        width: 380,
+        padding: '1.5rem',
+        html: `
+                <div style="text-align: left;">
+                    <div style="margin-bottom: 20px; text-align: center; color: var(--accent);">
+                        <i class="fas fa-user-plus fa-3x"></i>
+                    </div>
+                    
+                    <label style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Phone Number</label>
+                    <div class="search-wrap" style="margin: 5px 0 15px; background: #f8fafc; border: 1px solid #e2e8f0;">
+                        <i class="fas fa-phone-alt" style="color: #94a3b8; font-size: 13px;"></i>
+                        <input type="text" id="ctv-phone" placeholder="10-digit mobile number" maxlength="10" style="font-size: 14px;">
+                    </div>
+
+                    <label style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Secure Password</label>
+                    <div class="search-wrap" style="margin: 5px 0 15px; background: #f8fafc; border: 1px solid #e2e8f0;">
+                        <i class="fas fa-lock" style="color: #94a3b8; font-size: 13px;"></i>
+                        <input type="password" id="ctv-password" placeholder="Create a strong password" style="font-size: 14px;">
+                    </div>
+
+                    <p style="font-size: 11px; color: #64748b; text-align: center; margin-top: 10px;">
+                        <i class="fas fa-info-circle mr-1"></i> New partners can login using these credentials immediately.
+                    </p>
+                </div>
+            `,
+        showCancelButton: true,
+        confirmButtonText: 'Create Partner Account',
+        confirmButtonColor: 'var(--accent)',
+        cancelButtonText: 'Cancel',
+        preConfirm: () => {
+          const phone = $('#ctv-phone').val();
+          const password = $('#ctv-password').val();
+          if (!phone || phone.length !== 10) return Swal.showValidationMessage('Valid 10-digit phone required');
+          if (!password || password.length < 4) return Swal.showValidationMessage('Password is too short');
+          return { phone, password };
+        }
+      }).then(r => {
+        if (r.isConfirmed) {
+          $.post("/admin/manager/create/ctv", { username: r.value.phone, password: r.value.password }, (res) => {
+            if (res.status) {
+              Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: res.message,
+                confirmButtonColor: 'var(--accent)'
+              });
+              loadPage();
+            }
+            else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Failed',
+                text: res.message,
+                confirmButtonColor: 'var(--red)'
+              });
+            }
+          });
+        }
+      });
+    });
+
+    $("#next").click(() => { pageno++; loadPage(); });
+    $("#previous").click(() => { if (pageno > 1) { pageno--; loadPage(); } });
+    $("#search").on("keyup", function () {
+      let v = $(this).val().toLowerCase();
+      $("#table-body tr").filter(function () { $(this).toggle($(this).text().toLowerCase().indexOf(v) > -1); });
+    });
+
+    loadPage();
+  </script>
+</body>
+
+</html>

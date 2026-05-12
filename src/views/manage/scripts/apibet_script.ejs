@@ -1,0 +1,95 @@
+<script>
+    const RenderApiBet = (datas) => {
+        if (!datas || datas.length == 0) {
+            $('#api-list-bet').html(`<tr><td colspan="7" class="text-center text-muted">no data...</td></tr>`);
+            return;
+        }
+        let html = '';
+        datas.map((data) => {
+            let bet = parseFloat(data.bet) || 0;
+            let win = parseFloat(data.win) || 0;
+            let amount = win > 0 ? win : -bet;
+            let amountColor = win > 0 ? 'var(--accent2)' : 'var(--accent3)';
+            let amountSign = win > 0 ? '+' : '';
+
+            let resettleTime = (data.resettle_time && data.resettle_time > 0) ? timerJoin(data.resettle_time) : '-';
+            let cancelText = data.is_cancel == 1 ? 'YES' : 'NO';
+            let cancelClass = data.is_cancel == 1 ? 'status-danger' : 'status-success';
+
+            html += `
+            <tr>
+                <td style="font-size: 0.85em;">${data.txn_id}</td>
+                <td style="font-size: 0.85em;">${data.round_id || '-'}</td>
+                <td style="font-size: 0.8em; line-height: 1.4;">
+                    <strong>Game ID:</strong> ${data.game_id || '-'}<br>
+                    <strong>Table ID:</strong> ${data.table_id || '-'}<br>
+                    <strong>Prd ID:</strong> ${data.prd_id || '-'}
+                </td>
+                <td><b style="color: ${amountColor}">${amountSign}${amount}</b></td>
+                <td><span class="status-badge ${cancelClass}">${cancelText}</span></td>
+                <td style="font-size: 0.8em;">${resettleTime}</td>
+                <td style="font-size: 0.8em;">${timerJoin(data.time)}</td>
+            </tr>`;
+        });
+        $("#api-list-bet").html(html);
+    }
+
+    var apiPageno = 0;
+    var apiLimit = 30;
+    var apiPage = 1;
+
+    function loadApiBet() {
+        $.ajax({
+            type: "POST",
+            url: "/admin/member/apibet/" + phone,
+            data: { typeid: "1", pageno: apiPageno, limit: apiLimit, language: "vi" },
+            dataType: "json",
+            success: function (response) {
+                $('#api-text-bet').text(apiPage + ' / ' + (response?.page_total || 1));
+                if (response?.status === true) return RenderApiBet(response?.data || response?.datas);
+            }
+        });
+    }
+
+    loadApiBet();
+
+    $('#apiNextBet').click(function (e) {
+        e.preventDefault();
+        apiPageno += apiLimit;
+        $.ajax({
+            type: "POST",
+            url: "/admin/member/apibet/" + phone,
+            data: { typeid: "1", pageno: apiPageno, limit: apiLimit, language: "vi" },
+            dataType: "json",
+            success: function (response) {
+                let d = response?.data || response?.datas;
+                if (!d || d.length == 0) {
+                    $('#apiNextBet').addClass('block-click');
+                    apiPageno -= apiLimit;
+                    return;
+                }
+                $('#api-text-bet').text(++apiPage + ' / ' + response?.page_total);
+                if (response?.status === true) return RenderApiBet(d);
+            }
+        });
+    });
+
+    $('#apiPreviousBet').click(function (e) {
+        e.preventDefault();
+        $('#apiNextBet').removeClass('block-click');
+        apiPageno -= apiLimit;
+        if (apiPageno < 0) apiPageno = 0;
+        else apiPage--;
+        
+        $.ajax({
+            type: "POST",
+            url: "/admin/member/apibet/" + phone,
+            data: { typeid: "1", pageno: apiPageno, limit: apiLimit, language: "vi" },
+            dataType: "json",
+            success: function (response) {
+                $('#api-text-bet').text(apiPage + ' / ' + response?.page_total);
+                if (response?.status === true) return RenderApiBet(response?.data || response?.datas);
+            }
+        });
+    });
+</script>

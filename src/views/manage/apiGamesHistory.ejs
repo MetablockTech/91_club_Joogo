@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Api Games History | Starworldz Admin</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="/css/admin.css">
+  <style>
+    :root {
+      --primary: #6c63ff;
+      --accent: #6c63ff;
+      --bg: #f8f9fa;
+      --card-bg: #ffffff;
+      --text-primary: #2d3436;
+      --text-secondary: #636e72;
+      --text-muted: #b2bec3;
+      --card-border: #edf2f7;
+      --green: #00b894;
+      --red: #ff7675;
+      --blue: #0984e3;
+    }
+
+    body {
+      background-color: var(--bg);
+      font-family: 'Inter', -apple-system, sans-serif;
+      color: var(--text-primary);
+    }
+
+    .content-wrapper {
+      background-color: var(--bg);
+      padding: 20px;
+    }
+
+    .container-fluid {
+      padding: 0;
+    }
+
+    /* ── TOOLBAR ── */
+    .toolbar {
+      background: var(--card-bg);
+      padding: 24px 30px;
+      border-radius: 30px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .toolbar-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+    }
+
+    .filter-group-inner {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex: 1;
+    }
+
+    .search-wrap {
+      position: relative;
+      flex: 1.5;
+      min-width: 250px;
+    }
+
+    .search-wrap i {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 14px;
+      z-index: 10;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 12px 20px 12px 52px !important;
+      background: #ffffff;
+      border: 1.5px solid #edf2f7;
+      border-radius: 50px !important;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      color: var(--text-primary);
+    }
+
+    .search-input:focus {
+      background: #fff;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.1);
+      outline: none;
+    }
+
+    .filter-select {
+      padding: 10px 18px;
+      background: #ffffff;
+      border: 1.5px solid #edf2f7;
+      border-radius: 30px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      flex: 1;
+      min-width: 120px;
+    }
+
+    .prd-input {
+        max-width: 150px;
+    }
+
+    .filter-select:focus {
+      border-color: var(--accent);
+      background: #fff;
+      outline: none;
+    }
+
+    .date-inputs {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #ffffff;
+        padding: 6px 18px;
+        border: 1.5px solid #edf2f7;
+        border-radius: 30px;
+        flex: 1;
+        max-width: 350px;
+    }
+
+    .date-field {
+        background: transparent;
+        border: none;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-secondary);
+        outline: none;
+        flex: 1;
+        width: 100%;
+    }
+
+    .btn-apply {
+      padding: 11px 28px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(108, 99, 255, 0.25);
+      min-width: 110px;
+    }
+
+    .btn-apply:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 15px rgba(108, 99, 255, 0.3);
+      filter: brightness(1.1);
+    }
+
+    .btn-reset {
+      padding: 11px 24px;
+      background: #ffffff;
+      color: var(--text-secondary);
+      border: 1.5px solid #edf2f7;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.3s;
+      min-width: 110px;
+    }
+
+    .btn-reset:hover {
+      background: #f8f9fa;
+      color: var(--text-primary);
+    }
+
+    /* ── TABLE ── */
+    .table-card {
+      background: var(--card-bg);
+      border-radius: 30px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03);
+      overflow: hidden;
+    }
+
+    .table {
+      margin-bottom: 0;
+    }
+
+    .table thead th {
+      background: #f8f9fc;
+      border-bottom: 1px solid var(--card-border);
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding: 18px 24px;
+    }
+
+    .table tbody td {
+      padding: 20px 24px;
+      vertical-align: middle;
+      border-bottom: 1px solid #f8f9fc;
+      font-size: 14px;
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .badge {
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .badge-debit { background: rgba(225, 112, 85, 0.1); color: var(--red); }
+    .badge-credit { background: rgba(0, 184, 148, 0.1); color: var(--green); }
+    .badge-resettle { background: rgba(9, 132, 227, 0.1); color: var(--blue); }
+
+    .amount { font-weight: 700; font-family: 'Monaco', monospace; }
+    .amount.debit { color: var(--red); }
+    .amount.credit { color: var(--green); }
+
+    .mono { font-family: 'Monaco', 'Consolas', monospace; letter-spacing: -0.2px; }
+
+    /* ── PAGINATION ── */
+    .pagination-wrap {
+      padding: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--card-border);
+    }
+
+    .pag-btn {
+      width: 40px; height: 40px;
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      background: #fff;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.2s;
+      color: var(--text-secondary);
+    }
+
+    .pag-btn:hover:not(.disabled) {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .pag-btn.disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .page-info { font-size: 14px; font-weight: 700; color: var(--text-primary); }
+
+    @media (max-width: 991.98px) {
+      .content-wrapper {
+        padding-top: 60px !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .toolbar { padding: 20px; border-radius: 24px; }
+      .toolbar-row { flex-direction: column !important; align-items: stretch !important; margin-bottom: 0 !important; gap: 12px; width: 100% !important; }
+      .filter-group-inner { flex-direction: column !important; align-items: stretch !important; gap: 10px; width: 100% !important; }
+      .search-wrap { min-width: 0; width: 100% !important; flex: none !important; }
+      .search-input { width: 100% !important; box-sizing: border-box !important; border-radius: 30px !important; }
+      .filter-select, .prd-input, .date-inputs, .btn-apply, .btn-reset { width: 100% !important; max-width: none !important; flex: none !important; box-sizing: border-box !important; border-radius: 30px !important; }
+      .date-inputs { justify-content: space-between; }
+      .date-field { width: 45% !important; flex: 1 !important; }
+    }
+  </style>
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+  <%- include('nav') %>
+  <div class="content-wrapper">
+    <div class="container-fluid">
+      
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <!-- Row 1: Search and Primary Filters -->
+        <div class="toolbar-row mb-2">
+            <div class="search-wrap">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search" class="search-input" placeholder="Search Phone, ID, Txn...">
+            </div>
+            <select id="type" class="filter-select">
+                <option value="all">All Types</option>
+                <option value="debit">Debit (Bet)</option>
+                <option value="credit">Credit (Win)</option>
+                <option value="resettle">Resettle</option>
+            </select>
+            <select id="status" class="filter-select">
+                <option value="all">All Status</option>
+                <option value="0">Active Only</option>
+                <option value="1">Cancelled Only</option>
+            </select>
+            <button class="btn-apply" onclick="loadData(1)">
+                <i class="fas fa-filter"></i> Apply
+            </button>
+        </div>
+
+        <!-- Row 2: Secondary Filters and Date Range -->
+        <div class="toolbar-row">
+            <div class="filter-group-inner">
+                <input type="text" id="prd_id" class="filter-select prd-input" placeholder="Product ID">
+                
+                <div class="date-inputs">
+                    <input type="date" id="startDate" class="date-field">
+                    <span style="color: var(--text-muted)">to</span>
+                    <input type="date" id="endDate" class="date-field">
+                </div>
+            </div>
+            
+            <button class="btn-reset" onclick="resetFilters()">Reset All</button>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="table-card">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>User Info</th>
+                <th>Game / Round</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Txn ID</th>
+                <th>Time / Resettle</th>
+              </tr>
+            </thead>
+            <tbody id="table-body">
+              <!-- Data will be loaded here via AJAX -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination-wrap">
+          <div class="pag-btn" id="prev-page" onclick="changePage(-1)">
+            <i class="fas fa-chevron-left"></i>
+          </div>
+          <div class="page-info">
+            Page <span id="current-page">1</span> of <span id="total-pages">1</span>
+          </div>
+          <div class="pag-btn" id="next-page" onclick="changePage(1)">
+            <i class="fas fa-chevron-right"></i>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/dist/js/adminlte.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment/moment.min.js"></script>
+
+<script>
+  let currentPage = 1;
+  const limit = 20;
+
+  $(document).ready(function() {
+    loadData(1);
+
+    // Enter key to search
+    $('#search').on('keypress', function(e) {
+      if(e.which == 13) loadData(1);
+    });
+  });
+
+  function resetFilters() {
+    $('#search').val('');
+    $('#type').val('all');
+    $('#status').val('all');
+    $('#prd_id').val('');
+    $('#startDate').val('');
+    $('#endDate').val('');
+    loadData(1);
+  }
+
+  function changePage(delta) {
+    const totalPages = parseInt($('#total-pages').text());
+    let next = currentPage + delta;
+    if (next < 1 || next > totalPages) return;
+    loadData(next);
+  }
+
+  function loadData(page) {
+    currentPage = page;
+    const search = $('#search').val();
+    const type = $('#type').val();
+    const status = $('#status').val();
+    const prd_id = $('#prd_id').val();
+    const startDate = $('#startDate').val();
+    const endDate = $('#endDate').val();
+
+    $('#table-body').html('<tr><td colspan="8" style="text-align:center; padding: 40px;"><div class="spinner-border text-primary"></div></td></tr>');
+
+    $.ajax({
+      type: "POST",
+      url: "/api/webapi/admin/apiGamesHistory",
+      data: {
+        pageno: currentPage,
+        limit: limit,
+        search: search,
+        type: type,
+        status: status,
+        prd_id: prd_id,
+        startDate: startDate,
+        endDate: endDate
+      },
+      dataType: "json",
+      success: function (response) {
+        if (response.status) {
+          showData(response.data);
+          const totalPages = Math.ceil(response.total / limit) || 1;
+          $('#current-page').text(currentPage);
+          $('#total-pages').text(totalPages);
+          
+          $('#prev-page').toggleClass('disabled', currentPage === 1);
+          $('#next-page').toggleClass('disabled', currentPage === totalPages);
+        }
+      }
+    });
+  }
+
+  function showData(data) {
+    let html = "";
+    if (!data || data.length === 0) {
+      $('#table-body').html('<tr><td colspan="7" style="text-align:center; padding: 40px; color: var(--text-muted);">No data found.</td></tr>');
+      return;
+    }
+
+    data.forEach((item) => {
+      const typeClass = `badge-${item.type}`;
+      const amountClass = (item.type === 'debit') ? 'debit' : 'credit';
+      const amountPrefix = (item.type === 'debit') ? '-' : '+';
+      
+      let statusHtml = '<span class="badge badge-success">Active</span>';
+      if (item.is_cancel == 1) {
+          statusHtml = '<span class="badge badge-danger">Cancelled</span>';
+      }
+
+      let resettleTimeHtml = '';
+      if (item.resettlement_time) {
+          resettleTimeHtml = `<div style="font-size: 10px; color: var(--blue); margin-top: 4px;">
+              <i class="fas fa-history"></i> ${moment(item.resettlement_time).format('MM/DD HH:mm:ss')}
+          </div>`;
+      }
+      
+      html += `
+        <tr>
+          <td style="color: var(--text-muted); font-size: 12px; font-weight: 800;">#${item.id}</td>
+          <td>
+            <div style="font-weight: 700; color: var(--accent);">91${item.phone || 'N/A'}</div>
+            <div style="font-size: 11px; color: var(--text-muted);">ID: ${item.user_id_display || item.user_id}</div>
+          </td>
+          <td>
+            <div style="font-weight: 600;">Game: ${item.game_id} (P:${item.prd_id})</div>
+            <div class="mono" style="font-size: 11px; color: var(--text-muted);">R: ${item.round_id}</div>
+          </td>
+          <td>
+            <span class="badge ${typeClass}">${item.type}</span>
+          </td>
+          <td>
+            <div class="amount ${amountClass}">${amountPrefix}₹${Number(item.amount).toFixed(2)}</div>
+            <div style="font-size: 10px; color: var(--text-muted);">Bal: ₹${Number(item.currentBalance).toFixed(2)}</div>
+          </td>
+          <td>
+            ${statusHtml}
+          </td>
+          <td>
+            <div class="mono" style="font-size: 11px; color: var(--text-primary);">${item.txn_id}</div>
+          </td>
+          <td style="font-size: 12px; font-weight: 600; color: var(--text-secondary);">
+            ${moment(item.created_at).format('YYYY/MM/DD HH:mm:ss')}
+            ${resettleTimeHtml}
+          </td>
+        </tr>
+      `;
+    });
+    $('#table-body').html(html);
+  }
+</script>
+</body>
+</html>

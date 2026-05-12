@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Team Management | <%= locals.SITE_NAME || 'Starworldz' %></title>
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --bg: #f0f2f8;
+            --sidebar-bg: #ffffff;
+            --card-bg: #ffffff;
+            --card-border: #e3e7f0;
+            --accent: #6c63ff;
+            --text-primary: #1a1d2e;
+            --text-secondary: #5a5f7a;
+            --text-muted: #9ea3b8;
+            --green: #00b894;
+            --red: #e17055;
+            --blue: #2d6cdf;
+            --sidebar-width: 260px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif !important;
+            background: var(--bg);
+            color: var(--text-primary);
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .wrapper { display: flex; min-height: 100vh; width: 100%; }
+        .main-content { 
+            margin-left: var(--sidebar-width); 
+            flex: 1; 
+            padding: 28px; 
+            transition: 0.3s; 
+            width: calc(100% - var(--sidebar-width));
+            min-width: 0;
+        }
+
+        @media (max-width: 991.98px) {
+            .main-content { margin-left: 0 !important; width: 100% !important; padding: 16px; padding-top: 80px; }
+        }
+
+        .page-header { margin-bottom: 24px; }
+        .page-title { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
+        .page-subtitle { color: var(--text-muted); font-size: 13px; margin-top: 4px; }
+        .page-subtitle span { color: var(--accent); font-weight: 700; }
+
+        /* ── SUMMARY CARDS ── */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: #fff; border: 1px solid var(--card-border); border-radius: 16px;
+            padding: 20px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            display: flex; flex-direction: column; gap: 8px;
+        }
+        .stat-card .label { font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; }
+        .stat-card .value { font-size: 20px; font-weight: 800; color: var(--text-primary); margin: 4px 0; }
+        .stat-meta { display: flex; flex-direction: column; gap: 4px; border-top: 1px solid #f8f9fc; padding-top: 8px; margin-top: 4px; }
+        .meta-item { display: flex; align-items: center; justify-content: space-between; font-size: 11px; font-weight: 600; }
+        .meta-item span:nth-child(2) { color: var(--text-muted); font-size: 10px; font-weight: 500; }
+        .meta-item.t { color: var(--green); }
+        .meta-item.y { color: var(--text-secondary); }
+        .meta-item.red { color: var(--red); }
+        .meta-item.blue { color: var(--blue); }
+
+        /* ── TOOLBAR ── */
+        .toolbar {
+            background: #fff; border: 1px solid var(--card-border); border-radius: 16px;
+            padding: 14px 20px; margin-bottom: 24px; display: flex; gap: 16px; align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+        }
+        .search-wrap {
+            flex: 1; display: flex; align-items: center; gap: 12px;
+            background: #f7f8fc; border: 1px solid var(--card-border); border-radius: 10px; padding: 10px 16px;
+        }
+        .search-wrap input { background: none; border: none; outline: none; width: 100%; font-size: 14px; font-weight: 500; }
+
+        /* ── TABLE ── */
+        .table-card {
+            background: #fff; border: 1px solid var(--card-border); border-radius: 18px;
+            overflow: hidden; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+            width: 100%;
+        }
+        .table-responsive { overflow-x: auto; width: 100%; -webkit-overflow-scrolling: touch; }
+        table { width: 100%; border-collapse: collapse; min-width: 1300px; }
+        
+        thead th {
+            padding: 16px 20px; font-size: 11px; font-weight: 800; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 1.2px; text-align: left;
+            background: #fdfdfe; border-bottom: 2px solid #f0f2f8;
+        }
+        
+        tbody tr { border-bottom: 1px solid #f1f3f7; transition: 0.2s; }
+        td { padding: 16px 20px; vertical-align: middle; }
+
+        .acc-box { display: flex; flex-direction: column; }
+        .acc-phone { font-size: 14px; font-weight: 700; color: var(--blue); }
+        .acc-id { font-size: 11px; color: var(--text-muted); font-family: monospace; }
+
+        /* ── STATS STACK ── */
+        .stat-stack { display: flex; flex-direction: column; gap: 4px; }
+        .stat-item { display: flex; align-items: center; gap: 6px; font-size: 12px; white-space: nowrap; }
+        .stat-lbl { font-weight: 600; color: var(--text-muted); width: 45px; font-size: 10px; text-transform: uppercase; }
+        .stat-val { font-weight: 700; color: var(--text-primary); }
+        
+        .val-today { color: var(--blue); }
+        .val-yesterday { color: #9b59b6; }
+        .val-total { color: var(--text-primary); font-weight: 800; border-top: 1px dashed #eee; padding-top: 2px; }
+
+        /* ── STATUS ── */
+        .status-badge {
+            padding: 4px 10px; border-radius: 30px; font-size: 10px; font-weight: 700;
+            display: inline-flex; align-items: center; gap: 5px;
+        }
+        .status-active { background: rgba(0, 184, 148, 0.1); color: var(--green); }
+        .status-banned { background: rgba(225, 112, 85, 0.1); color: var(--red); }
+        
+        .btn-profile {
+            width: 34px; height: 34px; border-radius: 10px; background: rgba(108, 99, 255, 0.05);
+            color: var(--accent); display: flex; align-items: center; justify-content: center;
+            text-decoration: none; border: 1px solid var(--card-border); transition: 0.2s;
+        }
+        .btn-profile:hover { background: var(--accent); color: #fff; }
+
+        /* ── PAGINATION ── */
+        .pag-wrap { display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; border-top: 1px solid #f0f2f8; }
+        .pag-btns { display: flex; gap: 8px; }
+        .pag-btn {
+            min-width: 36px; height: 36px; border-radius: 10px; border: 1.5px solid var(--card-border);
+            background: #fff; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.2s; font-size: 13px; font-weight: 700; color: var(--text-secondary);
+        }
+        .pag-btn:hover:not(.disabled) { border-color: var(--accent); color: var(--accent); }
+        .pag-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+        .pag-btn.disabled { opacity: 0.4; cursor: not-allowed; }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <%- include('nav') %>
+        <div class="main-content">
+            <div class="page-header">
+                <h2 class="page-title">Team Insights</h2>
+                <div class="page-subtitle">Collaborator: <span>91<%= phone %></span></div>
+            </div>
+
+            <div class="summary-grid">
+                <div class="stat-card">
+                    <span class="label">Team Recharge</span>
+                    <span class="value" id="s-total-dep">₹0</span>
+                    <div class="stat-meta">
+                        <span class="meta-item t"><i class="fas fa-calendar-day"></i> <span id="s-today-dep">₹0</span> <span>Today</span></span>
+                        <span class="meta-item y"><i class="fas fa-history"></i> <span id="s-yest-dep">₹0</span> <span>Yest.</span></span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <span class="label">Team Withdrawal</span>
+                    <span class="value" id="s-total-wd">₹0</span>
+                    <div class="stat-meta">
+                        <span class="meta-item t red"><i class="fas fa-calendar-day"></i> <span id="s-today-wd">₹0</span> <span>Today</span></span>
+                        <span class="meta-item y"><i class="fas fa-history"></i> <span id="s-yest-wd">₹0</span> <span>Yest.</span></span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <span class="label">Team Betting</span>
+                    <span class="value" id="s-total-bet">₹0</span>
+                    <div class="stat-meta">
+                        <span class="meta-item t blue"><i class="fas fa-calendar-day"></i> <span id="s-today-bet">₹0</span> <span>Today</span></span>
+                        <span class="meta-item y"><i class="fas fa-history"></i> <span id="s-yest-bet">₹0</span> <span>Yest.</span></span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <span class="label">Net Team P/L</span>
+                    <span class="value" id="s-total-pl">₹0</span>
+                    <div class="stat-meta">
+                        <span class="meta-item t" id="s-today-pl-meta">Today: <span id="s-today-pl">₹0</span></span>
+                        <span class="meta-item y" id="s-yest-pl-meta">Yest: <span id="s-yest-pl">₹0</span></span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <span class="label">Members Activity</span>
+                    <span class="value" id="s-total-members">0</span>
+                    <div class="stat-meta">
+                        <span class="meta-item t">Active Users Only</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="toolbar">
+                <div class="search-wrap">
+                    <i class="fas fa-search" style="color: var(--text-muted);"></i>
+                    <input type="text" id="search" placeholder="Search phone or ID...">
+                </div>
+                <div style="font-size: 12px; font-weight: 700; color: var(--accent);">
+                    <span id="user-count">0</span> Listed
+                </div>
+            </div>
+
+            <div class="table-card">
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Account</th>
+                                <th>Balance</th>
+                                <th>Recharge</th>
+                                <th>Withdrawal</th>
+                                <th>Bet Activity</th>
+                                <th>Win Stats</th>
+                                <th>Net P/L</th>
+                                <th>Rewards</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            <!-- JS injected -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pag-wrap">
+                    <div style="font-size: 12px; font-weight: 600; color: var(--text-muted);">
+                        Page <span id="cur-p">1</span> / <span id="tot-p">1</span>
+                    </div>
+                    <div class="pag-btns" id="pag-nums"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/plugins/jquery/jquery.min.js"></script>
+    <script>
+        let pageno = 0;
+        let limit = 20;
+        const colPhone = '<%= phone %>';
+
+        function fmt(val) {
+            return '₹' + parseFloat(val || 0).toLocaleString(undefined, { minimumFractionDigits: 1 });
+        }
+
+        function createStatStack(stats, isPL = false) {
+            let t = stats.today, y = stats.yesterday, total = stats.total;
+            if (isPL) {
+                t = stats.win.today - stats.bet.today;
+                y = stats.win.yesterday - stats.bet.yesterday;
+                total = stats.win.total - stats.bet.total;
+            }
+
+            return `
+                <div class="stat-stack">
+                    <div class="stat-item"><span class="stat-lbl">Today</span><span class="stat-val val-today">${fmt(t)}</span></div>
+                    <div class="stat-item"><span class="stat-lbl">Yest.</span><span class="stat-val val-yesterday">${fmt(y)}</span></div>
+                    <div class="stat-item"><span class="stat-lbl">Total</span><span class="stat-val val-total" style="color: ${isPL ? (total >= 0 ? 'var(--green)' : 'var(--red)') : 'var(--text-primary)'}">${fmt(total)}</span></div>
+                </div>
+            `;
+        }
+
+        function renderRow(user) {
+            const s = user.stats;
+            return `
+                <tr>
+                    <td>
+                        <div class="acc-box">
+                            <span class="acc-phone">91${user.phone}</span>
+                            <span class="acc-id">#${user.id_user}</span>
+                        </div>
+                    </td>
+                    <td><span style="font-weight: 800; font-size: 15px;">${fmt(user.money)}</span></td>
+                    <td>${createStatStack(s.deposit)}</td>
+                    <td>${createStatStack(s.withdraw)}</td>
+                    <td>${createStatStack(s.bet)}</td>
+                    <td>${createStatStack(s.win)}</td>
+                    <td>${createStatStack(s, true)}</td>
+                    <td>${createStatStack(s.reward)}</td>
+                    <td>
+                        <span class="status-badge ${user.status == 1 ? 'status-active' : 'status-banned'}">
+                            <i class="fas fa-circle" style="font-size: 5px;"></i> ${user.status == 1 ? 'ACTIVE' : 'BANNED'}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="/admin/member/info/${user.phone}" class="btn-profile" title="View Profile">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                    </td>
+                </tr>
+            `;
+        }
+
+        function updateSummary(s) {
+            $('#s-total-dep').text(fmt(s.total_deposit));
+            $('#s-today-dep').text(fmt(s.today_deposit));
+            $('#s-yest-dep').text(fmt(s.yesterday_deposit));
+
+            $('#s-total-wd').text(fmt(s.total_withdraw));
+            $('#s-today-wd').text(fmt(s.today_withdraw));
+            $('#s-yest-wd').text(fmt(s.yesterday_withdraw));
+
+            $('#s-total-bet').text(fmt(s.total_bet));
+            $('#s-today-bet').text(fmt(s.today_bet));
+            $('#s-yest-bet').text(fmt(s.yesterday_bet));
+            
+            const pl = s.total_win - s.total_bet;
+            const tPl = s.today_win - s.today_bet;
+            const yPl = s.yesterday_win - s.yesterday_bet;
+
+            $('#s-total-pl').text(fmt(pl)).css('color', pl >= 0 ? 'var(--green)' : 'var(--red)');
+            $('#s-today-pl').text(fmt(tPl)).css('color', tPl >= 0 ? 'var(--green)' : 'var(--red)');
+            $('#s-yest-pl').text(fmt(yPl)).css('color', yPl >= 0 ? 'var(--green)' : 'var(--red)');
+            
+            $('#s-total-members').text(s.total_members);
+        }
+
+        function renderPag(total) {
+            let h = '';
+            h += `<div class="pag-btn ${pageno === 0 ? 'disabled' : ''}" onclick="goP(${pageno - 1})"><i class="fas fa-chevron-left"></i></div>`;
+            for (let i = 0; i < total; i++) {
+                if (i === 0 || i === total - 1 || (i >= pageno - 1 && i <= pageno + 1)) {
+                    h += `<div class="pag-btn ${i === pageno ? 'active' : ''}" onclick="goP(${i})">${i + 1}</div>`;
+                } else if (i === pageno - 2 || i === pageno + 2) {
+                    h += `<div class="pag-btn disabled">...</div>`;
+                }
+            }
+            h += `<div class="pag-btn ${pageno + 1 >= total ? 'disabled' : ''}" onclick="goP(${pageno + 1})"><i class="fas fa-chevron-right"></i></div>`;
+            $('#pag-nums').html(h);
+        }
+
+        window.goP = (p) => { if (p >= 0) { pageno = p; load(); } };
+
+        function load() {
+            const s = $('#search').val();
+            $.post('/api/webapi/admin/ctv/team', { phone: colPhone, pageno, limit, searchPhone: s }, function(res) {
+                if (res.status) {
+                    let h = '';
+                    res.datas.forEach(u => { h += renderRow(u); });
+                    if(res.datas.length === 0) h = '<tr><td colspan="10" style="text-align: center; padding: 40px; color: var(--text-muted);">No members found.</td></tr>';
+                    $('#table-body').html(h);
+                    $('#user-count').text(res.total_count);
+                    $('#cur-p').text(pageno + 1);
+                    $('#tot-p').text(res.page_total || 1);
+                    renderPag(res.page_total || 1);
+                    if(res.summary) updateSummary(res.summary);
+                }
+            });
+        }
+
+        $(document).ready(function() { load(); let t; $('#search').on('keyup', function() { clearTimeout(t); t = setTimeout(load, 300); }); });
+    </script>
+</body>
+</html>

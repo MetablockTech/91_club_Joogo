@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Profile | <%= locals.SITE_NAME || 'Admin' %></title>
+  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #f0f2f8;
+      --sidebar-bg: #ffffff;
+      --card-bg: #ffffff;
+      --card-border: #e3e7f0;
+      --accent: #6c63ff;
+      --accent2: #00b894;
+      --accent3: #e17055;
+      --accent4: #fdcb6e;
+      --text-primary: #1a1d2e;
+      --text-secondary: #5a5f7a;
+      --text-muted: #9ea3b8;
+      --green: #00b894;
+      --red: #e17055;
+      --orange: #e67e22;
+      --blue: #2d6cdf;
+      --sidebar-width: 260px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif !important;
+      background: var(--bg);
+      color: var(--text-primary);
+    }
+
+    .wrapper {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s;
+      min-width: 0;
+      width: 100%;
+    }
+
+    @media (max-width: 991.98px) {
+      .main-content {
+        margin-left: 0;
+        width: 100%;
+      }
+    }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      background: var(--sidebar-bg);
+      border-bottom: 1px solid var(--card-border);
+      padding: 0 28px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      width: 100%;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      min-width: 0;
+    }
+
+    .topbar-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .topbar-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* ── PAGE LAYOUT ── */
+    .content-body {
+      padding: 28px;
+      width: 100%;
+      max-width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* ── PROFILE CARD ── */
+    .profile-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    }
+
+    .profile-header {
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      border-bottom: 1px solid var(--card-border);
+      background: linear-gradient(135deg, rgba(108, 99, 255, 0.05), rgba(108, 99, 255, 0.01));
+    }
+
+    @media (min-width: 768px) {
+      .profile-header {
+        flex-direction: row;
+        text-align: left;
+        gap: 24px;
+      }
+    }
+
+    .profile-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 4px solid #fff;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+      object-fit: cover;
+    }
+
+    .profile-header-info {
+      flex: 1;
+    }
+
+    .profile-name {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .profile-id {
+      font-size: 14px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .profile-role {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 4px 12px;
+      background: rgba(108, 99, 255, 0.1);
+      color: var(--accent);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .profile-stats {
+      padding: 0;
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+
+    .profile-stat-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--card-border);
+      border-right: 1px solid var(--card-border);
+      font-size: 14px;
+    }
+
+    .profile-stat-item:nth-child(n) {
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .stat-label {
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .stat-value {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .stat-value.highlight {
+      color: var(--accent2);
+    }
+
+    .stat-value.danger {
+      color: var(--accent3);
+    }
+
+    /* Enhanced Bank Cards */
+    #bankList {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 24px;
+    }
+    
+    .bank-card-new {
+      background: #fff;
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 18px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+    
+    .bank-card-new:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+      border-color: var(--accent);
+    }
+    
+    .bank-card-type-icon {
+      position: absolute;
+      top: -15px;
+      right: -15px;
+      font-size: 60px;
+      opacity: 0.04;
+      transform: rotate(-15deg);
+      pointer-events: none;
+    }
+    
+    .bank-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #f1f3f9;
+      padding-bottom: 12px;
+    }
+    
+    .bank-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .type-badge {
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 6px;
+      letter-spacing: 0.6px;
+    }
+    
+    .badge-bank { background: rgba(0, 184, 148, 0.1); color: var(--accent2); }
+    .badge-upi { background: rgba(45, 108, 223, 0.1); color: var(--blue); }
+    .badge-usdt { background: rgba(108, 99, 255, 0.1); color: var(--accent); }
+    
+    .bank-card-body {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .bank-detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+    }
+    
+    .bank-detail-row .label { 
+      color: var(--text-muted); 
+      font-weight: 500; 
+    }
+    
+    .bank-detail-row .value { 
+      color: var(--text-primary); 
+      font-weight: 600;
+      font-family: 'JetBrains Mono', 'Roboto Mono', monospace;
+      font-size: 12px;
+    }
+
+    .bank-footer {
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px solid #f1f3f9;
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* ── TABS LAYOUT ── */
+    .tabs-container {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      /* Ensures content doesn't break out */
+      min-width: 0; 
+    }
+
+    .tabs-header {
+      display: flex;
+      border-bottom: 1px solid var(--card-border);
+      background: #fafbfe;
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      padding: 16px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .tab-btn:hover {
+      color: var(--accent);
+    }
+
+    .tab-btn.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+      background: #fff;
+    }
+
+    .tab-content {
+      padding: 24px;
+      flex: 1;
+      overflow-x: auto;
+    }
+
+    .tab-pane {
+      display: none;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
+
+    /* TABLE BASE STYLES for partials */
+    .table-container {
+      background: var(--card-bg);
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      overflow: hidden;
+    }
+    .table-responsive {
+      overflow-x: auto;
+    }
+    .modern-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .modern-table th {
+      background: #f7f8fc;
+      padding: 16px;
+      text-align: center;
+      font-weight: 600;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--card-border);
+      white-space: nowrap;
+    }
+    .modern-table td {
+      padding: 16px;
+      text-align: center;
+      vertical-align: middle;
+      border-bottom: 1px solid var(--card-border);
+      color: var(--text-primary);
+    }
+    .modern-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    .modern-table tbody tr:hover {
+      background: rgba(108, 99, 255, 0.02);
+    }
+    
+    /* Status Badges */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+    .status-success { background: rgba(0, 184, 148, 0.1); color: var(--accent2); }
+    .status-danger { background: rgba(225, 112, 85, 0.1); color: var(--accent3); }
+    .status-warning { background: rgba(253, 203, 110, 0.1); color: var(--orange); }
+
+    /* Pagination */
+    .pagination-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      gap: 10px;
+      border-top: 1px solid var(--card-border);
+    }
+    .page-link-btn {
+      padding: 8px 16px;
+      background: #fff;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .page-link-btn:not(:disabled):hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .page-link-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .page-link-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    /* ── RESPONSIVE OVERRIDES ── */
+    @media (max-width: 991.98px) {
+      .main-content { margin-left: 0; padding-top: 60px !important; }
+      .topbar { display: none !important; }
+      .content-body { padding: 16px; gap: 16px; }
+      .page-header { margin: -16px -16px 16px -16px !important; padding: 15px 16px !important; }
+    }
+
+    @media (max-width: 768px) {
+      .profile-header { padding: 24px 16px; gap: 16px; }
+      .profile-avatar { width: 80px; height: 80px; }
+      .profile-name { font-size: 18px; }
+      
+      .profile-stats { grid-template-columns: 1fr; }
+      .profile-stat-item { padding: 12px 16px; border-right: none; }
+      
+      .tab-btn { padding: 14px 16px; font-size: 13px; }
+      .tab-content { padding: 16px; }
+      
+      .modern-table th, .modern-table td { padding: 12px 10px; font-size: 12px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <%- include('nav') %>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-title">Management &rsaquo; Member Profile</div>
+      </header>
+
+      <div class="content-body">
+        <div class="page-header" style="background: #fff; margin: -24px -24px 28px -24px; padding: 20px 28px; border-bottom: 1px solid var(--card-border); display: flex; align-items: center; justify-content: space-between;">
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <div class="page-breadcrumb" style="font-size: 13px; color: var(--text-muted);">Dashboard &rsaquo; Users &rsaquo; <span>Member Profile</span></div>
+            <h2 class="page-title" style="font-size: 20px; font-weight: 800; color: var(--text-primary);">Detailed Account View</h2>
+          </div>
+          <a href="/admin/member/tree/<%= phone %>" target="_blank" style="background: var(--accent); border: none; border-radius: 8px; padding: 10px 20px; font-weight: 600; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px;">
+            <i class="fas fa-sitemap"></i> View Tree Hierarchy
+          </a>
+        </div>
+        
+        <!-- LEFT COLUMN: Profile Info -->
+        <div class="profile-card">
+          <div class="profile-header">
+            <img class="profile-avatar" src="/images/avatar.svg" alt="Avatar">
+            <div class="profile-header-info">
+              <div class="profile-name">Member...</div>
+              <div class="profile-id" id="id_user">ID: 0</div>
+              <div class="profile-role" id="level">USER</div>
+              <div id="ctv_telegram_wrap" style="display:none; margin-top: 10px;">
+                <a id="ctv_telegram_link" href="#" target="_blank" style="font-size: 13px; color: #0088cc; font-weight: 600; text-decoration: none;">
+                  <i class="fab fa-telegram"></i> Telegram Contact
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <ul class="profile-stats">
+            <!-- WALLET SECTION -->
+            <li class="profile-stat-item">
+              <span class="stat-label">💰 Balance</span>
+              <span class="stat-value highlight">₹ <span id="money">0</span></span>
+            </li>
+            <li class="profile-stat-item">
+              <span class="stat-label">🏦 Total Deposited</span>
+              <span class="stat-value" style="color:var(--green)">₹ <span id="total_money">0</span></span>
+            </li>
+            <li class="profile-stat-item">
+              <span class="stat-label">💸 Total Withdrawn</span>
+              <span class="stat-value" style="color:var(--red)">₹ <span id="total_withdraw">0</span></span>
+            </li>
+            <li class="profile-stat-item">
+              <span class="stat-label">🏆 Total Commission</span>
+              <span class="stat-value highlight">₹ <span id="total_commission">0</span></span>
+            </li>
+            <li class="profile-stat-item">
+              <span class="stat-label">🎁 Claimed Rewards</span>
+              <span class="stat-value" style="color:var(--orange)">₹ <span id="total_claimed_rewards">0</span></span>
+            </li>
+            <li class="profile-stat-item">
+              <span class="stat-label">🎮 Total Bet Amount</span>
+              <span class="stat-value">₹ <span id="total_bet_amount">0</span></span>
+            </li>
+            <li class="profile-stat-item">
+              <span class="stat-label">🥇 Total Winnings</span>
+              <span class="stat-value" style="color:var(--green)">₹ <span id="total_winning_amount">0</span></span>
+            </li>
+            <li class="profile-stat-item">
+              <span class="stat-label">⭐ VIP Level</span>
+              <span class="stat-value" id="vip_level" style="color:var(--accent)">0</span>
+            </li>
+            <li class="profile-stat-item">
+              <span class="stat-label">🪪 Own Referral Code</span>
+              <span class="stat-value" id="own_code" style="font-family:monospace;letter-spacing:1px">—</span>
+            </li>
+            <li class="profile-stat-item">
+              <span class="stat-label">🔗 Inviter Phone</span>
+              <span class="stat-value" id="invite">—</span>
+            </li>
+            <li class="profile-stat-item">
+              <span class="stat-label">🔑 Joined via Code</span>
+              <span class="stat-value" id="invite_code" style="font-family:monospace;letter-spacing:1px">—</span>
+            </li>
+            <li class="profile-stat-item">
+              <span class="stat-label">🌐 IP Address</span>
+              <span class="stat-value" id="ip_address" style="font-family:monospace">—</span>
+            </li>
+            <li class="profile-stat-item">
+              <span class="stat-label">🎯 Referral Bonus</span>
+              <span class="stat-value" style="color:var(--green)">₹ <span id="referral_bonus">0</span></span>
+            </li>
+            <li class="profile-stat-item">
+              <span class="stat-label">👥 Referral Count</span>
+              <span class="stat-value" id="referral_count">0</span>
+            </li>
+            <li class="profile-stat-item">
+              <span class="stat-label">💎 Signup Bonus</span>
+              <span class="stat-value" style="color:var(--orange)">₹ <span id="deposit_bonus">0</span></span>
+            </li>
+            <!-- TEAM SECTION -->
+            <li class="profile-stat-item">
+              <span class="stat-label">👥 F1 Team</span>
+              <span class="stat-value" id="f1">0</span>
+            </li>
+            <li class="profile-stat-item">
+              <span class="stat-label">👥 F2 Team</span>
+              <span class="stat-value" id="f2">0</span>
+            </li>
+            <li class="profile-stat-item">
+              <span class="stat-label">👥 F3 Team</span>
+              <span class="stat-value" id="f3">0</span>
+            </li>
+            <li class="profile-stat-item">
+              <span class="stat-label">👥 F4 Team</span>
+              <span class="stat-value" id="f4">0</span>
+            </li>
+            <li class="profile-stat-item">
+              <span class="stat-label">👥 F5 Team</span>
+              <span class="stat-value" id="f5">0</span>
+            </li>
+            <li class="profile-stat-item">
+              <span class="stat-label">👥 F6 Team</span>
+              <span class="stat-value" id="f6">0</span>
+            </li>
+            <li class="profile-stat-item">
+              <span class="stat-label">👥 F7 Team</span>
+              <span class="stat-value" id="f7">0</span>
+            </li>
+            <li class="profile-stat-item">
+              <span class="stat-label">🌐 Total Team</span>
+              <span class="stat-value" id="total_mem">0</span>
+            </li>
+          </ul>
+
+          <div class="bank-info-header" style="padding: 20px 24px 0px; font-size: 16px; font-weight: 700; color: var(--text-primary);">Linked Bank & Wallet Accounts</div>
+          <div id="bankList">
+            <div class="bank-item text-center text-muted">Loading bank data...</div>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Tabs -->
+        <div class="tabs-container">
+          <div class="tabs-header">
+            <button class="tab-btn active" data-target="recharge-tab">Recharge</button>
+            <button class="tab-btn" data-target="withdraw-tab">Withdraw</button>
+            <button class="tab-btn" data-target="redenvelope-tab">Red Envelope</button>
+            <button class="tab-btn" data-target="bet-tab">Bet History</button>
+            <button class="tab-btn" data-target="apibet-tab">API Bets</button>
+            <button class="tab-btn" data-target="commission-tab">Commissions</button>
+            <button class="tab-btn" data-target="rewards-tab">Rewards</button>
+          </div>
+
+          <div class="tab-content">
+            <div class="tab-pane active" id="recharge-tab">
+              <%- include('table/listRecharge.ejs') %>
+            </div>
+            <div class="tab-pane" id="withdraw-tab">
+              <%- include('table/listWithdraw.ejs') %>
+            </div>
+            <div class="tab-pane" id="redenvelope-tab">
+              <%- include('table/listRedenvelope.ejs') %>
+            </div>
+            <div class="tab-pane" id="bet-tab">
+              <%- include('table/listBet.ejs') %>
+            </div>
+            <div class="tab-pane" id="apibet-tab">
+              <%- include('table/apiListBet.ejs') %>
+            </div>
+            <div class="tab-pane" id="commission-tab">
+              <%- include('table/listCommission.ejs') %>
+            </div>
+            <div class="tab-pane" id="rewards-tab">
+              <%- include('table/listRewards.ejs') %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="/plugins/jquery/jquery.min.js"></script>
+  <script>
+    // Tab Switching Logic
+    $(document).ready(function() {
+      $('.tab-btn').click(function() {
+        $('.tab-btn').removeClass('active');
+        $(this).addClass('active');
+        
+        $('.tab-pane').removeClass('active');
+        $('#' + $(this).data('target')).addClass('active');
+      });
+    });
+
+    // Helper functions
+    function formateT(params) {
+        let result = (params < 10) ? "0" + params : params;
+        return result;
+    }
+
+    function timerJoin(params = '', addHours = 0) {
+        let date = '';
+        if (params) {
+            // Handle Unix timestamp (milliseconds) or Date string
+            let timestamp = Number(params);
+            if (isNaN(timestamp)) {
+                date = new Date(params);
+            } else {
+                date = new Date(timestamp);
+            }
+        } else {
+            date = new Date();
+        }
+        
+        if (isNaN(date.getTime())) return '-'; // Guard against invalid dates
+        
+        date.setHours(date.getHours() + addHours);
+        let years = formateT(date.getFullYear());
+        let months = formateT(date.getMonth() + 1);
+        let days = formateT(date.getDate());
+        let hours = date.getHours() % 12;
+        hours = hours === 0 ? 12 : hours;
+        let ampm = date.getHours() < 12 ? "AM" : "PM";
+        let minutes = formateT(date.getMinutes());
+        let seconds = formateT(date.getSeconds());
+        return years + '-' + months + '-' + days + ' ' + hours + ':' + minutes + ':' + seconds + ' ' + ampm;
+    }
+
+    let url = window.location.pathname;
+    let phones = url.split('/');
+    let phone = phones[phones.length - 1];
+
+    // Fetch Profile Info
+    $.ajax({
+        type: "POST",
+        url: "/api/webapi/admin/member/info",
+        data: { phone: phone },
+        dataType: "json",
+        success: function (response) {
+            if (response?.status === false) return false;
+            let user = response?.datas[0];
+
+            // Header
+            $('.profile-name').text(user?.name_user || 'Unknown User');
+            $('#id_user').text('ID: ' + (user?.id_user || '—'));
+            $('#level').text((user?.level == 1) ? 'ADMIN' : (user?.level == 2) ? 'CTV' : 'USER');
+
+            // Telegram for CTV
+            if (user?.level == 2 && user?.ctv_telegram) {
+                $('#ctv_telegram_wrap').show();
+                $('#ctv_telegram_link').attr('href', 'https://t.me/' + user.ctv_telegram.replace('@', ''));
+                $('#ctv_telegram_link').html('<i class="fab fa-telegram"></i> @' + user.ctv_telegram.replace('@', ''));
+            } else {
+                $('#ctv_telegram_wrap').hide();
+            }
+
+            // Wallet
+            $('#money').text(parseFloat(user?.money || 0).toFixed(2));
+            $('#total_money').text(parseFloat(response?.total_r?.[0]?.total || 0).toFixed(2));
+            $('#total_withdraw').text(parseFloat(response?.total_w?.[0]?.total || 0).toFixed(2));
+            $('#total_commission').text(parseFloat(response?.total_commission || 0).toFixed(2));
+            $('#total_claimed_rewards').text(parseFloat(response?.total_claimed_rewards || 0).toFixed(2));
+            $('#total_bet_amount').text(parseFloat(response?.totalBet || 0).toFixed(2));
+            $('#total_winning_amount').text(parseFloat(response?.totalWin || 0).toFixed(2));
+            $('#vip_level').text('Level ' + (user?.vip_level || 0));
+            $('#own_code').text(user?.code || '—');
+            $('#invite').text(response?.inviter_phone || '—');
+            $('#invite_code').text(user?.invite || '—');
+            $('#ip_address').text(user?.ip_address || '—');
+            $('#referral_bonus').text(parseFloat(user?.totalReferralBonus || 0).toFixed(2));
+            $('#referral_count').text(user?.totalReferralCount || 0);
+            $('#deposit_bonus').text(parseFloat(user?.totalSignupBonus || 0).toFixed(2));
+
+            // Team
+            $('#f1').text((response?.f1 || 0) + ' member');
+            $('#f2').text((response?.f2 || 0) + ' member');
+            $('#f3').text((response?.f3 || 0) + ' member');
+            $('#f4').text((response?.f4 || 0) + ' member');
+            $('#f5').text((response?.f5 || 0) + ' member');
+            $('#f6').text((response?.f6 || 0) + ' member');
+            $('#f7').text((response?.f7 || 0) + ' member');
+            $('#total_mem').text(
+                (response?.f1 || 0) + (response?.f2 || 0) + (response?.f3 || 0) +
+                (response?.f4 || 0) + (response?.f5 || 0) + (response?.f6 || 0) + (response?.f7 || 0)
+            );
+
+                    // Bank Info Rendering
+                    if (response?.bank_user?.length > 0) {
+                        let html = '';
+                        response.bank_user.forEach(bank => {
+                            let name = (bank.name_user && bank.name_user !== 'undefined' && bank.name_user !== '0') ? bank.name_user : 'N/A';
+                            let stk = (bank.account_number && bank.account_number !== 'undefined') ? bank.account_number : 'N/A';
+
+                            let rawTypeMethod = String(bank.method || '').trim().toUpperCase();
+
+                            let type = "BANK";
+                            let icon = "fa-university";
+                            let badgeClass = "badge-bank";
+
+                            let rows = []; // To store the rows we want to display
+
+                            if (rawTypeMethod.includes('USDT')) {
+                                type = "USDT";
+                                icon = "fa-bitcoin";
+                                badgeClass = "badge-usdt";
+                                rows.push({ label: "Wallet Network", value: bank.name_bank || "TRC" });
+                                rows.push({ label: "Wallet Address", value: (bank.account_number && bank.account_number !== '0' && bank.account_number !== 'undefined') ? bank.account_number : (bank.address_alias || 'N/A') });
+                                if (bank.address_alias) rows.push({ label: "Alias", value: bank.address_alias });
+                            } else if (rawTypeMethod.includes('UPI')) {
+                                type = "UPI";
+                                icon = "fa-mobile-alt";
+                                badgeClass = "badge-upi";
+                                rows.push({ label: "UPI ID", value: bank.upi_id || bank.account_number || 'N/A' });
+                            } else {
+                                // Default BANK
+                                type = "BANK CARD";
+                                rows.push({ label: "Account Name", value: name });
+                                rows.push({ label: "Account Number", value: stk });
+                                if (bank.ifsc && bank.ifsc !== '0' && bank.ifsc !== 'undefined') {
+                                    rows.push({ label: "IFSC Code", value: bank.ifsc });
+                                }
+                                if (bank.bank_phoneNo) {
+                                    rows.push({ label: "Bank Phone", value: bank.bank_phoneNo });
+                                }
+                            }
+
+                    let bankTitle = (bank.name_bank && 
+                                     String(bank.name_bank).toLowerCase() !== 'undefined' && 
+                                     String(bank.name_bank).toLowerCase() !== 'null' && 
+                                     String(bank.name_bank) !== '0') ? bank.name_bank : type;
+
+                    html += `
+                        <div class="bank-card-new">
+                            <i class="fas ${icon} bank-card-type-icon"></i>
+                            <div class="bank-card-header">
+                                <div class="bank-title">
+                                    <i class="fas ${icon}" style="color:var(--accent)"></i>
+                                    ${bankTitle}
+                                </div>
+                                <span class="type-badge ${badgeClass}">${type}</span>
+                            </div>
+                            <div class="bank-card-body">
+                                ${rows.map(row => `
+                                    <div class="bank-detail-row">
+                                        <span class="label">${row.label}:</span>
+                                        <span class="value">${row.value}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div class="bank-footer">
+                                <i class="far fa-clock"></i> Added: ${timerJoin(bank.time)}
+                            </div>
+                        </div>
+                    `;
+                });
+                $('#bankList').html(html);
+            } else {
+                $('#bankList').html('<div class="col-12 text-center text-muted py-4"><i class="fas fa-info-circle mr-2"></i> No bank or wallet accounts linked</div>');
+            }
+        }
+    });
+  </script>
+
+  <!-- Paginator Scripts for Partials -->
+  <%- include('scripts/recharge_script.ejs') %>
+  <%- include('scripts/withdraw_script.ejs') %>
+  <%- include('scripts/redenvelope_script.ejs') %>
+  <%- include('scripts/bet_script.ejs') %>
+  <%- include('scripts/apibet_script.ejs') %>
+  <%- include('scripts/commission_script.ejs') %>
+  <%- include('scripts/rewards_script.ejs') %>
+</body>
+</html>

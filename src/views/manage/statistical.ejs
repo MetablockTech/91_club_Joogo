@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Financial Overview | <%= locals.SITE_NAME || 'Starworldz' %> Admin</title>
+  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #f0f2f8;
+      --sidebar-bg: #ffffff;
+      --card-bg: #ffffff;
+      --card-border: #e3e7f0;
+      --accent: #6c63ff;
+      --accent-light: rgba(108, 99, 255, 0.08);
+      --text-primary: #1a1d2e;
+      --text-secondary: #5a5f7a;
+      --text-muted: #9ea3b8;
+      --green: #00b894;
+      --red: #e17055;
+      --orange: #f39c12;
+      --blue: #3498db;
+      --sidebar-width: 260px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif !important;
+      background: var(--bg);
+      color: var(--text-primary);
+      overflow-x: hidden;
+    }
+
+    .wrapper {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s;
+      min-width: 0;
+    }
+
+    @media (max-width: 991.98px) {
+      .main-content {
+        margin-left: 0;
+      }
+    }
+
+    .topbar {
+      background: var(--sidebar-bg);
+      border-bottom: 1px solid var(--card-border);
+      padding: 0 28px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .topbar-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .content-body {
+      padding: 28px;
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      margin-bottom: 32px;
+    }
+
+    .page-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    .page-breadcrumb {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .page-breadcrumb span {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* ── MATRIX TABLE ── */
+    .matrix-card {
+      background: #ffffff;
+      border: 1px solid #edf2f7;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      margin-bottom: 32px;
+    }
+
+    .matrix-header {
+      background: #ffffff;
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #edf2f7;
+    }
+
+    .matrix-title {
+      color: #2d3748;
+      font-size: 15px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .matrix-title i {
+      color: var(--accent);
+      background: var(--accent-light);
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .time-tabs {
+      display: flex;
+      background: #f7fafc;
+      padding: 4px;
+      border-radius: 12px;
+      gap: 4px;
+      border: 1px solid #edf2f7;
+    }
+
+    .time-tab {
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #718096;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .time-tab:hover {
+      color: var(--accent);
+    }
+
+    .time-tab.active {
+      background: #ffffff;
+      color: var(--accent);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .matrix-table th {
+      background: #fcfdfe;
+      padding: 14px 24px;
+      font-size: 10px;
+      font-weight: 800;
+      color: #a0aec0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-align: left;
+      border-bottom: 1px solid #edf2f7;
+    }
+
+    .matrix-table td {
+      padding: 16px 24px;
+      border-bottom: 1px solid #edf2f7;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #2d3748;
+    }
+
+    .matrix-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .segment-name {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+    }
+
+    .segment-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+
+    .net-badge {
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      display: inline-block;
+    }
+
+    .net-profit {
+      background: #f0fff4;
+      color: #38a169;
+    }
+
+    .net-loss {
+      background: #fff5f5;
+      color: #e53e3e;
+    }
+
+    /* ── QUICK STATS ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      background: #ffffff;
+      border: 1px solid #edf2f7;
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.04);
+      border-color: var(--accent);
+    }
+
+    .stat-icon-large {
+      width: 42px;
+      height: 42px;
+      min-width: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .stat-info {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .stat-label-text {
+      font-size: 11px;
+      font-weight: 700;
+      color: #718096;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+      white-space: nowrap;
+    }
+
+    .stat-value {
+      font-size: 18px;
+      font-weight: 800;
+      color: #1a202c;
+      letter-spacing: -0.5px;
+    }
+
+    .icon-blue { background: #ebf8ff; color: #3182ce; }
+    .icon-green { background: #f0fff4; color: #38a169; }
+    .icon-red { background: #fff5f5; color: #e53e3e; }
+    .icon-purple { background: #faf5ff; color: #805ad5; }
+    .icon-orange { background: #fffaf0; color: #dd6b20; }
+    .icon-indigo { background: #ebf4ff; color: #4c51bf; }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <%- include('nav') %>
+
+      <div class="main-content">
+        <header class="topbar">
+          <div class="topbar-title">Financial Oversight &rsaquo; Global Statistics</div>
+        </header>
+
+        <div class="content-body">
+          <div class="page-header">
+            <h2 class="page-title">Global Financial Statistics</h2>
+            <div class="page-breadcrumb">Dashboard &rsaquo; Financials &rsaquo; <span>Performance Matrix</span></div>
+          </div>
+
+          <!-- Financial Summary Cards -->
+          <div class="stats-container" style="margin-bottom: 30px;">
+            <div class="stats-grid">
+              <!-- Partners -->
+              <div class="stat-card">
+                <div class="stat-icon-large icon-purple"><i class="fas fa-handshake"></i></div>
+                <div class="stat-info">
+                  <span class="stat-label-text">Total Collaborators</span>
+                  <span class="stat-value" id="count-total">0</span>
+                </div>
+              </div>
+              
+              <!-- Financials - Today -->
+              <div class="stat-card">
+                <div class="stat-icon-large icon-green"><i class="fas fa-arrow-down"></i></div>
+                <div class="stat-info">
+                  <span class="stat-label-text">Recharge Today</span>
+                  <span class="stat-value" id="recharge-today">₹0.00</span>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon-large icon-red"><i class="fas fa-arrow-up"></i></div>
+                <div class="stat-info">
+                  <span class="stat-label-text">Withdraw Today</span>
+                  <span class="stat-value" id="withdraw-today">₹0.00</span>
+                </div>
+              </div>
+
+              <!-- Financials - Total -->
+              <div class="stat-card">
+                <div class="stat-icon-large icon-blue"><i class="fas fa-wallet"></i></div>
+                <div class="stat-info">
+                  <span class="stat-label-text">Total Recharges</span>
+                  <span class="stat-value" id="recharge-total">₹0.00</span>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon-large icon-orange"><i class="fas fa-money-bill-wave"></i></div>
+                <div class="stat-info">
+                  <span class="stat-label-text">Total Withdraws</span>
+                  <span class="stat-value" id="withdraw-total">₹0.00</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Matrix Card -->
+          <div class="matrix-card">
+            <div class="matrix-header">
+              <div class="matrix-title">
+                <i class="fas fa-chart-pie mr-2" style="color: var(--accent);"></i> Performance Analytics Matrix
+              </div>
+              <div class="time-tabs">
+                <div class="time-tab active" data-time="today">Today</div>
+                <div class="time-tab" data-time="yesterday">Yesterday</div>
+                <div class="time-tab" data-time="total">Lifetime</div>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="matrix-table">
+                <thead>
+                  <tr>
+                    <th style="min-width: 220px;">Segment</th>
+                    <th>Betting</th>
+                    <th>Winning</th>
+                    <th>Net P/L (House)</th>
+                    <th>Deposits</th>
+                    <th>Withdrawals</th>
+                    <th>Rewards/Bonus</th>
+                  </tr>
+                </thead>
+                <tbody id="matrix-body">
+                  <tr data-segment="collab">
+                    <td>
+                      <div class="segment-name">
+                        <div class="segment-icon icon-purple"><i class="fas fa-user-shield"></i></div>
+                        Collaborators Only
+                      </div>
+                    </td>
+                    <td class="cell-bet">₹0.00</td>
+                    <td class="cell-win">₹0.00</td>
+                    <td><span class="net-badge cell-net">₹0.00</span></td>
+                    <td class="cell-deposit">₹0.00</td>
+                    <td class="cell-withdraw">₹0.00</td>
+                    <td class="cell-reward">₹0.00</td>
+                  </tr>
+                  <tr data-segment="team">
+                    <td>
+                      <div class="segment-name">
+                        <div class="segment-icon icon-blue"><i class="fas fa-users"></i></div>
+                        Team Referrals
+                      </div>
+                    </td>
+                    <td class="cell-bet">₹0.00</td>
+                    <td class="cell-win">₹0.00</td>
+                    <td><span class="net-badge cell-net">₹0.00</span></td>
+                    <td class="cell-deposit">₹0.00</td>
+                    <td class="cell-withdraw">₹0.00</td>
+                    <td class="cell-reward">₹0.00</td>
+                  </tr>
+                  <tr data-segment="combined" style="background: #fcfdff;">
+                    <td>
+                      <div class="segment-name" style="color: var(--accent);">
+                        <div class="segment-icon icon-green"><i class="fas fa-globe"></i></div>
+                        Total Combined
+                      </div>
+                    </td>
+                    <td class="cell-bet" style="font-weight: 800;">₹0.00</td>
+                    <td class="cell-win" style="font-weight: 800;">₹0.00</td>
+                    <td><span class="net-badge cell-net" style="font-size: 14px;">₹0.00</span></td>
+                    <td class="cell-deposit" style="font-weight: 800;">₹0.00</td>
+                    <td class="cell-withdraw" style="font-weight: 800;">₹0.00</td>
+                    <td class="cell-reward" style="font-weight: 800;">₹0.00</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+
+  <script src="/plugins/jquery/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    let globalMatrix = null;
+
+    function formatCurrency(val) {
+      return '₹' + parseFloat(val || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function updateMatrixUI(timeframe) {
+      if (!globalMatrix || !globalMatrix[timeframe]) return;
+      const data = globalMatrix[timeframe];
+
+      ['collab', 'team', 'combined'].forEach(segment => {
+        const row = $(`tr[data-segment="${segment}"]`);
+        const stats = data[segment];
+
+        row.find('.cell-bet').text(formatCurrency(stats.bet));
+        row.find('.cell-win').text(formatCurrency(stats.win));
+        row.find('.cell-deposit').text(formatCurrency(stats.recharge));
+        row.find('.cell-withdraw').text(formatCurrency(stats.withdraw));
+        row.find('.cell-reward').text(formatCurrency(stats.reward));
+
+        // Net P/L (House View: Bet - Win)
+        const net = stats.bet - stats.win;
+        const netEl = row.find('.cell-net');
+        netEl.text(formatCurrency(net));
+        if (net >= 0) {
+          netEl.removeClass('net-loss').addClass('net-profit');
+        } else {
+          netEl.removeClass('net-profit').addClass('net-loss');
+        }
+      });
+    }
+
+    function loadStats() {
+      $.ajax({
+        type: "POST",
+        url: "/api/webapi/admin/statistical",
+        dataType: "json",
+        success: function (response) {
+          if (response.status && response.matrix) {
+            globalMatrix = response.matrix;
+            updateMatrixUI('today');
+
+            $('#count-total').text(response.totalCollaborators || 0);
+            $('#recharge-today').text(formatCurrency(response.rechargeToday));
+            $('#withdraw-today').text(formatCurrency(response.withdrawToday));
+            $('#recharge-total').text(formatCurrency(response.recharges));
+            $('#withdraw-total').text(formatCurrency(response.withdraws));
+          }
+        }
+      });
+    }
+
+    $(document).ready(function () {
+      loadStats();
+
+      $('.time-tab').click(function () {
+        $('.time-tab').removeClass('active');
+        $(this).addClass('active');
+        updateMatrixUI($(this).data('time'));
+      });
+    });
+  </script>
+</body>
+
+</html>

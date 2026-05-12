@@ -1,0 +1,350 @@
+<html lang="en" translate="no" data-dpr="1" dir="ltr" style="font-size: 36px">
+
+<head>
+   <meta charset="UTF-8" />
+   <link rel="icon" type="image/svg+xml" href="/favicon.png" />
+   <meta name="google" content="notranslate" />
+   <meta name="robots" content="noindex,nofollow" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+   <title><%= locals.SITE_NAME || 'Starworldz' %> - Promotion Commission</title>
+
+   <link rel="stylesheet" href="/assets/css/modules-8b01ca49.css" />
+   <link rel="stylesheet" href="/assets/css/page-activity-9da3f4e3.css" />
+   <link rel="stylesheet" href="/assets/css/page-home-482c7bbf.css" />
+   <link rel="stylesheet" href="/assets/css/index-8560823f.css" />
+   <link rel="stylesheet" href="/assets/css/reset-910da13b.css" />
+   <link rel="stylesheet" href="/assets/css/page-login-5dee7998.css" />
+   <link rel="stylesheet" href="/assets/css/page-main-b60516e4.css" />
+   <style>
+      /* Main Container */
+      .gamestats-container {
+         background: #fdfdfd;
+         min-height: 100vh;
+         font-family: 'Roboto', sans-serif;
+      }
+      .navbar-fixed {
+         background: #fff !important;
+         border-bottom: 1px solid #f0f0f0;
+         height: 50px;
+         display: flex;
+         align-items: center;
+      }
+      .navbar__content {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          padding: 0 15px;
+          justify-content: center;
+          position: relative;
+      }
+      .navbar__content-left {
+          position: absolute;
+          left: 15px;
+      }
+      .navbar__content-left i {
+          color: #333 !important;
+          font-size: 20px;
+          cursor: pointer;
+      }
+      .navbar__content-title {
+         color: #333;
+         font-weight: 700;
+         font-size: 17px;
+         text-align: center;
+      }
+
+       .custom-date-filter {
+          margin: 0px 12px 10px 12px;
+          background: #fff;
+          border-radius: 12px;
+          padding: 15px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+       }
+       .date-picker-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 10px;
+       }
+       @media (max-width: 600px) {
+           .date-picker-row {
+               flex-direction: column;
+               align-items: stretch;
+           }
+           .date-sep {
+               display: none;
+           }
+           .date-search-btn {
+               width: 100% !important;
+               margin-top: 5px;
+           }
+       }
+       .date-input {
+          flex: 1;
+          min-width: 0;
+          border: 1px solid #eee;
+          border-radius: 8px;
+          padding: 10px;
+          font-size: 14px;
+          color: #333;
+          outline: none;
+       }
+       .date-sep {
+          color: #999;
+          font-size: 12px;
+       }
+       .date-search-btn {
+          background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+          color: #fff;
+          border: none;
+          border-radius: 8px;
+          padding: 10px 20px;
+          font-size: 14px;
+          font-weight: 600;
+          cursor: pointer;
+          flex-shrink: 0;
+       }
+      .date-search-btn:active {
+         opacity: 0.8;
+      }
+
+      /* History Section styling */
+      .gamestats-history-section {
+         background: #fff;
+         border-radius: 25px 25px 0 0;
+         padding: 20px 15px;
+         margin-top: 15px;
+         box-shadow: 0 -4px 15px rgba(0,0,0,0.04);
+      }
+
+      /* Table styling */
+      .history-table {
+          width: 100%;
+          border-collapse: collapse;
+          table-layout: fixed;
+      }
+      .history-table th {
+         background: #fff !important;
+         color: #888;
+         font-size: 11px;
+         font-weight: 500;
+         text-transform: uppercase;
+         padding: 15px 5px;
+         border-bottom: 1px solid #fafafa;
+         text-align: left;
+      }
+      .history-table td {
+         padding: 18px 5px;
+         font-size: 12px;
+         border-bottom: 1px solid #fcfcfc;
+         text-align: left;
+         word-break: break-all;
+      }
+      .history-table th:nth-child(1), .history-table td:nth-child(1) { width: 18%; }
+      .history-table th:nth-child(2), .history-table td:nth-child(2) { width: 22%; }
+      .history-table th:nth-child(3), .history-table td:nth-child(3) { width: 15%; }
+      .history-table th:nth-child(4), .history-table td:nth-child(4) { width: 18%; }
+      .history-table th:nth-child(5), .history-table td:nth-child(5) { width: 27%; }
+
+
+      /* Pagination */
+      .pagination-wrapper {
+         margin-top: 25px;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         gap: 20px;
+      }
+      #page-info {
+         color: #666;
+         font-size: 13px;
+      }
+      #prev-btn, #next-btn {
+         background: #f4f4f4;
+         border: none;
+         padding: 8px 18px;
+         border-radius: 15px;
+         color: #333;
+         font-size: 13px;
+         transition: all 0.2s;
+      }
+      #prev-btn:disabled, #next-btn:disabled {
+         opacity: 0.5;
+         color: #aaa;
+      }
+
+      /* Utilities */
+      .no-data {
+         padding: 50px 0;
+         text-align: center;
+         color: #999;
+      }
+   </style>
+
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.1/axios.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<body style="font-size: 12px">
+   <div id="app">
+      <div class="gamestats-container">
+         <!-- Navbar -->
+         <div class="navbar-fixed">
+            <div class="navbar__content">
+               <div class="navbar__content-left" onclick="window.location.href='/mian'">
+                  <i class="van-icon van-icon-arrow-left"></i>
+               </div>
+               <div class="navbar__content-title">Promotion Commission</div>
+            </div>
+         </div>
+
+         <div style="height: 15px;"></div>
+
+         <!-- Filter Section -->
+         <div class="custom-date-filter">
+            <div class="date-picker-row">
+               <input type="date" id="startDate" class="date-input" placeholder="Start Date">
+               <span class="date-sep">to</span>
+               <input type="date" id="endDate" class="date-input" placeholder="End Date">
+            </div>
+            <div class="date-picker-row" style="margin-top: 10px;">
+               <select id="filterLevel" class="date-input">
+                  <option value="">All Levels</option>
+                  <option value="1">Level 1</option>
+                  <option value="2">Level 2</option>
+                  <option value="3">Level 3</option>
+                  <option value="4">Level 4</option>
+                  <option value="5">Level 5</option>
+                  <option value="6">Level 6</option>
+               </select>
+               <input type="number" id="filterPhone" class="date-input" placeholder="Phone Number">
+               <button id="search-btn" class="date-search-btn">Search</button>
+            </div>
+         </div>
+
+         <div class="gamestats-history-section">
+            <div id="record-list">
+                <table class="history-table">
+                   <thead>
+                      <tr>
+                         <th>ID</th>
+                         <th>From</th>
+                         <th>Level</th>
+                         <th>Amount</th>
+                         <th>Date</th>
+                      </tr>
+                   </thead>
+                   <tbody id="record-tbody">
+                      <!-- Data injected here -->
+                   </tbody>
+                </table>
+                <div id="no-data-msg" class="no-data" style="display: none;">No records found</div>
+             </div>
+
+             <!-- Pagination -->
+             <div class="pagination-wrapper">
+                <button id="prev-btn" disabled>Prev</button>
+                <span id="page-info">Page 1 of 1</span>
+                <button id="next-btn" disabled>Next</button>
+             </div>
+          </div>
+       </div>
+    </div>
+
+    <script>
+       let currentPage = 1;
+       let startDate = null;
+       let endDate = null;
+       let filterLevel = "";
+       let filterPhone = "";
+
+       function formatDate(timestamp) {
+          if (!timestamp) return '-';
+          const date = new Date(parseInt(timestamp));
+          return date.getFullYear() + '-' + 
+                 String(date.getMonth() + 1).padStart(2, '0') + '-' + 
+                 String(date.getDate()).padStart(2, '0') + ' ' +
+                 String(date.getHours()).padStart(2, '0') + ':' +
+                 String(date.getMinutes()).padStart(2, '0');
+       }
+
+       function loadRecords() {
+          let payload = {
+             page: currentPage,
+             limit: 10,
+             level: filterLevel,
+             phone: filterPhone
+          };
+          
+          if (startDate && endDate) {
+             payload.startDate = new Date(startDate).getTime().toString();
+             payload.endDate = new Date(endDate).setHours(23,59,59,999).toString();
+          }
+
+          axios.post('/api/webapi/GetPromotionCommissions', payload)
+             .then(res => {
+                const data = res.data;
+                const tbody = $('#record-tbody');
+                tbody.empty();
+
+                if (!data.status || data.data.length === 0) {
+                   $('#no-data-msg').show();
+                   $('.history-table').hide();
+                } else {
+                   $('#no-data-msg').hide();
+                   $('.history-table').show();
+
+                   data.data.forEach(item => {
+                      tbody.append(`
+                         <tr>
+                            <td style="font-size: 10px; color: #999;">${item.commission_id || '-'}</td>
+                            <td>${item.from_user_phone || '-'}</td>
+                            <td>Lvl ${item.level}</td>
+                            <td style="color: #4caf50; font-weight: 600;">₹${item.money}</td>
+                            <td>${formatDate(item.time)}</td>
+                         </tr>
+                      `);
+                   });
+                }
+
+
+               // Update pagination
+               const totalPages = Math.ceil(data.total / data.limit) || 1;
+               $('#page-info').text(`Page ${data.page} of ${totalPages}`);
+               $('#prev-btn').prop('disabled', data.page <= 1);
+               $('#next-btn').prop('disabled', data.page >= totalPages);
+            })
+            .catch(err => {
+               console.error(err);
+            });
+      }
+
+      $(document).ready(function() {
+         loadRecords();
+
+         $('#search-btn').click(function() {
+            startDate = $('#startDate').val();
+            endDate = $('#endDate').val();
+            filterLevel = $('#filterLevel').val();
+            filterPhone = $('#filterPhone').val();
+            currentPage = 1;
+            loadRecords();
+         });
+
+         $('#prev-btn').click(function() {
+            if (currentPage > 1) {
+               currentPage--;
+               loadRecords();
+            }
+         });
+
+         $('#next-btn').click(function() {
+            currentPage++;
+            loadRecords();
+         });
+      });
+   </script>
+</body>
+
+</html>

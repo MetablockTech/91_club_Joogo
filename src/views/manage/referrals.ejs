@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Referral Tracking | <%= locals.SITE_NAME || 'Starworldz' %> Admin</title>
+  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #f0f2f8;
+      --sidebar-bg: #ffffff;
+      --card-bg: #ffffff;
+      --card-border: #e3e7f0;
+      --accent: #6c63ff;
+      --accent-light: rgba(108, 99, 255, 0.08);
+      --text-primary: #1a1d2e;
+      --text-secondary: #5a5f7a;
+      --text-muted: #9ea3b8;
+      --green: #00b894;
+      --red: #e17055;
+      --yellow: #f1c40f;
+      --sidebar-width: 260px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif !important;
+      background: var(--bg);
+      color: var(--text-primary);
+      overflow-x: hidden;
+    }
+
+    .wrapper {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s;
+      min-width: 0;
+    }
+
+    @media (max-width: 991.98px) {
+      .main-content {
+        margin-left: 0;
+      }
+    }
+
+    .topbar {
+      background: var(--sidebar-bg);
+      border-bottom: 1px solid var(--card-border);
+      padding: 0 28px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 50;
+    }
+
+    .topbar-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .content-body {
+      padding: 28px;
+    }
+
+    /* ── TOOLBAR ── */
+    .toolbar {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    }
+
+    .search-wrap {
+      flex: 1;
+      min-width: 300px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #f7f8fc;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 12px 18px;
+      transition: all 0.2s;
+    }
+
+    .search-wrap:focus-within {
+      border-color: var(--accent);
+      background: #fff;
+      box-shadow: 0 0 0 4px var(--accent-light);
+    }
+
+    .search-wrap input {
+      background: none;
+      border: none;
+      outline: none;
+      width: 100%;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    /* ── TABLE ── */
+    .table-card {
+      background: #fff;
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+      width: 100%;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1000px;
+    }
+
+    thead th {
+      background: #fbfcfe;
+      padding: 16px 20px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    tbody tr {
+      border-bottom: 1px solid #f8f9fb;
+      transition: background 0.2s;
+    }
+
+    tbody tr:hover {
+      background: rgba(108, 99, 255, 0.02);
+    }
+
+    td {
+      padding: 16px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      vertical-align: middle;
+    }
+
+    .badge {
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border: 1px solid transparent;
+    }
+
+    .badge-id {
+      background: var(--accent-light);
+      color: var(--accent);
+      border-color: rgba(108, 99, 255, 0.2);
+    }
+
+    .badge-inviter {
+      background: rgba(241, 196, 15, 0.1);
+      color: #d6ac00;
+      border-color: rgba(241, 196, 15, 0.2);
+    }
+
+    .badge-direct {
+      background: rgba(0, 184, 148, 0.1);
+      color: var(--green);
+      border-color: rgba(0, 184, 148, 0.2);
+    }
+
+    .btn-action {
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-view {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-view:hover {
+      background: #5a52e0;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
+    }
+
+    /* ── PAGINATION ── */
+    .pagination-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      padding: 25px;
+    }
+
+    .pag-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--text-secondary);
+    }
+
+    .pag-btn:hover:not(.disabled) {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .pag-btn.disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .page-info {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    /* ── MODAL ── */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(6px);
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #fff;
+      width: 100%;
+      max-width: 900px;
+      border-radius: 24px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      max-height: 90vh;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    }
+
+    .modal-header {
+      padding: 24px 30px;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-body {
+      padding: 30px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .close-modal {
+      font-size: 24px;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .tree-section {
+      margin-bottom: 24px;
+    }
+
+    .tree-section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .tree-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .tree-item {
+      background: #f7f8fc;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .tree-item .phone {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .tree-item .info {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .tree-item .money {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--green);
+      margin-top: 4px;
+    }
+
+    .inviter-card {
+      background: var(--accent-light);
+      border: 1px solid rgba(108, 99, 255, 0.2);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .inviter-card.none {
+      background: #fffcf0;
+      border-color: rgba(241, 196, 15, 0.3);
+    }
+
+    .inviter-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    /* ── RESPONSIVE OVERRIDES ── */
+    @media (max-width: 991.98px) {
+      .main-content {
+        margin-left: 0;
+      }
+
+      .topbar {
+        padding: 0 16px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .content-body {
+        padding: 16px;
+      }
+
+      .toolbar {
+        padding: 16px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+
+      .search-wrap {
+        min-width: 0;
+        width: 100%;
+      }
+
+      .table-card {
+        border-radius: 16px;
+      }
+
+      .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      table {
+        min-width: 1100px;
+      }
+
+      .pagination-wrap {
+        padding: 16px;
+        gap: 10px;
+      }
+
+      .pag-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+      }
+
+      /* Modal adjustments */
+      .modal {
+        padding: 10px;
+      }
+
+      .modal-content {
+        border-radius: 20px;
+      }
+
+      .modal-header {
+        padding: 16px 20px;
+        gap: 10px;
+      }
+
+      .modal-header h3 {
+        font-size: 15px;
+        line-height: 1.3;
+        flex: 1;
+        min-width: 0;
+      }
+
+      #modal-phone {
+        display: block;
+        font-size: 14px;
+        margin-top: 2px;
+      }
+
+      .modal-body {
+        padding: 16px;
+      }
+
+      .tree-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .inviter-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+        padding: 16px;
+      }
+    }
+
+    /* ── RESPONSIVE OVERRIDES ── */
+    @media (max-width: 991.98px) {
+      .main-content {
+        margin-left: 0;
+        padding-top: 60px !important;
+      }
+
+      .topbar {
+        padding: 0 16px;
+        height: 60px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .content-body {
+        padding: 12px !important;
+      }
+
+      .toolbar {
+        padding: 16px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+      }
+
+      .search-wrap {
+        min-width: 0;
+        width: 100%;
+      }
+
+      .table-card {
+        border-radius: 15px;
+      }
+
+      .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      table {
+        min-width: 800px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <%- include('nav') %>
+
+      <div class="main-content">
+        <header class="topbar">
+          <div class="topbar-title">Users &rsaquo; Referrals Tracking</div>
+        </header>
+
+        <div class="content-body">
+
+          <div class="toolbar">
+            <div class="search-wrap">
+              <i class="fas fa-search"></i>
+              <input type="text" id="search" placeholder="Search by Phone, User ID, or Invitation Code...">
+            </div>
+          </div>
+
+          <div class="table-card">
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th>User Details</th>
+                    <th>My Code</th>
+                    <th>Invited By</th>
+                    <th>Inviter Phone</th>
+                    <th>Balance</th>
+                    <th>Team Size</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="table-body">
+                  <!-- Data injected via JS -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="pagination-wrap">
+              <div class="pag-btn" id="previous"><i class="fas fa-chevron-left"></i></div>
+              <div class="page-info" id="text-page">1 / 1</div>
+              <div class="pag-btn" id="next"><i class="fas fa-chevron-right"></i></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+  </div>
+
+  <!-- Referral Tree Modal -->
+  <div class="modal" id="referralTreeModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 style="font-weight: 700;">Referral Network: <span id="modal-phone" style="color: var(--accent);">---</span>
+        </h3>
+        <span class="close-modal" id="closeModal">&times;</span>
+      </div>
+      <div class="modal-body" id="tree-body">
+        <!-- Tree data injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <script src="/plugins/jquery/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    let pageno = 1;
+    let limit = 30;
+    let totalPages = 1;
+
+    const Render = (datas) => {
+      let html = "";
+      if (!datas || datas.length === 0) {
+        $("#table-body").html('<tr><td colspan="7" style="text-align:center; padding: 40px; color: var(--text-muted);">No referral records found.</td></tr>');
+        return;
+      }
+
+      datas.map((data) => {
+        const inviteCode = data.invite && data.invite !== "0" ? data.invite : "---";
+        const inviterPhone = data.inviter_phone || "Self-registered";
+        const inviterClass = data.inviter_phone ? "color: var(--yellow); font-weight: 700;" : "color: var(--text-muted); font-style: italic;";
+
+        html += `
+          <tr>
+            <td>
+              <div style="font-weight: 700; color: var(--accent);">ID: ${data.id_user}</div>
+              <div style="font-size: 13px; color: var(--text-secondary); margin-top: 2px;">91${data.phone}</div>
+            </td>
+            <td><span class="badge badge-id">${data.code}</span></td>
+            <td><span class="badge badge-inviter" style="${data.invite && data.invite !== '0' ? '' : 'opacity: 0.5;'}">${inviteCode}</span></td>
+            <td><span style="${inviterClass}">${inviterPhone}</span></td>
+            <td style="font-weight: 700; color: var(--green);">₹${data.money}</td>
+            <td><span class="badge badge-direct">${data.total_referrals} Direct</span></td>
+            <td>
+              <button class="btn-action btn-view view-tree-btn" data-phone="${data.phone}">
+                <i class="fas fa-sitemap"></i> Network Tree
+              </button>
+            </td>
+          </tr>
+        `;
+      });
+      $("#table-body").html(html);
+
+      $(".view-tree-btn").click(function () {
+        const phone = $(this).attr("data-phone");
+        openTreeModal(phone);
+      });
+    };
+
+    const loadPage = () => {
+      const search = $("#search").val().trim();
+      $.ajax({
+        type: "POST",
+        url: "/api/webapi/admin/listReferrals",
+        data: {
+          pageno: pageno,
+          limit: limit,
+          search: search
+        },
+        dataType: "json",
+        success: function (response) {
+          totalPages = response.page_total || 1;
+          $("#text-page").text(pageno + " / " + totalPages);
+
+          if (pageno >= totalPages) $("#next").addClass("disabled");
+          else $("#next").removeClass("disabled");
+
+          if (pageno <= 1) $("#previous").addClass("disabled");
+          else $("#previous").removeClass("disabled");
+
+          Render(response.datas);
+        }
+      });
+    };
+
+    const openTreeModal = (phone) => {
+      $("#modal-phone").text("91" + phone);
+      $("#tree-body").html('<div style="text-align:center; padding: 40px;"><i class="fas fa-spinner fa-spin fa-2x" style="color: var(--accent);"></i><div style="margin-top: 15px; font-weight: 600; color: var(--text-muted);">Fetching network data...</div></div>');
+      $("#referralTreeModal").addClass("active");
+
+      $.ajax({
+        type: "POST",
+        url: "/api/webapi/admin/getReferralTree",
+        data: { phone: phone },
+        dataType: "json",
+        success: function (response) {
+          if (!response.status) {
+            $("#tree-body").html('<div style="text-align:center; padding: 20px; color: var(--red);">Unable to load referral network.</div>');
+            return;
+          }
+
+          let treeHtml = "";
+          // Inviter Section
+          if (response.inviter) {
+            treeHtml += `
+              <div class="inviter-card">
+                <div class="inviter-icon">🤝</div>
+                <div>
+                  <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Direct Upliner</div>
+                  <div style="font-size: 16px; font-weight: 700; color: var(--text-primary);">91${response.inviter.phone} <span style="font-weight: 400; color: var(--text-muted); font-size: 13px;">(ID: ${response.inviter.id_user})</span></div>
+                  <div style="margin-top: 4px;"><span class="badge badge-inviter">${response.inviter.code}</span></div>
+                </div>
+              </div>`;
+          } else {
+            treeHtml += `
+              <div class="inviter-card none">
+                <div class="inviter-icon">🌱</div>
+                <div>
+                  <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Direct Upliner</div>
+                  <div style="font-size: 16px; font-weight: 700; color: var(--yellow);">Self-Registered</div>
+                  <div style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">This user joined without a referral code.</div>
+                </div>
+              </div>`;
+          }
+
+          // Levels
+          treeHtml += renderLevel("F1 - Direct Referrals", response.f1 || []);
+          treeHtml += renderLevel("F2 - Level 2", response.f2 || []);
+          treeHtml += renderLevel("F3 - Level 3", response.f3 || []);
+          treeHtml += renderLevel("F4 - Level 4", response.f4 || []);
+
+          $("#tree-body").html(treeHtml);
+        }
+      });
+    };
+
+    const renderLevel = (title, users) => {
+      let html = `<div class="tree-section">
+                    <div class="tree-section-header">
+                      <span>${title}</span>
+                      <span style="background: var(--accent-light); color: var(--accent); padding: 2px 8px; border-radius: 6px; font-size: 10px;">${users.length}</span>
+                    </div>
+                    <div class="tree-grid">`;
+
+      if (users.length === 0) {
+        html += `<div style="grid-column: 1/-1; padding: 20px; background: #fafafa; border: 1px dashed var(--card-border); border-radius: 12px; text-align: center; color: var(--text-muted); font-size: 12px;">No subordinates at this level.</div>`;
+      } else {
+        users.forEach(u => {
+          html += `<div class="tree-item">
+                    <div class="phone">91${u.phone}</div>
+                    <div class="info">ID: ${u.id_user} | ${u.code}</div>
+                    <div class="money">₹${u.money}</div>
+                  </div>`;
+        });
+      }
+      html += `</div></div>`;
+      return html;
+    };
+
+    loadPage();
+
+    $("#next").click(function () {
+      if (pageno < totalPages) {
+        pageno++;
+        loadPage();
+      }
+    });
+
+    $("#previous").click(function () {
+      if (pageno > 1) {
+        pageno--;
+        loadPage();
+      }
+    });
+
+    $("#closeModal").click(function () {
+      $("#referralTreeModal").removeClass("active");
+    });
+
+    let typingTimer;
+    $("#search").on("keyup", function () {
+      clearTimeout(typingTimer);
+      typingTimer = setTimeout(() => {
+        pageno = 1;
+        loadPage();
+      }, 500);
+    });
+  </script>
+</body>
+
+</html>
