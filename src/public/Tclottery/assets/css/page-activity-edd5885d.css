@@ -821,7 +821,7 @@
     width: 8rem;
     min-height: 6.66667rem;
     border-radius: 0.26667rem;
-    background: #fff;
+    background: #292D2E !important;
     -webkit-transition: opacity 0.3s, -webkit-transform 0.3s ease-in-out;
     transition: opacity 0.3s, -webkit-transform 0.3s ease-in-out;
     transition: opacity 0.3s, transform 0.3s ease-in-out;

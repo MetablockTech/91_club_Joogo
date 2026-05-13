@@ -32,8 +32,7 @@
   align-items: center;
   height: auto;
   padding-top: 0.6rem;
-  background-image: url(/assets/png/promotionbg-13880556.png),
-    var(--main_gradient-color);
+  background: #5DEB7D;
   background-repeat: no-repeat;
   background-position: center;
   background-size:
@@ -99,8 +98,8 @@
 .container .info_content .info .head[data-v-6cf5705a] {
   height: 1.06667rem;
   line-height: 1.06667rem;
-  background-color: var(--sheet_nva_color);
-  color: #fff;
+  background-color: #292D2E;
+  color: #5DEB7D;
   font-size: 0.34667rem;
   padding-left: 0.21333rem;
   margin-bottom: 0.2rem;
@@ -169,13 +168,13 @@
 .content .shareBtnContainer .shareBtn[data-v-600663f7] {
   width: 8.8rem;
   height: 100%;
-  color: var(--text_color_L4);
+  color: #fff;
   font-size: 0.4rem;
   font-weight: 700;
   letter-spacing: 0.01333rem;
   border: none;
   border-radius: 99rem;
-  background: var(--main_gradient-color);
+  background: #5DEB7D;
 }
 .content .commission[data-v-600663f7] {
   display: -webkit-box;
@@ -260,8 +259,8 @@
 }
 .promote__cell-item[data-v-600663f7] {
   padding: 0.37333rem 0.26667rem 0.37333rem 0.37333rem;
-  background: var(--bg_color_L2);
-  box-shadow: var(--BoxShadowColor-9);
+  background: #3A4142;
+  /* box-shadow: var(--BoxShadowColor-9); */
   border-radius: 0.26667rem;
   display: -webkit-box;
   display: -webkit-flex;
