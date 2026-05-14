@@ -309,7 +309,7 @@ html:lang(ar) .hot_container .popular .list .win-odds .win-p[data-v-d06787cb] {
     width: 100%;
     height: 2.26667rem;
     text-align: end;
-    background: #3AED85;
+    background: #72D731;
     margin-bottom: .26667rem;
     border-radius: .53333rem
 }
@@ -610,7 +610,7 @@ html:lang(ar) .hot_container .popular .list .win-odds .win-p[data-v-d06787cb] {
 .look_all[data-v-df3cc798] {
     width: 100%;
     height: 1.06667rem;
-    border: #3AED85;
+    border: #72D731;
     border-radius: .53333rem;
     display: -webkit-box;
     display: -webkit-flex;
@@ -621,9 +621,9 @@ html:lang(ar) .hot_container .popular .list .win-odds .win-p[data-v-d06787cb] {
     -webkit-box-align: center;
     -webkit-align-items: center;
     align-items: center;
-    background-color: #292D2E;
+    background-color: #000000;
     font-size: .34667rem;
-    color: #3AED85
+    color: #72D731
 }
 
 .look_all img[data-v-df3cc798] {

@@ -32,7 +32,7 @@
   align-items: center;
   height: auto;
   padding-top: 0.6rem;
-  background: #5DEB7D;
+  background: #72D731;
   background-repeat: no-repeat;
   background-position: center;
   background-size:
@@ -98,8 +98,8 @@
 .container .info_content .info .head[data-v-6cf5705a] {
   height: 1.06667rem;
   line-height: 1.06667rem;
-  background-color: #292D2E;
-  color: #5DEB7D;
+  background-color: #000000;
+  color: #72D731;
   font-size: 0.34667rem;
   padding-left: 0.21333rem;
   margin-bottom: 0.2rem;
@@ -174,7 +174,7 @@
   letter-spacing: 0.01333rem;
   border: none;
   border-radius: 99rem;
-  background: #5DEB7D;
+  background: #72D731;
 }
 .content .commission[data-v-600663f7] {
   display: -webkit-box;

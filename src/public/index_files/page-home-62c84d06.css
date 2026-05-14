@@ -1703,7 +1703,7 @@
   width: 2rem;
   height: 0.53333rem;
   margin-left: auto;
-  color: #292d2e;
+  color: #000000;
   border: none;
   border-radius: 0.13333rem;
   background: -webkit-linear-gradient(left, #f6dc88 1.33%, #ffffff 102.67%);
@@ -2098,7 +2098,7 @@
 .content__right .btn[data-v-9bebd08e] {
   width: 3.33333rem;
   height: 1.04rem;
-  color: #292d2e;
+  color: #000000;
   font-size: 0.32rem;
   font-style: normal;
   font-weight: 500;

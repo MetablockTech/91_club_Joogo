@@ -43,7 +43,7 @@
 }
 .register__container-invitation__label[data-v-51d668f5] {
   margin-bottom: 0.32rem;
-  color: #5DEB7D;
+  color: #72D731;
   font-size: 0.4rem;
 }
 .register__container-invitation__label-icon[data-v-51d668f5] {
@@ -88,7 +88,7 @@
   .van-checkbox
   .van-checkbox__label
   span {
-  color: #5DEB7D;
+  color: #72D731;
   font-size: 0.32rem;
 }
 .register__container-button[data-v-51d668f5] {
@@ -115,8 +115,8 @@
   border-radius: 0.58667rem;
   border: none;
   background: -webkit-linear-gradient(top, #7209b7 0%, #d08eff 100%);
-  background: #5DEB7D;
-  box-shadow: 0 0.05333rem #5DEB7D;
+  background: #72D731;
+  box-shadow: 0 0.05333rem #72D731;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -132,7 +132,7 @@
   background: linear-gradient(180deg, #cfd1df 0%, #c8cada 100%);
 }
 .register__container-button .login[data-v-51d668f5] {
-  border: 0.01333rem solid #5DEB7D;
+  border: 0.01333rem solid #72D731;
   text-shadow: none;
   background: #ffffff;
   box-shadow: none;
@@ -145,14 +145,14 @@
 }
 .register__container-button .loginin[data-v-51d668f5] {
   font-size: 0.4rem;
-  color: #5DEB7D;
+  color: #72D731;
   font-weight: 700;
   -webkit-margin-start: 0.22667rem;
   margin-inline-start: 0.22667rem;
 }
 .register__container-button span[data-v-51d668f5] {
   margin-top: 0.32rem;
-  color: #5DEB7D;
+  color: #72D731;
   font-size: 0.32rem;
 }
 .register__container-tips[data-v-51d668f5] {
@@ -160,7 +160,7 @@
   margin-bottom: 0.16rem;
   -webkit-padding-start: 0.22667rem;
   padding-inline-start: 0.22667rem;
-  color: #5DEB7D;
+  color: #72D731;
   font-size: 0.32rem;
 }
 .register__container-tip[data-v-51d668f5] {
@@ -482,10 +482,10 @@
   margin-top: 0.21333rem;
 }
 .resgister__C .login_container-tab .active[data-v-b42d759c] {
-  border-bottom: 0.05333rem solid #5DEB7D;
+  border-bottom: 0.05333rem solid #72D731;
 }
 .resgister__C .login_container-tab .active .font30[data-v-b42d759c] {
-  color: #5DEB7D;
+  color: #72D731;
 }
 .resgister__C .login_container-tab .basicimg[data-v-b42d759c],
 .resgister__C .login_container-tab .phoneactive[data-v-b42d759c],
@@ -514,7 +514,7 @@
   min-height: 2.26667rem;
   padding-bottom: 0.13333rem;
   background: -webkit-linear-gradient(left, #d08eff 0%, #7209b7 100%);
-  background: #5DEB7D;
+  background: #72D731;
 }
 .resgister__C-heading__title[data-v-b42d759c] {
   font-size: 0.42667rem;

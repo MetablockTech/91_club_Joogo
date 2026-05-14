@@ -3840,7 +3840,7 @@ html:lang(ar) .Wallet__C[data-v-0ba2cf96]:before {
   width: 3.46667rem;
   height: 0.93333rem;
   line-height: 0.93333rem;
-  background: #d08eff;
+  background: #72D731;
   border-radius: 0.53333rem;
   font-weight: 600;
   font-size: 0.4rem;
@@ -3849,7 +3849,7 @@ html:lang(ar) .Wallet__C[data-v-0ba2cf96]:before {
 }
 
 .Wallet__C-balance-l3 > div + div[data-v-0ba2cf96] {
-  background: #d08eff;
+  background: #72D731;
 }
 
 [data-v-b108ab4b]:root {
@@ -31004,7 +31004,7 @@ html:lang(ar) .Betting__C-popup-head[data-v-4431c0ec]:before {
 .GameRecord__C-head[data-v-c52f94a7] {
   height: 1.06667rem;
   line-height: 1.06667rem;
-  background: #d08eff;
+  background: #72D731;
   border-radius: 0.13333rem 0.13333rem 0 0;
   font-weight: 700;
   font-size: 0.34667rem;
@@ -31143,7 +31143,7 @@ html:lang(ar) .Betting__C-popup-head[data-v-4431c0ec]:before {
   width: 0.93333rem;
   height: 0.93333rem;
   border-radius: 0.13333rem;
-  background: #d08eff;
+  background: #72D731;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -32180,7 +32180,7 @@ html:lang(ar) .WinGo__C-head-more[data-v-40958d9a] {
 .GameRecord__C-head[data-v-a9b34bec] {
   height: 1.06667rem;
   line-height: 1.06667rem;
-  background: #d08eff;
+  background: #72D731;
   border-radius: 0.13333rem 0.13333rem 0 0;
   font-weight: 700;
   font-size: 0.34667rem;
@@ -35127,7 +35127,7 @@ html:lang(ar) .gamesList__container-list__item .logo_img[data-v-d29d1b39] {
 .content__right .btn[data-v-7c7e292d] {
   width: 3.33333rem;
   height: 1.04rem;
-  color: #292d2e;
+  color: #000000;
   font-size: 0.32rem;
   font-style: normal;
   font-weight: 500;

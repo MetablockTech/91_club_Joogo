@@ -152,7 +152,7 @@
     padding-left: .26667rem;
     font-size: .48rem;
     font-weight: 700;
-    color:#3AED85
+    color:#72D731
 }
 
 .dailyProfitRank h1[data-v-643c1a0c]:before {
@@ -164,7 +164,7 @@
     transform: translateY(-50%);
     width: .08rem;
     height: .4rem;
-    background: #3AED85
+    background: #72D731
 }
 
 .dailyProfitRank__content[data-v-643c1a0c] {
@@ -315,9 +315,9 @@
     width: 100%;
     height: 1.36rem;
     padding: .14667rem .25333rem .14667rem .44rem;
-    background: #3AED85;
+    background: #72D731;
     border-radius: .13333rem;
-    box-shadow: 0 .05333rem .21333rem .02667rem #3AED85
+    box-shadow: 0 .05333rem .21333rem .02667rem #72D731
 }
 
 .dailyProfitRank__content-list__item span.left-rank[data-v-643c1a0c] {
@@ -1053,7 +1053,7 @@
     font-weight: 500;
     background: url(/assets/png/bg-edc23a85.png) no-repeat center center;
     background-size: 100% 100%;
-    color: #5DEB7D;
+    color: #72D731;
     
 }
 
@@ -1306,8 +1306,8 @@
     color: #fff;
     font-size: .32rem;
     border-radius: 99rem;
-    background: #292D2E;
-    box-shadow: 0 .10667rem .16rem #292D2E
+    background: #000000;
+    box-shadow: 0 .10667rem .16rem #000000
 }
 
 .noticeBar__container-body[data-v-b4633b52] {
@@ -1417,8 +1417,8 @@
     border: none;
     border-radius: .53333rem;
     background: -webkit-linear-gradient(bottom, #882EC4 20.19%, #D46DFC 100%);
-    background: #3AED85;
-    box-shadow: 0 .02667rem .08rem #d0d0edbf, inset 0 .05333rem .05333rem #3AED85
+    background: #72D731;
+    box-shadow: 0 .02667rem .08rem #d0d0edbf, inset 0 .05333rem .05333rem #72D731
 }
 
 .noticeBar__container button svg[data-v-b4633b52] {

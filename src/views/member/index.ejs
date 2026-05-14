@@ -17,7 +17,68 @@
     <link rel="stylesheet" href="/Tclottery/assets/css/mian/page-login-3c8cfc52.css">
     <link rel="stylesheet" href="/Tclottery/assets/css/mian/page-main-b744f3fd.css">
     <link rel="stylesheet" href="/Tclottery/assets/css/index-08abe1f5.css">
+    <style>
+        svg.activity-icon circle {
+            fill: #555 !important;
+        }
 
+        svg.activity-icon path {
+            fill: #000 !important;
+        }
+
+        /* ===== END ACTIVITY ICON COLOR ===== */
+
+        /* ===== PROMOTION / WALLET / ACCOUNT ICON COLOR ===== */
+        svg.promotion-icon path {
+            fill: #000 !important;
+        }
+
+        svg.wallet-icon circle {
+            fill: #555 !important;
+        }
+
+        svg.wallet-icon path {
+            stroke: #000 !important;
+            fill: none !important;
+        }
+
+        svg.account-icon circle {
+            fill: #555 !important;
+        }
+
+        svg.account-icon path {
+            fill: #000 !important;
+        }
+
+        /* ===== END PROMOTION / WALLET / ACCOUNT ICON COLOR ===== */
+
+        /* ===== PROMOTION BG COLOR ===== */
+        .tabbar__container-item:nth-of-type(3) .promotionBg,
+        .tabbar__container-item .promotionBg {
+            background-color: #72D731 !important;
+            background-image: none !important;
+        }
+
+        /* ===== END PROMOTION BG COLOR ===== */
+
+        /* ===== ACTIVE HOME ICON COLOR ===== */
+        .tabbar__container-item.active svg circle {
+            fill: #4a9e1f !important;
+        }
+
+        .tabbar__container-item.active svg path {
+            fill: #4a9e1f !important;
+        }
+
+        .tabbar__container-item.active svg.wallet path {
+            fill: none !important;
+            stroke: #4a9e1f !important;
+        }
+
+        .tabbar__container-item.active span {
+            color: #fff !important;
+        }
+    </style>
     <style>
         .copy {
             position: fixed !important;
@@ -9555,8 +9616,18 @@
                         <% if (level==1) { %>
                             <div data-v-4d778199="" onclick="window.location.href='/admin/manager/index'"
                                 class="settingPanel__container-items__item ar-1px-b">
-                                <div data-v-4d778199="" class="settingPanel__container-items__title"><img
-                                        data-v-4d778199="" src="/assets/png/svgexport-19.png">
+                                <div data-v-4d778199="" class="settingPanel__container-items__title">
+                                    <svg data-v-4d778199="" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" style="margin-right:6px;flex-shrink:0;">
+                                        <!-- Medal ribbon top -->
+                                        <path d="M9 2L7 7H17L15 2H9Z" fill="#72D731"/>
+                                        <path d="M7 7L4 13H9.5L12 7H7Z" fill="#5ab828"/>
+                                        <path d="M17 7L20 13H14.5L12 7H17Z" fill="#5ab828"/>
+                                        <!-- Medal circle -->
+                                        <circle cx="12" cy="17" r="6" fill="#72D731"/>
+                                        <circle cx="12" cy="17" r="4.5" fill="#fff" fill-opacity="0.2"/>
+                                        <!-- Star in medal -->
+                                        <path d="M12 13.5l.9 2.7h2.85l-2.31 1.68.88 2.72L12 18.9l-2.32 1.7.88-2.72L8.25 16.2h2.85L12 13.5Z" fill="#fff"/>
+                                    </svg>
                                     <span data-v-4d778199="">Admin Panel</span>
                                 </div>
                                 <div data-v-4d778199="" class="settingPanel__container-items-right">
@@ -9594,8 +9665,14 @@
                     </div> -->
                                         <div data-v-4d778199="" onclick="window.location.href='/redenvelopes'"
                                             class="settingPanel__container-items__item ar-1px-b">
-                                            <div data-v-4d778199="" class="settingPanel__container-items__title"><img
-                                                    data-v-4d778199="" src="/assets/png/svgexport-16.png">
+                                            <div data-v-4d778199="" class="settingPanel__container-items__title">
+                                                <svg data-v-4d778199="" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M4 14C4 12.8954 4.89543 12 6 12H42C43.1046 12 44 12.8954 44 14V20C44 21.1046 43.1046 22 42 22H6C4.89543 22 4 21.1046 4 20V14Z" fill="#72D731"/>
+                                                    <path d="M7 22H41V40C41 42.2091 39.2091 44 37 44H11C8.79086 44 7 42.2091 7 40V22Z" fill="#72D731" fill-opacity="0.4"/>
+                                                    <path d="M21 22H27V44H21V22Z" fill="#72D731"/>
+                                                    <path d="M24 12C24 12 24 4 17 4C12 4 12 12 17 12H24Z" fill="#72D731"/>
+                                                    <path d="M24 12C24 12 24 4 31 4C36 4 36 12 31 12H24Z" fill="#72D731"/>
+                                                </svg>
                                                 <span data-v-4d778199="">Gifts</span>
                                             </div>
                                             <div data-v-4d778199="" class="settingPanel__container-items-right">
@@ -9608,8 +9685,12 @@
                                         </div>
                                         <div data-v-4d778199="" onclick="window.location.href='/mian/forgot'"
                                             class="settingPanel__container-items__item ar-1px-b">
-                                            <div data-v-4d778199="" class="settingPanel__container-items__title"><img
-                                                    data-v-4d778199="" src="/assets/png/svgexport-18.png">
+                                            <div data-v-4d778199="" class="settingPanel__container-items__title">
+                                                <svg data-v-4d778199="" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M24 4L6 12V24C6 34.1304 13.413 43.1304 24 44C34.587 43.1304 42 34.1304 42 24V12L24 4Z" fill="#72D731" fill-opacity="0.4"/>
+                                                    <path d="M24 4L6 12V24C6 34.1304 13.413 43.1304 24 44C34.587 43.1304 42 34.1304 42 24V12L24 4Z" stroke="#72D731" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M17 24L22 29L31 20" stroke="#72D731" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
                                                 <span data-v-4d778199="">Security & Safety</span>
                                             </div>
                                             <div data-v-4d778199="" class="settingPanel__container-items-right">
@@ -9623,9 +9704,19 @@
 
                                         <div data-v-4d778199="" class="settingPanel__container-items__item ar-1px-b"
                                             style="display: none;">
-                                            <div data-v-4d778199="" class="settingPanel__container-items__title"><img
-                                                    data-v-4d778199=""
-                                                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAH+SURBVHgB7ZqxSgNBEIb/OaOFKFhYCp6NtY+gT6BgYWlsEqxEX0B9A63EgMS0Vkp8gHSWBuxsvM4qhWghMdlx7qIRhHh7FxMv63ywhIRdyBdm9jY7AyiKoowQhITwGabBmIdBkwq4x4iRSJgvMIEnrKMt0p3VN1TEHUYIL9HsZ8x2ZUMYPkaMZMIOoMKuk0MayJuTBN6QHG5yCXtIDQXA2DEV3uoYEumEgUkZi9Eez+iDcHErzyWqSbBVqNA+x4DJRkgzlsGmzKf0wCVvh08Gt/tnLYd9MB/Bi8TLXBpfwi+TNqQHD3M+CvdTq7NRIAt25RB0GTfRlV3alw2wzGXMxE106bE0g1fEpoAePFxHhV1HhV1HhV1HhV1HhV1HhV1HhV1HhV1HKw9WkGmAqSrjRS7j+6kR+3LbuIkhkk7YoCFf9FrGo1yNVtEHcul+IC/Lche9Dwy+/PrnIU3bCGScU5EXYHhLIqaG9ARxEzKVw5F4gVdEfEHeVRItNnwY/nhx0zJZeeh8cZP/CHffYklgIxuS3VILPsXtRGzR57DrqLDrqLDr/DvhH/sJouYSz1sDupX1Kfl08WvCtz8PRMEwOnH6oadw1D7QpFskPtDTLhXNETJK75Bu5cL2AR9JIV5FhuktnGuF3XEBksJ8hQxjk8N5WGPqNq1DiqIoiiXvILmHHQRkllsAAAAASUVORK5CYII=">
+                                            <div data-v-4d778199="" class="settingPanel__container-items__title">
+                                                <svg data-v-4d778199="" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <rect x="4" y="8" width="40" height="36" rx="3" fill="#72D731" fill-opacity="0.4"/>
+                                                    <path d="M4 10C4 8.89543 4.89543 8 6 8H42C43.1046 8 44 8.89543 44 10V16H4V10Z" fill="#72D731"/>
+                                                    <path d="M16 4V12" stroke="#72D731" stroke-width="4" stroke-linecap="round"/>
+                                                    <path d="M32 4V12" stroke="#72D731" stroke-width="4" stroke-linecap="round"/>
+                                                    <rect x="12" y="24" width="4" height="4" fill="#72D731"/>
+                                                    <rect x="22" y="24" width="4" height="4" fill="#72D731"/>
+                                                    <rect x="32" y="24" width="4" height="4" fill="#72D731"/>
+                                                    <rect x="12" y="32" width="4" height="4" fill="#72D731"/>
+                                                    <rect x="22" y="32" width="4" height="4" fill="#72D731"/>
+                                                    <rect x="32" y="32" width="4" height="4" fill="#72D731"/>
+                                                </svg>
                                                 <span data-v-4d778199="">My tournament</span>
                                             </div>
                                             <div data-v-4d778199="" class="settingPanel__container-items-right">
@@ -9667,8 +9758,13 @@
                                         </div>
                                         <div data-v-4d778199="" onclick="window.location.href='/mian/game_statistics'"
                                             class="settingPanel__container-items__item ar-1px-b">
-                                            <div data-v-4d778199="" class="settingPanel__container-items__title"><img
-                                                    data-v-4d778199="" src="/assets/png/svgexport-20.png">
+                                            <div data-v-4d778199="" class="settingPanel__container-items__title">
+                                                <svg data-v-4d778199="" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M4 44H44" stroke="#72D731" stroke-width="4" stroke-linecap="round"/>
+                                                    <rect x="10" y="24" width="6" height="14" fill="#72D731" fill-opacity="0.4" stroke="#72D731" stroke-width="2"/>
+                                                    <rect x="21" y="14" width="6" height="24" fill="#72D731" stroke="#72D731" stroke-width="2"/>
+                                                    <rect x="32" y="19" width="6" height="19" fill="#72D731" fill-opacity="0.6" stroke="#72D731" stroke-width="2"/>
+                                                </svg>
                                                 <span data-v-4d778199="">Game statistics</span>
                                             </div>
                                             <div data-v-4d778199="" class="settingPanel__container-items-right">
@@ -9681,8 +9777,11 @@
                                         </div>
                                         <div data-v-4d778199="" onclick="window.location.href='/mian/claimed_rewards'"
                                             class="settingPanel__container-items__item ar-1px-b">
-                                            <div data-v-4d778199="" class="settingPanel__container-items__title"><img
-                                                    data-v-4d778199="" src="/assets/png/svgexport-24.png">
+                                            <div data-v-4d778199="" class="settingPanel__container-items__title">
+                                                <svg data-v-4d778199="" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M24 4L29.3961 14.9295L41.4616 16.6819L32.7308 25.1955L34.7923 37.2081L24 31.5342L13.2077 37.2081L15.2692 25.1955L6.53838 16.6819L18.6039 14.9295L24 4Z" fill="#72D731" fill-opacity="0.4" stroke="#72D731" stroke-width="4" stroke-linejoin="round"/>
+                                                    <path d="M24 31V12" stroke="#72D731" stroke-width="4" stroke-linecap="round"/>
+                                                </svg>
                                                 <span data-v-4d778199="">Claimed rewards</span>
                                             </div>
                                             <div data-v-4d778199="" class="settingPanel__container-items-right">
@@ -9693,10 +9792,16 @@
                                                     style="color: rgb(51, 51, 51);"><!----><!----><!----></i>
                                             </div>
                                         </div>
-                                        <div data-v-4d778199="" onclick="window.location.href='/mian/promotion_commission'"
+                                        <div data-v-4d778199=""
+                                            onclick="window.location.href='/mian/promotion_commission'"
                                             class="settingPanel__container-items__item ar-1px-b">
-                                            <div data-v-4d778199="" class="settingPanel__container-items__title"><img
-                                                    data-v-4d778199="" src="/assets/png/svgexport-25.png">
+                                            <div data-v-4d778199="" class="settingPanel__container-items__title">
+                                                <svg data-v-4d778199="" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="24" cy="24" r="20" fill="#72D731" fill-opacity="0.2" stroke="#72D731" stroke-width="4"/>
+                                                    <path d="M24 14V34" stroke="#72D731" stroke-width="4" stroke-linecap="round"/>
+                                                    <path d="M19 19L24 14L29 19" stroke="#72D731" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M30 30C30 30 27.5 33 24 33C20.5 33 18 30 18 30" stroke="#72D731" stroke-width="4" stroke-linecap="round"/>
+                                                </svg>
                                                 <span data-v-4d778199="">Promotion Commission</span>
                                             </div>
                                             <div data-v-4d778199="" class="settingPanel__container-items-right">
@@ -9709,8 +9814,13 @@
                                         </div>
                                         <div data-v-4d778199="" onclick="window.location.href='/mian/salary'"
                                             class="settingPanel__container-items__item ar-1px-b">
-                                            <div data-v-4d778199="" class="settingPanel__container-items__title"><img
-                                                    data-v-4d778199="" src="/assets/png/svgexport-21.png">
+                                            <div data-v-4d778199="" class="settingPanel__container-items__title">
+                                                <svg data-v-4d778199="" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <rect x="4" y="10" width="40" height="28" rx="2" fill="#72D731" fill-opacity="0.4" stroke="#72D731" stroke-width="4"/>
+                                                    <circle cx="24" cy="24" r="6" stroke="#72D731" stroke-width="4"/>
+                                                    <path d="M4 24H12" stroke="#72D731" stroke-width="4" stroke-linecap="round"/>
+                                                    <path d="M36 24H44" stroke="#72D731" stroke-width="4" stroke-linecap="round"/>
+                                                </svg>
                                                 <span data-v-4d778199="">Salary Records</span>
                                             </div>
                                             <div data-v-4d778199="" class="settingPanel__container-items-right">
@@ -9724,8 +9834,13 @@
 
                                         <div data-v-4d778199="" onclick="alertMess('English Language', this, 'success')"
                                             class="settingPanel__container-items__item ar-1px-b">
-                                            <div data-v-4d778199="" class="settingPanel__container-items__title"><img
-                                                    data-v-4d778199="" src="/assets/png/svgexport-21.png">
+                                            <div data-v-4d778199="" class="settingPanel__container-items__title">
+                                                <svg data-v-4d778199="" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="24" cy="24" r="20" fill="#72D731" fill-opacity="0.3" stroke="#72D731" stroke-width="4"/>
+                                                    <path d="M4 24H44" stroke="#72D731" stroke-width="2"/>
+                                                    <path d="M24 4C24 4 30 10 30 24C30 38 24 44 24 44" stroke="#72D731" stroke-width="2"/>
+                                                    <path d="M24 4C24 4 18 10 18 24C18 38 24 44 24 44" stroke="#72D731" stroke-width="2"/>
+                                                </svg>
                                                 <span data-v-4d778199="">Language</span>
                                             </div>
                                             <div data-v-4d778199="" class="settingPanel__container-items-right">
@@ -9742,8 +9857,11 @@
                         <h1 data-v-55719356="">Service center</h1>
                         <div data-v-55719356="" class="serviceCenter__container-items">
                             <div data-v-55719356="" onclick="window.location.href='/settings'"
-                                class="serviceCenter__container-items__item"><img data-v-55719356="" class=""
-                                    data-origin="/assets/png/svgexport-22.png" src="/assets/png/svgexport-22.png">
+                                class="serviceCenter__container-items__item">
+                                <svg data-v-55719356="" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="24" cy="24" r="6" fill="#72D731" stroke="#72D731" stroke-width="4"/>
+                                    <path d="M41.5 20.4L37.1 19.3L35.6 15.6L38.4 12L36 9.6L32.4 12.4L28.7 10.9L27.6 6.5H20.4L19.3 10.9L15.6 12.4L12 9.6L9.6 12L12.4 15.6L10.9 19.3L6.5 20.4V27.6L10.9 28.7L12.4 32.4L9.6 36L12 38.4L15.6 35.6L19.3 37.1L20.4 41.5H27.6L28.7 37.1L32.4 35.6L36 38.4L38.4 36L35.6 32.4L37.1 28.7L41.5 27.6V20.4Z" stroke="#72D731" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
                                 <span data-v-55719356="">Settings</span>
                             </div>
                             <!-- <div data-v-55719356="" class="serviceCenter__container-items__item"><img data-v-55719356="" onclick="window.location.href='/feedback'" class="" data-origin="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAMAAAANIilAAAAAYFBMVEUAAAD6Wlr5WFj7Wlr5WVn6WVn7W1v4WFj/VFT5WVn5WVn5WVn6WVn6WVn7W1v7WVn7W1v7WVn6Wlr/XFz5WFj7W1v/XV39XFz6WVn/Zmb5WFj5WVn5WVn6Wlr5WVn5WVnIvMgnAAAAH3RSTlMAZp9M2u0/vg2zcBnFjHlfWTkzMpZGLCYfCvVTz6h5gltZtQAAAP1JREFUSMft1d2OgjAQhuFOa1so8iciuO4u93+XcqBIMmP9Ih6o4T1/MikzCWrtFTlvh1nW97gtB1aJ2t5ybBN8MC8AMGvayks4PZldEqeGxrYS3tKYifAdURSPNQ8seQl7YlqypCW8p0sHyR7pWpBWRVPSux1NFZbZgqaMPPim9Wbebxpo1pHhjuD4q1scO4YNjtsl2Kz4K3CuWf8o9gPvJ4DYDkIaxKk0uQAx7TUrfMCqPhTPLywXMH5hfxzjF7bhGL+wlFn8wvI3X5Vb8rs54LhjOMFxolgGfzIvwwcL1ZhtlJiDP/WTs2t1t66K0ypTsXp3IrmyqjO1tqgzPZ0xAYt3JnkAAAAASUVORK5CYII="
@@ -9758,21 +9876,35 @@
                         </div> -->
                             <!-- <div data-v-55719356="" onclick="window.location.href='/keFuMenu'" class="serviceCenter__container-items__item"><img data-v-55719356="" class="" data-origin="https://91club06.com/assets/png/serviceCenter-ed250156.png" src="https://91club06.com/assets/png/serviceCenter-ed250156.png"><span data-v-55719356="">24/7 Customer service</span></div> -->
                             <div data-v-55719356="" onclick="window.location.href='/guide'"
-                                class="serviceCenter__container-items__item"><img data-v-55719356="" class=""
-                                    data-origin="/assets/png/svgexport-26.png" src="/assets/png/svgexport-26.png">
+                                class="serviceCenter__container-items__item">
+                                <svg data-v-55719356="" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                     <path d="M8 6C8 4.89543 8.89543 4 10 4H38C39.1046 4 40 4.89543 40 6V42C40 43.1046 39.1046 44 38 44H10C8.89543 44 8 43.1046 8 42V6Z" fill="#72D731" fill-opacity="0.4" stroke="#72D731" stroke-width="4"/>
+                                     <path d="M16 14H32" stroke="#72D731" stroke-width="4" stroke-linecap="round"/>
+                                     <path d="M16 24H32" stroke="#72D731" stroke-width="4" stroke-linecap="round"/>
+                                     <path d="M16 34H24" stroke="#72D731" stroke-width="4" stroke-linecap="round"/>
+                                </svg>
                                 <span data-v-55719356="">Beginner's Guide</span>
                             </div>
                             <% if (cskh_status==1) { %>
                                 <div data-v-55719356="" onclick="window.location.href='/keFuMenu'"
-                                    class="serviceCenter__container-items__item"><img data-v-55719356="" class=""
-                                        data-origin="/assets/png/svgexport-27.png" src="/assets/png/svgexport-27.png">
+                                    class="serviceCenter__container-items__item">
+                                     <svg data-v-55719356="" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                         <path d="M4 24C4 12.9543 12.9543 4 24 4C35.0457 4 44 12.9543 44 24" stroke="#72D731" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                                         <path d="M40 30V26C40 24.8954 40.8954 24 42 24C43.1046 24 44 24.8954 44 26V30C44 31.1046 43.1046 32 42 32C40.8954 32 40 31.1046 40 30Z" fill="#72D731"/>
+                                         <path d="M4 30V26C4 24.8954 4.89543 24 6 24C7.10457 24 8 24.8954 8 26V30C8 31.1046 7.10457 32 6 32C4.89543 32 4 31.1046 4 30Z" fill="#72D731"/>
+                                         <path d="M8 24V34C8 38.4183 11.5817 42 16 42H32C36.4183 42 40 38.4183 40 34V24" stroke="#72D731" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                                         <circle cx="24" cy="24" r="4" fill="#72D731"/>
+                                     </svg>
                                     <span data-v-55719356="">24/7 Customer service</span>
                                 </div>
                                 <% } %>
                                     <div data-v-55719356="" onclick="window.location.href='/about'"
-                                        class="serviceCenter__container-items__item"><img data-v-55719356="" class=""
-                                            data-origin="/assets/png/svgexport-27.png"
-                                            src="/assets/png/svgexport-27.png">
+                                        class="serviceCenter__container-items__item">
+                                        <svg data-v-55719356="" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="24" cy="24" r="20" stroke="#72D731" stroke-width="4"/>
+                                            <path d="M24 16V26" stroke="#72D731" stroke-width="4" stroke-linecap="round"/>
+                                            <path d="M24 34V32" stroke="#72D731" stroke-width="4" stroke-linecap="round"/>
+                                        </svg>
                                         <span data-v-55719356="">About us</span>
                                     </div>
                         </div>
@@ -9802,9 +9934,11 @@
             </div>
 
 
-            <div data-v-67fe8f9c="" class="tabbar__container" style="--36a344b0: 'Roboto', 'Inter', sans-serif;">
-                <div data-v-67fe8f9c="" onclick="window.location.href='/home';" class="tabbar__container-item"><svg
-                        data-v-67fe8f9c="" xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none"
+            <div data-v-67fe8f9c="" class="tabbar__container"
+                style="--36a344b0: &#39;Roboto&#39;, &#39;Inter&#39;, sans-serif;">
+                <div data-v-67fe8f9c="" class="tabbar__container-item active"
+                    onclick="window.location.href=&#39;/home&#39;">
+                    <svg data-v-67fe8f9c="" xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none"
                         viewBox="0 0 46 44" class="">
                         <circle cx="27" cy="28" r="18" fill="#B6BCC8"></circle>
                         <path fill="#768096" fill-rule="evenodd"
@@ -9813,13 +9947,11 @@
                         <path fill="#768096"
                             d="M32.4 44.545a1.68 1.68 0 1 1-3.36 0 1.68 1.68 0 0 1 3.36 0ZM32.28 36.745a1.68 1.68 0 1 1-3.36 0 1.68 1.68 0 0 1 3.36 0Z">
                         </path>
-                    </svg>
-                    <!----><span data-v-67fe8f9c="">Home</span>
+                    </svg><!----><span data-v-67fe8f9c="">Home</span>
                 </div>
-
-                <div data-v-67fe8f9c="" class="tabbar__container-item" onclick="location.href=&#39;/activity&#39;"><svg
-                        data-v-67fe8f9c="" xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none"
-                        viewBox="0 0 46 44" class="">
+                <div data-v-67fe8f9c="" class="tabbar__container-item" onclick="location.href=&#39;/activity&#39;">
+                    <svg data-v-67fe8f9c="" xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none"
+                        viewBox="0 0 46 44" class="activity-icon">
                         <circle cx="27" cy="24" r="18" fill="#B6BCC8"></circle>
                         <path fill="#768096" fill-rule="evenodd"
                             d="M10.512 5.2h26.975a4.8 4.8 0 0 1 4.796 4.6l.51 12.2h3.203L45.48 9.666A8 8 0 0 0 37.489 2H10.511A8 8 0 0 0 2.52 9.666l-1.17 28A8 8 0 0 0 9.34 46h29.317a8 8 0 0 0 7.993-8.334L46.331 30h-3.203l.326 7.8a4.8 4.8 0 0 1-4.796 5H9.341a4.8 4.8 0 0 1-4.795-5l1.17-28a4.8 4.8 0 0 1 4.796-4.6Z"
@@ -9830,23 +9962,21 @@
                         <path fill="#768096"
                             d="M34.092 16.65a1.75 1.75 0 0 1-1.75 1.75c-.967 0-1.795-.784-1.795-1.75 0-.967.828-1.75 1.795-1.75.966 0 1.75.783 1.75 1.75ZM17.449 16.648c0 .966-.766 1.75-1.733 1.75-.966 0-1.795-.784-1.795-1.75 0-.967.829-1.75 1.795-1.75.967 0 1.733.783 1.733 1.75ZM46 22a1.6 1.6 0 1 1-3.2 0 1.6 1.6 0 0 1 3.2 0ZM46.33 30.044a1.6 1.6 0 1 1-3.2 0 1.6 1.6 0 0 1 3.2 0Z">
                         </path>
-                    </svg>
-                    <!----><span data-v-67fe8f9c="">Activity</span>
+                    </svg><!----><span data-v-67fe8f9c="" style="color: #000 !important;">Activity</span>
                 </div>
-
-                <div data-v-67fe8f9c="" onclick="window.location.href='/promotion';" class="tabbar__container-item">
+                <div data-v-67fe8f9c="" class="tabbar__container-item" onclick="location.href=&#39;/promotion&#39;">
                     <svg data-v-67fe8f9c="" xmlns="http://www.w3.org/2000/svg" width="57" height="49" fill="none"
-                        viewBox="0 0 57 49" class="">
+                        viewBox="0 0 57 49" class="promotion-icon">
                         <path fill="#fff" fill-rule="evenodd"
                             d="M8.939 1.501A4 4 0 0 1 12.062 0h32.155a4 4 0 0 1 3.124 1.501l7.738 9.673c.427.533.749 1.12.968 1.735H.233a5.99 5.99 0 0 1 .967-1.735L8.94 1.501ZM0 16.091h56.28a5.985 5.985 0 0 1-1.277 2.673l-23.79 28.549a4 4 0 0 1-6.146 0l-23.79-28.55A5.984 5.984 0 0 1 0 16.092Zm20.556 5.936 7.195 10.102a.5.5 0 0 0 .816-.002l7.118-10.093a2.44 2.44 0 0 1 4.435 1.406v.2h-.223c-.326 0-.782.248-1.304.93-.506.663-6.466 8.724-9.651 13.035a.975.975 0 0 1-1.563.007L17.32 24.26s-.394-.62-1.06-.62h-.14v-.195a2.445 2.445 0 0 1 4.436-1.418Z"
                             clip-rule="evenodd"></path>
                     </svg>
-                    <div data-v-67fe8f9c="" class="promotionBg"></div><span data-v-67fe8f9c="">Promotion</span>
+                    <div data-v-67fe8f9c="" class="promotionBg"></div>
+                    <span data-v-67fe8f9c="" style="color: #000;">Promotion</span>
                 </div>
-
-                <div data-v-67fe8f9c="" onclick="window.location.href='./wallet'" class="tabbar__container-item ">
+                <div data-v-67fe8f9c="" class="tabbar__container-item" onclick="location.href=&#39;/wallet&#39;">
                     <svg data-v-67fe8f9c="" xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none"
-                        viewBox="0 0 46 44" class="wallet">
+                        viewBox="0 0 46 44" class="wallet wallet-icon">
                         <circle cx="28" cy="24" r="18" fill="#B6BCC8"></circle>
                         <path stroke="#768096" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.2"
                             d="M3 23c0-5.984 3.526-10.164 9.008-10.868.56-.088 1.14-.132 1.742-.132h21.5c.559 0 1.096.022 1.612.11C42.41 12.77 46 16.972 46 23v11c0 6.6-4.3 11-10.75 11h-21.5C7.3 45 3 40.6 3 34v-2.178">
@@ -9854,13 +9984,11 @@
                         <path stroke="#768096" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.2"
                             d="M46 23.724h-6.452c-2.366 0-4.301 1.862-4.301 4.138S37.182 32 39.548 32H46m-9-20c-.516-.083-1.194 0-1.753 0H14c-.602 0-1.44-.083-2 0 0 0 .731-.648 1.247-1.145l6.99-6.745A7.737 7.737 0 0 1 25.571 2c1.997 0 3.914.758 5.333 2.11l3.764 3.662C36.045 9.076 39.548 12 37 12Z">
                         </path>
-                    </svg>
-                    <!----><span data-v-67fe8f9c="">Wallet</span>
+                    </svg><!----><span style="color: #000;" data-v-67fe8f9c="">Wallet</span>
                 </div>
-
-                <div data-v-67fe8f9c="" onclick="window.location.href='/mian';" class="tabbar__container-item active">
+                <div data-v-67fe8f9c="" class="tabbar__container-item" onclick="location.href=&#39;/mian&#39;">
                     <svg data-v-67fe8f9c="" xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none"
-                        viewBox="0 0 46 44" class="">
+                        viewBox="0 0 46 44" class="account-icon">
                         <circle cx="28" cy="24" r="18" fill="#B6BCC8"></circle>
                         <path fill="#768096" fill-rule="evenodd"
                             d="M24.08 5.28C13.741 5.28 5.36 13.661 5.36 24c0 10.339 8.381 18.72 18.72 18.72 10.339 0 18.72-8.381 18.72-18.72v-8.76h3.36V24c0 12.194-9.886 22.08-22.08 22.08C11.886 46.08 2 36.194 2 24 2 11.806 11.886 1.92 24.08 1.92h20.28v3.36H24.08Z"
@@ -9871,8 +9999,7 @@
                         <path fill="#768096" fill-rule="evenodd"
                             d="M15.806 29.582a1.68 1.68 0 0 1 2.372.144c1.15 1.298 2.748 2.794 5.462 2.794 2.872 0 4.857-1.428 5.805-2.533a1.68 1.68 0 0 1 2.55 2.186c-1.451 1.695-4.314 3.707-8.355 3.707-4.198 0-6.647-2.424-7.977-3.926a1.68 1.68 0 0 1 .143-2.372Z"
                             clip-rule="evenodd"></path>
-                    </svg>
-                    <!----><span data-v-67fe8f9c="">Account</span>
+                    </svg><!----><span data-v-67fe8f9c="" style="color: #000;">Account</span>
                 </div>
             </div>
             <!---->

@@ -188,7 +188,7 @@
     #e57201 97%,
     #f2403a 100%
   );
-  background: #4DEC81;
+  background: #72D731;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -744,7 +744,7 @@
   margin-top: 0.2rem;
   font-size: 0.48rem;
   font-weight: 700;
-  color: #4DEC81;
+  color: #72D731;
 }
 .totalSavings__container-header__subtitle img[data-v-71161560] {
   width: 0.56rem;
@@ -865,7 +865,7 @@
 }
 .financialServices__container-box-para h3[data-v-7913842b] {
   font-size: 0.37333rem;
-  color: #4DEC81;
+  color: #72D731;
 }
 .financialServices__container-box > div[data-v-7913842b] {
   width: 48%;
@@ -882,7 +882,7 @@
   padding: 0.24rem;
   margin: 0.13333rem 0;
   background: #3A4142;
-  box-shadow: 0 0.05333rem 0.21333rem #292D2E;
+  box-shadow: 0 0.05333rem 0.21333rem #000000;
   border-radius: 0.13333rem;
 }
 .financialServices__container-box > div img[data-v-7913842b] {
@@ -1060,9 +1060,9 @@
   gap: 0.13333rem;
   width: 100%;
   padding-block: 0.13333rem;
-  color: #4DEC81;
+  color: #72D731;
   background: none;
-  border: 0.01333rem solid #4DEC81;
+  border: 0.01333rem solid #72D731;
   border-radius: 0.53333rem;
   border-radius: 99rem;
   outline: none;
@@ -1075,13 +1075,13 @@
 .serviceCenter__container[data-v-55719356] {
   padding: 0.53333rem 0.32rem;
   border-radius: 0.26667rem;
-  background: #292D2E;
+  background: #000000;
   height: 5.33333rem;
   box-shadow: 0 0.05333rem 0.21333rem ;
 }
 .serviceCenter__container h1[data-v-55719356] {
   margin-bottom: 0.58667rem;
-  color: #4DEC81;
+  color: #72D731;
   font-size: 0.4rem;
 }
 .serviceCenter__container-items[data-v-55719356] {
@@ -1203,7 +1203,7 @@
 .settingPanel__container[data-v-4d778199] {
   padding: 0 0.26667rem 0.13333rem;
   border-radius: 0.26667rem;
-  background: #292D2E;
+  background: #000000;
   box-shadow: 0 0.05333rem 0.21333rem ;
 }
 .settingPanel__container h1[data-v-4d778199] {
@@ -1273,7 +1273,7 @@
   color: #fff;
   border-radius: 0.42667rem;
   margin-right: 0.4rem;
-  background: #5DEB7D;
+  background: #72D731;
   height: 0.42667rem;
   padding: 0 0.13333rem;
   display: -webkit-box;
@@ -1321,7 +1321,7 @@
   padding: 0 0.32rem 0.32rem;
   position: relative;
   top: -2.18667rem;
-  background: #292D2E;
+  background: #000000;
 }
 .van-toast[data-v-9bef965a] {
   word-break: break-word !important;

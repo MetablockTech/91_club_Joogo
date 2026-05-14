@@ -3,6 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="icon" href="<%= locals.SITE_LOGO || '/favicon.ico' %>" />
+  <link rel="stylesheet" href="/Tclottery/assets/css/mian/page-main-b744f3fd.css">
   <meta name="google" content="notranslate" />
   <meta name="robots" content="noindex,nofollow" />
   <meta name="ccpayment-site-verification" content="03fcb1b305029b58d302e2ce53be9e0f" />
@@ -7997,72 +7998,373 @@
         background: url(/assets/png/bg-70e2d0c9.png) no-repeat center center !important;
         background-size: 100% 100% !important;
       } */
+
+    /* ===== HORIZONTAL TABS OVERRIDE ===== */
+    .gameList[data-v-6c5117cd] {
+      display: flex !important;
+      flex-direction: column !important;
+      height: auto !important;
+      margin-top: 0.4rem;
+    }
+
+    .gameList .mySideBar[data-v-6c5117cd],
+    .gameList .van-sidebar.mySideBar {
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      width: 100% !important;
+      flex-grow: unset !important;
+      flex-shrink: unset !important;
+      padding: 0 0.1rem !important;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+      background: transparent !important;
+    }
+
+    .gameList .van-sidebar.mySideBar::-webkit-scrollbar {
+      display: none !important;
+    }
+
+    .gameList .mySideBar .van-sidebar-item[data-v-6c5117cd] {
+      width: auto !important;
+      min-width: 1.6rem !important;
+      height: auto !important;
+      padding: 0.15rem 0.2rem !important;
+      margin-bottom: 0 !important;
+      margin-right: 0.1rem !important;
+      flex-shrink: 0 !important;
+      background: url(/assets/png/bg-edc23a85.png) no-repeat center center !important;
+      background-size: 100% 100% !important;
+      border-radius: 0.2rem !important;
+    }
+
+    .gameList .mySideBar .van-sidebar-item--select[data-v-6c5117cd] {
+      background: #72D731 !important;
+      background-size: 100% 100% !important;
+      color: white !important;
+    }
+
+    .gameList .mySideBar .van-sidebar-item--select[data-v-6c5117cd] * {
+      color: white !important;
+    }
+
+    .gameList .mySideBar .van-sidebar-item .van-badge__wrapper>div[data-v-6c5117cd] {
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      font-size: 0.28rem !important;
+      gap: 0.05rem !important;
+    }
+
+    .gameList .mySideBar .van-sidebar-item .van-badge__wrapper>div>div[data-v-6c5117cd] {
+      width: 0.8rem !important;
+      height: 0.8rem !important;
+      background-size: 0.8rem auto !important;
+      background-position: center center !important;
+      background-repeat: no-repeat !important;
+    }
+
+    /* ===== END HORIZONTAL TABS OVERRIDE ===== */
+
+    /* ===== TAB CONTENT ALIGNMENT & SPACING ===== */
+
+    /* Container for each tab panel */
+    .tabcontent {
+      padding: 0.3rem 0.26667rem;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .tabcontent .gameListGrid__container {
+      width: 100% !important;
+      padding-left: 0 !important;
+      position: static !important;
+    }
+
+    /* ---- Game grid (Paris / London / Fishing tabs) ---- */
+    .tabcontent .minGame_container,
+    .tabcontent .onlineGamesItem__container {
+      display: grid !important;
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 0.24rem !important;
+      width: 100% !important;
+      margin-bottom: 0.32rem;
+    }
+
+    .tabcontent .minGame_container .onlineGamesItem,
+    .tabcontent .onlineGamesItem__container .item {
+      width: 100% !important;
+      height: auto !important;
+      aspect-ratio: 1 / 1;
+      border-radius: 0.16rem !important;
+      overflow: hidden;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      background: #f0f0f0;
+      box-shadow: 0 0.04rem 0.16rem rgba(0, 0, 0, 0.10);
+    }
+
+    .tabcontent .minGame_container .onlineGamesItem img,
+    .tabcontent .onlineGamesItem__container .item img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      border-radius: 0.16rem !important;
+    }
+
+    /* ---- Mini Games (Tokyop) ---- */
+    .tabcontent .minGame_container .min_game_img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      border-radius: 0.16rem !important;
+    }
+
+    /* ---- Casino / Lobby / Poker cards (otherGame grid) ---- */
+    .tabcontent .otherGame {
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 0.24rem !important;
+      width: 100% !important;
+      margin-bottom: 0.32rem !important;
+    }
+
+    .tabcontent .otherGame .lotterySlotItem__container {
+      border-radius: 0.2rem !important;
+      overflow: hidden;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      box-shadow: 0 0.05rem 0.2rem rgba(0, 0, 0, 0.18);
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      padding: 0.16rem 0.1rem !important;
+      gap: 0.1rem !important;
+    }
+
+    .tabcontent .otherGame .lotterySlotItem__container .title {
+      width: 100%;
+      padding: 0 0.1rem !important;
+    }
+
+    .tabcontent .otherGame .lotterySlotItem__container .tit {
+      font-size: 0.32rem !important;
+      font-weight: 600;
+      color: #fff !important;
+    }
+
+    .tabcontent .otherGame .lotterySlotItem__container .game_img {
+      width: 100% !important;
+      height: auto !important;
+      border-radius: 0.12rem !important;
+      object-fit: cover !important;
+    }
+
+    /* ---- Lottery (Wingo tab) ---- */
+    .tabcontent .lottery_container {
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 0.24rem !important;
+      width: 100% !important;
+      margin-bottom: 0.32rem !important;
+    }
+
+    .tabcontent .lottery_container .lotterySlotItem {
+      border-radius: 0.2rem !important;
+      overflow: hidden;
+      padding: 0.2rem 0.16rem !important;
+      background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+      box-shadow: 0 0.05rem 0.18rem rgba(0, 0, 0, 0.18);
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 0.12rem !important;
+      cursor: pointer;
+    }
+
+    .tabcontent .lottery_container .lotterySlotItem img {
+      width: 1.8rem !important;
+      height: 1.8rem !important;
+      object-fit: contain !important;
+    }
+
+    .tabcontent .lottery_container .lotterySlotItem span {
+      font-size: 0.37rem !important;
+      font-weight: 700;
+      color: #72D731 !important;
+      text-align: center;
+    }
+
+    .tabcontent .lottery_container .lotterySlotItem h4 {
+      text-align: center !important;
+      font-size: 0.26rem !important;
+      color: rgba(255, 255, 255, 0.7) !important;
+      line-height: 1.4 !important;
+    }
+
+    .tabcontent .lottery_container .lotterySlotItem h4 div {
+      font-size: 0.26rem !important;
+      color: rgba(255, 255, 255, 0.7) !important;
+    }
+
+    /* ---- View All button ---- */
+    .tabcontent .look_all {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 0.16rem !important;
+      width: 100% !important;
+      padding: 0.26rem 0 !important;
+      margin-top: 0.1rem !important;
+      border-radius: 0.53rem !important;
+      border: 0.02rem solid #72D731 !important;
+      background: transparent !important;
+      color: #72D731 !important;
+      font-size: 0.37rem !important;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .tabcontent .look_all img {
+      width: 0.48rem !important;
+      height: 0.48rem !important;
+      filter: hue-rotate(90deg) saturate(2) !important;
+    }
+
+    /* ===== END TAB CONTENT ALIGNMENT ===== */
+
+    /* ===== ACTIVITY ICON COLOR ===== */
+    svg.activity-icon circle {
+      fill: #555 !important;
+    }
+
+    svg.activity-icon path {
+      fill: #000 !important;
+    }
+
+    /* ===== END ACTIVITY ICON COLOR ===== */
+
+    /* ===== PROMOTION / WALLET / ACCOUNT ICON COLOR ===== */
+    svg.promotion-icon path {
+      fill: #000 !important;
+    }
+
+    svg.wallet-icon circle {
+      fill: #555 !important;
+    }
+
+    svg.wallet-icon path {
+      stroke: #000 !important;
+      fill: none !important;
+    }
+
+    svg.account-icon circle {
+      fill: #555 !important;
+    }
+
+    svg.account-icon path {
+      fill: #000 !important;
+    }
+
+    /* ===== END PROMOTION / WALLET / ACCOUNT ICON COLOR ===== */
+
+    /* ===== PROMOTION BG COLOR ===== */
+    .tabbar__container-item:nth-of-type(3) .promotionBg,
+    .tabbar__container-item .promotionBg {
+      background-color: #72D731 !important;
+      background-image: none !important;
+    }
+
+    /* ===== END PROMOTION BG COLOR ===== */
+
+    /* ===== ACTIVE HOME ICON COLOR ===== */
+    .tabbar__container-item.active svg circle {
+      fill: #4a9e1f !important;
+    }
+
+    .tabbar__container-item.active svg path {
+      fill: #4a9e1f !important;
+    }
+
+    .tabbar__container-item.active svg.wallet path {
+      fill: none !important;
+      stroke: #4a9e1f !important;
+    }
+
+    .tabbar__container-item.active span {
+      color: #fff !important;
+    }
+
+    /* ===== END ACTIVE HOME ICON COLOR ===== */
   </style>
 </head>
 
 <body style="font-size: 12px">
   <%- include('../includes/depositPopup.ejs') %>
 
-  <!-- <div class="van-overlay" style="z-index: 2003; --f13b4d11-currentFontFamily: 'Roboto', 'Inter', sans-serif;"></div> -->
+    <!-- <div class="van-overlay" style="z-index: 2003; --f13b4d11-currentFontFamily: 'Roboto', 'Inter', sans-serif;"></div> -->
 
 
 
 
 
 
-      <div id="app" data-v-app="">
-        <div class="start-page" style="
+    <div id="app" data-v-app="">
+      <div class="start-page" style="
           --f13b4d11-currentFontFamily: &quot;Roboto&quot;, &quot;Inter&quot;,
             sans-serif;
           display: none;
         " id="preloader-overlay">
-          <img style="margin: -200px 0px 0px 0px; height: 300px"
-            src="<%= locals.SITE_LOGO || '/images2/logo2.png' %>" />
-          <div style="height: 50px"></div>
-          <h1 style="font-size: 20px; font-weight: bold">
-            <b>Withdraw fast, safe and stable</b>
-          </h1>
-          <div style="height: 50px"></div>
-          <img id="preloader-image" src="./91club_files/h5setting_20230714005938hfia.png" />
-          <span style="font-size: 40px; font-weight: bold; margin-top: -125px"></span>
-        </div>
+        <img style="margin: -200px 0px 0px 0px; height: 300px" src="<%= locals.SITE_LOGO || '/images2/logo2.png' %>" />
+        <div style="height: 50px"></div>
+        <h1 style="font-size: 20px; font-weight: bold">
+          <b>Withdraw fast, safe and stable</b>
+        </h1>
+        <div style="height: 50px"></div>
+        <img id="preloader-image" src="./91club_files/h5setting_20230714005938hfia.png" />
+        <span style="font-size: 40px; font-weight: bold; margin-top: -125px"></span>
+      </div>
 
-        <!----><!---->
-        <div data-v-94f8731b="" class="content" style="--36a344b0: &#39;Roboto&#39;, &#39;Inter&#39;, sans-serif;">
-          <div data-v-4c21fa9e="" data-v-94f8731b="" class="navbar">
-            <div data-v-4c21fa9e="" class="navbar-fixed" style="background: #5DEB7D">
-              <div data-v-4c21fa9e="" class="navbar__content">
-                <div data-v-4c21fa9e="" class="navbar__content-left">
-                  <img data-v-94f8731b="" onclick="window.location.href=&#39;/#/&#39;;"
-                    src="<%= locals.SITE_LOGO || `/images2/logo2.png` %>" alt="" />
-                </div>
-                <div data-v-4c21fa9e="" class="navbar__content-center">
-                  <!---->
-                  <div data-v-4c21fa9e="" class="navbar__content-title"></div>
-                </div>
-                <div data-v-4c21fa9e="" class="navbar__content-right">
-                  <div data-v-94f8731b="" class="content__right">
-                    <!----><!---->
-                    <% if (app_status == 1) { %>
-                    <img data-v-94f8731b=""
-                      onclick="window.location.href='<%= app %>';"
+      <!----><!---->
+      <div data-v-94f8731b="" class="content" style="--36a344b0: &#39;Roboto&#39;, &#39;Inter&#39;, sans-serif;">
+        <div data-v-4c21fa9e="" data-v-94f8731b="" class="navbar">
+          <div data-v-4c21fa9e="" class="navbar-fixed" style="background: #72D731">
+            <div data-v-4c21fa9e="" class="navbar__content">
+              <div data-v-4c21fa9e="" class="navbar__content-left">
+                <img data-v-94f8731b="" onclick="window.location.href=&#39;/#/&#39;;"
+                  src="<%= locals.SITE_LOGO || `/images2/logo2.png` %>" alt="" />
+              </div>
+              <div data-v-4c21fa9e="" class="navbar__content-center">
+                <!---->
+                <div data-v-4c21fa9e="" class="navbar__content-title"></div>
+              </div>
+              <div data-v-4c21fa9e="" class="navbar__content-right">
+                <div data-v-94f8731b="" class="content__right">
+                  <!----><!---->
+                  <% if (app_status==1) { %>
+                    <img data-v-94f8731b="" onclick="window.location.href='<%= app %>';"
                       src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAm0lEQVR4nO2T3QnDMAyEtURLOtYdeKNmweYhq9R6UTHkpwl2ILVaCM2BQEZwn33IIn+hSLYRiEpaqtRH4O4HwGw+QcinG0AH09L5BMgZ0UIWwkXJx3otNbNFiwJ6C6GRGoiUAHvMsxCgN+BWnO0134KYl/kEAa5KdkMc3XufZlXm2Zd43bwIwRfMR6VI3GI5njT3O/l5/R4gR9ULlt5dJEg8JQ0AAAAASUVORK5CYII=" />
                     <% } %>
-                  </div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+
+
+        <!-- COMMENTED OUT: HOME SLIDER SECTION
           <div data-v-f1a9c278="" data-v-94f8731b=""
             class="swiper swiper-initialized swiper-horizontal swiper-pointer-events my-swipe"
             style="border-radius: 0.26667rem">
             <div class="slideshow-container" id="homeSliderContainer">
-              <!-- Banners will be loaded dynamically here -->
+              Banners will be loaded dynamically here
             </div>
             <br />
 
             <div style="text-align: center; display: none" id="homeSliderDots">
-              <!-- Dots will be loaded dynamically here -->
+              Dots will be loaded dynamically here
               <style>
                 * {
                   box-sizing: border-box;
@@ -8080,14 +8382,12 @@
                   vertical-align: middle;
                 }
 
-                /* Slideshow container */
                 .slideshow-container {
                   max-width: 1000px;
                   position: relative;
                   margin: auto;
                 }
 
-                /* Caption text */
                 .text {
                   color: #f2f2f2;
                   font-size: 15px;
@@ -8098,7 +8398,6 @@
                   text-align: center;
                 }
 
-                /* Number text (1/3 etc) */
                 .numbertext {
                   color: #f2f2f2;
                   font-size: 12px;
@@ -8107,7 +8406,6 @@
                   top: 0;
                 }
 
-                /* The dots/bullets/indicators */
                 .dot {
                   height: 10px;
                   width: 10px;
@@ -8122,7 +8420,6 @@
                   background-color: #717171;
                 }
 
-                /* Fading animation */
                 .fade {
                   -webkit-animation-name: fade;
                   -webkit-animation-duration: 1.5s;
@@ -8148,7 +8445,6 @@
                   }
                 }
 
-                /* On smaller screens, decrease text size */
                 @media only screen and (max-width: 300px) {
                   .text {
                     font-size: 11px;
@@ -8181,7 +8477,6 @@
                         dotsContainer.style.display = 'block';
                       }
                       slideIndex = 0;
-                      // Start slideshow only after banners are loaded
                       showSlides();
                     }
                   } catch (e) { 
@@ -8206,7 +8501,7 @@
                   }
                   if (slides[slideIndex - 1]) slides[slideIndex - 1].style.display = "block";
                   if (dots[slideIndex - 1]) dots[slideIndex - 1].className += " active";
-                  setTimeout(showSlides, 3000); // Change image every 3 seconds
+                  setTimeout(showSlides, 3000);
                 }
 
                 window.addEventListener('load', async () => {
@@ -8214,130 +8509,188 @@
                 });
               </script>
             </div>
-            <!----><!----><!---->
           </div>
-          <div data-v-b4633b52="" data-v-94f8731b="" class="noticeBar__container">
-            <svg data-v-b4633b52="" width="32" height="32" viewBox="0 0 32 32" fill="none"
+          END COMMENTED OUT: HOME SLIDER SECTION -->
+
+        <div style="background: #72D731; padding: 10px 0 ; border-radius: 10px;">
+          <div data-v-47200dd8="" class="userInfo__container-content">
+            <div data-v-47200dd8="" class="userInfo__container-content-wrapper">
+              <div onclick="location.href='/settings/change_avatar'" data-v-47200dd8=""
+                class="userInfo__container-content__avatar"><img data-v-47200dd8="" id="avatar_display"
+                  src="/assets/png/1-a6662edb.png" class="userAvatar"></div>
+              <div data-v-47200dd8="" class="userInfo__container-content__name">
+                <div data-v-47200dd8="" class="userInfo__container-content-nickname">
+                  <h3 data-v-47200dd8="" id="user_member">MEMBERNNGTGRM7</h3>
+                  <div data-v-47200dd8="" class="n0"></div><img data-v-47200dd8="" class="editPencil"
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAAUVBMVEUAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////8IN+deAAAAGnRSTlMAZjN/DllfHwa/Jm8sPxnvn0oT38+PTjhAr4Ga/9wAAAE+SURBVFjD7dfBboMwEEVRG8YGEwiBBJL6/z+0JU31FAQRnpcuWnE33h15xmwwe/+9Muu8dV3FMo195Cjq6C3qRO1k9iknrAOJdSCRDqSSc9A11SnsSsfUh1+DukSo9GtS6paua1Cx3TjIq9nqzU4eD9MxrkDZdieG6RTlaHC+al5sqU9w4uX+cG7JcSlO/N5S7xegKsmJ7X0TlfJCcB77NrWdJxsdNCxKdZqDNZnepX1DcJA3U3LjHNzJVE7poNyA0jho+Hmk4uY0Djo3BmkcdCpoBxTpoFCQDl5vQ55zUOAc1L7JEc5BDeegkXNQzjnog3NQ4BzUvskRzkEN56CRc1BOOoA4B3nOQUI6aOAcJCGi8+WUezHKfGgn4eAzMXu/VllnqiqZQc4qc/NfMnX982R6aDZbppzN12bv7/YJ4RFYNVkqAPgAAAAASUVORK5CYII="
+                    style="display: none;">
+                </div>
+                <div data-v-47200dd8="" class="userInfo__container-content-uid"><span data-v-47200dd8="">UID</span><span
+                    data-v-47200dd8="">|</span>
+                  <span data-v-47200dd8="" id="UID">2025514</span><img data-v-47200dd8=""
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYBAMAAAASWSDLAAAAG1BMVEUAAAD////////////////////////////////rTT7CAAAACHRSTlMAf2/fzyAQv1i/o5gAAABWSURBVBjTY0AHSYJgoApis1p0gEFzApDD1AKR8VAAchgbIaolBIA6xNvBOkAchA4gB6EDyEHooBOn0EMBweloDkCSUUP2ALrX2GBeCADJB0Fk1NCDCQANHCEHp1BAOwAAAABJRU5ErkJggg=="
+                    onclick="copyToClipboard()">
+                </div>
+                <div data-v-47200dd8="" class="userInfo__container-content-logintime"><span data-v-47200dd8="">Last
+                    login:&nbsp;</span><span data-v-47200dd8="" id="LT">2024-04-28
+                    17:57:07</span></div>
+                <div data-v-47200dd8="" class="userInfo__container-content-logintime" style="display: none;">
+                  <span data-v-47200dd8="">&nbsp;</span>
+                </div>
+              </div>
+            </div>
+            <div data-v-47200dd8="" class="userInfo__container-content-right" style="display: none;">
+              <h5 data-v-47200dd8="">Change avatar</h5>
+            </div>
+          </div>
+          <div data-v-47200dd8="" class="userInfo__container-setting-center" style="display: none;">
+            <div data-v-47200dd8="" class="userInfo__container-setting-center-header">
+              <div data-v-47200dd8="" class="userInfo__container-content__avatar"><img data-v-47200dd8=""
+                  data-img="/Tclottery/assets/png/4-12a0d0c5.png" class="ar-lazyload"
+                  data-origin="/Tclottery/undefined"></div>
+              <div data-v-47200dd8="" class="userInfo__container-setting-center-header-edit"><span
+                  data-v-47200dd8="">Change avatar</span><i data-v-47200dd8=""
+                  class="van-badge__wrapper van-icon van-icon-arrow"
+                  style="color: rgb(136, 136, 136);"><!----><!----><!----></i></div>
+            </div>
+            <div data-v-47200dd8="" class="userInfo__container-setting-center-content ar-1px-b">
+              <h5 data-v-47200dd8="">Nickname</h5>
+              <div data-v-47200dd8=""><span data-v-47200dd8="">MemberNNGTGRM7</span><i data-v-47200dd8=""
+                  class="van-badge__wrapper van-icon van-icon-arrow"
+                  style="color: rgb(136, 136, 136);"><!----><!----><!----></i></div>
+            </div>
+            <div data-v-47200dd8="" class="userInfo__container-setting-center-content">
+              <h5 data-v-47200dd8="">UID</h5>
+              <div data-v-47200dd8=""><span data-v-47200dd8="">2025514</span><img data-v-47200dd8=""
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAiCAYAAAA6RwvCAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFrSURBVHgB7ZftbYJQFIbfg23/lhEYgQH6gRs4gKTtBNYRnKB2An/QAewEXpsOQDdgBH+3ldMjBBFMCthb0OQ+iXg9OYZH77nJC2AoQnWaeObZuFgPEJMDLcSK/HeFJiIi4eCcF7J0oBWe0vBtXF/k5XYmb/fyCsH8ir9jy23v5M42mPrkK7UpntX4opMa0Zj8pYIGOLiRK41Aa1cWalOz0A2r5MpkZ4WuRPYobE06mPFI/jY3L8JNJon4SeZlhaYwTbI5qC2Sng5yCrV8nF0cArHHgdevktluDQfXA2g/oplM/FjVsjMjdNgvrmdyWdVxNMNqRMoYkTJGpIwRKWNEytRJaDqwObjy0qWEIZKomGCFbYtIpuktSrVIosEcrYqwRENCmH/mD3xb092WdkREgobL/m8tR3hqiJvnUY3kItwL8X9EVQ1bkSTcMj9DPxG+aFLVtPfIKYnbk4dkDzqwrAifmNOD6nTbT5MfbqJep9IQex4AAAAASUVORK5CYII=">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div data-v-b4633b52="" data-v-94f8731b="" class="noticeBar__container">
+          <svg data-v-b4633b52="" width="32" height="32" viewBox="0 0 32 32" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_589_37747)">
+              <path
+                d="M15.9993 4V28C11.3327 28 7.86502 21.8927 7.86502 21.8927H3.99935C3.26297 21.8927 2.66602 21.2958 2.66602 20.5594V11.3405C2.66602 10.6041 3.26297 10.0072 3.99935 10.0072H7.86502C7.86502 10.0072 11.3327 4 15.9993 4Z"
+                fill="url(#paint0_linear_589_37747)"></path>
+              <path
+                d="M21.334 10C21.7495 10.371 22.1261 10.7865 22.4567 11.2392C23.4265 12.5669 24.0007 14.2149 24.0007 16C24.0007 17.7697 23.4363 19.4045 22.4819 20.7262C22.1452 21.1923 21.7601 21.6195 21.334 22"
+                stroke="url(#paint1_linear_589_37747)" stroke-width="1.8" stroke-linecap="round"
+                stroke-linejoin="round">
+              </path>
+              <path
+                d="M22.8242 27.4571C26.7227 25.1302 29.3336 20.87 29.3336 16C29.3336 11.2057 26.8031 7.00234 23.005 4.65271"
+                stroke="url(#paint2_linear_589_37747)" stroke-width="1.8" stroke-linecap="round"></path>
+            </g>
+            <defs>
+              <lineargradient id="paint0_linear_589_37747" x1="9.33268" y1="4" x2="9.33268" y2="28"
+                gradientUnits="userSpaceOnUse">
+                <stop stop-color="#72D731"></stop>
+                <stop offset="0.74876" stop-color="#72D731"></stop>
+              </lineargradient>
+              <lineargradient id="paint1_linear_589_37747" x1="22.6673" y1="10" x2="22.6673" y2="22"
+                gradientUnits="userSpaceOnUse">
+                <stop stop-color="#72D731"></stop>
+                <stop offset="0.74876" stop-color="#72D731"></stop>
+              </lineargradient>
+              <lineargradient id="paint2_linear_589_37747" x1="26.0789" y1="4.65271" x2="26.0789" y2="27.4571"
+                gradientUnits="userSpaceOnUse">
+                <stop stop-color="#72D731"></stop>
+                <stop offset="0.74876" stop-color="#72D731"></stop>
+              </lineargradient>
+              <clippath id="clip0_589_37747">
+                <rect width="32" height="32" fill="white"></rect>
+              </clippath>
+            </defs>
+          </svg>
+          <div data-v-b4633b52="" class="noticeBar__container-body">
+            <div data-v-b4633b52="" class="noticeBar__container-body-text" style="font-weight: 500">
+              If your deposit not receive, please send it directly to <%= locals.SITE_NAME || "Starworldz" %>
+                games Self-service Center (#) wait till already get process, do
+                not send to another person and trust anyone claiming to represent
+                <%= locals.SITE_NAME || "Starworldz" %> games. Always verify our website authenticity through the
+                  official community channels. Your safety and trust is our
+                  priority.
+            </div>
+          </div>
+          <button data-v-b4633b52="">
+            <svg data-v-b4633b52="" width="24" height="24" viewBox="0 0 24 24" fill="none"
               xmlns="http://www.w3.org/2000/svg">
-              <g clip-path="url(#clip0_589_37747)">
+              <g clip-path="url(#clip0_589_37755)">
+                <path d="M24 0H0V24H24V0Z" fill="white" fill-opacity="0.01"></path>
                 <path
-                  d="M15.9993 4V28C11.3327 28 7.86502 21.8927 7.86502 21.8927H3.99935C3.26297 21.8927 2.66602 21.2958 2.66602 20.5594V11.3405C2.66602 10.6041 3.26297 10.0072 3.99935 10.0072H7.86502C7.86502 10.0072 11.3327 4 15.9993 4Z"
-                  fill="url(#paint0_linear_589_37747)"></path>
-                <path
-                  d="M21.334 10C21.7495 10.371 22.1261 10.7865 22.4567 11.2392C23.4265 12.5669 24.0007 14.2149 24.0007 16C24.0007 17.7697 23.4363 19.4045 22.4819 20.7262C22.1452 21.1923 21.7601 21.6195 21.334 22"
-                  stroke="url(#paint1_linear_589_37747)" stroke-width="1.8" stroke-linecap="round"
-                  stroke-linejoin="round">
-                </path>
-                <path
-                  d="M22.8242 27.4571C26.7227 25.1302 29.3336 20.87 29.3336 16C29.3336 11.2057 26.8031 7.00234 23.005 4.65271"
-                  stroke="url(#paint2_linear_589_37747)" stroke-width="1.8" stroke-linecap="round"></path>
+                  d="M12 22C16.1173 22 19.4999 18.7371 19.4999 14.5491C19.4999 13.5209 19.4476 12.4187 18.8778 10.7058C18.3079 8.9929 18.1931 8.7718 17.5905 7.71395C17.333 9.8727 15.9555 10.7724 15.6055 11.0413C15.6055 10.7615 14.7722 7.66795 13.5088 5.81695C12.2685 4 10.5817 2.80796 9.59265 2C9.59265 3.53489 9.16095 5.81695 8.5427 6.9797C7.92445 8.14245 7.80835 8.1848 7.0361 9.0501C6.2639 9.9154 5.90945 10.1826 5.2637 11.2325C4.61798 12.2825 4.5 13.6809 4.5 14.7091C4.5 18.8971 7.88265 22 12 22Z"
+                  fill="white"></path>
               </g>
               <defs>
-                <lineargradient id="paint0_linear_589_37747" x1="9.33268" y1="4" x2="9.33268" y2="28"
-                  gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#3AED85"></stop>
-                  <stop offset="0.74876" stop-color="#3AED85"></stop>
-                </lineargradient>
-                <lineargradient id="paint1_linear_589_37747" x1="22.6673" y1="10" x2="22.6673" y2="22"
-                  gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#3AED85"></stop>
-                  <stop offset="0.74876" stop-color="#3AED85"></stop>
-                </lineargradient>
-                <lineargradient id="paint2_linear_589_37747" x1="26.0789" y1="4.65271" x2="26.0789" y2="27.4571"
-                  gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#3AED85"></stop>
-                  <stop offset="0.74876" stop-color="#3AED85"></stop>
-                </lineargradient>
-                <clippath id="clip0_589_37747">
-                  <rect width="32" height="32" fill="white"></rect>
+                <clippath id="clip0_589_37755">
+                  <rect width="24" height="24" fill="white"></rect>
                 </clippath>
               </defs>
             </svg>
-            <div data-v-b4633b52="" class="noticeBar__container-body">
-              <div data-v-b4633b52="" class="noticeBar__container-body-text" style="font-weight: 500">
-                If your deposit not receive, please send it directly to <%= locals.SITE_NAME || "Starworldz" %>
-                  games Self-service Center (#) wait till already get process, do
-                  not send to another person and trust anyone claiming to represent
-                  <%= locals.SITE_NAME || "Starworldz" %> games. Always verify our website authenticity through the
-                    official community channels. Your safety and trust is our
-                    priority.
-              </div>
-            </div>
-            <button data-v-b4633b52="">
-              <svg data-v-b4633b52="" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <g clip-path="url(#clip0_589_37755)">
-                  <path d="M24 0H0V24H24V0Z" fill="white" fill-opacity="0.01"></path>
-                  <path
-                    d="M12 22C16.1173 22 19.4999 18.7371 19.4999 14.5491C19.4999 13.5209 19.4476 12.4187 18.8778 10.7058C18.3079 8.9929 18.1931 8.7718 17.5905 7.71395C17.333 9.8727 15.9555 10.7724 15.6055 11.0413C15.6055 10.7615 14.7722 7.66795 13.5088 5.81695C12.2685 4 10.5817 2.80796 9.59265 2C9.59265 3.53489 9.16095 5.81695 8.5427 6.9797C7.92445 8.14245 7.80835 8.1848 7.0361 9.0501C6.2639 9.9154 5.90945 10.1826 5.2637 11.2325C4.61798 12.2825 4.5 13.6809 4.5 14.7091C4.5 18.8971 7.88265 22 12 22Z"
-                    fill="white"></path>
-                </g>
-                <defs>
-                  <clippath id="clip0_589_37755">
-                    <rect width="24" height="24" fill="white"></rect>
-                  </clippath>
-                </defs>
-              </svg>
-              Detail
-            </button>
-          </div>
+            Detail
+          </button>
+        </div>
 
-          <div data-v-6c5117cd="" data-v-94f8731b="" class="gameList">
-            <div data-v-6c5117cd="" role="tablist" class="van-sidebar mySideBar">
-              <div data-v-6c5117cd="" role="tab" class="van-sidebar-item van-sidebar-item--select"
-                onclick="currentButton(0)" tabindex="0" aria-selected="true" id="gameType-lottery">
-                <div class="van-badge__wrapper van-sidebar-item__text">
-                  <div data-v-6c5117cd="" onclick="openCity(event, &#39;wingo&#39;)" id="defaultOpen"
-                    class="ab wh iteColor active">
-                    <div data-v-6c5117cd="" class="tablinks" style="
+
+        <div data-v-6c5117cd="" data-v-94f8731b="" class="gameList">
+          <div data-v-6c5117cd="" role="tablist" class="van-sidebar mySideBar">
+            <div data-v-6c5117cd="" role="tab" class="van-sidebar-item van-sidebar-item--select"
+              onclick="currentButton(0)" tabindex="0" aria-selected="true" id="gameType-lottery">
+              <div class="van-badge__wrapper van-sidebar-item__text">
+                <div data-v-6c5117cd="" onclick="openCity(event, &#39;wingo&#39;)" id="defaultOpen"
+                  class="ab wh iteColor active">
+                  <div data-v-6c5117cd="" class="tablinks" style="
                       background-image: url(&quot;https://ossimg.91admin123admin.com/91club/gamecategory/gamecategory_20230714010214yxxq.png&quot;);
                     "></div>
-                    Lottery
-                  </div>
-                  <!---->
+                  Lottery
                 </div>
+                <!---->
               </div>
+            </div>
 
-              <div data-v-6c5117cd="" role="tab" class="van-sidebar-item" onclick="currentButton(1)" tabindex="0"
-                aria-selected="false" id="gameType-flash">
-                <div class="van-badge__wrapper van-sidebar-item__text">
-                  <div data-v-6c5117cd="" onclick="openCity(event, &#39;Tokyop&#39;)" class="ab">
-                    <div class="tablinks" data-v-6c5117cd="" style="
+            <div data-v-6c5117cd="" role="tab" class="van-sidebar-item" onclick="currentButton(1)" tabindex="0"
+              aria-selected="false" id="gameType-flash">
+              <div class="van-badge__wrapper van-sidebar-item__text">
+                <div data-v-6c5117cd="" onclick="openCity(event, &#39;Tokyop&#39;)" class="ab">
+                  <div class="tablinks" data-v-6c5117cd="" style="
                       background-image: url(&quot;https://ossimg.91admin123admin.com/91club/gamecategory/gamecategory_20230714010207qmfa.png&quot;);
                     "></div>
-                    Mini games
-                  </div>
-                  <!---->
+                  Mini games
                 </div>
+                <!---->
               </div>
+            </div>
 
-              <div data-v-6c5117cd="" role="tab" class="van-sidebar-item" onclick="currentButton(2)" tabindex="0"
-                aria-selected="false" id="gameType-popular">
-                <div class="van-badge__wrapper van-sidebar-item__text">
-                  <div class="tablinks" onclick="openCity(event, &#39;Tokyo&#39;)" data-v-6c5117cd="">
-                    <div data-v-6c5117cd="" style="
+            <div data-v-6c5117cd="" role="tab" class="van-sidebar-item" onclick="currentButton(2)" tabindex="0"
+              aria-selected="false" id="gameType-popular">
+              <div class="van-badge__wrapper van-sidebar-item__text">
+                <div class="tablinks" onclick="openCity(event, &#39;Tokyo&#39;)" data-v-6c5117cd="">
+                  <div data-v-6c5117cd="" style="
                       background-image: url(&quot;https://ossimg.91admin123admin.com/91club/gamecategory/gamecategory_20230714010159ynyu.png&quot;);
                     "></div>
-                    Popular
-                  </div>
-                  <!---->
+                  Popular
                 </div>
+                <!---->
               </div>
+            </div>
 
-              <div data-v-6c5117cd="" role="tab" class="van-sidebar-item" onclick="currentButton(3)" tabindex="3"
-                aria-selected="false" id="gameType-slot">
-                <div class="van-badge__wrapper van-sidebar-item__text">
-                  <div class="tablinks" onclick="openCity(event, &#39;London&#39;)" data-v-6c5117cd="">
-                    <div data-v-6c5117cd="" style="
+            <div data-v-6c5117cd="" role="tab" class="van-sidebar-item" onclick="currentButton(3)" tabindex="3"
+              aria-selected="false" id="gameType-slot">
+              <div class="van-badge__wrapper van-sidebar-item__text">
+                <div class="tablinks" onclick="openCity(event, &#39;London&#39;)" data-v-6c5117cd="">
+                  <div data-v-6c5117cd="" style="
                       background-image: url(&quot;https://ossimg.91admin123admin.com/91club/gamecategory/gamecategory_20230714010153317n.png&quot;);
                     "></div>
-                    Slots
-                  </div>
-                  <!---->
+                  Slots
                 </div>
+                <!---->
               </div>
+            </div>
 
-              <!-- <div
+            <!-- <div
               data-v-6c5117cd=""
               role="tab"
               class="van-sidebar-item"
@@ -8363,33 +8716,33 @@
               </div>
             </div> -->
 
-              <div data-v-6c5117cd="" role="tab" class="van-sidebar-item" onclick="currentButton(4)" tabindex="0"
-                aria-selected="false" id="gameType-video">
-                <div class="van-badge__wrapper van-sidebar-item__text">
-                  <div class="tablinks" onclick="openCity(event, &#39;lottery2&#39;)" data-v-6c5117cd="">
-                    <div data-v-6c5117cd="" style="
+            <div data-v-6c5117cd="" role="tab" class="van-sidebar-item" onclick="currentButton(4)" tabindex="0"
+              aria-selected="false" id="gameType-video">
+              <div class="van-badge__wrapper van-sidebar-item__text">
+                <div class="tablinks" onclick="openCity(event, &#39;lottery2&#39;)" data-v-6c5117cd="">
+                  <div data-v-6c5117cd="" style="
                       background-image: url(&quot;https://ossimg.91admin123admin.com/91club/gamecategory/gamecategory_20230714010141v76m.png&quot;);
                     "></div>
-                    Casino
-                  </div>
-                  <!---->
+                  Casino
                 </div>
+                <!---->
               </div>
+            </div>
 
-              <div data-v-6c5117cd="" role="tab" class="van-sidebar-item" onclick="currentButton(5)" tabindex="0"
-                aria-selected="false" id="gameType-sport">
-                <div class="van-badge__wrapper van-sidebar-item__text">
-                  <div class="tablinks" onclick="openCity(event, &#39;lottery0&#39;)" data-v-6c5117cd="">
-                    <div data-v-6c5117cd="" style="
+            <div data-v-6c5117cd="" role="tab" class="van-sidebar-item" onclick="currentButton(5)" tabindex="0"
+              aria-selected="false" id="gameType-sport">
+              <div class="van-badge__wrapper van-sidebar-item__text">
+                <div class="tablinks" onclick="openCity(event, &#39;lottery0&#39;)" data-v-6c5117cd="">
+                  <div data-v-6c5117cd="" style="
                       background-image: url(&quot;https://ossimg.91admin123admin.com/91club/gamecategory/gamecategory_20230714010123ddo4.png&quot;);
                     "></div>
-                    Lobby
-                  </div>
-                  <!---->
+                  Lobby
                 </div>
+                <!---->
               </div>
+            </div>
 
-              <!-- <div
+            <!-- <div
               data-v-6c5117cd=""
               role="tab"
               class="van-sidebar-item"
@@ -8414,625 +8767,624 @@
                 </div>
               </div>
             </div> -->
-            </div>
+          </div>
 
-            <div id="Paris" class="tabcontent" style="display: none">
-              <div data-v-df3cc798="" data-v-c9ec78ed="" class="gameListGrid__container" style="">
-                <div style="
+          <div id="Paris" class="tabcontent" style="display: none">
+            <div data-v-df3cc798="" data-v-c9ec78ed="" class="gameListGrid__container" style="">
+              <div style="
                   grid-template-columns: repeat(3, 1fr);
                   grid-gap: 0 !important;
                 " data-v-860d7030="" data-v-df3cc798="" class="minGame_container">
-                  <div style="
+                <div style="
                     width: 2.21333rem !important;
                     height: 2.21333rem !important;
                   " data-v-860d7030="" onclick="openGameById(1)" class="onlineGamesItem">
-                    <img style="width: 2rem !important; height: 2rem !important" data-v-860d7030="" class="fish_img"
-                      data-origin="" src="./jilliImages/1.png" />
-                  </div>
-                  <div style="
+                  <img style="width: 2rem !important; height: 2rem !important" data-v-860d7030="" class="fish_img"
+                    data-origin="" src="./jilliImages/1.png" />
+                </div>
+                <div style="
                     width: 2.21333rem !important;
                     height: 2.21333rem !important;
                   " data-v-860d7030="" onclick="openGameById(20)" class="onlineGamesItem">
-                    <img style="width: 2rem !important; height: 2rem !important" data-v-860d7030="" class="fish_img"
-                      data-origin="" src="./jilliImages/20.png" />
-                  </div>
-                  <div style="
+                  <img style="width: 2rem !important; height: 2rem !important" data-v-860d7030="" class="fish_img"
+                    data-origin="" src="./jilliImages/20.png" />
+                </div>
+                <div style="
                     width: 2.21333rem !important;
                     height: 2.21333rem !important;
                   " data-v-860d7030="" onclick="openGameById(32)" class="onlineGamesItem">
-                    <img style="width: 2rem !important; height: 2rem !important" data-v-860d7030="" class="fish_img"
-                      data-origin="" src="./jilliImages/32.png" />
-                  </div>
-                  <div style="
+                  <img style="width: 2rem !important; height: 2rem !important" data-v-860d7030="" class="fish_img"
+                    data-origin="" src="./jilliImages/32.png" />
+                </div>
+                <div style="
                     width: 2.21333rem !important;
                     height: 2.21333rem !important;
                   " data-v-860d7030="" onclick="openGameById(42)" class="onlineGamesItem">
-                    <img style="width: 2rem !important; height: 2rem !important" data-v-860d7030="" class="fish_img"
-                      data-origin="" src="./jilliImages/42.png" />
-                  </div>
-                  <div style="
+                  <img style="width: 2rem !important; height: 2rem !important" data-v-860d7030="" class="fish_img"
+                    data-origin="" src="./jilliImages/42.png" />
+                </div>
+                <div style="
                     width: 2.21333rem !important;
                     height: 2.21333rem !important;
                   " data-v-860d7030="" onclick="openGameById(60)" class="onlineGamesItem">
-                    <img style="width: 2rem !important; height: 2rem !important" data-v-860d7030="" class="fish_img"
-                      data-origin="" src="./jilliImages/60.png" />
-                  </div>
-                  <div style="
+                  <img style="width: 2rem !important; height: 2rem !important" data-v-860d7030="" class="fish_img"
+                    data-origin="" src="./jilliImages/60.png" />
+                </div>
+                <div style="
                     width: 2.21333rem !important;
                     height: 2.21333rem !important;
                   " data-v-860d7030="" onclick="openGameById(71)" class="onlineGamesItem">
-                    <img style="width: 2rem !important; height: 2rem !important" data-v-860d7030="" class="fish_img"
-                      data-origin="" src="./jilliImages/71.png" />
-                  </div>
-                  <div style="
+                  <img style="width: 2rem !important; height: 2rem !important" data-v-860d7030="" class="fish_img"
+                    data-origin="" src="./jilliImages/71.png" />
+                </div>
+                <div style="
                     width: 2.21333rem !important;
                     height: 2.21333rem !important;
                   " data-v-860d7030="" onclick="openGameById(81)" class="onlineGamesItem">
-                    <img style="width: 2rem !important; height: 2rem !important" data-v-860d7030="" class="fish_img"
-                      data-origin="" src="./jilliImages/82.png" />
-                  </div>
-                  <div style="
+                  <img style="width: 2rem !important; height: 2rem !important" data-v-860d7030="" class="fish_img"
+                    data-origin="" src="./jilliImages/82.png" />
+                </div>
+                <div style="
                     width: 2.21333rem !important;
                     height: 2.21333rem !important;
                   " data-v-860d7030="" onclick="openGameById(119)" class="onlineGamesItem">
-                    <img style="width: 2rem !important; height: 2rem !important" data-v-860d7030="" class="fish_img"
-                      data-origin="" src="./jilliImages/119.png" />
-                  </div>
-                  <div style="
+                  <img style="width: 2rem !important; height: 2rem !important" data-v-860d7030="" class="fish_img"
+                    data-origin="" src="./jilliImages/119.png" />
+                </div>
+                <div style="
                     width: 2.21333rem !important;
                     height: 2.21333rem !important;
                   " data-v-860d7030="" onclick="openGameById(212)" class="onlineGamesItem">
-                    <img style="width: 2rem !important; height: 2rem !important" data-v-860d7030="" class="fish_img"
-                      data-origin="" src="./jilliImages/212.png" />
-                  </div>
-                  <div style="
+                  <img style="width: 2rem !important; height: 2rem !important" data-v-860d7030="" class="fish_img"
+                    data-origin="" src="./jilliImages/212.png" />
+                </div>
+                <div style="
                     width: 2.21333rem !important;
                     height: 2.21333rem !important;
                   " data-v-860d7030="" onclick="openGameById(289)" class="onlineGamesItem">
-                    <img style="width: 2rem !important; height: 2rem !important" data-v-860d7030="" class="fish_img"
-                      data-origin="" src="./jilliImages/289.png" />
-                  </div>
-                  <div style="
+                  <img style="width: 2rem !important; height: 2rem !important" data-v-860d7030="" class="fish_img"
+                    data-origin="" src="./jilliImages/289.png" />
+                </div>
+                <div style="
                     width: 2.21333rem !important;
                     height: 2.21333rem !important;
                   " data-v-860d7030="" onclick="openGameById(74)" class="onlineGamesItem">
-                    <img style="width: 2rem !important; height: 2rem !important" data-v-860d7030="" class="fish_img"
-                      data-origin="" src="./jilliImages/74.png" />
-                  </div>
+                  <img style="width: 2rem !important; height: 2rem !important" data-v-860d7030="" class="fish_img"
+                    data-origin="" src="./jilliImages/74.png" />
                 </div>
-
-                <button onclick="window.location.href=&#39;/slotjili&#39;" button data-v-df3cc798="" class="look_all">
-                  <img data-v-df3cc798=""
-                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwBAMAAAClLOS0AAAAIVBMVEUAAAD5Wlr3WFj6WVn6WFj5V1f6WVn5WVn5WVn4V1f5WVnpXZn/AAAACnRSTlMA72C/v1DP329wWe0twgAAAKNJREFUOMtjoA/gMFwFAkkgdrMUiLlMASyhtQoCGhgYmKDMFWCJLCivgIGBDcpcDpZYBQULGBi4YOwRLlEF5SQwMLBDmcvAErOgPGBYc0KZi8ASTI4g9kIjEFsFHB/CCgyDF7AaIpwbjHAuIvkEIJLPUrCEF5RnwMDAAmUuBktIQXkCDAyMUObCgY9BGkvg9Dn+sIpCJB9WbMnHFCn5BDDQBQAAbjlnhYlIhpEAAAAASUVORK5CYII="
-                    alt="" />
-                  View All
-                </button>
               </div>
+
+              <button onclick="window.location.href=&#39;/slotjili&#39;" button data-v-df3cc798="" class="look_all">
+                <img data-v-df3cc798=""
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwBAMAAAClLOS0AAAAIVBMVEUAAAD5Wlr3WFj6WVn6WFj5V1f6WVn5WVn5WVn4V1f5WVnpXZn/AAAACnRSTlMA72C/v1DP329wWe0twgAAAKNJREFUOMtjoA/gMFwFAkkgdrMUiLlMASyhtQoCGhgYmKDMFWCJLCivgIGBDcpcDpZYBQULGBi4YOwRLlEF5SQwMLBDmcvAErOgPGBYc0KZi8ASTI4g9kIjEFsFHB/CCgyDF7AaIpwbjHAuIvkEIJLPUrCEF5RnwMDAAmUuBktIQXkCDAyMUObCgY9BGkvg9Dn+sIpCJB9WbMnHFCn5BDDQBQAAbjlnhYlIhpEAAAAASUVORK5CYII="
+                  alt="" />
+                View All
+              </button>
             </div>
+          </div>
 
 
 
-            <div id="London" class="tabcontent" style="display: none">
-              <div data-v-df3cc798="" data-v-c9ec78ed="" class="gameListGrid__container" style="">
-                <!--v-if--><!--v-if--><!--v-if-->
-                <div style="grid-template-columns: repeat(3, 1fr)" data-v-54337c48="" data-v-df3cc798=""
-                  class="onlineGamesItem__container">
-                  <div style="
+          <div id="London" class="tabcontent" style="display: none">
+            <div data-v-df3cc798="" data-v-c9ec78ed="" class="gameListGrid__container" style="">
+              <!--v-if--><!--v-if--><!--v-if-->
+              <div style="grid-template-columns: repeat(3, 1fr)" data-v-54337c48="" data-v-df3cc798=""
+                class="onlineGamesItem__container">
+                <div style="
                     width: 2.21333rem !important;
                     height: 2.21333rem !important;
                   " data-v-54337c48="" onclick="openGameById(2)" class="item">
-                    <img style="width: 2rem !important; height: 2rem !important" data-v-54337c48="" class="gameImg"
-                      data-origin="./jilliImages/2.png" src="./jilliImages/2.png" />
-                  </div>
-                  <div style="
+                  <img style="width: 2rem !important; height: 2rem !important" data-v-54337c48="" class="gameImg"
+                    data-origin="./jilliImages/2.png" src="./jilliImages/2.png" />
+                </div>
+                <div style="
                     width: 2.21333rem !important;
                     height: 2.21333rem !important;
                   " data-v-54337c48="" onclick="openGameById(4)" class="item">
-                    <img style="width: 2rem !important; height: 2rem !important" data-v-54337c48="" class="gameImg"
-                      data-origin="" src="./jilliImages/4.png" />
-                  </div>
-                  <div style="
+                  <img style="width: 2rem !important; height: 2rem !important" data-v-54337c48="" class="gameImg"
+                    data-origin="" src="./jilliImages/4.png" />
+                </div>
+                <div style="
                     width: 2.21333rem !important;
                     height: 2.21333rem !important;
                   " data-v-54337c48="" onclick="openGameById(5)" class="item">
-                    <img style="width: 2rem !important; height: 2rem !important" data-v-54337c48="" class="gameImg"
-                      data-origin="" src="./jilliImages/5.png" />
-                  </div>
-                  <div style="
+                  <img style="width: 2rem !important; height: 2rem !important" data-v-54337c48="" class="gameImg"
+                    data-origin="" src="./jilliImages/5.png" />
+                </div>
+                <div style="
                     width: 2.21333rem !important;
                     height: 2.21333rem !important;
                   " data-v-54337c48="" onclick="openGameById(6)" class="item">
-                    <img style="width: 2rem !important; height: 2rem !important" data-v-54337c48="" class="gameImg"
-                      data-origin="" src="./jilliImages/6.png" />
-                  </div>
-                  <div style="
+                  <img style="width: 2rem !important; height: 2rem !important" data-v-54337c48="" class="gameImg"
+                    data-origin="" src="./jilliImages/6.png" />
+                </div>
+                <div style="
                     width: 2.21333rem !important;
                     height: 2.21333rem !important;
                   " data-v-54337c48="" onclick="openGameById(9)" class="item">
-                    <img style="width: 2rem !important; height: 2rem !important" data-v-54337c48="" class="gameImg"
-                      data-origin="" src="./jilliImages/9.png" />
-                  </div>
-                  <div style="
+                  <img style="width: 2rem !important; height: 2rem !important" data-v-54337c48="" class="gameImg"
+                    data-origin="" src="./jilliImages/9.png" />
+                </div>
+                <div style="
                     width: 2.21333rem !important;
                     height: 2.21333rem !important;
                   " data-v-54337c48="" onclick="openGameById(10)" class="item">
-                    <img style="width: 2rem !important; height: 2rem !important" data-v-54337c48="" class="gameImg"
-                      data-origin="" src="./jilliImages/10.png" />
-                  </div>
-                  <div style="
+                  <img style="width: 2rem !important; height: 2rem !important" data-v-54337c48="" class="gameImg"
+                    data-origin="" src="./jilliImages/10.png" />
+                </div>
+                <div style="
                     width: 2.21333rem !important;
                     height: 2.21333rem !important;
                   " data-v-54337c48="" onclick="openGameById(13)" class="item">
-                    <img style="width: 2rem !important; height: 2rem !important" data-v-54337c48="" class="gameImg"
-                      data-origin="" src="./jilliImages/13.png" />
-                  </div>
-                  <div style="
+                  <img style="width: 2rem !important; height: 2rem !important" data-v-54337c48="" class="gameImg"
+                    data-origin="" src="./jilliImages/13.png" />
+                </div>
+                <div style="
                     width: 2.21333rem !important;
                     height: 2.21333rem !important;
                   " data-v-54337c48="" onclick="openGameById(14)" class="item">
-                    <img style="width: 2rem !important; height: 2rem !important" data-v-54337c48="" class="gameImg"
-                      data-origin="" src="./jilliImages/14.png" />
-                  </div>
-                  <div style="
+                  <img style="width: 2rem !important; height: 2rem !important" data-v-54337c48="" class="gameImg"
+                    data-origin="" src="./jilliImages/14.png" />
+                </div>
+                <div style="
                     width: 2.21333rem !important;
                     height: 2.21333rem !important;
                   " data-v-54337c48="" onclick="openGameById(16)" class="item">
-                    <img style="width: 2rem !important; height: 2rem !important" data-v-54337c48="" class="gameImg"
-                      data-origin="" src="./jilliImages/16.png" />
-                  </div>
-                  <div style="
+                  <img style="width: 2rem !important; height: 2rem !important" data-v-54337c48="" class="gameImg"
+                    data-origin="" src="./jilliImages/16.png" />
+                </div>
+                <div style="
                     width: 2.21333rem !important;
                     height: 2.21333rem !important;
                   " data-v-54337c48="" onclick="openGameById(17)" class="item">
-                    <img style="width: 2rem !important; height: 2rem !important" data-v-54337c48="" class="gameImg"
-                      data-origin="" src="./jilliImages/17.png" />
-                  </div>
-                  <div style="
+                  <img style="width: 2rem !important; height: 2rem !important" data-v-54337c48="" class="gameImg"
+                    data-origin="" src="./jilliImages/17.png" />
+                </div>
+                <div style="
                     width: 2.21333rem !important;
                     height: 2.21333rem !important;
                   " data-v-54337c48="" onclick="openGameById(18)" class="item">
-                    <img style="width: 2rem !important; height: 2rem !important" data-v-54337c48="" class="gameImg"
-                      data-origin="" src="./jilliImages/18.png" />
-                  </div>
-                  <div style="
+                  <img style="width: 2rem !important; height: 2rem !important" data-v-54337c48="" class="gameImg"
+                    data-origin="" src="./jilliImages/18.png" />
+                </div>
+                <div style="
                     width: 2.21333rem !important;
                     height: 2.21333rem !important;
                   " data-v-54337c48="" onclick="openGameById(21)" class="item">
-                    <img style="width: 2rem !important; height: 2rem !important" data-v-54337c48="" class="gameImg"
-                      data-origin="" src="./jilliImages/21.png" />
-                  </div>
+                  <img style="width: 2rem !important; height: 2rem !important" data-v-54337c48="" class="gameImg"
+                    data-origin="" src="./jilliImages/21.png" />
                 </div>
-                <button onclick="window.location.href=&#39;/slotjili&#39;" data-v-df3cc798="" class="look_all">
-                  <img data-v-df3cc798=""
-                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwBAMAAAClLOS0AAAAIVBMVEUAAAD5Wlr3WFj6WVn6WFj5V1f6WVn5WVn5WVn4V1f5WVnpXZn/AAAACnRSTlMA72C/v1DP329wWe0twgAAAKNJREFUOMtjoA/gMFwFAkkgdrMUiLlMASyhtQoCGhgYmKDMFWCJLCivgIGBDcpcDpZYBQULGBi4YOwRLlEF5SQwMLBDmcvAErOgPGBYc0KZi8ASTI4g9kIjEFsFHB/CCgyDF7AaIpwbjHAuIvkEIJLPUrCEF5RnwMDAAmUuBktIQXkCDAyMUObCgY9BGkvg9Dn+sIpCJB9WbMnHFCn5BDDQBQAAbjlnhYlIhpEAAAAASUVORK5CYII="
-                    alt="" />
-                  View All
-                </button>
               </div>
+              <button onclick="window.location.href=&#39;/slotjili&#39;" data-v-df3cc798="" class="look_all">
+                <img data-v-df3cc798=""
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwBAMAAAClLOS0AAAAIVBMVEUAAAD5Wlr3WFj6WVn6WFj5V1f6WVn5WVn5WVn4V1f5WVnpXZn/AAAACnRSTlMA72C/v1DP329wWe0twgAAAKNJREFUOMtjoA/gMFwFAkkgdrMUiLlMASyhtQoCGhgYmKDMFWCJLCivgIGBDcpcDpZYBQULGBi4YOwRLlEF5SQwMLBDmcvAErOgPGBYc0KZi8ASTI4g9kIjEFsFHB/CCgyDF7AaIpwbjHAuIvkEIJLPUrCEF5RnwMDAAmUuBktIQXkCDAyMUObCgY9BGkvg9Dn+sIpCJB9WbMnHFCn5BDDQBQAAbjlnhYlIhpEAAAAASUVORK5CYII="
+                  alt="" />
+                View All
+              </button>
             </div>
+          </div>
 
-            <div id="Tokyop" class="tabcontent" style="display: none">
-              <div data-v-df3cc798="" data-v-c9ec78ed="" class="gameListGrid__container" style="">
-                <!--v-if--><!--v-if--><!--v-if--><!--v-if--><!-- 小游戏、捕鱼 -->
+          <div id="Tokyop" class="tabcontent" style="display: none">
+            <div data-v-df3cc798="" data-v-c9ec78ed="" class="gameListGrid__container" style="">
+              <!--v-if--><!--v-if--><!--v-if--><!--v-if--><!-- 小游戏、捕鱼 -->
 
-                <div data-v-860d7030="" data-v-df3cc798="" class="minGame_container">
-                  <div style="height: 90px" data-v-860d7030="" onclick="playWCGame(1)" class="onlineGamesItem">
-                    <img style="height: 90px" data-v-860d7030="" class="min_game_img"
-                      data-origin="/spribeImages/aviator.png" src="./91club_files/800.png" />
-                  </div>
-                  <!--  onclick="playSpribeGame({ gameName: 'mines' })" -->
-                  <div style="height: 90px" data-v-860d7030="" onclick="playWCGame(6)" class="onlineGamesItem">
-                    <img style="height: 90px" data-v-860d7030="" class="min_game_img"
-                      data-origin="/spribeImages/mines.png" src="/spribeImages/mines.png" />
-                  </div>
-                  <div style="height: 90px" data-v-860d7030="" onclick="playWCGame(2)" class="onlineGamesItem">
-                    <img style="height: 90px" data-v-860d7030="" class="min_game_img"
-                      data-origin="/spribeImages/dice.png" src="/spribeImages/dice.png" />
-                  </div>
-                  <div style="height: 90px" data-v-860d7030="" onclick="playWCGame(8)" class="onlineGamesItem">
-                    <img style="height: 90px" data-v-860d7030="" class="min_game_img"
-                      data-origin="/spribeImages/mini-roulette.png" src="/spribeImages/mini_roulette.png" />
-                  </div>
-                  <div style="height: 90px" data-v-860d7030="" onclick="playWCGame(5)" class="onlineGamesItem">
-                    <img style="height: 90px" data-v-860d7030="" class="min_game_img"
-                      data-origin="/spribeImages/hilo.png" src="/spribeImages/hilo.png" />
-                  </div>
-                  <div style="height: 90px" data-v-860d7030="" onclick="playWCGame(3)" class="onlineGamesItem">
-                    <img style="height: 90px" data-v-860d7030="" class="min_game_img"
-                      data-origin="/spribeImages/plinko.png" src="/spribeImages/plinko.png" />
-                  </div>
-                  <div style="height: 90px" data-v-860d7030="" onclick="playWCGame(4)" class="onlineGamesItem">
-                    <img style="height: 90px" data-v-860d7030="" class="min_game_img"
-                      data-origin="/spribeImages/goal.png" src="/spribeImages/goal.png" />
-                  </div>
-                  <div style="height: 90px" data-v-860d7030="" onclick="playWCGame(7)" class="onlineGamesItem">
-                    <img style="height: 90px" data-v-860d7030="" class="min_game_img"
-                      data-origin="/spribeImages/keno.png" src="/spribeImages/keno.png" />
-                  </div>
-                  <div style="height: 90px" data-v-860d7030="" onclick="playWCGame(9)" class="onlineGamesItem">
-                    <img style="height: 90px" data-v-860d7030="" class="min_game_img"
-                      data-origin="/spribeImages/hotline.png" src="/spribeImages/hotline.png" />
-                  </div>
-
-
+              <div data-v-860d7030="" data-v-df3cc798="" class="minGame_container">
+                <div style="height: 90px" data-v-860d7030="" onclick="playWCGame(1)" class="onlineGamesItem">
+                  <img style="height: 90px" data-v-860d7030="" class="min_game_img"
+                    data-origin="/spribeImages/aviator.png" src="./91club_files/800.png" />
+                </div>
+                <!--  onclick="playSpribeGame({ gameName: 'mines' })" -->
+                <div style="height: 90px" data-v-860d7030="" onclick="playWCGame(6)" class="onlineGamesItem">
+                  <img style="height: 90px" data-v-860d7030="" class="min_game_img"
+                    data-origin="/spribeImages/mines.png" src="/spribeImages/mines.png" />
+                </div>
+                <div style="height: 90px" data-v-860d7030="" onclick="playWCGame(2)" class="onlineGamesItem">
+                  <img style="height: 90px" data-v-860d7030="" class="min_game_img" data-origin="/spribeImages/dice.png"
+                    src="/spribeImages/dice.png" />
+                </div>
+                <div style="height: 90px" data-v-860d7030="" onclick="playWCGame(8)" class="onlineGamesItem">
+                  <img style="height: 90px" data-v-860d7030="" class="min_game_img"
+                    data-origin="/spribeImages/mini-roulette.png" src="/spribeImages/mini_roulette.png" />
+                </div>
+                <div style="height: 90px" data-v-860d7030="" onclick="playWCGame(5)" class="onlineGamesItem">
+                  <img style="height: 90px" data-v-860d7030="" class="min_game_img" data-origin="/spribeImages/hilo.png"
+                    src="/spribeImages/hilo.png" />
+                </div>
+                <div style="height: 90px" data-v-860d7030="" onclick="playWCGame(3)" class="onlineGamesItem">
+                  <img style="height: 90px" data-v-860d7030="" class="min_game_img"
+                    data-origin="/spribeImages/plinko.png" src="/spribeImages/plinko.png" />
+                </div>
+                <div style="height: 90px" data-v-860d7030="" onclick="playWCGame(4)" class="onlineGamesItem">
+                  <img style="height: 90px" data-v-860d7030="" class="min_game_img" data-origin="/spribeImages/goal.png"
+                    src="/spribeImages/goal.png" />
+                </div>
+                <div style="height: 90px" data-v-860d7030="" onclick="playWCGame(7)" class="onlineGamesItem">
+                  <img style="height: 90px" data-v-860d7030="" class="min_game_img" data-origin="/spribeImages/keno.png"
+                    src="/spribeImages/keno.png" />
+                </div>
+                <div style="height: 90px" data-v-860d7030="" onclick="playWCGame(9)" class="onlineGamesItem">
+                  <img style="height: 90px" data-v-860d7030="" class="min_game_img"
+                    data-origin="/spribeImages/hotline.png" src="/spribeImages/hotline.png" />
                 </div>
 
-                <button data-v-df3cc798="" onclick="window.location.href=&#39;/slotjili&#39;" class="look_all">
-                  <img data-v-df3cc798=""
-                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwBAMAAAClLOS0AAAAIVBMVEUAAAD5Wlr3WFj6WVn6WFj5V1f6WVn5WVn5WVn4V1f5WVnpXZn/AAAACnRSTlMA72C/v1DP329wWe0twgAAAKNJREFUOMtjoA/gMFwFAkkgdrMUiLlMASyhtQoCGhgYmKDMFWCJLCivgIGBDcpcDpZYBQULGBi4YOwRLlEF5SQwMLBDmcvAErOgPGBYc0KZi8ASTI4g9kIjEFsFHB/CCgyDF7AaIpwbjHAuIvkEIJLPUrCEF5RnwMDAAmUuBktIQXkCDAyMUObCgY9BGkvg9Dn+sIpCJB9WbMnHFCn5BDDQBQAAbjlnhYlIhpEAAAAASUVORK5CYII="
-                    alt="" />
-                  View All
-                </button>
+
               </div>
+
+              <button data-v-df3cc798="" onclick="window.location.href=&#39;/slotjili&#39;" class="look_all">
+                <img data-v-df3cc798=""
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwBAMAAAClLOS0AAAAIVBMVEUAAAD5Wlr3WFj6WVn6WFj5V1f6WVn5WVn5WVn4V1f5WVnpXZn/AAAACnRSTlMA72C/v1DP329wWe0twgAAAKNJREFUOMtjoA/gMFwFAkkgdrMUiLlMASyhtQoCGhgYmKDMFWCJLCivgIGBDcpcDpZYBQULGBi4YOwRLlEF5SQwMLBDmcvAErOgPGBYc0KZi8ASTI4g9kIjEFsFHB/CCgyDF7AaIpwbjHAuIvkEIJLPUrCEF5RnwMDAAmUuBktIQXkCDAyMUObCgY9BGkvg9Dn+sIpCJB9WbMnHFCn5BDDQBQAAbjlnhYlIhpEAAAAASUVORK5CYII="
+                  alt="" />
+                View All
+              </button>
             </div>
+          </div>
 
-            <div id="Tokyo" class="tabcontent" style="display: none">
-              <div data-v-df3cc798="" data-v-c9ec78ed="" class="gameListGrid__container" style="">
-                <div data-v-d06787cb="" data-v-df3cc798="" class="hot_container">
-                  <div data-v-d06787cb="" class="platform">
-                    <div data-v-d06787cb="" class="title">
-                      <svg data-v-d06787cb="" width="37" height="37" viewBox="0 0 37 37" fill="none"
-                        xmlns="http://www.w3.org/2000/svg" class="gameRec">
-                        <path
-                          d="M23.6259 7.87715L25.7577 12.1408C26.045 12.7304 26.8161 13.2898 27.4662 13.4108L31.3216 14.0458C33.786 14.454 34.3606 16.2381 32.5916 18.0222L29.5829 21.0309C29.0839 21.5298 28.7967 22.5126 28.963 23.2232L29.8248 26.9425C30.5052 29.8757 28.9328 31.0247 26.3474 29.4826L22.7339 27.3356C22.0837 26.9425 20.9951 26.9425 20.345 27.3356L16.7315 29.4826C14.1461 31.0096 12.5737 29.8757 13.2541 26.9425L14.1159 23.2232C14.2822 22.5277 13.9949 21.545 13.496 21.0309L10.4872 18.0222C8.71829 16.2532 9.29282 14.4691 11.7573 14.0458L15.6127 13.4108C16.2628 13.305 17.0339 12.7304 17.3212 12.1408L19.453 7.87715C20.5869 5.5639 22.4617 5.5639 23.6259 7.87715Z"
-                          fill="#FE6868"></path>
-                        <path
-                          d="M12.4531 8.69355H3.3815C2.76161 8.69355 2.24756 8.17949 2.24756 7.5596C2.24756 6.93971 2.76161 6.42566 3.3815 6.42566H12.4531C13.073 6.42566 13.587 6.93971 13.587 7.5596C13.587 8.17949 13.073 8.69355 12.4531 8.69355ZM7.91728 29.8605H3.3815C2.76161 29.8605 2.24756 29.3465 2.24756 28.7266C2.24756 28.1067 2.76161 27.5926 3.3815 27.5926H7.91728C8.53717 27.5926 9.05123 28.1067 9.05123 28.7266C9.05123 29.3465 8.53717 29.8605 7.91728 29.8605ZM4.89343 19.277H3.3815C2.76161 19.277 2.24756 18.763 2.24756 18.1431C2.24756 17.5232 2.76161 17.0091 3.3815 17.0091H4.89343C5.51332 17.0091 6.02738 17.5232 6.02738 18.1431C6.02738 18.763 5.51332 19.277 4.89343 19.277Z"
-                          fill="#FE6868"></path>
-                      </svg>
-                      <span data-v-d06787cb="">Platform recommendation</span>
+          <div id="Tokyo" class="tabcontent" style="display: none">
+            <div data-v-df3cc798="" data-v-c9ec78ed="" class="gameListGrid__container" style="">
+              <div data-v-d06787cb="" data-v-df3cc798="" class="hot_container">
+                <div data-v-d06787cb="" class="platform">
+                  <div data-v-d06787cb="" class="title">
+                    <svg data-v-d06787cb="" width="37" height="37" viewBox="0 0 37 37" fill="none"
+                      xmlns="http://www.w3.org/2000/svg" class="gameRec">
+                      <path
+                        d="M23.6259 7.87715L25.7577 12.1408C26.045 12.7304 26.8161 13.2898 27.4662 13.4108L31.3216 14.0458C33.786 14.454 34.3606 16.2381 32.5916 18.0222L29.5829 21.0309C29.0839 21.5298 28.7967 22.5126 28.963 23.2232L29.8248 26.9425C30.5052 29.8757 28.9328 31.0247 26.3474 29.4826L22.7339 27.3356C22.0837 26.9425 20.9951 26.9425 20.345 27.3356L16.7315 29.4826C14.1461 31.0096 12.5737 29.8757 13.2541 26.9425L14.1159 23.2232C14.2822 22.5277 13.9949 21.545 13.496 21.0309L10.4872 18.0222C8.71829 16.2532 9.29282 14.4691 11.7573 14.0458L15.6127 13.4108C16.2628 13.305 17.0339 12.7304 17.3212 12.1408L19.453 7.87715C20.5869 5.5639 22.4617 5.5639 23.6259 7.87715Z"
+                        fill="#FE6868"></path>
+                      <path
+                        d="M12.4531 8.69355H3.3815C2.76161 8.69355 2.24756 8.17949 2.24756 7.5596C2.24756 6.93971 2.76161 6.42566 3.3815 6.42566H12.4531C13.073 6.42566 13.587 6.93971 13.587 7.5596C13.587 8.17949 13.073 8.69355 12.4531 8.69355ZM7.91728 29.8605H3.3815C2.76161 29.8605 2.24756 29.3465 2.24756 28.7266C2.24756 28.1067 2.76161 27.5926 3.3815 27.5926H7.91728C8.53717 27.5926 9.05123 28.1067 9.05123 28.7266C9.05123 29.3465 8.53717 29.8605 7.91728 29.8605ZM4.89343 19.277H3.3815C2.76161 19.277 2.24756 18.763 2.24756 18.1431C2.24756 17.5232 2.76161 17.0091 3.3815 17.0091H4.89343C5.51332 17.0091 6.02738 17.5232 6.02738 18.1431C6.02738 18.763 5.51332 19.277 4.89343 19.277Z"
+                        fill="#FE6868"></path>
+                    </svg>
+                    <span data-v-d06787cb="">Platform recommendation</span>
+                  </div>
+                  <div data-v-d06787cb="" class="list">
+                    <div data-v-d06787cb="">
+                      <div data-v-d06787cb="" onclick="openGameById(1)" class="item">
+                        <img data-v-d06787cb="" src="/jilliImages/1.png" alt="" data-img="/jilliImages/1.png" />
+                      </div>
+                      <div data-v-d06787cb="" class="win-odds">
+                        <span data-v-d06787cb="">odds of winning</span><span data-v-d06787cb="">88.87%</span>
+                        <div data-v-d06787cb="" class="win-p" style="width: 88.87%"></div>
+                      </div>
                     </div>
-                    <div data-v-d06787cb="" class="list">
-                      <div data-v-d06787cb="">
-                        <div data-v-d06787cb="" onclick="openGameById(1)" class="item">
-                          <img data-v-d06787cb="" src="/jilliImages/1.png" alt="" data-img="/jilliImages/1.png" />
-                        </div>
-                        <div data-v-d06787cb="" class="win-odds">
-                          <span data-v-d06787cb="">odds of winning</span><span data-v-d06787cb="">88.87%</span>
-                          <div data-v-d06787cb="" class="win-p" style="width: 88.87%"></div>
-                        </div>
-                      </div>
 
-                      <div data-v-d06787cb="">
-                        <div data-v-d06787cb="" onclick="openGameById(2)" class="item">
-                          <img data-v-d06787cb="" src="/jilliImages/2.png" alt="" data-img="/jilliImages/2.png" />
-                        </div>
-                        <div data-v-d06787cb="" class="win-odds">
-                          <span data-v-d06787cb="">odds of winning</span><span data-v-d06787cb="">87.92%</span>
-                          <div data-v-d06787cb="" class="win-p" style="width: 87.92%"></div>
-                        </div>
+                    <div data-v-d06787cb="">
+                      <div data-v-d06787cb="" onclick="openGameById(2)" class="item">
+                        <img data-v-d06787cb="" src="/jilliImages/2.png" alt="" data-img="/jilliImages/2.png" />
                       </div>
-                      <div data-v-d06787cb="">
-                        <div data-v-d06787cb="" onclick="openGameById(4)" class="item">
-                          <img data-v-d06787cb="" src="/jilliImages/4.png" alt="" data-img="/jilliImages.4.png" />
-                        </div>
-                        <div data-v-d06787cb="" class="win-odds">
-                          <span data-v-d06787cb="">odds of winning</span><span data-v-d06787cb="">91.4%</span>
-                          <div data-v-d06787cb="" class="win-p" style="width: 91.4%"></div>
-                        </div>
+                      <div data-v-d06787cb="" class="win-odds">
+                        <span data-v-d06787cb="">odds of winning</span><span data-v-d06787cb="">87.92%</span>
+                        <div data-v-d06787cb="" class="win-p" style="width: 87.92%"></div>
                       </div>
-                      <div data-v-d06787cb="">
-                        <div data-v-d06787cb="" onclick="openGameById(5)" class="item">
-                          <img data-v-d06787cb="" src="/jilliImages/5.png" alt="" data-img="/jilliImages/5.png" />
-                        </div>
-                        <div data-v-d06787cb="" class="win-odds">
-                          <span data-v-d06787cb="">odds of winning</span><span data-v-d06787cb="">87.21%</span>
-                          <div data-v-d06787cb="" class="win-p" style="width: 87.21%"></div>
-                        </div>
+                    </div>
+                    <div data-v-d06787cb="">
+                      <div data-v-d06787cb="" onclick="openGameById(4)" class="item">
+                        <img data-v-d06787cb="" src="/jilliImages/4.png" alt="" data-img="/jilliImages.4.png" />
                       </div>
+                      <div data-v-d06787cb="" class="win-odds">
+                        <span data-v-d06787cb="">odds of winning</span><span data-v-d06787cb="">91.4%</span>
+                        <div data-v-d06787cb="" class="win-p" style="width: 91.4%"></div>
+                      </div>
+                    </div>
+                    <div data-v-d06787cb="">
+                      <div data-v-d06787cb="" onclick="openGameById(5)" class="item">
+                        <img data-v-d06787cb="" src="/jilliImages/5.png" alt="" data-img="/jilliImages/5.png" />
+                      </div>
+                      <div data-v-d06787cb="" class="win-odds">
+                        <span data-v-d06787cb="">odds of winning</span><span data-v-d06787cb="">87.21%</span>
+                        <div data-v-d06787cb="" class="win-p" style="width: 87.21%"></div>
+                      </div>
+                    </div>
 
-                      <div data-v-d06787cb="">
-                        <div data-v-d06787cb="" onclick="openGameById(9)" class="item">
-                          <img data-v-d06787cb="" src="/jilliImages/9.png" alt="" data-img="/jilliImages/9.png" />
-                        </div>
-                        <div data-v-d06787cb="" class="win-odds">
-                          <span data-v-d06787cb="">odds of winning</span><span data-v-d06787cb="">88.54%</span>
-                          <div data-v-d06787cb="" class="win-p" style="width: 88.54%"></div>
-                        </div>
+                    <div data-v-d06787cb="">
+                      <div data-v-d06787cb="" onclick="openGameById(9)" class="item">
+                        <img data-v-d06787cb="" src="/jilliImages/9.png" alt="" data-img="/jilliImages/9.png" />
                       </div>
-                      <div data-v-d06787cb="">
-                        <div data-v-d06787cb="" onclick="openGameById(10)" class="item">
-                          <img data-v-d06787cb="" src="/jilliImages/10.png" alt="" data-img="/jilliImages/10.png" />
-                        </div>
-                        <div data-v-d06787cb="" class="win-odds">
-                          <span data-v-d06787cb="">odds of winning</span><span data-v-d06787cb="">88.73%</span>
-                          <div data-v-d06787cb="" class="win-p" style="width: 88.73%"></div>
-                        </div>
+                      <div data-v-d06787cb="" class="win-odds">
+                        <span data-v-d06787cb="">odds of winning</span><span data-v-d06787cb="">88.54%</span>
+                        <div data-v-d06787cb="" class="win-p" style="width: 88.54%"></div>
                       </div>
-                      <div data-v-d06787cb="">
-                        <div data-v-d06787cb="" onclick="openGameById(13)" class="item">
-                          <img data-v-d06787cb="" src="/jilliImages/13.png" alt="" data-img="/jilliImages/13.png" />
-                        </div>
-                        <div data-v-d06787cb="" class="win-odds">
-                          <span data-v-d06787cb="">odds of winning</span><span data-v-d06787cb="">88.42%</span>
-                          <div data-v-d06787cb="" class="win-p" style="width: 88.42%"></div>
-                        </div>
+                    </div>
+                    <div data-v-d06787cb="">
+                      <div data-v-d06787cb="" onclick="openGameById(10)" class="item">
+                        <img data-v-d06787cb="" src="/jilliImages/10.png" alt="" data-img="/jilliImages/10.png" />
                       </div>
-                      <div data-v-d06787cb="">
-                        <div onclick="openGameById(35)" data-v-d06787cb="" class="item">
-                          <img data-v-d06787cb="" src="./91club_files/35.png" alt=""
-                            data-img="http://91club06.com/assets/png/avatar-2f23f3bd.png" />
-                        </div>
-                        <div data-v-d06787cb="" class="win-odds">
-                          <span data-v-d06787cb="">odds of winning</span><span data-v-d06787cb="">92.62%</span>
-                          <div data-v-d06787cb="" class="win-p" style="width: 92.62%"></div>
-                        </div>
+                      <div data-v-d06787cb="" class="win-odds">
+                        <span data-v-d06787cb="">odds of winning</span><span data-v-d06787cb="">88.73%</span>
+                        <div data-v-d06787cb="" class="win-p" style="width: 88.73%"></div>
                       </div>
-                      <div data-v-d06787cb="">
-                        <div data-v-d06787cb="" onclick="openGameById(72)" class="item">
-                          <img data-v-d06787cb="" src="/jilliImages/72.png" alt=""
-                            data-img="http://91club06.com/assets/png/avatar-2f23f3bd.png" />
-                        </div>
-                        <div data-v-d06787cb="" class="win-odds">
-                          <span data-v-d06787cb="">odds of winning</span><span data-v-d06787cb="">88.65%</span>
-                          <div data-v-d06787cb="" class="win-p" style="width: 88.65%"></div>
-                        </div>
+                    </div>
+                    <div data-v-d06787cb="">
+                      <div data-v-d06787cb="" onclick="openGameById(13)" class="item">
+                        <img data-v-d06787cb="" src="/jilliImages/13.png" alt="" data-img="/jilliImages/13.png" />
+                      </div>
+                      <div data-v-d06787cb="" class="win-odds">
+                        <span data-v-d06787cb="">odds of winning</span><span data-v-d06787cb="">88.42%</span>
+                        <div data-v-d06787cb="" class="win-p" style="width: 88.42%"></div>
+                      </div>
+                    </div>
+                    <div data-v-d06787cb="">
+                      <div onclick="openGameById(35)" data-v-d06787cb="" class="item">
+                        <img data-v-d06787cb="" src="./91club_files/35.png" alt=""
+                          data-img="http://91club06.com/assets/png/avatar-2f23f3bd.png" />
+                      </div>
+                      <div data-v-d06787cb="" class="win-odds">
+                        <span data-v-d06787cb="">odds of winning</span><span data-v-d06787cb="">92.62%</span>
+                        <div data-v-d06787cb="" class="win-p" style="width: 92.62%"></div>
+                      </div>
+                    </div>
+                    <div data-v-d06787cb="">
+                      <div data-v-d06787cb="" onclick="openGameById(72)" class="item">
+                        <img data-v-d06787cb="" src="/jilliImages/72.png" alt=""
+                          data-img="http://91club06.com/assets/png/avatar-2f23f3bd.png" />
+                      </div>
+                      <div data-v-d06787cb="" class="win-odds">
+                        <span data-v-d06787cb="">odds of winning</span><span data-v-d06787cb="">88.65%</span>
+                        <div data-v-d06787cb="" class="win-p" style="width: 88.65%"></div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <!--v-if--><!--v-if--><!--v-if--><!-- 小游戏、捕鱼 --><!--v-if--><button
-                  onclick="window.location.href=&#39;/slotjili&#39;" data-v-df3cc798="" class="look_all">
-                  <img data-v-df3cc798=""
-                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwBAMAAAClLOS0AAAAIVBMVEUAAAD5Wlr3WFj6WVn6WFj5V1f6WVn5WVn5WVn4V1f5WVnpXZn/AAAACnRSTlMA72C/v1DP329wWe0twgAAAKNJREFUOMtjoA/gMFwFAkkgdrMUiLlMASyhtQoCGhgYmKDMFWCJLCivgIGBDcpcDpZYBQULGBi4YOwRLlEF5SQwMLBDmcvAErOgPGBYc0KZi8ASTI4g9kIjEFsFHB/CCgyDF7AaIpwbjHAuIvkEIJLPUrCEF5RnwMDAAmUuBktIQXkCDAyMUObCgY9BGkvg9Dn+sIpCJB9WbMnHFCn5BDDQBQAAbjlnhYlIhpEAAAAASUVORK5CYII="
-                    alt="" />
-                  View All
-                </button>
               </div>
+              <!--v-if--><!--v-if--><!--v-if--><!-- 小游戏、捕鱼 --><!--v-if--><button
+                onclick="window.location.href=&#39;/slotjili&#39;" data-v-df3cc798="" class="look_all">
+                <img data-v-df3cc798=""
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwBAMAAAClLOS0AAAAIVBMVEUAAAD5Wlr3WFj6WVn6WFj5V1f6WVn5WVn5WVn4V1f5WVnpXZn/AAAACnRSTlMA72C/v1DP329wWe0twgAAAKNJREFUOMtjoA/gMFwFAkkgdrMUiLlMASyhtQoCGhgYmKDMFWCJLCivgIGBDcpcDpZYBQULGBi4YOwRLlEF5SQwMLBDmcvAErOgPGBYc0KZi8ASTI4g9kIjEFsFHB/CCgyDF7AaIpwbjHAuIvkEIJLPUrCEF5RnwMDAAmUuBktIQXkCDAyMUObCgY9BGkvg9Dn+sIpCJB9WbMnHFCn5BDDQBQAAbjlnhYlIhpEAAAAASUVORK5CYII="
+                  alt="" />
+                View All
+              </button>
             </div>
+          </div>
 
 
 
-            <div id="lottery1" class="tabcontent" style="display: none">
-              <div data-v-df3cc798="" data-v-c9ec78ed="" class="gameListGrid__container" style="">
-                <div style="grid-template-columns: repeat(2, 1fr)" data-v-df3cc798="" class="otherGame">
-                  <div onclick="openGameById(72)" data-v-1153e4fd="" data-v-df3cc798=""
-                    class="lotterySlotItem__container">
-                    <div data-v-1153e4fd="" class="title">
-                      <div data-v-1153e4fd="" class="tit">Poker</div>
-                    </div>
-                    <img style="height: 4rem; object-fit: cover" data-v-1153e4fd="" class="game_img" data-origin=""
-                      src="/jilliImages/72.png" />
+          <div id="lottery1" class="tabcontent" style="display: none">
+            <div data-v-df3cc798="" data-v-c9ec78ed="" class="gameListGrid__container" style="">
+              <div style="grid-template-columns: repeat(2, 1fr)" data-v-df3cc798="" class="otherGame">
+                <div onclick="openGameById(72)" data-v-1153e4fd="" data-v-df3cc798=""
+                  class="lotterySlotItem__container">
+                  <div data-v-1153e4fd="" class="title">
+                    <div data-v-1153e4fd="" class="tit">Poker</div>
                   </div>
-                  <div onclick="openGameById(75)" data-v-1153e4fd="" data-v-df3cc798=""
-                    class="lotterySlotItem__container">
-                    <div data-v-1153e4fd="" class="title">
-                      <div data-v-1153e4fd="" class="tit">Poker</div>
-                    </div>
-                    <img style="height: 4rem !important; object-fit: cover" data-v-1153e4fd="" class="game_img"
-                      data-origin="" src="/jilliImages/75.png" />
-                  </div>
-                  <div onclick="openGameById(79)" data-v-1153e4fd="" data-v-df3cc798=""
-                    class="lotterySlotItem__container">
-                    <div data-v-1153e4fd="" class="title">
-                      <div data-v-1153e4fd="" class="tit">Poker</div>
-                    </div>
-                    <img style="height: 4rem !important; object-fit: cover" data-v-1153e4fd="" class="game_img"
-                      data-origin="" src="/jilliImages/79.png" />
-                  </div>
-                  <div onclick="openGameById(94)" data-v-1153e4fd="" data-v-df3cc798=""
-                    class="lotterySlotItem__container">
-                    <div data-v-1153e4fd="" class="title">
-                      <div data-v-1153e4fd="" class="tit">Poker</div>
-                    </div>
-                    <img style="height: 4rem !important; object-fit: cover" data-v-1153e4fd="" class="game_img"
-                      data-origin="" src="/jilliImages/94.png" />
-                  </div>
-                  <div onclick="openGameById(127)" data-v-1153e4fd="" data-v-df3cc798=""
-                    class="lotterySlotItem__container">
-                    <div data-v-1153e4fd="" class="title">
-                      <div data-v-1153e4fd="" class="tit">Poker</div>
-                    </div>
-                    <img style="height: 4rem !important; object-fit: cover" data-v-1153e4fd="" class="game_img"
-                      data-origin="" src="/jilliImages/127.png" />
-                  </div>
-                  <div onclick="openGameById(128)" data-v-1153e4fd="" data-v-df3cc798=""
-                    class="lotterySlotItem__container">
-                    <div data-v-1153e4fd="" class="title">
-                      <div data-v-1153e4fd="" class="tit">Poker</div>
-                    </div>
-                    <img style="height: 4rem !important; object-fit: cover" data-v-1153e4fd="" class="game_img"
-                      data-origin="" src="/jilliImages/128.png" />
-                  </div>
+                  <img style="height: 4rem; object-fit: cover" data-v-1153e4fd="" class="game_img" data-origin=""
+                    src="/jilliImages/72.png" />
                 </div>
-                <button onclick="window.location.href=&#39;/slotjili&#39;" data-v-df3cc798="" class="look_all">
-                  <img data-v-df3cc798=""
-                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwBAMAAAClLOS0AAAAIVBMVEUAAAD5Wlr3WFj6WVn6WFj5V1f6WVn5WVn5WVn4V1f5WVnpXZn/AAAACnRSTlMA72C/v1DP329wWe0twgAAAKNJREFUOMtjoA/gMFwFAkkgdrMUiLlMASyhtQoCGhgYmKDMFWCJLCivgIGBDcpcDpZYBQULGBi4YOwRLlEF5SQwMLBDmcvAErOgPGBYc0KZi8ASTI4g9kIjEFsFHB/CCgyDF7AaIpwbjHAuIvkEIJLPUrCEF5RnwMDAAmUuBktIQXkCDAyMUObCgY9BGkvg9Dn+sIpCJB9WbMnHFCn5BDDQBQAAbjlnhYlIhpEAAAAASUVORK5CYII="
-                    alt="" />
-                  View All
-                </button>
-              </div>
-            </div>
-
-            <div id="lottery2" class="tabcontent" style="display: none">
-              <div data-v-df3cc798="" data-v-c9ec78ed="" class="gameListGrid__container" style="">
-                <div data-v-df3cc798="" class="otherGame">
-                  <div onclick="openGameById(111)" data-v-1153e4fd="" data-v-df3cc798=""
-                    class="lotterySlotItem__container">
-                    <div data-v-1153e4fd="" class="title">
-                      <div data-v-1153e4fd="" class="tit">Casino</div>
-                    </div>
-                    <img data-v-1153e4fd="" class="game_img" data-origin="" src="/jilliImages/111.png" />
+                <div onclick="openGameById(75)" data-v-1153e4fd="" data-v-df3cc798=""
+                  class="lotterySlotItem__container">
+                  <div data-v-1153e4fd="" class="title">
+                    <div data-v-1153e4fd="" class="tit">Poker</div>
                   </div>
-                  <div onclick="openGameById(112)" data-v-1153e4fd="" data-v-df3cc798=""
-                    class="lotterySlotItem__container">
-                    <div data-v-1153e4fd="" class="title">
-                      <div data-v-1153e4fd="" class="tit">Casino</div>
-                    </div>
-                    <img data-v-1153e4fd="" class="game_img" data-origin="" src="/jilliImages/112.png" />
-                  </div>
-                  <div onclick="openGameById(113)" data-v-1153e4fd="" data-v-df3cc798=""
-                    class="lotterySlotItem__container">
-                    <div data-v-1153e4fd="" class="title">
-                      <div data-v-1153e4fd="" class="tit">Casino</div>
-                    </div>
-                    <img data-v-1153e4fd="" class="game_img" data-origin="" src="/jilliImages/113.png" />
-                  </div>
-                  <div onclick="openGameById(114)" data-v-1153e4fd="" data-v-df3cc798=""
-                    class="lotterySlotItem__container">
-                    <div data-v-1153e4fd="" class="title">
-                      <div data-v-1153e4fd="" class="tit">Casino</div>
-                    </div>
-                    <img data-v-1153e4fd="" class="game_img" data-origin="" src="/jilliImages/114.png" />
-                  </div>
-                  <div onclick="openGameById(118)" data-v-1153e4fd="" data-v-df3cc798=""
-                    class="lotterySlotItem__container">
-                    <div data-v-1153e4fd="" class="title">
-                      <div data-v-1153e4fd="" class="tit">Casino</div>
-                    </div>
-                    <img data-v-1153e4fd="" class="game_img" data-origin="" src="/jilliImages/118.png" />
-                  </div>
-                  <div onclick="openGameById(118)" data-v-1153e4fd="" data-v-df3cc798=""
-                    class="lotterySlotItem__container">
-                    <div data-v-1153e4fd="" class="title">
-                      <div data-v-1153e4fd="" class="tit">Casino</div>
-                    </div>
-                    <img data-v-1153e4fd="" class="game_img" data-origin="" src="/jilliImages/122.png" />
-                  </div>
+                  <img style="height: 4rem !important; object-fit: cover" data-v-1153e4fd="" class="game_img"
+                    data-origin="" src="/jilliImages/75.png" />
                 </div>
-                <button onclick="window.location.href=&#39;/slotjili&#39;" data-v-df3cc798="" class="look_all">
-                  <img data-v-df3cc798=""
-                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwBAMAAAClLOS0AAAAIVBMVEUAAAD5Wlr3WFj6WVn6WFj5V1f6WVn5WVn5WVn4V1f5WVnpXZn/AAAACnRSTlMA72C/v1DP329wWe0twgAAAKNJREFUOMtjoA/gMFwFAkkgdrMUiLlMASyhtQoCGhgYmKDMFWCJLCivgIGBDcpcDpZYBQULGBi4YOwRLlEF5SQwMLBDmcvAErOgPGBYc0KZi8ASTI4g9kIjEFsFHB/CCgyDF7AaIpwbjHAuIvkEIJLPUrCEF5RnwMDAAmUuBktIQXkCDAyMUObCgY9BGkvg9Dn+sIpCJB9WbMnHFCn5BDDQBQAAbjlnhYlIhpEAAAAASUVORK5CYII="
-                    alt="" />
-                  View All
-                </button>
-              </div>
-            </div>
-
-            <div id="lottery0" class="tabcontent" style="display: none">
-              <div data-v-df3cc798="" data-v-c9ec78ed="" class="gameListGrid__container" style="">
-                <div data-v-df3cc798="" class="otherGame">
-                  <div onclick="openGameById(80)" data-v-1153e4fd="" data-v-df3cc798=""
-                    class="lotterySlotItem__container">
-                    <div data-v-1153e4fd="" class="title">
-                      <div data-v-1153e4fd="" class="tit">Lobby</div>
-                    </div>
-                    <img data-v-1153e4fd="" class="game_img" data-origin="" src="/jilliImages/80.png" />
+                <div onclick="openGameById(79)" data-v-1153e4fd="" data-v-df3cc798=""
+                  class="lotterySlotItem__container">
+                  <div data-v-1153e4fd="" class="title">
+                    <div data-v-1153e4fd="" class="tit">Poker</div>
                   </div>
-                  <div onclick="openGameById(210)" data-v-1153e4fd="" data-v-df3cc798=""
-                    class="lotterySlotItem__container">
-                    <div data-v-1153e4fd="" class="title">
-                      <div data-v-1153e4fd="" class="tit">Lobby</div>
-                    </div>
-                    <img data-v-1153e4fd="" class="game_img" data-origin="" src="/jilliImages/210.png" />
-                  </div>
+                  <img style="height: 4rem !important; object-fit: cover" data-v-1153e4fd="" class="game_img"
+                    data-origin="" src="/jilliImages/79.png" />
                 </div>
-                <button onclick="window.location.href=&#39;/slotjili&#39;" data-v-df3cc798="" class="look_all">
-                  <img data-v-df3cc798=""
-                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwBAMAAAClLOS0AAAAIVBMVEUAAAD5Wlr3WFj6WVn6WFj5V1f6WVn5WVn5WVn4V1f5WVnpXZn/AAAACnRSTlMA72C/v1DP329wWe0twgAAAKNJREFUOMtjoA/gMFwFAkkgdrMUiLlMASyhtQoCGhgYmKDMFWCJLCivgIGBDcpcDpZYBQULGBi4YOwRLlEF5SQwMLBDmcvAErOgPGBYc0KZi8ASTI4g9kIjEFsFHB/CCgyDF7AaIpwbjHAuIvkEIJLPUrCEF5RnwMDAAmUuBktIQXkCDAyMUObCgY9BGkvg9Dn+sIpCJB9WbMnHFCn5BDDQBQAAbjlnhYlIhpEAAAAASUVORK5CYII="
-                    alt="" />
-                  View All
-                </button>
+                <div onclick="openGameById(94)" data-v-1153e4fd="" data-v-df3cc798=""
+                  class="lotterySlotItem__container">
+                  <div data-v-1153e4fd="" class="title">
+                    <div data-v-1153e4fd="" class="tit">Poker</div>
+                  </div>
+                  <img style="height: 4rem !important; object-fit: cover" data-v-1153e4fd="" class="game_img"
+                    data-origin="" src="/jilliImages/94.png" />
+                </div>
+                <div onclick="openGameById(127)" data-v-1153e4fd="" data-v-df3cc798=""
+                  class="lotterySlotItem__container">
+                  <div data-v-1153e4fd="" class="title">
+                    <div data-v-1153e4fd="" class="tit">Poker</div>
+                  </div>
+                  <img style="height: 4rem !important; object-fit: cover" data-v-1153e4fd="" class="game_img"
+                    data-origin="" src="/jilliImages/127.png" />
+                </div>
+                <div onclick="openGameById(128)" data-v-1153e4fd="" data-v-df3cc798=""
+                  class="lotterySlotItem__container">
+                  <div data-v-1153e4fd="" class="title">
+                    <div data-v-1153e4fd="" class="tit">Poker</div>
+                  </div>
+                  <img style="height: 4rem !important; object-fit: cover" data-v-1153e4fd="" class="game_img"
+                    data-origin="" src="/jilliImages/128.png" />
+                </div>
               </div>
+              <button onclick="window.location.href=&#39;/slotjili&#39;" data-v-df3cc798="" class="look_all">
+                <img data-v-df3cc798=""
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwBAMAAAClLOS0AAAAIVBMVEUAAAD5Wlr3WFj6WVn6WFj5V1f6WVn5WVn5WVn4V1f5WVnpXZn/AAAACnRSTlMA72C/v1DP329wWe0twgAAAKNJREFUOMtjoA/gMFwFAkkgdrMUiLlMASyhtQoCGhgYmKDMFWCJLCivgIGBDcpcDpZYBQULGBi4YOwRLlEF5SQwMLBDmcvAErOgPGBYc0KZi8ASTI4g9kIjEFsFHB/CCgyDF7AaIpwbjHAuIvkEIJLPUrCEF5RnwMDAAmUuBktIQXkCDAyMUObCgY9BGkvg9Dn+sIpCJB9WbMnHFCn5BDDQBQAAbjlnhYlIhpEAAAAASUVORK5CYII="
+                  alt="" />
+                View All
+              </button>
             </div>
+          </div>
 
-            <div id="wingo" class="tabcontent" style="display: block">
-              <div data-v-df3cc798="" data-v-c9ec78ed="" class="gameListGrid__container" style="display: block;">
-                <!--v-if--><!--v-if--><!--v-if-->
-                <div data-v-acaadf81="" data-v-df3cc798="" class="lottery_container">
-                  <div onclick="location.href=&#39;/wingo/?game_type=10&#39;" data-v-acaadf81=""
-                    class="lotterySlotItem">
-                    <img data-v-acaadf81="" class=""
-                      data-origin="https://ossimg.91admin123admin.com/91club/lotterycategory/lotterycategory_202307140102511fow.png"
-                      src="https://ossimg.91admin123admin.com/91club/lotterycategory/lotterycategory_202307140102511fow.png"><span
-                      data-v-acaadf81="">Win Go</span>
-                    <h4 data-v-acaadf81="">
-                      <div data-v-acaadf81="">Guess Number</div>
-                      <div data-v-acaadf81="">Green/Red/Violet to win</div>
-                    </h4>
+          <div id="lottery2" class="tabcontent" style="display: none">
+            <div data-v-df3cc798="" data-v-c9ec78ed="" class="gameListGrid__container" style="">
+              <div data-v-df3cc798="" class="otherGame">
+                <div onclick="openGameById(111)" data-v-1153e4fd="" data-v-df3cc798=""
+                  class="lotterySlotItem__container">
+                  <div data-v-1153e4fd="" class="title">
+                    <div data-v-1153e4fd="" class="tit">Casino</div>
                   </div>
-                  <div onclick="window.location.href=&#39;/k3&#39;" data-v-acaadf81="" class="lotterySlotItem"><img
-                      data-v-acaadf81="" class=""
-                      data-origin="https://ossimg.91admin123admin.com/91club/lotterycategory/lotterycategory_20230714010227swu2.png"
-                      src="https://ossimg.91admin123admin.com/91club/lotterycategory/lotterycategory_20230714010227swu2.png"><span
-                      data-v-acaadf81="">K3</span>
-                    <h4 data-v-acaadf81="">
-                      <div data-v-acaadf81="">Guess Number</div>
-                      <div data-v-acaadf81="">Big/Small/Odd/Even</div>
-                    </h4>
+                  <img data-v-1153e4fd="" class="game_img" data-origin="" src="/jilliImages/111.png" />
+                </div>
+                <div onclick="openGameById(112)" data-v-1153e4fd="" data-v-df3cc798=""
+                  class="lotterySlotItem__container">
+                  <div data-v-1153e4fd="" class="title">
+                    <div data-v-1153e4fd="" class="tit">Casino</div>
                   </div>
-                  <div onclick="window.location.href=&#39;/5D&#39;" data-v-acaadf81="" class="lotterySlotItem"><img
-                      data-v-acaadf81="" class=""
-                      data-origin="https://ossimg.91admin123admin.com/91club/lotterycategory/lotterycategory_2023071401023322dy.png"
-                      src="https://ossimg.91admin123admin.com/91club/lotterycategory/lotterycategory_2023071401023322dy.png"><span
-                      data-v-acaadf81="">5D</span>
-                    <h4 data-v-acaadf81="">
-                      <div data-v-acaadf81="">Guess Number</div>
-                      <div data-v-acaadf81="">Big/Small/Odd/Even</div>
-                    </h4>
+                  <img data-v-1153e4fd="" class="game_img" data-origin="" src="/jilliImages/112.png" />
+                </div>
+                <div onclick="openGameById(113)" data-v-1153e4fd="" data-v-df3cc798=""
+                  class="lotterySlotItem__container">
+                  <div data-v-1153e4fd="" class="title">
+                    <div data-v-1153e4fd="" class="tit">Casino</div>
                   </div>
-                  <div onclick="window.location.href=&#39;/trx_wingo/?game_type=1&#39;" data-v-acaadf81=""
-                    class="lotterySlotItem"><img data-v-acaadf81="" class=""
-                      data-origin="https://ossimg.91admin123admin.com/91club/lotterycategory/lotterycategory_20230714010246lyuc.png"
-                      src="https://ossimg.91admin123admin.com/91club/lotterycategory/lotterycategory_20230714010246lyuc.png"><span
-                      data-v-acaadf81="">Trx Win</span>
-                    <h4 data-v-acaadf81="">
-                      <div data-v-acaadf81="">Guess Number</div>
-                      <div data-v-acaadf81="">Green/Red/Violet to win</div>
-                    </h4>
+                  <img data-v-1153e4fd="" class="game_img" data-origin="" src="/jilliImages/113.png" />
+                </div>
+                <div onclick="openGameById(114)" data-v-1153e4fd="" data-v-df3cc798=""
+                  class="lotterySlotItem__container">
+                  <div data-v-1153e4fd="" class="title">
+                    <div data-v-1153e4fd="" class="tit">Casino</div>
                   </div>
-                </div><!-- 小游戏、捕鱼 --><!--v-if--><!-- 小游戏、捕鱼 --><!--v-if--><button
-                  onclick="window.location.href=&#39;/slotjili&#39;" data-v-df3cc798="" class="look_all">
-                  <img data-v-df3cc798="" onclick="window.location.href=&#39;/jili/slots&#39;"
-                    src="./assets/png/viewall.png" alt="" />
-                  View All
-                </button>
+                  <img data-v-1153e4fd="" class="game_img" data-origin="" src="/jilliImages/114.png" />
+                </div>
+                <div onclick="openGameById(118)" data-v-1153e4fd="" data-v-df3cc798=""
+                  class="lotterySlotItem__container">
+                  <div data-v-1153e4fd="" class="title">
+                    <div data-v-1153e4fd="" class="tit">Casino</div>
+                  </div>
+                  <img data-v-1153e4fd="" class="game_img" data-origin="" src="/jilliImages/118.png" />
+                </div>
+                <div onclick="openGameById(118)" data-v-1153e4fd="" data-v-df3cc798=""
+                  class="lotterySlotItem__container">
+                  <div data-v-1153e4fd="" class="title">
+                    <div data-v-1153e4fd="" class="tit">Casino</div>
+                  </div>
+                  <img data-v-1153e4fd="" class="game_img" data-origin="" src="/jilliImages/122.png" />
+                </div>
+              </div>
+              <button onclick="window.location.href=&#39;/slotjili&#39;" data-v-df3cc798="" class="look_all">
+                <img data-v-df3cc798=""
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwBAMAAAClLOS0AAAAIVBMVEUAAAD5Wlr3WFj6WVn6WFj5V1f6WVn5WVn5WVn4V1f5WVnpXZn/AAAACnRSTlMA72C/v1DP329wWe0twgAAAKNJREFUOMtjoA/gMFwFAkkgdrMUiLlMASyhtQoCGhgYmKDMFWCJLCivgIGBDcpcDpZYBQULGBi4YOwRLlEF5SQwMLBDmcvAErOgPGBYc0KZi8ASTI4g9kIjEFsFHB/CCgyDF7AaIpwbjHAuIvkEIJLPUrCEF5RnwMDAAmUuBktIQXkCDAyMUObCgY9BGkvg9Dn+sIpCJB9WbMnHFCn5BDDQBQAAbjlnhYlIhpEAAAAASUVORK5CYII="
+                  alt="" />
+                View All
+              </button>
+            </div>
+          </div>
+
+          <div id="lottery0" class="tabcontent" style="display: none">
+            <div data-v-df3cc798="" data-v-c9ec78ed="" class="gameListGrid__container" style="">
+              <div data-v-df3cc798="" class="otherGame">
+                <div onclick="openGameById(80)" data-v-1153e4fd="" data-v-df3cc798=""
+                  class="lotterySlotItem__container">
+                  <div data-v-1153e4fd="" class="title">
+                    <div data-v-1153e4fd="" class="tit">Lobby</div>
+                  </div>
+                  <img data-v-1153e4fd="" class="game_img" data-origin="" src="/jilliImages/80.png" />
+                </div>
+                <div onclick="openGameById(210)" data-v-1153e4fd="" data-v-df3cc798=""
+                  class="lotterySlotItem__container">
+                  <div data-v-1153e4fd="" class="title">
+                    <div data-v-1153e4fd="" class="tit">Lobby</div>
+                  </div>
+                  <img data-v-1153e4fd="" class="game_img" data-origin="" src="/jilliImages/210.png" />
+                </div>
+              </div>
+              <button onclick="window.location.href=&#39;/slotjili&#39;" data-v-df3cc798="" class="look_all">
+                <img data-v-df3cc798=""
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwBAMAAAClLOS0AAAAIVBMVEUAAAD5Wlr3WFj6WVn6WFj5V1f6WVn5WVn5WVn4V1f5WVnpXZn/AAAACnRSTlMA72C/v1DP329wWe0twgAAAKNJREFUOMtjoA/gMFwFAkkgdrMUiLlMASyhtQoCGhgYmKDMFWCJLCivgIGBDcpcDpZYBQULGBi4YOwRLlEF5SQwMLBDmcvAErOgPGBYc0KZi8ASTI4g9kIjEFsFHB/CCgyDF7AaIpwbjHAuIvkEIJLPUrCEF5RnwMDAAmUuBktIQXkCDAyMUObCgY9BGkvg9Dn+sIpCJB9WbMnHFCn5BDDQBQAAbjlnhYlIhpEAAAAASUVORK5CYII="
+                  alt="" />
+                View All
+              </button>
+            </div>
+          </div>
+
+          <div id="wingo" class="tabcontent" style="display: block">
+            <div data-v-df3cc798="" data-v-c9ec78ed="" class="gameListGrid__container" style="display: block;">
+              <!--v-if--><!--v-if--><!--v-if-->
+              <div data-v-acaadf81="" data-v-df3cc798="" class="lottery_container">
+                <div onclick="location.href=&#39;/wingo/?game_type=10&#39;" data-v-acaadf81="" class="lotterySlotItem">
+                  <img data-v-acaadf81="" class=""
+                    data-origin="https://ossimg.91admin123admin.com/91club/lotterycategory/lotterycategory_202307140102511fow.png"
+                    src="https://ossimg.91admin123admin.com/91club/lotterycategory/lotterycategory_202307140102511fow.png"><span
+                    data-v-acaadf81="">Win Go</span>
+                  <h4 data-v-acaadf81="">
+                    <div data-v-acaadf81="">Guess Number</div>
+                    <div data-v-acaadf81="">Green/Red/Violet to win</div>
+                  </h4>
+                </div>
+                <div onclick="window.location.href=&#39;/k3&#39;" data-v-acaadf81="" class="lotterySlotItem"><img
+                    data-v-acaadf81="" class=""
+                    data-origin="https://ossimg.91admin123admin.com/91club/lotterycategory/lotterycategory_20230714010227swu2.png"
+                    src="https://ossimg.91admin123admin.com/91club/lotterycategory/lotterycategory_20230714010227swu2.png"><span
+                    data-v-acaadf81="">K3</span>
+                  <h4 data-v-acaadf81="">
+                    <div data-v-acaadf81="">Guess Number</div>
+                    <div data-v-acaadf81="">Big/Small/Odd/Even</div>
+                  </h4>
+                </div>
+                <div onclick="window.location.href=&#39;/5D&#39;" data-v-acaadf81="" class="lotterySlotItem"><img
+                    data-v-acaadf81="" class=""
+                    data-origin="https://ossimg.91admin123admin.com/91club/lotterycategory/lotterycategory_2023071401023322dy.png"
+                    src="https://ossimg.91admin123admin.com/91club/lotterycategory/lotterycategory_2023071401023322dy.png"><span
+                    data-v-acaadf81="">5D</span>
+                  <h4 data-v-acaadf81="">
+                    <div data-v-acaadf81="">Guess Number</div>
+                    <div data-v-acaadf81="">Big/Small/Odd/Even</div>
+                  </h4>
+                </div>
+                <div onclick="window.location.href=&#39;/trx_wingo/?game_type=1&#39;" data-v-acaadf81=""
+                  class="lotterySlotItem"><img data-v-acaadf81="" class=""
+                    data-origin="https://ossimg.91admin123admin.com/91club/lotterycategory/lotterycategory_20230714010246lyuc.png"
+                    src="https://ossimg.91admin123admin.com/91club/lotterycategory/lotterycategory_20230714010246lyuc.png"><span
+                    data-v-acaadf81="">Trx Win</span>
+                  <h4 data-v-acaadf81="">
+                    <div data-v-acaadf81="">Guess Number</div>
+                    <div data-v-acaadf81="">Green/Red/Violet to win</div>
+                  </h4>
+                </div>
+              </div><!-- 小游戏、捕鱼 --><!--v-if--><!-- 小游戏、捕鱼 --><!--v-if--><button
+                onclick="window.location.href=&#39;/slotjili&#39;" data-v-df3cc798="" class="look_all">
+                <img data-v-df3cc798="" onclick="window.location.href=&#39;/jili/slots&#39;"
+                  src="./assets/png/viewall.png" alt="" />
+                View All
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div data-v-0137aa14="" class="game-content">
+          <div data-v-5d47e2fb="" data-v-0137aa14="" class="homeNav" id="flashs">
+            <div data-v-5d47e2fb="" class="title"><b data-v-5d47e2fb=""></b>Original</div>
+            <div data-v-5d47e2fb="" class="tip">The games are independently developed by our team, fun, fair, and safe
+            </div>
+            <div data-v-5d47e2fb="" class="picContainer"><!--v-if--><img data-v-5d47e2fb="" alt="" class=""
+                src="/800_20241031144503660.png" onclick="playWCGame(1)" data-origin="/800_20241031144503660.png"><img
+                data-v-5d47e2fb="" onclick="playWCGame(2)" alt="" class="" data-origin="/810_20241029193645752.png"
+                src="/810_20241029193645752.png"><img data-v-5d47e2fb="" onclick="playWCGame(6)" alt="" class=""
+                data-origin="/811.png" src="/811.png"><img src="/103.png" onclick="playWCGame(3)" data-v-5d47e2fb=""
+                alt="" class="" data-origin="/103.png"><img data-v-5d47e2fb="" alt="" class="" onclick="playWCGame(4)"
+                data-origin="/105.png" src="/105.png">
+              <div data-v-5d47e2fb="" class="more" onclick="window.location.href = `/slotspribe`">
+                <div data-v-5d47e2fb="" class="more-l1"><svg data-v-5d47e2fb="" class="svg-icon icon-p3more">
+                    <use xlink:href="#icon-p3more"></use>
+                  </svg> Detail</div>
+                <div data-v-5d47e2fb="" class="more-l2">Original</div>
               </div>
             </div>
           </div>
 
-          <div data-v-0137aa14="" class="game-content">
-            <div data-v-5d47e2fb="" data-v-0137aa14="" class="homeNav" id="flashs">
-              <div data-v-5d47e2fb="" class="title"><b data-v-5d47e2fb=""></b>Original</div>
-              <div data-v-5d47e2fb="" class="tip">The games are independently developed by our team, fun, fair, and safe
-              </div>
-              <div data-v-5d47e2fb="" class="picContainer"><!--v-if--><img data-v-5d47e2fb="" alt="" class=""
-                  src="/800_20241031144503660.png" onclick="playWCGame(1)" data-origin="/800_20241031144503660.png"><img
-                  data-v-5d47e2fb="" onclick="playWCGame(2)" alt="" class="" data-origin="/810_20241029193645752.png"
-                  src="/810_20241029193645752.png"><img data-v-5d47e2fb="" onclick="playWCGame(6)" alt="" class=""
-                  data-origin="/811.png" src="/811.png"><img src="/103.png" onclick="playWCGame(3)" data-v-5d47e2fb=""
-                  alt="" class="" data-origin="/103.png"><img data-v-5d47e2fb="" alt="" class="" onclick="playWCGame(4)"
-                  data-origin="/105.png" src="/105.png">
-                <div data-v-5d47e2fb="" class="more" onclick="window.location.href = `/slotspribe`">
-                  <div data-v-5d47e2fb="" class="more-l1"><svg data-v-5d47e2fb="" class="svg-icon icon-p3more">
-                      <use xlink:href="#icon-p3more"></use>
-                    </svg> Detail</div>
-                  <div data-v-5d47e2fb="" class="more-l2">Original</div>
-                </div>
+          <div data-v-5d47e2fb="" data-v-0137aa14="" class="homeNav" id="flashs">
+            <div data-v-5d47e2fb="" class="title"><b data-v-5d47e2fb=""></b>Jili</div>
+            <div data-v-5d47e2fb="" class="tip">The games are independently developed by our team, fun, fair, and safe
+            </div>
+            <div data-v-5d47e2fb="" class="picContainer"><!--v-if--><img data-v-5d47e2fb="" alt="" class=""
+                src="https://ossimg.dmwinimage.com/DmWin/gamelogo/JILI/236.png" onclick="playWCGame(215)"
+                data-origin="/800_20241031144503660.png"><img data-v-5d47e2fb="" onclick="playWCGame(200)" alt=""
+                class="" data-origin="/810_20241029193645752.png"
+                src="https://ossimg.dmwinimage.com/DmWin/gamelogo/JILI/109.png"><img data-v-5d47e2fb=""
+                onclick="playWCGame(210)" alt="" class="" data-origin="/811.png"
+                src="https://ossimg.dmwinimage.com/DmWin/gamelogo/JILI/224.png"><img
+                src="https://ossimg.dmwinimage.com/DmWin/gamelogo/JILI/51.png" onclick="playWCGame(143)"
+                data-v-5d47e2fb="" alt="" class="" data-origin="/103.png"><img data-v-5d47e2fb="" alt="" class=""
+                onclick="playWCGame(214)" data-origin="/105.png"
+                src="https://ossimg.dmwinimage.com/DmWin/gamelogo/JILI/235.png">
+              <div data-v-5d47e2fb="" class="more" onclick="window.location.href = `/slotjili`">
+                <div data-v-5d47e2fb="" class="more-l1"><svg data-v-5d47e2fb="" class="svg-icon icon-p3more">
+                    <use xlink:href="#icon-p3more"></use>
+                  </svg> Detail</div>
+                <div data-v-5d47e2fb="" class="more-l2">Original</div>
               </div>
             </div>
-
-            <div data-v-5d47e2fb="" data-v-0137aa14="" class="homeNav" id="flashs">
-              <div data-v-5d47e2fb="" class="title"><b data-v-5d47e2fb=""></b>Jili</div>
-              <div data-v-5d47e2fb="" class="tip">The games are independently developed by our team, fun, fair, and safe
-              </div>
-              <div data-v-5d47e2fb="" class="picContainer"><!--v-if--><img data-v-5d47e2fb="" alt="" class=""
-                  src="https://ossimg.dmwinimage.com/DmWin/gamelogo/JILI/236.png" onclick="playWCGame(215)"
-                  data-origin="/800_20241031144503660.png"><img data-v-5d47e2fb="" onclick="playWCGame(200)" alt=""
-                  class="" data-origin="/810_20241029193645752.png"
-                  src="https://ossimg.dmwinimage.com/DmWin/gamelogo/JILI/109.png"><img data-v-5d47e2fb=""
-                  onclick="playWCGame(210)" alt="" class="" data-origin="/811.png"
-                  src="https://ossimg.dmwinimage.com/DmWin/gamelogo/JILI/224.png"><img
-                  src="https://ossimg.dmwinimage.com/DmWin/gamelogo/JILI/51.png" onclick="playWCGame(143)"
-                  data-v-5d47e2fb="" alt="" class="" data-origin="/103.png"><img data-v-5d47e2fb="" alt="" class=""
-                  onclick="playWCGame(214)" data-origin="/105.png"
-                  src="https://ossimg.dmwinimage.com/DmWin/gamelogo/JILI/235.png">
-                <div data-v-5d47e2fb="" class="more" onclick="window.location.href = `/slotjili`">
-                  <div data-v-5d47e2fb="" class="more-l1"><svg data-v-5d47e2fb="" class="svg-icon icon-p3more">
-                      <use xlink:href="#icon-p3more"></use>
-                    </svg> Detail</div>
-                  <div data-v-5d47e2fb="" class="more-l2">Original</div>
-                </div>
-              </div>
-            </div>
-
           </div>
 
-          <div data-v-8672ccbd="" data-v-f5b7f7ac="" style="margin: 100px 0px 0px 0px" class="luckyWinners__container">
-            <h1 data-v-8672ccbd="">Winning information</h1>
-            <div data-v-8672ccbd="" class="luckyWinners__container-wrapper">
-              <div data-v-8672ccbd="" id="main_container" style="position: relative">
-                <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item" style="
+        </div>
+
+        <div data-v-8672ccbd="" data-v-f5b7f7ac="" style="margin: 100px 0px 0px 0px" class="luckyWinners__container">
+          <h1 data-v-8672ccbd="">Winning information</h1>
+          <div data-v-8672ccbd="" class="luckyWinners__container-wrapper">
+            <div data-v-8672ccbd="" id="main_container" style="position: relative">
+              <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item" style="
                   overflow: hidden;
                   height: 0.0269404px;
                   padding-top: 0.00449115px;
@@ -9040,513 +9392,553 @@
                   padding-bottom: 0.00449115px;
                   margin-bottom: 0.0022455px;
                 ">
-                  <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-img">
-                    <img data-v-8672ccbd="" class="ar-lazyload" src="./91club_files/3-abfcc056.png" />
-                  </div>
-                  <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-info">
-                    <h1 data-v-8672ccbd="">Mem***MKE</h1>
-                  </div>
-                  <img data-v-8672ccbd="" class="gameTypeImg ar-lazyload"
-                    src="./91club_files/vendorlogo_202312150339081ra6.png" />
-                  <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-winAmount">
-                    <h1 data-v-8672ccbd="">Receive ₹80.00</h1>
-                    <span data-v-8672ccbd="">Winning amount</span>
-                  </div>
+                <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-img">
+                  <img data-v-8672ccbd="" class="ar-lazyload" src="./91club_files/3-abfcc056.png" />
                 </div>
-                <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item" style="">
-                  <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-img">
-                    <img data-v-8672ccbd="" class="ar-lazyload" src="./91club_files/11-925c456e.png" />
-                  </div>
-                  <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-info">
-                    <h1 data-v-8672ccbd="">Mem***JWV</h1>
-                  </div>
-                  <img data-v-8672ccbd="" class="gameTypeImg ar-lazyload"
-                    src="./91club_files/vendorlogo_20231215053732l6fa.png" />
-                  <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-winAmount">
-                    <h1 data-v-8672ccbd="">Receive ₹540.00</h1>
-                    <span data-v-8672ccbd="">Winning amount</span>
-                  </div>
+                <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-info">
+                  <h1 data-v-8672ccbd="">Mem***MKE</h1>
                 </div>
-                <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item" style="">
-                  <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-img">
-                    <img data-v-8672ccbd="" class="ar-lazyload" src="./91club_files/7-00479cfa.png" />
-                  </div>
-                  <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-info">
-                    <h1 data-v-8672ccbd="">Mem***QGS</h1>
-                  </div>
-                  <img data-v-8672ccbd="" class="gameTypeImg ar-lazyload"
-                    src="./91club_files/vendorlogo_20231215033931hy14.png" />
-                  <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-winAmount">
-                    <h1 data-v-8672ccbd="">Receive ₹170.00</h1>
-                    <span data-v-8672ccbd="">Winning amount</span>
-                  </div>
+                <img data-v-8672ccbd="" class="gameTypeImg ar-lazyload"
+                  src="./91club_files/vendorlogo_202312150339081ra6.png" />
+                <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-winAmount">
+                  <h1 data-v-8672ccbd="">Receive ₹80.00</h1>
+                  <span data-v-8672ccbd="">Winning amount</span>
                 </div>
-                <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item" style="">
-                  <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-img">
-                    <img data-v-8672ccbd="" class="ar-lazyload" src="./91club_files/14-a397ff6b.png" />
-                  </div>
-                  <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-info">
-                    <h1 data-v-8672ccbd="">Mem***UUQ</h1>
-                  </div>
-                  <img data-v-8672ccbd="" class="gameTypeImg ar-lazyload"
-                    src="./91club_files/vendorlogo_20231215053732l6fa.png" />
-                  <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-winAmount">
-                    <h1 data-v-8672ccbd="">Receive ₹600.00</h1>
-                    <span data-v-8672ccbd="">Winning amount</span>
-                  </div>
+              </div>
+              <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item" style="">
+                <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-img">
+                  <img data-v-8672ccbd="" class="ar-lazyload" src="./91club_files/11-925c456e.png" />
                 </div>
-                <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item" style="">
-                  <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-img">
-                    <img data-v-8672ccbd="" class="ar-lazyload" src="./91club_files/13-5676d43f.png" />
-                  </div>
-                  <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-info">
-                    <h1 data-v-8672ccbd="">Mem***CQF</h1>
-                  </div>
-                  <img data-v-8672ccbd="" class="gameTypeImg ar-lazyload"
-                    src="./91club_files/vendorlogo_20231215053732l6fa.png" />
-                  <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-winAmount">
-                    <h1 data-v-8672ccbd="">Receive ₹600.00</h1>
-                    <span data-v-8672ccbd="">Winning amount</span>
-                  </div>
+                <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-info">
+                  <h1 data-v-8672ccbd="">Mem***JWV</h1>
                 </div>
-                <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item" style="">
-                  <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-img">
-                    <img data-v-8672ccbd="" class="ar-lazyload" src="./91club_files/13-5676d43f.png" />
-                  </div>
-                  <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-info">
-                    <h1 data-v-8672ccbd="">Mem***CDM</h1>
-                  </div>
-                  <img data-v-8672ccbd="" class="gameTypeImg ar-lazyload"
-                    src="./91club_files/vendorlogo_20231215034022ak6f.png" />
-                  <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-winAmount">
-                    <h1 data-v-8672ccbd="">Receive ₹95.00</h1>
-                    <span data-v-8672ccbd="">Winning amount</span>
-                  </div>
+                <img data-v-8672ccbd="" class="gameTypeImg ar-lazyload"
+                  src="./91club_files/vendorlogo_20231215053732l6fa.png" />
+                <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-winAmount">
+                  <h1 data-v-8672ccbd="">Receive ₹540.00</h1>
+                  <span data-v-8672ccbd="">Winning amount</span>
+                </div>
+              </div>
+              <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item" style="">
+                <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-img">
+                  <img data-v-8672ccbd="" class="ar-lazyload" src="./91club_files/7-00479cfa.png" />
+                </div>
+                <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-info">
+                  <h1 data-v-8672ccbd="">Mem***QGS</h1>
+                </div>
+                <img data-v-8672ccbd="" class="gameTypeImg ar-lazyload"
+                  src="./91club_files/vendorlogo_20231215033931hy14.png" />
+                <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-winAmount">
+                  <h1 data-v-8672ccbd="">Receive ₹170.00</h1>
+                  <span data-v-8672ccbd="">Winning amount</span>
+                </div>
+              </div>
+              <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item" style="">
+                <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-img">
+                  <img data-v-8672ccbd="" class="ar-lazyload" src="./91club_files/14-a397ff6b.png" />
+                </div>
+                <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-info">
+                  <h1 data-v-8672ccbd="">Mem***UUQ</h1>
+                </div>
+                <img data-v-8672ccbd="" class="gameTypeImg ar-lazyload"
+                  src="./91club_files/vendorlogo_20231215053732l6fa.png" />
+                <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-winAmount">
+                  <h1 data-v-8672ccbd="">Receive ₹600.00</h1>
+                  <span data-v-8672ccbd="">Winning amount</span>
+                </div>
+              </div>
+              <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item" style="">
+                <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-img">
+                  <img data-v-8672ccbd="" class="ar-lazyload" src="./91club_files/13-5676d43f.png" />
+                </div>
+                <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-info">
+                  <h1 data-v-8672ccbd="">Mem***CQF</h1>
+                </div>
+                <img data-v-8672ccbd="" class="gameTypeImg ar-lazyload"
+                  src="./91club_files/vendorlogo_20231215053732l6fa.png" />
+                <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-winAmount">
+                  <h1 data-v-8672ccbd="">Receive ₹600.00</h1>
+                  <span data-v-8672ccbd="">Winning amount</span>
+                </div>
+              </div>
+              <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item" style="">
+                <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-img">
+                  <img data-v-8672ccbd="" class="ar-lazyload" src="./91club_files/13-5676d43f.png" />
+                </div>
+                <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-info">
+                  <h1 data-v-8672ccbd="">Mem***CDM</h1>
+                </div>
+                <img data-v-8672ccbd="" class="gameTypeImg ar-lazyload"
+                  src="./91club_files/vendorlogo_20231215034022ak6f.png" />
+                <div data-v-8672ccbd="" class="luckyWinners__container-wrapper__item-winAmount">
+                  <h1 data-v-8672ccbd="">Receive ₹95.00</h1>
+                  <span data-v-8672ccbd="">Winning amount</span>
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
-          <div data-v-643c1a0c="" data-v-94f8731b="" class="dailyProfitRank">
-            <h1 data-v-643c1a0c="">Today's earnings chart</h1>
-            <div data-v-643c1a0c="" class="dailyProfitRank__content">
-              <div data-v-643c1a0c="" class="dailyProfitRank__content-topThree">
-                <div data-v-643c1a0c="" class="dailyProfitRank__content-topThree__item" style="order: 2; top: -45px">
-                  <div data-v-643c1a0c="" style="
+        <div data-v-643c1a0c="" data-v-94f8731b="" class="dailyProfitRank">
+          <h1 data-v-643c1a0c="">Today's earnings chart</h1>
+          <div data-v-643c1a0c="" class="dailyProfitRank__content">
+            <div data-v-643c1a0c="" class="dailyProfitRank__content-topThree">
+              <div data-v-643c1a0c="" class="dailyProfitRank__content-topThree__item" style="order: 2; top: -45px">
+                <div data-v-643c1a0c="" style="
                     background: url(&quot;https://91club06.com/assets/png/border1-3b6518ec.png&quot;)
                       center center / 100% 100% no-repeat;
                   ">
-                    <img data-v-643c1a0c="" data-img="https://91club06.com/assets/png/avatar-ea3b8ee9.png" class=""
-                      src="./91club_files/10-29a6603e.png" />
-                  </div>
-                  <div data-v-643c1a0c="">
-                    <img data-v-643c1a0c="" class="" src="./91club_files/crown1-3912fd85.png" /><img data-v-643c1a0c=""
-                      class="" src="./91club_files/place1-fe39c3f3.png" />
-                  </div>
-                  <span data-v-643c1a0c="">Mem***387</span><span data-v-643c1a0c="">₹2,853,503.00</span>
+                  <img data-v-643c1a0c="" data-img="https://91club06.com/assets/png/avatar-ea3b8ee9.png" class=""
+                    src="./91club_files/10-29a6603e.png" />
                 </div>
-                <div data-v-643c1a0c="" class="dailyProfitRank__content-topThree__item" style="order: 1; top: -30px">
-                  <div data-v-643c1a0c="" style="
+                <div data-v-643c1a0c="">
+                  <img data-v-643c1a0c="" class="" src="./91club_files/crown1-3912fd85.png" /><img data-v-643c1a0c=""
+                    class="" src="./91club_files/place1-fe39c3f3.png" />
+                </div>
+                <span data-v-643c1a0c="">Mem***387</span><span data-v-643c1a0c="">₹2,853,503.00</span>
+              </div>
+              <div data-v-643c1a0c="" class="dailyProfitRank__content-topThree__item" style="order: 1; top: -30px">
+                <div data-v-643c1a0c="" style="
                     background: url(&quot;https://91club06.com/assets/png/border2-7a806be7.png&quot;)
                       center center / 100% 100% no-repeat;
                   ">
-                    <img data-v-643c1a0c="" data-img="https://91club06.com/assets/png/5-ab77b716.png" class=""
-                      src="./91club_files/5-ab77b716.png" />
-                  </div>
-                  <div data-v-643c1a0c="">
-                    <img data-v-643c1a0c="" class="" src="./91club_files/crown2-c8aced52.png" /><img data-v-643c1a0c=""
-                      class="" src="./91club_files/place2-8189be28.png" />
-                  </div>
-                  <span data-v-643c1a0c="">Mem***566</span><span data-v-643c1a0c="">₹588,900.00</span>
+                  <img data-v-643c1a0c="" data-img="https://91club06.com/assets/png/5-ab77b716.png" class=""
+                    src="./91club_files/5-ab77b716.png" />
                 </div>
-                <div data-v-643c1a0c="" class="dailyProfitRank__content-topThree__item" style="order: 3; top: -30px">
-                  <div data-v-643c1a0c="" style="
+                <div data-v-643c1a0c="">
+                  <img data-v-643c1a0c="" class="" src="./91club_files/crown2-c8aced52.png" /><img data-v-643c1a0c=""
+                    class="" src="./91club_files/place2-8189be28.png" />
+                </div>
+                <span data-v-643c1a0c="">Mem***566</span><span data-v-643c1a0c="">₹588,900.00</span>
+              </div>
+              <div data-v-643c1a0c="" class="dailyProfitRank__content-topThree__item" style="order: 3; top: -30px">
+                <div data-v-643c1a0c="" style="
                     background: url(&quot;https://91club06.com/assets/png/border3-cfec4a7d.png&quot;)
                       center center / 100% 100% no-repeat;
                   ">
-                    <img data-v-643c1a0c="" data-img="https://91club06.com/assets/png/avatar-ea3b8ee9.png" class=""
-                      src="./91club_files/8-ea087ede.png" />
-                  </div>
-                  <div data-v-643c1a0c="">
-                    <img data-v-643c1a0c="" class="" src="./91club_files/crown3-2ca02146.png" /><img data-v-643c1a0c=""
-                      class="" src="./91club_files/place3-d9b0be38.png" />
-                  </div>
-                  <span data-v-643c1a0c="">Mem***453</span><span data-v-643c1a0c="">₹240,438.00</span>
+                  <img data-v-643c1a0c="" data-img="https://91club06.com/assets/png/avatar-ea3b8ee9.png" class=""
+                    src="./91club_files/8-ea087ede.png" />
                 </div>
+                <div data-v-643c1a0c="">
+                  <img data-v-643c1a0c="" class="" src="./91club_files/crown3-2ca02146.png" /><img data-v-643c1a0c=""
+                    class="" src="./91club_files/place3-d9b0be38.png" />
+                </div>
+                <span data-v-643c1a0c="">Mem***453</span><span data-v-643c1a0c="">₹240,438.00</span>
               </div>
-              <div data-v-643c1a0c="" class="dailyProfitRank__content-list">
-                <div data-v-643c1a0c="" class="dailyProfitRank__content-list__item">
-                  <span data-v-643c1a0c="" class="left-rank">4</span><img data-v-643c1a0c=""
-                    data-img="https://91club06.com/assets/png/avatar-ea3b8ee9.png" class=""
-                    src="./91club_files/17-bedde42f.png" /><span data-v-643c1a0c=""
-                    class="middle-name">Mem***879</span><span data-v-643c1a0c="" class="right-box">₹895,467.00</span>
-                </div>
-                <div data-v-643c1a0c="" class="dailyProfitRank__content-list__item">
-                  <span data-v-643c1a0c="" class="left-rank">5</span><img data-v-643c1a0c=""
-                    data-img="https://91club06.com/assets/png/avatar-ea3b8ee9.png" class=""
-                    src="./91club_files/13-5676d43f(1).png" /><span data-v-643c1a0c=""
-                    class="middle-name">Mem***113</span>
-                  <span data-v-643c1a0c="" class="right-box">₹940,928.00</span>
-                </div>
+            </div>
+            <div data-v-643c1a0c="" class="dailyProfitRank__content-list">
+              <div data-v-643c1a0c="" class="dailyProfitRank__content-list__item">
+                <span data-v-643c1a0c="" class="left-rank">4</span><img data-v-643c1a0c=""
+                  data-img="https://91club06.com/assets/png/avatar-ea3b8ee9.png" class=""
+                  src="./91club_files/17-bedde42f.png" /><span data-v-643c1a0c=""
+                  class="middle-name">Mem***879</span><span data-v-643c1a0c="" class="right-box">₹895,467.00</span>
+              </div>
+              <div data-v-643c1a0c="" class="dailyProfitRank__content-list__item">
+                <span data-v-643c1a0c="" class="left-rank">5</span><img data-v-643c1a0c=""
+                  data-img="https://91club06.com/assets/png/avatar-ea3b8ee9.png" class=""
+                  src="./91club_files/13-5676d43f(1).png" /><span data-v-643c1a0c=""
+                  class="middle-name">Mem***113</span>
+                <span data-v-643c1a0c="" class="right-box">₹940,928.00</span>
               </div>
             </div>
           </div>
+        </div>
 
-          <div data-v-0e007999="" data-v-94f8731b="" class="dialog inactive">
-            <div data-v-0e007999="" class="dialog__container" role="dialog" tabindex="0">
-              <div data-v-0e007999="" class="dialog__container-img">
-                <img data-v-0e007999="" alt="" class="" src="./91club_files/superjackpotHome-72bbeb43.png" />
-              </div>
-              <div data-v-0e007999="" class="dialog__container-title">
-                <h1 data-v-0e007999="">Congratulation</h1>
-              </div>
-              <div data-v-0e007999="" class="dialog__container-content">
-                <div data-v-94f8731b="" class="Laundry-Con">
-                  <div data-v-94f8731b="" class="Laundry-Con_tip">
-                    Get 【Super Jackpot】!
-                  </div>
-                  <div data-v-94f8731b="" class="Landty-Con-tips">
-                    Visit the [Super Jackpot] page to claim your reward
-                  </div>
+        <div data-v-0e007999="" data-v-94f8731b="" class="dialog inactive">
+          <div data-v-0e007999="" class="dialog__container" role="dialog" tabindex="0">
+            <div data-v-0e007999="" class="dialog__container-img">
+              <img data-v-0e007999="" alt="" class="" src="./91club_files/superjackpotHome-72bbeb43.png" />
+            </div>
+            <div data-v-0e007999="" class="dialog__container-title">
+              <h1 data-v-0e007999="">Congratulation</h1>
+            </div>
+            <div data-v-0e007999="" class="dialog__container-content">
+              <div data-v-94f8731b="" class="Laundry-Con">
+                <div data-v-94f8731b="" class="Laundry-Con_tip">
+                  Get 【Super Jackpot】!
+                </div>
+                <div data-v-94f8731b="" class="Landty-Con-tips">
+                  Visit the [Super Jackpot] page to claim your reward
                 </div>
               </div>
-              <div data-v-0e007999="" class="dialog__container-footer">
-                <!----><button data-v-0e007999="">OK</button>
-              </div>
             </div>
-            <div data-v-0e007999="" class="dialog__outside"></div>
+            <div data-v-0e007999="" class="dialog__container-footer">
+              <!----><button data-v-0e007999="">OK</button>
+            </div>
           </div>
+          <div data-v-0e007999="" class="dialog__outside"></div>
         </div>
       </div>
+    </div>
 
-      <div data-v-67fe8f9c="" class="tabbar__container"
-        style="--36a344b0: &#39;Roboto&#39;, &#39;Inter&#39;, sans-serif;">
-        <div data-v-67fe8f9c="" class="tabbar__container-item active" onclick="window.location.href=&#39;/home&#39;">
-          <svg data-v-67fe8f9c="" xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none"
-            viewBox="0 0 46 44" class="">
-            <circle cx="27" cy="28" r="18" fill="#B6BCC8"></circle>
-            <path fill="#768096" fill-rule="evenodd"
-              d="m23.66 5.278-17.9 12.08v25.507h10.08v-10.44a5.04 5.04 0 0 1 5.04-5.04h6.36a5.04 5.04 0 0 1 5.04 5.04v4.38h-3.36v-4.38a1.68 1.68 0 0 0-1.68-1.68h-6.36a1.68 1.68 0 0 0-1.68 1.68v11.16a2.64 2.64 0 0 1-2.64 2.64H5.04a2.64 2.64 0 0 1-2.64-2.64v-26.61a2.64 2.64 0 0 1 1.163-2.188L22.437 2.05a2.16 2.16 0 0 1 2.382-.023L44.514 14.77a2.64 2.64 0 0 1 1.206 2.217v26.598a2.64 2.64 0 0 1-2.64 2.64H30.6v-3.36h11.76V17.379l-18.7-12.1Z"
-              clip-rule="evenodd"></path>
-            <path fill="#768096"
-              d="M32.4 44.545a1.68 1.68 0 1 1-3.36 0 1.68 1.68 0 0 1 3.36 0ZM32.28 36.745a1.68 1.68 0 1 1-3.36 0 1.68 1.68 0 0 1 3.36 0Z">
-            </path>
-          </svg><!----><span data-v-67fe8f9c="">Home</span>
-        </div>
-        <div data-v-67fe8f9c="" class="tabbar__container-item" onclick="location.href=&#39;/activity&#39;">
-          <svg data-v-67fe8f9c="" xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none"
-            viewBox="0 0 46 44" class="">
-            <circle cx="27" cy="24" r="18" fill="#B6BCC8"></circle>
-            <path fill="#768096" fill-rule="evenodd"
-              d="M10.512 5.2h26.975a4.8 4.8 0 0 1 4.796 4.6l.51 12.2h3.203L45.48 9.666A8 8 0 0 0 37.489 2H10.511A8 8 0 0 0 2.52 9.666l-1.17 28A8 8 0 0 0 9.34 46h29.317a8 8 0 0 0 7.993-8.334L46.331 30h-3.203l.326 7.8a4.8 4.8 0 0 1-4.796 5H9.341a4.8 4.8 0 0 1-4.795-5l1.17-28a4.8 4.8 0 0 1 4.796-4.6Z"
-              clip-rule="evenodd"></path>
-            <path fill="#768096" fill-rule="evenodd"
-              d="M13.92 16.64c.466 5.158 4.8 9.2 10.08 9.2 5.279 0 9.614-4.042 10.078-9.2h-3.522a6.621 6.621 0 0 1-13.113 0h-3.522Z"
-              clip-rule="evenodd"></path>
-            <path fill="#768096"
-              d="M34.092 16.65a1.75 1.75 0 0 1-1.75 1.75c-.967 0-1.795-.784-1.795-1.75 0-.967.828-1.75 1.795-1.75.966 0 1.75.783 1.75 1.75ZM17.449 16.648c0 .966-.766 1.75-1.733 1.75-.966 0-1.795-.784-1.795-1.75 0-.967.829-1.75 1.795-1.75.967 0 1.733.783 1.733 1.75ZM46 22a1.6 1.6 0 1 1-3.2 0 1.6 1.6 0 0 1 3.2 0ZM46.33 30.044a1.6 1.6 0 1 1-3.2 0 1.6 1.6 0 0 1 3.2 0Z">
-            </path>
-          </svg><!----><span data-v-67fe8f9c="">Activity</span>
-        </div>
-        <div data-v-67fe8f9c="" class="tabbar__container-item" onclick="location.href=&#39;/promotion&#39;">
-          <svg data-v-67fe8f9c="" xmlns="http://www.w3.org/2000/svg" width="57" height="49" fill="none"
-            viewBox="0 0 57 49" class="">
-            <path fill="#fff" fill-rule="evenodd"
-              d="M8.939 1.501A4 4 0 0 1 12.062 0h32.155a4 4 0 0 1 3.124 1.501l7.738 9.673c.427.533.749 1.12.968 1.735H.233a5.99 5.99 0 0 1 .967-1.735L8.94 1.501ZM0 16.091h56.28a5.985 5.985 0 0 1-1.277 2.673l-23.79 28.549a4 4 0 0 1-6.146 0l-23.79-28.55A5.984 5.984 0 0 1 0 16.092Zm20.556 5.936 7.195 10.102a.5.5 0 0 0 .816-.002l7.118-10.093a2.44 2.44 0 0 1 4.435 1.406v.2h-.223c-.326 0-.782.248-1.304.93-.506.663-6.466 8.724-9.651 13.035a.975.975 0 0 1-1.563.007L17.32 24.26s-.394-.62-1.06-.62h-.14v-.195a2.445 2.445 0 0 1 4.436-1.418Z"
-              clip-rule="evenodd"></path>
-          </svg>
-          <div data-v-67fe8f9c="" class="promotionBg"></div>
-          <span data-v-67fe8f9c="">Promotion</span>
-        </div>
-        <div data-v-67fe8f9c="" class="tabbar__container-item" onclick="location.href=&#39;/wallet&#39;">
-          <svg data-v-67fe8f9c="" xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none"
-            viewBox="0 0 46 44" class="wallet">
-            <circle cx="28" cy="24" r="18" fill="#B6BCC8"></circle>
-            <path stroke="#768096" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.2"
-              d="M3 23c0-5.984 3.526-10.164 9.008-10.868.56-.088 1.14-.132 1.742-.132h21.5c.559 0 1.096.022 1.612.11C42.41 12.77 46 16.972 46 23v11c0 6.6-4.3 11-10.75 11h-21.5C7.3 45 3 40.6 3 34v-2.178">
-            </path>
-            <path stroke="#768096" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.2"
-              d="M46 23.724h-6.452c-2.366 0-4.301 1.862-4.301 4.138S37.182 32 39.548 32H46m-9-20c-.516-.083-1.194 0-1.753 0H14c-.602 0-1.44-.083-2 0 0 0 .731-.648 1.247-1.145l6.99-6.745A7.737 7.737 0 0 1 25.571 2c1.997 0 3.914.758 5.333 2.11l3.764 3.662C36.045 9.076 39.548 12 37 12Z">
-            </path>
-          </svg><!----><span data-v-67fe8f9c="">Wallet</span>
-        </div>
-        <div data-v-67fe8f9c="" class="tabbar__container-item" onclick="location.href=&#39;/mian&#39;">
-          <svg data-v-67fe8f9c="" xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none"
-            viewBox="0 0 46 44" class="">
-            <circle cx="28" cy="24" r="18" fill="#B6BCC8"></circle>
-            <path fill="#768096" fill-rule="evenodd"
-              d="M24.08 5.28C13.741 5.28 5.36 13.661 5.36 24c0 10.339 8.381 18.72 18.72 18.72 10.339 0 18.72-8.381 18.72-18.72v-8.76h3.36V24c0 12.194-9.886 22.08-22.08 22.08C11.886 46.08 2 36.194 2 24 2 11.806 11.886 1.92 24.08 1.92h20.28v3.36H24.08Z"
-              clip-rule="evenodd"></path>
-            <path fill="#768096"
-              d="M46.16 3.6a1.68 1.68 0 1 1-3.36 0 1.68 1.68 0 0 1 3.36 0ZM46.16 15.12a1.68 1.68 0 1 1-3.36 0 1.68 1.68 0 0 1 3.36 0Z">
-            </path>
-            <path fill="#768096" fill-rule="evenodd"
-              d="M15.806 29.582a1.68 1.68 0 0 1 2.372.144c1.15 1.298 2.748 2.794 5.462 2.794 2.872 0 4.857-1.428 5.805-2.533a1.68 1.68 0 0 1 2.55 2.186c-1.451 1.695-4.314 3.707-8.355 3.707-4.198 0-6.647-2.424-7.977-3.926a1.68 1.68 0 0 1 .143-2.372Z"
-              clip-rule="evenodd"></path>
-          </svg><!----><span data-v-67fe8f9c="">Account</span>
-        </div>
+    <div data-v-67fe8f9c="" class="tabbar__container"
+      style="--36a344b0: &#39;Roboto&#39;, &#39;Inter&#39;, sans-serif;">
+      <div data-v-67fe8f9c="" class="tabbar__container-item active" onclick="window.location.href=&#39;/home&#39;">
+        <svg data-v-67fe8f9c="" xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none"
+          viewBox="0 0 46 44" class="">
+          <circle cx="27" cy="28" r="18" fill="#B6BCC8"></circle>
+          <path fill="#768096" fill-rule="evenodd"
+            d="m23.66 5.278-17.9 12.08v25.507h10.08v-10.44a5.04 5.04 0 0 1 5.04-5.04h6.36a5.04 5.04 0 0 1 5.04 5.04v4.38h-3.36v-4.38a1.68 1.68 0 0 0-1.68-1.68h-6.36a1.68 1.68 0 0 0-1.68 1.68v11.16a2.64 2.64 0 0 1-2.64 2.64H5.04a2.64 2.64 0 0 1-2.64-2.64v-26.61a2.64 2.64 0 0 1 1.163-2.188L22.437 2.05a2.16 2.16 0 0 1 2.382-.023L44.514 14.77a2.64 2.64 0 0 1 1.206 2.217v26.598a2.64 2.64 0 0 1-2.64 2.64H30.6v-3.36h11.76V17.379l-18.7-12.1Z"
+            clip-rule="evenodd"></path>
+          <path fill="#768096"
+            d="M32.4 44.545a1.68 1.68 0 1 1-3.36 0 1.68 1.68 0 0 1 3.36 0ZM32.28 36.745a1.68 1.68 0 1 1-3.36 0 1.68 1.68 0 0 1 3.36 0Z">
+          </path>
+        </svg><!----><span data-v-67fe8f9c="">Home</span>
       </div>
-      <!---->
-      <foreignobject></foreignobject>
-      <div class="customer" id="customerId"
-        style="--36a344b0: &#39;Roboto&#39;, &#39;Inter&#39;, sans-serif; --17a7a9f6: bahnschrift;">
-        <img class="" onclick="window.location.href=&#39;/keFuMenu#/&#39;;"
-          src="./assets/png/icon_sevice-d02ff18d.png" />
+      <div data-v-67fe8f9c="" class="tabbar__container-item" onclick="location.href=&#39;/activity&#39;">
+        <svg data-v-67fe8f9c="" xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none"
+          viewBox="0 0 46 44" class="activity-icon">
+          <circle cx="27" cy="24" r="18" fill="#B6BCC8"></circle>
+          <path fill="#768096" fill-rule="evenodd"
+            d="M10.512 5.2h26.975a4.8 4.8 0 0 1 4.796 4.6l.51 12.2h3.203L45.48 9.666A8 8 0 0 0 37.489 2H10.511A8 8 0 0 0 2.52 9.666l-1.17 28A8 8 0 0 0 9.34 46h29.317a8 8 0 0 0 7.993-8.334L46.331 30h-3.203l.326 7.8a4.8 4.8 0 0 1-4.796 5H9.341a4.8 4.8 0 0 1-4.795-5l1.17-28a4.8 4.8 0 0 1 4.796-4.6Z"
+            clip-rule="evenodd"></path>
+          <path fill="#768096" fill-rule="evenodd"
+            d="M13.92 16.64c.466 5.158 4.8 9.2 10.08 9.2 5.279 0 9.614-4.042 10.078-9.2h-3.522a6.621 6.621 0 0 1-13.113 0h-3.522Z"
+            clip-rule="evenodd"></path>
+          <path fill="#768096"
+            d="M34.092 16.65a1.75 1.75 0 0 1-1.75 1.75c-.967 0-1.795-.784-1.795-1.75 0-.967.828-1.75 1.795-1.75.966 0 1.75.783 1.75 1.75ZM17.449 16.648c0 .966-.766 1.75-1.733 1.75-.966 0-1.795-.784-1.795-1.75 0-.967.829-1.75 1.795-1.75.967 0 1.733.783 1.733 1.75ZM46 22a1.6 1.6 0 1 1-3.2 0 1.6 1.6 0 0 1 3.2 0ZM46.33 30.044a1.6 1.6 0 1 1-3.2 0 1.6 1.6 0 0 1 3.2 0Z">
+          </path>
+        </svg><!----><span data-v-67fe8f9c="" style="color: #000 !important;">Activity</span>
       </div>
+      <div data-v-67fe8f9c="" class="tabbar__container-item" onclick="location.href=&#39;/promotion&#39;">
+        <svg data-v-67fe8f9c="" xmlns="http://www.w3.org/2000/svg" width="57" height="49" fill="none"
+          viewBox="0 0 57 49" class="promotion-icon">
+          <path fill="#fff" fill-rule="evenodd"
+            d="M8.939 1.501A4 4 0 0 1 12.062 0h32.155a4 4 0 0 1 3.124 1.501l7.738 9.673c.427.533.749 1.12.968 1.735H.233a5.99 5.99 0 0 1 .967-1.735L8.94 1.501ZM0 16.091h56.28a5.985 5.985 0 0 1-1.277 2.673l-23.79 28.549a4 4 0 0 1-6.146 0l-23.79-28.55A5.984 5.984 0 0 1 0 16.092Zm20.556 5.936 7.195 10.102a.5.5 0 0 0 .816-.002l7.118-10.093a2.44 2.44 0 0 1 4.435 1.406v.2h-.223c-.326 0-.782.248-1.304.93-.506.663-6.466 8.724-9.651 13.035a.975.975 0 0 1-1.563.007L17.32 24.26s-.394-.62-1.06-.62h-.14v-.195a2.445 2.445 0 0 1 4.436-1.418Z"
+            clip-rule="evenodd"></path>
+        </svg>
+        <div data-v-67fe8f9c="" class="promotionBg"></div>
+        <span data-v-67fe8f9c="" style="color: #000;">Promotion</span>
+      </div>
+      <div data-v-67fe8f9c="" class="tabbar__container-item" onclick="location.href=&#39;/wallet&#39;">
+        <svg data-v-67fe8f9c="" xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none"
+          viewBox="0 0 46 44" class="wallet wallet-icon">
+          <circle cx="28" cy="24" r="18" fill="#B6BCC8"></circle>
+          <path stroke="#768096" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.2"
+            d="M3 23c0-5.984 3.526-10.164 9.008-10.868.56-.088 1.14-.132 1.742-.132h21.5c.559 0 1.096.022 1.612.11C42.41 12.77 46 16.972 46 23v11c0 6.6-4.3 11-10.75 11h-21.5C7.3 45 3 40.6 3 34v-2.178">
+          </path>
+          <path stroke="#768096" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.2"
+            d="M46 23.724h-6.452c-2.366 0-4.301 1.862-4.301 4.138S37.182 32 39.548 32H46m-9-20c-.516-.083-1.194 0-1.753 0H14c-.602 0-1.44-.083-2 0 0 0 .731-.648 1.247-1.145l6.99-6.745A7.737 7.737 0 0 1 25.571 2c1.997 0 3.914.758 5.333 2.11l3.764 3.662C36.045 9.076 39.548 12 37 12Z">
+          </path>
+        </svg><!----><span style="color: #000;" data-v-67fe8f9c="">Wallet</span>
+      </div>
+      <div data-v-67fe8f9c="" class="tabbar__container-item" onclick="location.href=&#39;/mian&#39;">
+        <svg data-v-67fe8f9c="" xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none"
+          viewBox="0 0 46 44" class="account-icon">
+          <circle cx="28" cy="24" r="18" fill="#B6BCC8"></circle>
+          <path fill="#768096" fill-rule="evenodd"
+            d="M24.08 5.28C13.741 5.28 5.36 13.661 5.36 24c0 10.339 8.381 18.72 18.72 18.72 10.339 0 18.72-8.381 18.72-18.72v-8.76h3.36V24c0 12.194-9.886 22.08-22.08 22.08C11.886 46.08 2 36.194 2 24 2 11.806 11.886 1.92 24.08 1.92h20.28v3.36H24.08Z"
+            clip-rule="evenodd"></path>
+          <path fill="#768096"
+            d="M46.16 3.6a1.68 1.68 0 1 1-3.36 0 1.68 1.68 0 0 1 3.36 0ZM46.16 15.12a1.68 1.68 0 1 1-3.36 0 1.68 1.68 0 0 1 3.36 0Z">
+          </path>
+          <path fill="#768096" fill-rule="evenodd"
+            d="M15.806 29.582a1.68 1.68 0 0 1 2.372.144c1.15 1.298 2.748 2.794 5.462 2.794 2.872 0 4.857-1.428 5.805-2.533a1.68 1.68 0 0 1 2.55 2.186c-1.451 1.695-4.314 3.707-8.355 3.707-4.198 0-6.647-2.424-7.977-3.926a1.68 1.68 0 0 1 .143-2.372Z"
+            clip-rule="evenodd"></path>
+        </svg><!----><span data-v-67fe8f9c="" style="color: #000;">Account</span>
+      </div>
+    </div>
+    <!---->
+    <foreignobject></foreignobject>
+    <div class="customer" id="customerId"
+      style="--36a344b0: &#39;Roboto&#39;, &#39;Inter&#39;, sans-serif; --17a7a9f6: bahnschrift;">
+      <img class="" onclick="window.location.href=&#39;/keFuMenu#/&#39;;" src="./assets/png/icon_sevice-d02ff18d.png" />
+    </div>
 
-      <script>
+    <script>
 
-      </script>
+    </script>
 
 
-      <script src="./91club_files/jquery-3.6.0.min.js.download"></script>
-      <script>
-        // function moveLastItemToBeginning() {
-        //     var container = $('#main_container');
-        //     var lastItem = container.find('.luckyWinners__container-wrapper__item:last');
+    <script src="./91club_files/jquery-3.6.0.min.js.download"></script>
+    <script>
+      // function moveLastItemToBeginning() {
+      //     var container = $('#main_container');
+      //     var lastItem = container.find('.luckyWinners__container-wrapper__item:last');
 
-        //     var clonedItem = lastItem.clone();
+      //     var clonedItem = lastItem.clone();
 
-        //     // container.prepend(clonedItem);
+      //     // container.prepend(clonedItem);
 
-        //     lastItem.fadeOut(300, function() {
-        //         // Remove last item from the container after fade out is complete
-        //         lastItem.remove();
-        //     });
-        // }
+      //     lastItem.fadeOut(300, function() {
+      //         // Remove last item from the container after fade out is complete
+      //         lastItem.remove();
+      //     });
+      // }
 
-        var CloseDialog = (id) => {
-          if (id == "deposit_bonus") {
-            $(".van-overlay").remove();
-          }
-          $("#" + id).remove();
-        };
-        // setInterval(moveLastItemToBeginning, 2000);
-        function moveLastItemToBeginningAndScroll() {
-          var container = $("#main_container");
-          var lastItem = container.find(
-            ".luckyWinners__container-wrapper__item:last",
+      var CloseDialog = (id) => {
+        if (id == "deposit_bonus") {
+          $(".van-overlay").remove();
+        }
+        $("#" + id).remove();
+      };
+      // setInterval(moveLastItemToBeginning, 2000);
+      function moveLastItemToBeginningAndScroll() {
+        var container = $("#main_container");
+        var lastItem = container.find(
+          ".luckyWinners__container-wrapper__item:last",
+        );
+        var clonedItem = lastItem.clone();
+        clonedItem.hide();
+
+        lastItem.remove();
+        container.prepend(clonedItem);
+        clonedItem.slideDown(300);
+      }
+
+      // Call the function every 1 second
+      setInterval(moveLastItemToBeginningAndScroll, 2000);
+    </script>
+
+    <script>
+      $(document).ready(function () {
+        // Select the overlay element
+        $(".van-overlay").fadeIn(10);
+      });
+      $(window).on("load", function () {
+        // Select the overlay element
+        $(".van-overlay").fadeIn(10);
+        setTimeout(function () {
+          $(".van-overlay").fadeOut(300);
+        }, 10);
+      });
+
+      $(document).ready(function () {
+        // Select the overlay element
+        $(".van-overlay").fadeIn(10);
+      });
+      $(window).on("load", function () {
+        // Select the overlay element
+        $(".van-overlay").fadeIn(10);
+        setTimeout(function () {
+          $(".van-overlay").fadeOut(300);
+        }, 600);
+      });
+
+      var index = 0;
+      var item = document.getElementsByClassName("van-sidebar-item");
+
+      function currentButton(n) {
+        showActive((index = n));
+      }
+      function showActive(n) {
+        for (var i = 0; i < item.length; i++) {
+          item[i].className = item[i].className.replace(
+            "van-sidebar-item--select",
+            "",
           );
-          var clonedItem = lastItem.clone();
-          clonedItem.hide();
+        }
+        item[n].className += " van-sidebar-item--select";
+      }
 
-          lastItem.remove();
-          container.prepend(clonedItem);
-          clonedItem.slideDown(300);
+      function openCity(evt, cityName) {
+        // Declare all variables
+        var i, tabcontent, tablinks;
+
+        // Get all elements with class="tabcontent" and hide them
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
         }
 
-        // Call the function every 1 second
-        setInterval(moveLastItemToBeginningAndScroll, 2000);
-      </script>
-
-      <script>
-        $(document).ready(function () {
-          // Select the overlay element
-          $(".van-overlay").fadeIn(10);
-        });
-        $(window).on("load", function () {
-          // Select the overlay element
-          $(".van-overlay").fadeIn(10);
-          setTimeout(function () {
-            $(".van-overlay").fadeOut(300);
-          }, 10);
-        });
-
-        $(document).ready(function () {
-          // Select the overlay element
-          $(".van-overlay").fadeIn(10);
-        });
-        $(window).on("load", function () {
-          // Select the overlay element
-          $(".van-overlay").fadeIn(10);
-          setTimeout(function () {
-            $(".van-overlay").fadeOut(300);
-          }, 600);
-        });
-
-        var index = 0;
-        var item = document.getElementsByClassName("van-sidebar-item");
-
-        function currentButton(n) {
-          showActive((index = n));
-        }
-        function showActive(n) {
-          for (var i = 0; i < item.length; i++) {
-            item[i].className = item[i].className.replace(
-              "van-sidebar-item--select",
-              "",
-            );
-          }
-          item[n].className += " van-sidebar-item--select";
+        // Get all elements with class="tablinks" and remove the class "active"
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
         }
 
-        function openCity(evt, cityName) {
-          // Declare all variables
-          var i, tabcontent, tablinks;
+        // Show the current tab, and add an "active" class to the link that opened the tab
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+      }
 
-          // Get all elements with class="tabcontent" and hide them
-          tabcontent = document.getElementsByClassName("tabcontent");
-          for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-          }
+      // Get the element with id="defaultOpen" and click on it
+      document.getElementById("defaultOpen").click();
 
-          // Get all elements with class="tablinks" and remove the class "active"
-          tablinks = document.getElementsByClassName("tablinks");
-          for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
-          }
-
-          // Show the current tab, and add an "active" class to the link that opened the tab
-          document.getElementById(cityName).style.display = "block";
-          evt.currentTarget.className += " active";
-        }
-
-        // Get the element with id="defaultOpen" and click on it
-        document.getElementById("defaultOpen").click();
-
-        function openGameById(gameId) {
-          window.location.href = "/slotjili"
-          fetch("/playJillieGame", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ gameId: gameId }),
+      function openGameById(gameId) {
+        window.location.href = "/slotjili"
+        fetch("/playJillieGame", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ gameId: gameId }),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
           })
-            .then((response) => {
-              if (!response.ok) {
-                throw new Error("Network response was not ok");
-              }
-              return response.json();
-            })
-            .then((response) => {
-              if (response.Data) {
-                window.location.href = response.Data; // Redirect to the game URL
-              } else {
-              }
-            })
-            .catch((error) => {
-              console.error("Error playing game:", error);
-            });
-        }
-
-        function playSpribeGame({ gameName }) {
-          fetch("/playSpribeGame", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ gameName }),
+          .then((response) => {
+            if (response.Data) {
+              window.location.href = response.Data; // Redirect to the game URL
+            } else {
+            }
           })
-            .then((response) => response.json())
-            .then((data) => {
-              console.log(data, "response");
-              if (data.Data) {
-                window.location.href = data.Data;
-              } else {
-                alert("Error playing game");
-              }
-            })
-            .catch((error) => {
-              console.log("Error playing game:", error);
+          .catch((error) => {
+            console.error("Error playing game:", error);
+          });
+      }
+
+      function playSpribeGame({ gameName }) {
+        fetch("/playSpribeGame", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ gameName }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data, "response");
+            if (data.Data) {
+              window.location.href = data.Data;
+            } else {
               alert("Error playing game");
-            });
+            }
+          })
+          .catch((error) => {
+            console.log("Error playing game:", error);
+            alert("Error playing game");
+          });
+      }
+    </script>
+
+    <script>
+      $(document).ready(function () {
+        changeTab(null, "lottery");
+
+        setTimeout(() => {
+          $("#preloader-overlay").fadeOut(300);
+        }, 500);
+
+        // $('.other_img').click(function (e) {
+        //     console.log(e);
+        //     // showAlert()
+        // });
+      });
+
+      var showAlert = () => {
+        $(".comming_soon").fadeIn(300);
+        $(".comming_soon").css("display", "flex");
+        setTimeout(() => {
+          $(".comming_soon").fadeOut(500);
+        }, 2000);
+      };
+    </script>
+
+    <script>
+      $(document).ready(function () {
+        // Select the div element you want to hide
+        var divToHide = $("#preloader-overlay");
+
+        // Set a timeout to hide the div after 5 seconds (5000 milliseconds)
+        setTimeout(function () {
+          divToHide.hide();
+        }, 1000);
+      });
+    </script>
+
+
+
+
+    <script>
+
+      document.write(unescape("%3Cscript%3E%0A%20%20%20%20%20%20%20%20let%20UID%20%3D%20%22%22%3B%0A%20%20%20%20%20%20%20%20function%20alertMess%28text%2C%20sic%2C%20type%29%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20if%28type%20%3D%3D%20%27success%27%29%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%24%28%27body%27%29.append%28%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%60%3Cdiv%20role%3D%22dialog%22%20tabindex%3D%220%22%20class%3D%22msg%20van-popup%20van-popup--center%20van-toast%20van-toast--middle%20van-toast--success%22%20style%3D%22z-index%3A%202001%3B%20display%3Ane%3B%22%3E%3Ci%20class%3D%22van-badge__wrapper%20van-icon%20van-icon-success%20van-toast__icon%22%3E%3C%21----%3E%3C%21----%3E%3C%21----%3E%3C/i%3E%3Cdiv%20class%3D%22van-toast__text%22%3E%24%7Btext%7D%3C/div%3E%3C%21----%3E%3C/div%3E%60%0A%20%20%20%20%20%20%20%20%20%20%20%20%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7Delse%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%24%28%27body%27%29.append%28%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%60%3Cdiv%20role%3D%22dialog%22%20tabindex%3D%220%22%20class%3D%22msg%20van-popup%20van-popup--center%20van-toast%20van-toast--middle%20van-toast--success%22%20style%3D%22z-index%3A%202001%3B%20display%3Ane%3B%22%3E%3Ci%20class%3D%22van-badge__wrapper%20van-icon%20van-icon-fail%20van-toast__icon%22%3E%3C%21----%3E%3C%21----%3E%3C%21----%3E%3C/i%3E%3Cdiv%20class%3D%22van-toast__text%22%3E%24%7Btext%7D%3C/div%3E%3C%21----%3E%3C/div%3E%60%0A%20%20%20%20%20%20%20%20%20%20%20%20%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20setTimeout%28%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%24%28%27.msg%27%29.removeClass%28%27v-enter-active%20v-enter-to%27%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%24%28%27.msg%27%29.addClass%28%27v-leave-active%20v-leave-to%27%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20setTimeout%28%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%24%28%27.msg%27%29.remove%28%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%20100%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20sic.removeClass%28%27block-click%27%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%201000%29%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%24.ajax%28%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20type%3A%20%22GET%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20url%3A%20%22/api/webapi/GetUserInfo%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20dataType%3A%20%22json%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20success%3A%20function%20%28response%29%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20let%20data%20%3D%20response.data%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20UID%20%3D%20data.id_user%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%24%28%27%23UID%27%29.text%28data.id_user%29%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%24%28%27%23LT%27%29.text%28data.login_time%29%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%24%28%27%23user_balance%27%29.text%28%27%u20B9%27%20+%20data.money_user%20+%20%27%27%29%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%24%28%27%23user_member%27%29.text%28data.name_user%29%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%7D%29%3B%0A%20%20%20%20%20%20%20%20var%20copyToClipboard%20%3D%20%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20var%20%24temp%20%3D%20%24%28%22%3Ctextarea%3E%22%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%24temp.val%28UID%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%24%28%22body%22%29.append%28%24temp%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%24temp.select%28%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20document.execCommand%28%22copy%22%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%24temp.remove%28%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20alertMess%28%27Copied%20Successfully%27%2C%20null%2C%20%27success%27%29%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20var%20showCustomAlert%20%3D%20%28text%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%24%28%27%23app%27%29.append%28%60%3Cspan%20class%3D%22alert%22%3E%24%7Btext%7D%3C/span%3E%60%29%0A%20%20%20%20%20%20%20%20%20%20%20%20setTimeout%28%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%24%28%27.alert%27%29.fadeOut%28500%29%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%2C%202000%2C%20%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%24%28%27.alert%27%29.remove%28%29%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%29%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20var%20logout%20%3D%20%28id%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%24%28%27%23%27+id%29.removeClass%28%27inactive%27%29%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20var%20logoutCancel%20%3D%20%28id%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%24%28%27%23%27+id%29.addClass%28%27inactive%27%29%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%0A%0A%20%20%20%20%3C/script%3E"));
+      //-->
+    </script>
+    <script>
+
+
+      const fetchUser = async () => {
+        try {
+          const response = await axios.get("/api/webapi/GetUserInfo")
+          userData = response?.data?.data
+
+          console.log(userData)
+
+          $("#avatar_display").attr("src", `/assets/png/${userData.avatar}`)
+          $("#nickname_display").text(userData.name_user)
+          $("#nickname_input").val(userData.name_user)
+          if (userData.loginTime) {
+            const d = new Date(Number(userData.loginTime));
+
+            const formatted =
+              `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')} ` +
+              `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}:${String(d.getSeconds()).padStart(2, '0')}`;
+
+            $("#LT").text(formatted);
+          } else {
+            $("#LT").text("Invalid date");
+          }
+        } catch (error) {
+          console.log(error)
         }
-      </script>
+      }
 
-      <script>
-        $(document).ready(function () {
-          changeTab(null, "lottery");
+      fetchUser();
+    </script>
 
-          setTimeout(() => {
-            $("#preloader-overlay").fadeOut(300);
-          }, 500);
 
-          // $('.other_img').click(function (e) {
-          //     console.log(e);
-          //     // showAlert()
-          // });
-        });
-
-        var showAlert = () => {
-          $(".comming_soon").fadeIn(300);
-          $(".comming_soon").css("display", "flex");
-          setTimeout(() => {
-            $(".comming_soon").fadeOut(500);
-          }, 2000);
+    <script>
+      function playWCGame(game) {
+        const prd = {
+          id: 300,
+          type: game,
+          is_mobile: 0,
         };
-      </script>
+        console.log(prd)
+        $.ajax({
+          type: "POST",
+          url: "/authWBGames",
+          data: JSON.stringify({ prd }),
+          contentType: "application/json",
+          success: function (response) {
+            if (response.data?.launch_url) {
 
-      <script>
-        $(document).ready(function () {
-          // Select the div element you want to hide
-          var divToHide = $("#preloader-overlay");
-
-          // Set a timeout to hide the div after 5 seconds (5000 milliseconds)
-          setTimeout(function () {
-            divToHide.hide();
-          }, 1000);
+              window.location.href = response.data.launch_url
+            } else {
+              alert("Error: Unable to start the game.");
+            }
+          },
+          error: function (xhr, status, error) {
+            console.error("Error starting game:", error);
+            alert("Error starting game.");
+          }
         });
-      </script>
+      }
 
-      <script>
-        function playWCGame(game) {
-          const prd = {
-            id: 300,
-            type: game,
-            is_mobile: 0,
-          };
-          console.log(prd)
-          $.ajax({
-            type: "POST",
-            url: "/authWBGames",
-            data: JSON.stringify({ prd }),
-            contentType: "application/json",
-            success: function (response) {
-              if (response.data?.launch_url) {
+      function playWCJiliGame(game) {
+        const prd = {
+          id: 263,
+          type: game,
+          is_mobile: 0,
+        };
+        console.log(prd)
+        $.ajax({
+          type: "POST",
+          url: "/authWBGames",
+          data: JSON.stringify({ prd }),
+          contentType: "application/json",
+          success: function (response) {
+            if (response.data?.launch_url) {
 
-                window.location.href = response.data.launch_url
-              } else {
-                alert("Error: Unable to start the game.");
-              }
-            },
-            error: function (xhr, status, error) {
-              console.error("Error starting game:", error);
-              alert("Error starting game.");
+              window.location.href = response.data.launch_url
+            } else {
+              alert("Error: Unable to start the game.");
             }
-          });
-        }
-
-        function playWCJiliGame(game) {
-          const prd = {
-            id: 263,
-            type: game,
-            is_mobile: 0,
-          };
-          console.log(prd)
-          $.ajax({
-            type: "POST",
-            url: "/authWBGames",
-            data: JSON.stringify({ prd }),
-            contentType: "application/json",
-            success: function (response) {
-              if (response.data?.launch_url) {
-
-                window.location.href = response.data.launch_url
-              } else {
-                alert("Error: Unable to start the game.");
-              }
-            },
-            error: function (xhr, status, error) {
-              console.error("Error starting game:", error);
-              alert("Error starting game.");
-            }
-          });
-        }
-      </script>
-    <% if (cskh_status == 1) { %>
-    <script src="/js/customer-draggable.js"></script>
-    <% } %>
-  </body>
+          },
+          error: function (xhr, status, error) {
+            console.error("Error starting game:", error);
+            alert("Error starting game.");
+          }
+        });
+      }
+    </script>
+    <% if (cskh_status==1) { %>
+      <script src="/js/customer-draggable.js"></script>
+      <% } %>
+</body>
 
 </html>

@@ -1130,7 +1130,7 @@ textarea {
   font-family: bahnschrift;
 }
 #app {
-  background: #292D2E;
+  background: #000000;
 }
 .popup {
   position: fixed;
@@ -1379,12 +1379,12 @@ textarea {
 }
 #app .noticeBar__container button {
   background: -webkit-linear-gradient(353deg, #7209b7 9.64%, #7209b7 84.03%);
-  background: linear-gradient(97deg, #7209b7 9.64%, #7209b7 84.03%);
+  background: #72D731 !important;
   box-shadow: unset;
   color: #171717;
 }
 #app .content {
-  background-color: #292D2E !important;
+  background-color: #000000 !important;
 }
 #app .tabbar__container-item {
   /* color: #7209b7; */

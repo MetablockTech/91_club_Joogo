@@ -22,7 +22,7 @@
   color: var(--text_color_L2);
 }
 .wallet-container-header[data-v-0dabd3fc] {
-  background: #3AED85;
+  background: #72D731;
   width: 100%;
   color: #fff;
   padding-bottom: 0.32rem;
@@ -70,7 +70,7 @@
   font-weight: 500;
 }
 .wallet-container .progressBars span[data-v-0dabd3fc] {
-  color: #4DEC81;
+  color: #72D731;
 }
 .wallet-container h3[data-v-0dabd3fc] {
   font-family: Inter;
@@ -105,7 +105,7 @@
   -webkit-box-align: center;
   -webkit-align-items: center;
   align-items: center;
-  background: #292D2E;
+  background: #000000;
 }
 .wallet-container-content .container[data-v-0dabd3fc] {
   display: -webkit-box;
@@ -143,7 +143,7 @@
   .van-circle__text {
   font-size: 0.4rem;
   font-weight: 600;
-  color: #3AED85;
+  color: #72D731;
 }
 .wallet-container-content .container .progressBars > div[data-v-0dabd3fc] {
   width: 50%;
@@ -168,7 +168,7 @@
 }
 .wallet-container-content .container .progressBars > div h3[data-v-0dabd3fc] {
   margin-top: 0.16rem;
-  color: #4DEC81
+  color: #72D731
 }
 .wallet-container-content .container .recycleBtnD[data-v-0dabd3fc] {
   width: 100%;
@@ -268,7 +268,7 @@
   text-align: center;
 }
 .wallet-container-content .gameList .select[data-v-0dabd3fc] {
-  background: #4DEC81;
+  background: #72D731;
 }
 .wallet-container-content .gameList .select span[data-v-0dabd3fc],
 .wallet-container-content .gameList .select h3[data-v-0dabd3fc] {
@@ -950,7 +950,7 @@
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
-  color: #5DEB7D;
+  color: #72D731;
 }
 .Recharge__container-intro__title .svg-icon[data-v-7cba6004] {
   width: 0.64rem;
@@ -958,7 +958,7 @@
   margin-right: 0.16rem;
 }
 .Recharge__container-intro__lists[data-v-7cba6004] {
-  border: 0.01333rem solid #5DEB7D;
+  border: 0.01333rem solid #72D731;
   border-radius: 0.26667rem;
   padding: 0.18667rem 0.22667rem 0.48rem 0.4rem;
   color: #fff;
@@ -986,7 +986,7 @@
   height: 0.13333rem;
   -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
-  background: #5DEB7D;
+  background: #72D731;
   left: -0.06667rem;
   top: 0.18667rem;
 }
@@ -1538,7 +1538,7 @@ html:lang(ar) .Recharge__container-intro__lists .item p[data-v-7cba6004]:after {
   width: 100%;
   height: 2.4rem;
   background: #3A4142;
-  color: #5DEB7D;
+  color: #72D731;
   border-radius: 0.13333rem;
   display: -webkit-box;
   display: -webkit-flex;
@@ -1567,7 +1567,7 @@ html:lang(ar) .Recharge__container-intro__lists .item p[data-v-7cba6004]:after {
   padding-top: 0.32rem;
 }
 .Recharge__container-tabcard__items.active[data-v-4f3d8608] {
-  background: #5DEB7D;
+  background: #72D731;
   color: #fff;
 }
 .Recharge__container-tabcard__items
@@ -2058,7 +2058,7 @@ html:lang(ar) .Recharge__container-intro__lists .item p[data-v-7cba6004]:after {
   font-weight: 600;
   font-size: 0.48rem;
   margin-bottom: 0.34667rem;
-  color: #5DEB7D;
+  color: #72D731;
 }
 .Recharge__content-paymoney__title .svg-icon[data-v-9e03166f],
 .Recharge__content-paymoney__title img[data-v-9e03166f] {
@@ -2078,7 +2078,7 @@ html:lang(ar) .Recharge__container-intro__lists .item p[data-v-7cba6004]:after {
   margin-bottom: 0.26667rem;
   margin-right: 0.4rem;
   width: calc((100% - 0.8rem) / 3);
-  border: 0.01333rem solid #5DEB7D;
+  border: 0.01333rem solid #72D731;
   padding: 0.16rem 0;
   border-radius: 0.13333rem;
   display: -webkit-box;
@@ -2178,7 +2178,7 @@ html:lang(ar)
   display: flex;
   background: #3A4142;
   border-radius: 0.58667rem;
-  border: 1px solid #5DEB7D;
+  border: 1px solid #72D731;
 }
 .Recharge__content-paymoney__money-input.radius[data-v-9e03166f] {
   border-radius: 0.13333rem;
@@ -2203,7 +2203,7 @@ html:lang(ar) .Recharge__content-paymoney__money-input .unit[data-v-9e03166f] {
   position: absolute;
   height: 1.17333rem;
   width: 0.8rem;
-  color: #5DEB7D;
+  color: #72D731;
   font-weight: 900;
   font-size: 0.56rem;
   line-height: 1.17333rem;
@@ -2240,10 +2240,10 @@ html:lang(ar)
 .Recharge__content-paymoney__money-input .amount-input[data-v-9e03166f] {
   background-color: #3A4142;
   margin-left: 1.33333rem;
-  border: 1px solid #5DEB7D;
+  border: 1px solid #72D731;
 }
 .Recharge__content-paymoney__money-input .amount-input[data-v-9e03166f] input {
-  color: #5DEB7D;
+  color: #72D731;
   font-weight: 700;
 }
 .Recharge__content-paymoney__money-input
@@ -2376,7 +2376,7 @@ html:lang(ar)
   display: flex;
   font-weight: 400;
   font-size: 0.42667rem;
-  color: #5DEB7D;
+  color: #72D731;
 }
 .Recharge__content-quickInfo__title .title .svg-icon[data-v-9e03166f] {
   width: 0.64rem;
@@ -2398,7 +2398,7 @@ html:lang(ar)
   grid-template-columns: repeat(1, 1fr);
 }
 .Recharge__content-quickInfo__item[data-v-9e03166f] {
-  background: #5DEB7D !important;
+  background: #72D731 !important;
   max-width: 98%;
   border-radius: 0.26667rem;
   display: -webkit-box;
@@ -2765,7 +2765,7 @@ html:lang(ar)
   margin-bottom: 0.4rem;
 }
 .rechage_active[data-v-9e03166f] {
-  background: #5DEB7D;
+  background: #72D731;
   color: #fff;
 }
 .showAmountError[data-v-9e03166f] {
@@ -3144,7 +3144,7 @@ html:lang(ar) .balanceAssets__tip img[data-v-98c90f53] {
   position: relative;
   width: 100%;
   padding: 0 0.32rem 0.32rem;
-  background: #292D2E;
+  background: #000000;
 }
 .Recharge__box .Recharge__container .title[data-v-36cc3380] {
   font-weight: 400;

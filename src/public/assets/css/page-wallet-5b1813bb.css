@@ -6249,7 +6249,7 @@ html:lang(ar) .balanceAssets__tip img[data-v-dd83897d] {
 
 .withdrawWay > div.select[data-v-c5cd6c1c] {
   background: -webkit-linear-gradient(left, #d08eff 0%, #7209b7 100%);
-  background: #5DEB7D;
+  background: #72D731;
   color: #fff;
 }
 
@@ -6321,7 +6321,7 @@ h6.red[data-v-2eb72b3e] {
 }
 
 .explain .input span[data-v-2eb72b3e] {
-  color: #5DEB7D;
+  color: #72D731;
   letter-spacing: 0.04em;
   font-weight: 900;
   font-size: 0.56rem;
@@ -6347,7 +6347,7 @@ h6.red[data-v-2eb72b3e] {
   position: absolute;
   height: 1.17333rem;
   width: 0.8rem;
-  color: #5DEB7D;
+  color: #72D731;
   font-weight: 900;
   font-size: 0.56rem;
   line-height: 1.17333rem;
@@ -6596,12 +6596,12 @@ html:lang(ar) .explain .input .place-div[data-v-2eb72b3e]:after {
 }
 
 .addWithdrawType-top span[data-v-dc48260d] {
-  color: #5DEB7D;
+  color: #72D731;
   font-size: 0.37333rem;
 }
 
 .addWithdrawType-text[data-v-dc48260d] {
-  color: #5DEB7D;
+  color: #72D731;
   font-weight: 400;
   font-size: 0.29333rem;
   margin-bottom: 0.26667rem;
@@ -6675,7 +6675,7 @@ html:lang(ar) .explain .input .place-div[data-v-2eb72b3e]:after {
 }
 
 .Recharge__container-intro p[data-v-5af6a797] span {
-  color: #5DEB7D;
+  color: #72D731;
 }
 
 .Recharge__container-intro p[data-v-5af6a797]:after {
@@ -6685,7 +6685,7 @@ html:lang(ar) .explain .input .place-div[data-v-2eb72b3e]:after {
   height: 0.13333rem;
   -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
-  background: #5DEB7D;
+  background: #72D731;
   left: -0.06667rem;
   top: 0.18667rem;
 }
@@ -8539,7 +8539,7 @@ html:lang(ar) .explain .input .place-div[data-v-2eb72b3e]:after {
 .recycleBtnD button[data-v-955b80fa] {
   width: 100%;
   background: -webkit-linear-gradient(top, #cfd1de 0%, #c7c9d9 100%);
-  background: #5DEB7D;
+  background: #72D731;
   border-radius: 0.66667rem;
   border: none;
   color: #fff;
@@ -8749,14 +8749,14 @@ html:lang(ar) .explain .input .place-div[data-v-2eb72b3e]:after {
 .withdraw__container-content[data-v-955b80fa] {
   /* margin-top: 0.4rem; */
   padding-inline: 0.4rem;
-  background: #292D2E;
+  background: #000000;
 }
 
 .withdraw__container-content > div[data-v-955b80fa] {
   border-radius: 0.26667rem;
   width: 100%;
   margin-bottom: 0.4rem;
-  background: #292D2E;
+  background: #000000;
 }
 
 .withdraw__container .pwd[data-v-955b80fa] {

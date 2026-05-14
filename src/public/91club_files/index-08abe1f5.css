@@ -82,7 +82,7 @@ input[type="number"]::-webkit-outer-spin-button {
   height: 1.73333rem;
   padding-block: 0 0.13333rem;
   font-size: 0.29333rem;
-  background: #3AED85;
+  background: #72D731 !important;
   z-index: 100;
 }
 .tabbar__container-item[data-v-67fe8f9c] {
@@ -124,11 +124,11 @@ input[type="number"]::-webkit-outer-spin-button {
   bottom: 0.53333rem;
   -webkit-transform: translate(-50%, 0);
   transform: translate(-50%);
-  background: #292D2E;
+  background: #000000;
   width: 1.46667rem;
   height: 1.46667rem;
   border-radius: 50%;
-  box-shadow: 0 -0.08rem 0.16rem #292D2E;
+  box-shadow: 0 -0.08rem 0.16rem #000000;
   z-index: 2;
 }
 .tabbar__container-item:nth-of-type(3) .promotionBg[data-v-67fe8f9c]:after {
@@ -841,7 +841,7 @@ textarea {
   resize: none;
 }
 .content {
-  background: #292D2E !important;
+  background: #000000 !important;
 }
 @font-face {
   font-family: bahnschrift;

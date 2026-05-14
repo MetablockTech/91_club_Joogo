@@ -360,7 +360,7 @@
   width: 100%;
   padding-left: 0.32rem;
   padding-right: 0.32rem;
-  background: #292D2E;
+  background: #000000;
 }
 .activity-wrapper .activitySection__container > .box[data-v-4a7709f3] {
   width: 100%;
@@ -402,7 +402,7 @@
   font-size: 0.32rem;
   font-style: normal;
   min-height: 2rem;
-  background: #3AED85;
+  background: #72D731;
   padding: 0.32rem;
   display: -webkit-box;
   display: -webkit-flex;
@@ -420,7 +420,7 @@
 }
 .activity-wrapper .activity-panel[data-v-4a7709f3] {
   padding: 0.32rem;
-  background: #292D2E;
+  background: #000000;
 }
 .activity-wrapper .activity-panel-header[data-v-4a7709f3] {
   display: -webkit-box;
@@ -561,7 +561,7 @@
   .activity-panel-content
   .content-title
   .content-para[data-v-4a7709f3] {
-  color: #3AED85;
+  color: #72D731;
   font-weight: 700;
   padding: 0.13333rem 0.26667rem;
   font-size: 0.37333rem;
