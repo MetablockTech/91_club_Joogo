@@ -92,6 +92,7 @@ const initWebRouter = (app) => {
 
   router.get('/slotjili', middlewareController, homeController.slotjiliPage);
   router.get('/slotSpribe', middlewareController, homeController.slotspribePage);
+  router.get('/evolution', middlewareController, homeController.evolutionPage);
   router.get(
     "/jdb/slots",
     middlewareController,

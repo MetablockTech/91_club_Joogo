@@ -66,6 +66,10 @@ const slotspribePage = async (req, res) => {
   return res.render("spribe/slots.ejs");
 }
 
+const evolutionPage = async (req, res) => {
+  return res.render("evolution/evolution.ejs");
+}
+
 const supportPage = async (req, res) => {
   let auth = req.cookies.auth;
   const [users] = await connection.query("SELECT `level`, `ctv` FROM users WHERE token = ?", [auth]);
@@ -606,6 +610,7 @@ const homeController = {
   promotionPromotionSharePage,
   slotjiliPage,
   slotspribePage,
+  evolutionPage,
   gameHistoryPage,
   homePage,
   checkInPage,
