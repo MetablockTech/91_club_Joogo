@@ -5686,7 +5686,7 @@ html:lang(ar) .Wallet__C[data-v-7dd1adab]:before {
   background-repeat: no-repeat;
 }
 .GameList__C-item.active[data-v-17d56002] {
-  background: var(--main_gradient-color2);
+  background: #72D731;
   border-radius: 0.26667rem;
 }
 .GameList__C-item.active > div[data-v-17d56002] {

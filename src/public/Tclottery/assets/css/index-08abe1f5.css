@@ -160,8 +160,8 @@ input[type=number]::-webkit-outer-spin-button {
     border-radius: 50%;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    background: -webkit-linear-gradient(top, #D46DFC 0%, #882EC4 100%), -webkit-linear-gradient(bottom, #ffffff, #ffffff);
-    background: linear-gradient(180deg, #D46DFC 0%, #882EC4 100%), linear-gradient(0deg, #ffffff, #ffffff)
+    /* background: -webkit-linear-gradient(top, #D46DFC 0%, #882EC4 100%), -webkit-linear-gradient(bottom, #ffffff, #ffffff); */
+    background: #72D731 !important;
 }
 
 .tabbar__container-item svg[data-v-67fe8f9c] {
