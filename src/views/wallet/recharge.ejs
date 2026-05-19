@@ -4527,6 +4527,7 @@
             UPAY: "upay",
             WATCHPAY: "watchpay",
             CCPAYMENT: "ccpayment",
+            PAYOK: "payok",
         }
         const _OldPaymentMethodsMap = { // Temporary to keep the rest of the file valid while I replace the case block
             USDT_MANUAL: "usdt_manual",
@@ -4996,6 +4997,9 @@
                 case PaymentMethodsMap.WATCHPAY:
                     handleWatchPayPaymentRequest(inputMoney);
                     break;
+                case PaymentMethodsMap.PAYOK:
+                    handlePayokPaymentRequest(inputMoney);
+                    break;
                 case PaymentMethodsMap.USDT_MANUAL:
                     handleManualUSDTPaymentRequest(inputMoney)
                     break;
@@ -5008,6 +5012,7 @@
                     if (selectedPaymentMethod === 'rspay') handleRSPayPaymentRequest(inputMoney);
                     if (selectedPaymentMethod === 'cloudpay') handleCloudPayPaymentRequest(inputMoney);
                     if (selectedPaymentMethod === 'upigateway') handleUPIGatewayPaymentRequest(inputMoney);
+                    if (selectedPaymentMethod === 'payok') handlePayokPaymentRequest(inputMoney);
                     break;
             }
             if (false) {
@@ -5102,6 +5107,28 @@
                 else alertMessage(response.data.message || "Payment request failed");
             } catch (error) {
                 alertMessage(error.response?.data?.message || "Something went wrong with WowPay!");
+            }
+        }
+
+        const handlePayokPaymentRequest = async (moneyAmount) => {
+            try {
+                const response = await axios.post("/api/webapi/recharge/payok/initiate", { money: moneyAmount });
+                const data = response?.data;
+                
+                if (data?.status === false) {
+                    alertMessage(data?.message || "Gateway error");
+                    return;
+                }
+                
+                if (data?.urls?.web_url) {
+                    window.location.href = data.urls.web_url;
+                } else if (data?.data?.payurl) {
+                    window.location.href = data.data.payurl;
+                } else {
+                    alertMessage("Invalid gateway response");
+                }
+            } catch (error) {
+                alertMessage(error.response?.data?.message || "Something went wrong with Payok!");
             }
         }
 

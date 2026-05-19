@@ -33,6 +33,7 @@ const PaymentMethodsMap = {
   UPAY: "upay",
   WATCHPAY: "watchpay",
   CCPAYMENT: "ccpayment",
+  PAYOK: "payok",
 };
 
 const getPaymentConfig = async (gateway) => {
@@ -52,9 +53,9 @@ const initiateManualUPIPayment = async (req, res) => {
 
   const momo = {
     bank_name: "UPI",
-    username: config?.app_id || "", 
-    upi_id: config?.app_secret || "", 
-    upi_id_qr: config?.qr_code || "", 
+    username: config?.app_id || "",
+    upi_id: config?.app_secret || "",
+    upi_id_qr: config?.qr_code || "",
   };
 
   return res.render("wallet/manual_payment.ejs", {
@@ -71,7 +72,7 @@ const addManualUPIPaymentRequest = async (req, res) => {
     let auth = req.cookies.auth;
     let money = parseInt(data.money);
     let utr = data.utr;
-    
+
     const config = await getPaymentConfig('upi_manual');
     const minimumMoneyAllowed = config ? config.min_recharge : 100;
     const maximumMoneyAllowed = config ? config.max_recharge : 1000000;
@@ -164,10 +165,10 @@ const initiateManualUSDTPayment = async (req, res) => {
 
   const momo = {
     bank_name: "USDT (BEP20)",
-    username: config?.app_id || "", 
-    upi_id: config?.app_secret || "", 
-    usdt_wallet_address: config?.app_id || "", 
-    usdt_wallet_address_qr: config?.qr_code || "", 
+    username: config?.app_id || "",
+    upi_id: config?.app_secret || "",
+    usdt_wallet_address: config?.app_id || "",
+    usdt_wallet_address_qr: config?.qr_code || "",
   };
 
   const [adminConfig] = await connection.query("SELECT usdt_exchange_rate, currency_symbol, currency_name FROM admin_ac LIMIT 1");
@@ -191,10 +192,10 @@ const addManualUSDTPaymentRequest = async (req, res) => {
     const data = req.body;
     let auth = req.cookies.auth;
     let money_usdt = parseFloat(data.money);
-    
+
     const [adminConfig] = await connection.query("SELECT usdt_exchange_rate FROM admin_ac LIMIT 1");
     const exchangeRate = adminConfig[0]?.usdt_exchange_rate || 92;
-    
+
     const config = await getPaymentConfig('usdt_manual');
     const minimumMoneyAllowed = config ? config.min_recharge : 10;
     const maximumMoneyAllowed = config ? config.max_recharge : 100000;
@@ -581,7 +582,7 @@ const initiateWowPayPayment = async (req, res) => {
     const orderId = getRechargeOrderId()
     const config = await getPaymentConfig('wowpay');
     if (!config) throw Error("WowPay configuration not found");
-    
+
     const merchantId = config.app_id;
     const merchantKey = config.app_secret;
 
@@ -631,7 +632,7 @@ const initiateWowPayPayment = async (req, res) => {
       return res.status(200).json({
         message: "Payment requested Successfully",
         urls: {
-            web_url: response.data.data.pay_url
+          web_url: response.data.data.pay_url
         },
         payment_url: response.data.data.pay_url,
         status: true,
@@ -1200,11 +1201,11 @@ const verifyRspayPayment = async (req, res) => {
     }
 
     if (merchantId) {
-       const config = await getPaymentConfig('rspay');
-       const envId = process.env.RSPAY_MERCHANT_ID;
-       if (merchantId !== (config?.app_id || envId)) {
-         return res.status(401).send("failed");
-       }
+      const config = await getPaymentConfig('rspay');
+      const envId = process.env.RSPAY_MERCHANT_ID;
+      if (merchantId !== (config?.app_id || envId)) {
+        return res.status(401).send("failed");
+      }
     }
 
     const recharge = await rechargeTable.getRechargeByOrderId({
@@ -1390,11 +1391,11 @@ const verifyCloudPayPayment = async (req, res) => {
     }
 
     if (merchantId) {
-       const config = await getPaymentConfig('cloudpay');
-       const envId = "1000000";
-       if (merchantId !== (config?.app_id || envId)) {
-         return res.status(401).send("failed");
-       }
+      const config = await getPaymentConfig('cloudpay');
+      const envId = "1000000";
+      if (merchantId !== (config?.app_id || envId)) {
+        return res.status(401).send("failed");
+      }
     }
 
     const recharge = await rechargeTable.getRechargeByOrderId({
@@ -1778,7 +1779,7 @@ const addUserAccountBalance = async ({ phone, money, code, invite, rechargeId })
     let rule = null;
     if (bonusRules.length > 0) {
       rule = bonusRules[0];
-      
+
       // Calculate User Bonus
       if (rule.user_bonus_type === 'percentage') {
         userBonus = (money * rule.user_bonus) / 100;
@@ -2128,6 +2129,204 @@ const cloudPay = {
 };
 
 
+// PAYOK Payment Integration
+const initiatePayokPayment = async (req, res) => {
+  const type = PaymentMethodsMap.PAYOK;
+  let auth = req.cookies.auth;
+  let money = parseFloat(req.body.money || req.query.money);
+
+  const config = await getPaymentConfig('payok');
+  const minAllowed = config ? config.min_recharge : 100;
+  const maxAllowed = config ? config.max_recharge : 50000;
+
+  if (!money || money < minAllowed || money > maxAllowed) {
+    return res.status(400).json({
+      message: `Recharge amount must be between ₹${minAllowed} and ₹${maxAllowed}`,
+      status: false,
+      timeStamp: timeNow,
+    });
+  }
+
+  try {
+    const user = await getUserDataByAuthToken(auth);
+
+    const pendingRechargeList = await rechargeTable.getRecordByPhoneAndStatus({
+      phone: user.phone,
+      status: PaymentStatusMap.PENDING,
+      type: type,
+    });
+
+    if (pendingRechargeList.length !== 0) {
+      const deleteRechargeQueries = pendingRechargeList.map((recharge) => {
+        return rechargeTable.cancelById(recharge.id);
+      });
+      await Promise.all(deleteRechargeQueries);
+    }
+
+    const orderId = getRechargeOrderId();
+    if (!config) throw Error("PAYOK configuration not found");
+
+    const merchantId = config.merchant_id;
+    const privateKey = config.private_key;
+    const baseUrl = "https://sit-api.payok.com";
+
+    const [adminConfig] = await connection.query("SELECT website_link FROM admin_ac LIMIT 1");
+    const appBaseUrl = adminConfig[0]?.website_link || "https://starworldz.com";
+
+    const requestTime = new Date().toISOString();
+
+    const requestBody = {
+      paymentMethodCode: req.body.paymentMethodCode || "UPI",
+      notificationUrl: config.callback_url || `${appBaseUrl}/api/webapi/recharge/payok/callback`,
+      returnUrl: config.return_url || `${appBaseUrl}/wallet/rechargerecord`,
+      requestTime: requestTime,
+      amount: money,
+      merchantId: merchantId,
+      countryCode: "IN",
+      currency: "INR",
+      language: "EN",
+      merchantOrderId: orderId,
+      goodsInfo: {
+        price: String(money),
+        name: "Recharge",
+        id: "1"
+      },
+      customer: {
+        name: user.username || "User",
+        email: user.email || "user@example.com",
+        phone: user.phone,
+        deviceId: orderId,
+        ip: req.ip || "127.0.0.1"
+      }
+    };
+
+    const payloadString = JSON.stringify(requestBody);
+    const apiPath = "/api-pay/payment/V3.5/order/create-h5";
+    const signString = payloadString + "&" + apiPath;
+
+    const sign = crypto.createSign('RSA-SHA256').update(signString).sign(privateKey, 'base64');
+
+    const response = await axios.post(
+      `${baseUrl}${apiPath}`,
+      requestBody,
+      {
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+          'sign': sign
+        }
+      }
+    );
+
+    const responseData = response?.data;
+    console.log("PAYOK Response Data:", JSON.stringify(responseData));
+
+    if (responseData && responseData.code === "SUCCESS") {
+      const payUrl = responseData.paymentInfo?.content || responseData.data?.content || responseData.data?.payUrl || responseData.payUrl || responseData.data?.pay_url || responseData.pay_url || responseData.data?.url || responseData.url;
+      const platformOrderId = responseData.paymentInfo?.platformOrderId || responseData.data?.platformOrderId || responseData.platformOrderId || orderId;
+
+      if (!payUrl) {
+        return res.status(200).json({
+          status: false,
+          message: "payUrl not found in gateway response: " + JSON.stringify(responseData)
+        });
+      }
+      const newRechargeParams = {
+        orderId: orderId,
+        transactionId: platformOrderId,
+        utr: 0,
+        userId: user.userId,
+        phone: user.phone,
+        money: money,
+        type: type,
+        status: PaymentStatusMap.PENDING,
+        today: rechargeTable.getCurrentTimeForTodayField(),
+        url: payUrl,
+        time: rechargeTable.getCurrentTimeForTimeField(),
+      };
+
+      await rechargeTable.create(newRechargeParams);
+
+      return res.status(200).json({
+        message: "Payment requested Successfully",
+        urls: {
+          web_url: payUrl
+        },
+        payment_url: payUrl,
+        status: true,
+        timeStamp: timeNow,
+      });
+    } else {
+      throw Error(responseData.message || "Payment Service: Gateway error from PAYOK!");
+    }
+  } catch (error) {
+    console.log("PAYOK Initiate Error:", error.response?.data || error.message);
+    return res.status(500).json({
+      status: false,
+      message: error.response?.data?.message || error.message || "Something went wrong!",
+      timeStamp: timeNow,
+    });
+  }
+};
+
+const verifyPayokPayment = async (req, res) => {
+  console.log("PAYOK Webhook Received Body:", req.body);
+  try {
+    const data = req.body;
+    const sign = req.headers.sign;
+
+    if (!data || !sign) {
+      return res.status(400).send("FAIL");
+    }
+
+    const config = await getPaymentConfig('payok');
+    if (!config || !config.public_key) {
+      return res.status(500).send("Config not found");
+    }
+
+    const payloadString = JSON.stringify(data);
+    const isVerified = crypto.createVerify('RSA-SHA256').update(payloadString).verify(config.public_key, sign, 'base64');
+
+    if (!isVerified) {
+      console.log("PAYOK Webhook Signature Verification Failed");
+      return res.status(400).send("FAIL");
+    }
+
+    if (data.status !== "SUCCESS") {
+      console.log("PAYOK Order Not Success:", data.merchantOrderId, data.status);
+      return res.status(200).send("SUCCESS");
+    }
+
+    const orderId = data.merchantOrderId;
+    const recharge = await rechargeTable.getRechargeByOrderId({ orderId });
+    if (!recharge) {
+      return res.status(400).send("FAIL");
+    }
+
+    if (recharge.status === PaymentStatusMap.SUCCESS) {
+      return res.status(200).send("SUCCESS");
+    }
+
+    const user = await getUserDataByPhoneNumber(recharge.phone);
+    await rechargeTable.setStatusToSuccessByIdAndOrderId({
+      id: recharge.id,
+      orderId: recharge.orderId,
+    });
+
+    await addUserAccountBalance({
+      phone: user.phone,
+      money: recharge.money,
+      code: user.code,
+      invite: user.invite,
+      rechargeId: recharge.id,
+    });
+
+    console.log(`PAYOK Webhook Success: Order ${orderId} confirmed`);
+    return res.status(200).send("SUCCESS");
+  } catch (error) {
+    console.log("PAYOK Webhook Error:", error);
+    return res.status(500).send("FAIL");
+  }
+};
 
 const paymentController = {
   initiateUPIPayment,
@@ -2147,7 +2346,9 @@ const paymentController = {
   verifyUpayPayment,
   initiateRspayOutPayment,
   verifyCloudPayPayment,
-  initiateCloudPayPayment
+  initiateCloudPayPayment,
+  initiatePayokPayment,
+  verifyPayokPayment
 };
 
 export default paymentController;

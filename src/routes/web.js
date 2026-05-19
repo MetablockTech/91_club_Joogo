@@ -583,6 +583,21 @@ const initWebRouter = (app) => {
   );
   router.post("/wallet/verify/upay", paymentController.verifyUpayPayment);
 
+  // Payok Gateway
+  router.post(
+    "/api/webapi/recharge/payok/initiate",
+    middlewareController,
+    paymentController.initiatePayokPayment,
+  );
+  router.post(
+    "/api/webapi/recharge/payok/callback",
+    paymentController.verifyPayokPayment,
+  );
+  router.get(
+    "/api/webapi/recharge/payok/callback",
+    paymentController.verifyPayokPayment,
+  );
+
   router.get(
     "/game/statistics",
     middlewareController,
