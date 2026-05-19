@@ -2283,11 +2283,38 @@ const verifyPayokPayment = async (req, res) => {
       return res.status(500).send("Config not found");
     }
 
-    const payloadString = JSON.stringify(data);
-    const isVerified = crypto.createVerify('RSA-SHA256').update(payloadString).verify(config.public_key, sign, 'base64');
+    const [adminConfig] = await connection.query("SELECT website_link FROM admin_ac LIMIT 1");
+    const appBaseUrl = adminConfig[0]?.website_link || "https://starworldz.com";
+    const callbackPath = "/api/webapi/recharge/payok/callback";
+    const fullCallbackUrl = config.callback_url || `${appBaseUrl}${callbackPath}`;
+
+    const sortedData = Object.keys(data).sort().reduce((acc, key) => {
+      acc[key] = data[key];
+      return acc;
+    }, {});
+
+    const sortedStr = JSON.stringify(sortedData);
+    const unsortedStr = JSON.stringify(data);
+
+    const verify = (str) => {
+      try {
+        return crypto.createVerify('RSA-SHA256').update(str).verify(config.public_key, sign, 'base64');
+      } catch (e) {
+        console.log("PAYOK Verification Attempt Error:", e.message);
+        return false;
+      }
+    };
+
+    const isVerified = verify(sortedStr) || 
+                       verify(sortedStr + "&" + callbackPath) || 
+                       verify(sortedStr + "&" + fullCallbackUrl) ||
+                       verify(unsortedStr) || 
+                       verify(unsortedStr + "&" + callbackPath) ||
+                       verify(unsortedStr + "&" + fullCallbackUrl);
 
     if (!isVerified) {
       console.log("PAYOK Webhook Signature Verification Failed");
+      console.log("Tried verification strategies with keys/paths, none matched.");
       return res.status(400).send("FAIL");
     }
 
