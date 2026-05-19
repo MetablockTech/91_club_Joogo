@@ -1,37 +1,43 @@
 import connection from './src/config/connectDB.js';
 
-const app_id = '420579';
+const app_id = '910067';
 const app_secret = `-----BEGIN PRIVATE KEY-----
-MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCkIMkBs4dpqNaH
-rkdM7ddm4EMFUTRNoZkQbzArVid3IPOHPfU1j5lrM/Gkmi0bRZRh40ox6WMUB1Z6
-YNiQ7yPwA5SQ2KwBfj52K13dkliOhUSca8Tc0+JUh1QG4oNYGhWpKELY//uNWhm0
-bsw7rG5coXYm3uXQkOOdRr/ZVzZXjQSS+vIlBy6oPjMY6hgy2ibU6mTADG3F9qJv
-btoHyI5Gd2DPgOeB8fGaTpI4AgbgM0pFEDcX8u5Cnkc1XTFwImBhdsYQnsVnLW9U
-ECtKSkesLpnJVv+D3/l/o/VQNVRNP5zFmSB+mo+2G+BoWxs2P1gwYK48tmin2NLX
-g4+ScObDAgMBAAECggEACe9OG4NBfBzTN41OFZMECd8jT2wV7WkNudfxI35ojyZ4
-d0RB1oclsz6Grv8CIfd5Pt+iOxk0fR7gljHMiiFfnISq9oWXC9QXddG0MdhM8fuR
-JqLDXNaaiaFTbcNCTg/uJbohKb98+5ZrnedjB22tlH/Vhg7R/Gj4zildLYvA51Wy
-Antcv0D+EZywfB7MrU7k1VohP+HRyjj9ghcxpt1g6Ae9YYB6/oQKSAULeqcdN7v3
-ZzP0NOMJ0T6OGenYRiJ+Lq4THC+hi2Tt6dsrbEmnrB9p6zCxFzk4wDJFtEGCo3Zp
-q3QYYkHajM7BYpmSuBcRKKNUSJu48PuB8VOUbX0gWQKBgQDcf93YRscpHOEgMO0c
-Hxo8gRgEiIuBKcDXIGu+hhl2j34ynPaPn4LXvFMCkzZM94+KRAMWAGOgW0sLBr0j
-aFM6AbBfmQNmIn8fa6KhP2y9WX+6Jufafm0nflZpqJ02nQtparFUTY7KGYqk44qy
-0eH/AYoIa3KwHlo26po2XMgDjQKBgQC+jYHzTXTJ0BsuFizQ9mpFj3O7h4TySUzZ
-gCP4lzxeanX1psWuW7AprHcbw1iLU35P9waVxuDkcH85T/3v9bDMmTE3BOKRmhdZ
-3BjKSYV0yJQGgjFu+xppoRVopN64od/ZJb71iLrs3n/s5Tpp9mpNppQ/uzGuS6TA
-p7L2qgpXjwKBgBKC8Z78oi/DausG8IER42P8+oU26W9YkAX/hMwj+fNILLIXF2QL
-YjK2bsmijkZ76iMTfqbUNYj64Rv13t8gHQybo7EC6ZQjhUSgBrE+3+QtpVl9dq2T
-O5q7MooAS+KP4Kti96w6Lqis6ETbjYNht3VvLaVzT9eVVMGThIrX0zrpAoGACRtC
-JpqBBlQHuIAezC26jnB4m3GyjNGr9okFLxArNmfoE0FRGTAQjy1K0+zWAnKPCstH
-aUkD3mbx7Y9BF4KqXFzF2VdGbKbsjsLR/HjfA+HCET2Plzow3PNxznpymmhCBmKj
-aaCLLl7DxlJ+JCo+kk9vrkwH58h9qydYiik+LUkCgYA24B+/ku5sPbKwHjv4G5kZ
-Zx+UqvaiTG1rVpYcQn7WmDDeqODAr9EWzHRcmeEEfieQKLXZetTv7efsqqxMYSak
-fdzXfzgF/yVrJrMu0nypyaYmru090N/j+JbbGNktqNptCR16AMmKpvw+mMD1CVCP
-qSPwXokmoMEaEuLNsjeMjw==
+MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCrVStQPSr7F4CI
+IINOUdaXS/qOeYVvC/0gGjweCHTjnWn16QTa6AYilk2UPBayCawMkZd664buW6xV
+33rh+1qnMhRHp+bDGuHkb8YY8EeSSLrxFVWHn0MIAN/q4yytQxatxo3v2+upjNQ
+WrC1HPci1nx8+wb/j1MsXQ4BpYxXwO7GTmJ5MeQ5omi/JUFQuowvFYlEcglkhiGt
+Lb0aDy82UF7v2hC3CCMEOiG3FYOlE88V6u++aXJzbSLP6KaYh9RxL28epDDnWA8e
+10dL56AuaYfRUCRjFLab3DjNcIzxyi6k6raU/py/b8EfGEyPYz9xCoe3hdjqgZ8q
+jQzhM3IWfAgMBAAECggEAMjXFecBTRj5+9mXA1UT6hGBJz1MhnYd/6NaHY63Kw6G
+wGdbuC1EP6zbtCVIKvKZE+3H3WJiJdHT9LjVOB8fnqzPr6Yv0/px0MsPm5AwWjXI
+vBtPfut0bgc7v0CA/SY9tqAOWOQLUL14MEZDnvAcJOOCnAXc6SwRjeC/aBAh7t2j
+sAXC1g+F7+otagGJ4vRzOxLIfa9pY8mFpCWwnJ/+h2+2605b3BpeUDCl6+Rzv+uL
+/4b9mmrczpE+yi/pKf40yqsltfrwSG/i8t6KrgsNJAmIyfZ6cFpwsKlchCyDviXB
+K5YryGub7skwYW9n3Y0ss0Xb+Kkl/u/HHaMlMaDgSUQKBgQDfaUPK+1JDzeIutp6
+12upeDrh79guaaFblFNqF3Wu0tB9g5T2qlKHCqzzuzslHXtrdODqsemvzihG2JYA
+BdO2O1udaamidJ/oPAMaDQuxEx7IBGfY/GF2wuqz6Q21m8sPG6/39TMFPRfj8s7t
+G5jka+IdryT+j6cMugS4YzVyQTQKBgQDEUymSqaTVewfpdQzUDJOLi04Zh3oDaYi
+ZISiXim1LgUIwcyrprz880z1TQyf/2FruAg38o3mS53F+wTdz/ldrA7V7jtwdz++
+j9kkJbJ9vaiuo5+XhrtW8g4N8uaxw/gKib6okeNCfY5x1pU5o1XGeVPS8/hDd7N9
+fnHYkusFDmwKBgCAOvseVoIxSMq55TfTSYOb2Pcqr16ZkanOctm6XAyl+3zHMMzk
+S8tM4NxodWgx/s/AibWjqeCsOGNSGNQ0KujvQ4om60yAZ6GvWtKWJKNYFwakezJL
+pMCh34PJYUo5/L1CP9HYwWVzCsaOxNqJJzs/r8aKp0hP3Kya1KqQsc6fRAoGBAML
+w3N/vqWf9MV8ERgessTknyxYYavRGb0e2ICtRXbNSlxmq0dqWlBFeo48wqOAnwiq
+BScgpvwc633yAeQKpc74kQal9sl274nWJkP5VqH6mCtI96grNYxg78mz/pRXRc2Y
+9wNFUUbti2rIKwa/g+V/Bdf7PvInQsgCrSLix5EOvAoGAM7S2XRPQFMr0NMzyLiE
+o8kofGvcyhmwYEoy3JSkZdGmBbHVMa+UVhq2oTrGnf36EoPIQ1D+PwWVmzuMNkY
+pxYoUTWRL5RVFrBieCaLqGl5rFQ2TTocPVNSH1jY3eQ1rzG7dZx9PbhdQPLQMs5
+m8/EDjfq8QUrmjmBzmUVEv4XQ8=
 -----END PRIVATE KEY-----`;
 
 const public_key = `-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmH/MIv3dlW8jcZLmjpxch51QGv1x7tv8xjgc4e1zBpKJI0YGuR8awDKJEbrPp0K6XMdZY1c/zkDwugTMWj/2v7zpYOd59d6LAsKQdYLhYFy+LYjrA9j8LYuQkpoP6AFn2JQ1tx90D0PqsfNPC6dxb2Iag8iZhoGC2hPJ1zVM6EKde4Wy8+s9pO0fqXTlTP2+1pSEXTrmU03+//OJub7UoNwo00HL21RsJAJUt+8lOgUyvyYTEALk5rBzCnV97F6DcLRAHzkyVmemvKh42sEua9jN+alLkfpKNgPoFKPcl4yTYjPk6htLik9dNe/K9LE4fToS5ktnWaqIIzb936gzQQIDAQAB
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwo5RuvvkhywS8tEMqZgO
+Z9V40i7T7QBgb2kk5g3KKG5U+wy2CLiLmFIcO/vBMwm0YObwMQdAe34LbBenlMsB
+KEQV9mrJN7i60Vy4ZSDo0+heJeDLNg3v2ODYnFASRWA6mU88k71mFRpcJy1Stiu
+27PczTtTXZxl16CPlJxvIjuCvSOmC9Kpayc3yLPJ/44hB6+pBbXgHhAiyEOThkac
+v6mNJBbiCqyx7kVF13qSUtH94VngcourB9KF948joCF52PGcH7VuGjRWJCIIIe7J
+SH75By657R817yV85T2ynNysE991HfzGgWwM9WSqP1nS1KuKsY64Q750oKL7squy
+UiQIDAQAB
 -----END PUBLIC KEY-----`;
 
 const base_url = 'https://api.payok.com';
@@ -40,10 +46,10 @@ async function run() {
   try {
     const [rows] = await connection.query("SELECT * FROM payment_configs WHERE gateway_name = 'payok'");
     if (rows.length > 0) {
-      await connection.query("UPDATE payment_configs SET merchant_id = ?, private_key = ?, public_key = ?, status = 1 WHERE gateway_name = 'payok'", [app_id, app_secret, public_key]);
+      await connection.query("UPDATE payment_configs SET merchant_id = ?, private_key = ?, public_key = ?, status = 1, callback_url = ?, return_url = ? WHERE gateway_name = 'payok'", [app_id, app_secret, public_key, 'https://joogo63.com/api/webapi/recharge/payok/callback', 'https://joogo63.com/wallet/rechargerecord']);
       console.log('PAYOK Config updated');
     } else {
-      await connection.query("INSERT INTO payment_configs (gateway_name, merchant_id, private_key, public_key, min_recharge, max_recharge, status) VALUES (?, ?, ?, ?, ?, ?, ?)", ['payok', app_id, app_secret, public_key, 100, 50000, 1]);
+      await connection.query("INSERT INTO payment_configs (gateway_name, merchant_id, private_key, public_key, min_recharge, max_recharge, status, callback_url, return_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", ['payok', app_id, app_secret, public_key, 100, 50000, 1, 'https://joogo63.com/api/webapi/recharge/payok/callback', 'https://joogo63.com/wallet/rechargerecord']);
       console.log('PAYOK Config inserted');
     }
   } catch (err) {

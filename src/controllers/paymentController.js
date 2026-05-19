@@ -2168,7 +2168,7 @@ const initiatePayokPayment = async (req, res) => {
 
     const merchantId = config.merchant_id;
     const privateKey = config.private_key;
-    const baseUrl = "https://sit-api.payok.com";
+    const baseUrl = process.env.PAYOK_BASE_URL || "https://api.payok.com";
 
     const [adminConfig] = await connection.query("SELECT website_link FROM admin_ac LIMIT 1");
     const appBaseUrl = adminConfig[0]?.website_link || "https://starworldz.com";
@@ -2356,6 +2356,14 @@ const verifyPayokPayment = async (req, res) => {
     }
 
     const user = await getUserDataByPhoneNumber(recharge.phone);
+
+    // Always use paidAmount as requested, update recharge record and variable
+    const paidAmount = Number(data.paidAmount);
+    if (!isNaN(paidAmount) && paidAmount > 0) {
+      await connection.query("UPDATE recharge SET money = ? WHERE id = ?", [paidAmount, recharge.id]);
+      recharge.money = paidAmount;
+    }
+
     await rechargeTable.setStatusToSuccessByIdAndOrderId({
       id: recharge.id,
       orderId: recharge.orderId,
