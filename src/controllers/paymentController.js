@@ -2288,6 +2288,8 @@ const verifyPayokPayment = async (req, res) => {
     const callbackPath = "/api/webapi/recharge/payok/callback";
     const fullCallbackUrl = config.callback_url || `${appBaseUrl}${callbackPath}`;
 
+    console.log("PAYOK Webhook Headers:", req.headers);
+
     const sortedData = Object.keys(data).sort().reduce((acc, key) => {
       acc[key] = data[key];
       return acc;
@@ -2296,9 +2298,20 @@ const verifyPayokPayment = async (req, res) => {
     const sortedStr = JSON.stringify(sortedData);
     const unsortedStr = JSON.stringify(data);
 
+    // Query String strategy (common in Asian payment gateways)
+    const sortedKeys = Object.keys(data).sort();
+    const queryString = sortedKeys
+      .filter(key => data[key] !== undefined && data[key] !== null && data[key] !== '')
+      .map(key => `${key}=${data[key]}`)
+      .join('&');
+
     const verify = (str) => {
       try {
-        return crypto.createVerify('RSA-SHA256').update(str).verify(config.public_key, sign, 'base64');
+        const isOk = crypto.createVerify('RSA-SHA256').update(str).verify(config.public_key, sign, 'base64');
+        if (isOk) {
+          console.log("PAYOK Verification MATCHED on string:", str);
+        }
+        return isOk;
       } catch (e) {
         console.log("PAYOK Verification Attempt Error:", e.message);
         return false;
@@ -2310,11 +2323,14 @@ const verifyPayokPayment = async (req, res) => {
                        verify(sortedStr + "&" + fullCallbackUrl) ||
                        verify(unsortedStr) || 
                        verify(unsortedStr + "&" + callbackPath) ||
-                       verify(unsortedStr + "&" + fullCallbackUrl);
+                       verify(unsortedStr + "&" + fullCallbackUrl) ||
+                       verify(queryString) ||
+                       verify(queryString + "&" + callbackPath) ||
+                       verify(queryString + "&" + fullCallbackUrl);
 
     if (!isVerified) {
       console.log("PAYOK Webhook Signature Verification Failed");
-      console.log("Tried verification strategies with keys/paths, none matched.");
+      console.log("Tried JSON & QueryString strategies, none matched.");
       return res.status(400).send("FAIL");
     }
 
