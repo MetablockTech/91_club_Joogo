@@ -2298,7 +2298,9 @@ const verifyPayokPayment = async (req, res) => {
     const sortedStr = JSON.stringify(sortedData);
     const unsortedStr = JSON.stringify(data);
 
-    // Query String strategy (common in Asian payment gateways)
+    const rawStr = req.rawBody ? req.rawBody.toString('utf8') : '';
+    console.log("PAYOK Webhook Raw Body:", rawStr);
+
     const sortedKeys = Object.keys(data).sort();
     const queryString = sortedKeys
       .filter(key => data[key] !== undefined && data[key] !== null && data[key] !== '')
@@ -2306,6 +2308,7 @@ const verifyPayokPayment = async (req, res) => {
       .join('&');
 
     const verify = (str) => {
+      if (!str) return false;
       try {
         const isOk = crypto.createVerify('RSA-SHA256').update(str).verify(config.public_key, sign, 'base64');
         if (isOk) {
@@ -2318,7 +2321,10 @@ const verifyPayokPayment = async (req, res) => {
       }
     };
 
-    const isVerified = verify(sortedStr) || 
+    const isVerified = verify(rawStr) ||
+                       verify(rawStr + "&" + callbackPath) ||
+                       verify(rawStr + "&" + fullCallbackUrl) ||
+                       verify(sortedStr) || 
                        verify(sortedStr + "&" + callbackPath) || 
                        verify(sortedStr + "&" + fullCallbackUrl) ||
                        verify(unsortedStr) || 
@@ -2330,7 +2336,7 @@ const verifyPayokPayment = async (req, res) => {
 
     if (!isVerified) {
       console.log("PAYOK Webhook Signature Verification Failed");
-      console.log("Tried JSON & QueryString strategies, none matched.");
+      console.log("Tried RawBody, JSON & QueryString strategies, none matched.");
       return res.status(400).send("FAIL");
     }
 
