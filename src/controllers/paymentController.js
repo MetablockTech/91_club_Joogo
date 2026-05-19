@@ -1767,7 +1767,13 @@ const addUserAccountBalance = async ({ phone, money, code, invite, rechargeId })
     );
 
     // --- DYNAMIC DEPOSIT BONUS LOGIC ---
-    const rechargeCount = totalRecharge + 1;
+    const [currentRecharge] = await connection.query(
+      "SELECT status FROM recharge WHERE id = ?",
+      [rechargeId]
+    );
+    const isCurrentSuccess = currentRecharge.length > 0 && currentRecharge[0].status === PaymentStatusMap.SUCCESS;
+    const rechargeCount = isCurrentSuccess ? totalRecharge : totalRecharge + 1;
+
     const [bonusRules] = await connection.execute(
       "SELECT * FROM deposit_bonuses_config WHERE deposit_number = ? AND status = 1 AND min_deposit <= ? ORDER BY min_deposit DESC LIMIT 1",
       [rechargeCount, money]
