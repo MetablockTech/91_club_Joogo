@@ -2206,6 +2206,14 @@ const initiatePayokPayment = async (req, res) => {
 
     const sign = crypto.createSign('RSA-SHA256').update(signString).sign(privateKey, 'base64');
 
+    console.log("=== PAYOK INITIATION DETAILS ===");
+    console.log("PAYOK Base URL:", baseUrl);
+    console.log("PAYOK API Path:", apiPath);
+    console.log("PAYOK Minified Payload:", payloadString);
+    console.log("PAYOK Sign String (Concatenated):", signString);
+    console.log("PAYOK Generated Signature (Base64):", sign);
+    console.log("================================");
+
     const response = await axios.post(
       `${baseUrl}${apiPath}`,
       requestBody,
