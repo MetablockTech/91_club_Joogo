@@ -889,10 +889,10 @@
               <!-- Global Exchange Rate Section -->
               <div
                 style="background: var(--accent-light); padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--accent);">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div style="display: flex; flex-wrap: wrap; gap: 20px;">
                   <!-- Deposit Rate -->
                   <div
-                    style="display: flex; align-items: center; justify-content: space-between; background: white; padding: 10px 15px; border-radius: 8px; border: 1px solid var(--accent);">
+                    style="flex: 1 1 280px; display: flex; align-items: center; justify-content: space-between; background: white; padding: 10px 15px; border-radius: 8px; border: 1px solid var(--accent);">
                     <div>
                       <h4 style="font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 2px;">Deposit
                         USDT Rate</h4>
@@ -907,7 +907,7 @@
                   </div>
                   <!-- Withdraw Rate -->
                   <div
-                    style="display: flex; align-items: center; justify-content: space-between; background: white; padding: 10px 15px; border-radius: 8px; border: 1px solid var(--accent);">
+                    style="flex: 1 1 280px; display: flex; align-items: center; justify-content: space-between; background: white; padding: 10px 15px; border-radius: 8px; border: 1px solid var(--accent);">
                     <div>
                       <h4 style="font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 2px;">Withdraw
                         USDT Rate</h4>
@@ -948,6 +948,8 @@
                   style="border: none; background: transparent; cursor: pointer; font-weight: 600; color: var(--text-secondary); padding: 5px 10px; border-radius: 6px;">CloudPay</button>
                 <button class="gateway-tab-btn" data-gateway="upay"
                   style="border: none; background: transparent; cursor: pointer; font-weight: 600; color: var(--text-secondary); padding: 5px 10px; border-radius: 6px;">Upay</button>
+                <button class="gateway-tab-btn" data-gateway="payok"
+                  style="border: none; background: transparent; cursor: pointer; font-weight: 600; color: var(--text-secondary); padding: 5px 10px; border-radius: 6px;">Payok</button>
                 <button class="gateway-tab-btn" data-gateway="upigateway"
                   style="border: none; background: transparent; cursor: pointer; font-weight: 600; color: var(--text-secondary); padding: 5px 10px; border-radius: 6px;">UPI
                   Gateway</button>
@@ -965,7 +967,7 @@
                   <label>UPI ID</label>
                   <input type="text" class="form-control" id="upi_m_id" placeholder="example@upi">
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
                   <div class="field-group">
                     <label>Min Recharge</label>
                     <input type="number" class="form-control" id="upi_m_min" placeholder="100">
@@ -1010,7 +1012,7 @@
                   <label>USDT Address (TRC20)</label>
                   <input type="text" class="form-control" id="usdt_m_addr" placeholder="T...">
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
                   <div class="field-group">
                     <label>Min Recharge (USDT)</label>
                     <input type="number" class="form-control" id="usdt_m_min" placeholder="10">
@@ -1051,7 +1053,7 @@
 
               <!-- Upay Config -->
               <div class="gateway-pane" id="pane-upay" style="display: none;">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
                   <div class="field-group">
                     <label>App ID</label>
                     <input type="text" class="form-control" id="upay_app_id" placeholder="Enter App ID">
@@ -1061,7 +1063,7 @@
                     <input type="password" class="form-control" id="upay_app_secret" placeholder="Enter App Secret">
                   </div>
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
                   <div class="field-group">
                     <label>Min Recharge</label>
                     <input type="number" class="form-control" id="upay_min" placeholder="0">
@@ -1102,7 +1104,7 @@
                   <label>UPI Gateway Key (ekqr.in)</label>
                   <input type="password" class="form-control" id="ug_key" placeholder="Enter Gateway Key">
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
                   <div class="field-group">
                     <label>Min Recharge</label>
                     <input type="number" class="form-control" id="ug_min" placeholder="0">
@@ -1139,7 +1141,7 @@
 
               <!-- CCPayment Config -->
               <div class="gateway-pane" id="pane-ccpayment" style="display: none;">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
                   <div class="field-group">
                     <label>App ID</label>
                     <input type="text" class="form-control" id="cc_app_id" placeholder="Enter App ID">
@@ -1149,7 +1151,7 @@
                     <input type="password" class="form-control" id="cc_app_secret" placeholder="Enter App Secret">
                   </div>
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
                   <div class="field-group">
                     <label>Min Recharge</label>
                     <input type="number" class="form-control" id="cc_min" placeholder="0">
@@ -1186,7 +1188,7 @@
 
               <!-- WowPay Config -->
               <div class="gateway-pane" id="pane-wowpay" style="display: none;">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
                   <div class="field-group">
                     <label>Merchant ID</label>
                     <input type="text" class="form-control" id="wow_mch_id" placeholder="Enter Merchant ID">
@@ -1196,7 +1198,7 @@
                     <input type="password" class="form-control" id="wow_mch_key" placeholder="Enter Merchant Key">
                   </div>
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
                   <div class="field-group">
                     <label>Min Recharge</label>
                     <input type="number" class="form-control" id="wow_min" placeholder="0">
@@ -1233,7 +1235,7 @@
 
               <!-- RSPay Config -->
               <div class="gateway-pane" id="pane-rspay" style="display: none;">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
                   <div class="field-group">
                     <label>Merchant ID</label>
                     <input type="text" class="form-control" id="rs_mch_id" placeholder="Enter Merchant ID">
@@ -1243,7 +1245,7 @@
                     <input type="password" class="form-control" id="rs_mch_key" placeholder="Enter Merchant Key">
                   </div>
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
                   <div class="field-group">
                     <label>Min Recharge</label>
                     <input type="number" class="form-control" id="rs_min" placeholder="0">
@@ -1280,7 +1282,7 @@
 
               <!-- CloudPay Config -->
               <div class="gateway-pane" id="pane-cloudpay" style="display: none;">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
                   <div class="field-group">
                     <label>Merchant ID</label>
                     <input type="text" class="form-control" id="cp_mch_id" placeholder="Enter Merchant ID">
@@ -1291,7 +1293,7 @@
                       placeholder="Enter Merchant Key"></textarea>
                   </div>
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
                   <div class="field-group">
                     <label>Min Recharge</label>
                     <input type="number" class="form-control" id="cp_min" placeholder="0">
@@ -1326,9 +1328,65 @@
                 </button>
               </div>
 
+              <!-- Payok Config -->
+              <div class="gateway-pane" id="pane-payok" style="display: none;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                  <div class="field-group">
+                    <label>Merchant ID</label>
+                    <input type="text" class="form-control" id="payok_mch_id" placeholder="Enter Merchant ID">
+                  </div>
+                  <div class="field-group">
+                    <label>Return URL</label>
+                    <input type="text" class="form-control" id="payok_return_url" placeholder="https://...">
+                  </div>
+                  <div class="field-group">
+                    <label>Callback URL (Webhook)</label>
+                    <input type="text" class="form-control" id="payok_callback_url" placeholder="https://joogo63.com/api/webapi/recharge/payok/callback">
+                  </div>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+                  <div class="field-group">
+                    <label>Public Key</label>
+                    <textarea class="form-control" id="payok_public_key" style="height: 100px;" placeholder="Enter Public Key"></textarea>
+                  </div>
+                  <div class="field-group">
+                    <label>Private Key</label>
+                    <textarea class="form-control" id="payok_private_key" style="height: 100px;" placeholder="Enter Private Key"></textarea>
+                  </div>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+                  <div class="field-group">
+                    <label>Min Recharge</label>
+                    <input type="number" class="form-control" id="payok_min" placeholder="100">
+                  </div>
+                  <div class="field-group">
+                    <label>Max Recharge</label>
+                    <input type="number" class="form-control" id="payok_max" placeholder="50000">
+                  </div>
+                </div>
+                <div class="field-group" style="margin-top: 15px;">
+                  <label>Quick Recharge Amounts (Comma separated)</label>
+                  <input type="text" class="form-control" id="payok_quick_amounts" placeholder="100,500,1000,5000">
+                </div>
+                <div class="field-group" style="margin-top: 15px;">
+                  <label>Gateway Instructions (Visible to User)</label>
+                  <textarea class="form-control" id="payok_instructions" style="height: 100px;" placeholder="Enter instructions for the user..."></textarea>
+                </div>
+                <div class="switch-wrap" style="margin-top: 15px;">
+                  <span>Status (Enable/Disable)</span>
+                  <label class="switch">
+                    <input type="checkbox" id="payok_status">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+                <button class="btn-save save-gateway" data-gateway="payok" style="margin-top: 15px; width: 100%;">
+                  <i class="fas fa-save"></i> Save Payok Config
+                </button>
+              </div>
+
               <!-- WatchPay Config (Placeholder) -->
               <div class="gateway-pane" id="pane-watchpay" style="display: none;">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
                   <div class="field-group">
                     <label>Merchant ID</label>
                     <input type="text" class="form-control" id="wp_mch_id" placeholder="Enter Merchant ID">
@@ -1338,7 +1396,7 @@
                     <input type="password" class="form-control" id="wp_agent_key" placeholder="Enter Agent Key">
                   </div>
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
                   <div class="field-group">
                     <label>Min Recharge</label>
                     <input type="number" class="form-control" id="wp_min" placeholder="0">
@@ -2037,6 +2095,19 @@
               $('#upay_quick_amounts').val(upay.quick_amounts || '100,500,1000,5000');
               $('#upay_instructions').val(upay.instructions || '');
             }
+            const payok = res.paymentConfigs.find(c => c.gateway_name === 'payok');
+            if (payok) {
+              $('#payok_mch_id').val(payok.merchant_id);
+              $('#payok_public_key').val(payok.public_key);
+              $('#payok_private_key').val(payok.private_key);
+              $('#payok_status').prop('checked', payok.status == 1);
+              $('#payok_min').val(payok.min_recharge);
+              $('#payok_max').val(payok.max_recharge);
+              $('#payok_return_url').val(payok.return_url);
+              $('#payok_callback_url').val(payok.callback_url);
+              $('#payok_quick_amounts').val(payok.quick_amounts || '100,500,1000,5000');
+              $('#payok_instructions').val(payok.instructions || '');
+            }
             const wp = res.paymentConfigs.find(c => c.gateway_name === 'watchpay');
             if (wp) {
               $('#wp_mch_id').val(wp.app_id);
@@ -2257,6 +2328,20 @@
             quick_amounts: $('#upay_quick_amounts').val(),
             instructions: $('#upay_instructions').val(),
             status: $('#upay_status').is(':checked') ? 1 : 0
+          };
+        } else if (gateway === 'payok') {
+          data = {
+            gateway_name: 'payok',
+            merchant_id: $('#payok_mch_id').val(),
+            public_key: $('#payok_public_key').val(),
+            private_key: $('#payok_private_key').val(),
+            min_recharge: $('#payok_min').val(),
+            max_recharge: $('#payok_max').val(),
+            return_url: $('#payok_return_url').val(),
+            callback_url: $('#payok_callback_url').val(),
+            quick_amounts: $('#payok_quick_amounts').val(),
+            instructions: $('#payok_instructions').val(),
+            status: $('#payok_status').is(':checked') ? 1 : 0
           };
         } else if (gateway === 'watchpay') {
           data = {

@@ -20,7 +20,11 @@ const port = isProduction ? (process.env.PROD_PORT || 3000) : (process.env.DEV_P
 app.use(cookieParser());
 // app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.json({
+  verify: (req, res, buf) => {
+    req.rawBody = buf;
+  }
+}));
 
 // Inject SITE_NAME & SITE_LOGO into every view automatically
 app.use(async (req, res, next) => {
