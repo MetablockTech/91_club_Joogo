@@ -9961,8 +9961,9 @@
 
       const fetchUser = async () => {
         try {
-          const response = await axios.get("/api/webapi/GetUserInfo")
-          userData = response?.data?.data
+          const response = await fetch("/api/webapi/GetUserInfo")
+          const resJson = await response.json()
+          const userData = resJson?.data
 
           console.log(userData)
 
