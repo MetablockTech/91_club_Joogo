@@ -4203,6 +4203,7 @@
                        <select id="statusFilter" class="ar-searchbar__selector-default" style="border:none; background:transparent; width:100%; font-size: 11px;">
                            <option value="All">All Status</option>
                            <option value="0">Pending</option>
+                           <option value="3">Processing</option>
                            <option value="1">Accepted</option>
                            <option value="2">Rejected</option>
                        </select>
@@ -4780,6 +4781,18 @@
             background: #f9f9f9;
             color: #50596c;
         }
+        .rechargeh__container-content__item-header .recharge_right.pending {
+            color: #ff891d !important;
+        }
+        .rechargeh__container-content__item-header .recharge_right.processing {
+            color: #17a2b8 !important;
+        }
+        .rechargeh__container-content__item-header .recharge_right.success {
+            color: var(--norm_green-color) !important;
+        }
+        .rechargeh__container-content__item-header .recharge_right.fail {
+            color: var(--norm_red-color) !important;
+        }
     </style>
     <script>
         function formatIndianNumber(num) {
@@ -4849,8 +4862,8 @@
                     <div data-v-f851bd18="" class="rechargeh__container-content__item">
                         <div data-v-f851bd18="" class="rechargeh__container-content__item-header">
                            <span data-v-f851bd18="" class="recharge_tit">Withdraw</span>
-                           <div data-v-f851bd18="" class="recharge_right ${data.status == 1 ? "success" : data.status == 2 ? "fail" : "pending"}">
-                            ${data.status == 1 ? "Complete" : data.status == 2 ? "Failed" : "Processing"}${data.status == 1 ? `<i data-v-f851bd18="" class="van-badge__wrapper van-icon van-icon-arrow"></i>` : ""}
+                           <div data-v-f851bd18="" class="recharge_right ${data.status == 1 ? "success" : data.status == 2 ? "fail" : data.status == 3 ? "processing" : "pending"}">
+                            ${data.status == 1 ? "Complete" : data.status == 2 ? "Failed" : data.status == 3 ? "Processing" : "Pending"}${data.status == 1 ? `<i data-v-f851bd18="" class="van-badge__wrapper van-icon van-icon-arrow"></i>` : ""}
                            </div>
                         </div>
                         <div data-v-f851bd18="" role="separator" class="van-divider van-divider--hairline divier"></div>

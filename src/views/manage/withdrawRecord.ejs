@@ -201,6 +201,11 @@
       color: #ff9f43;
     }
 
+    .badge-info {
+      background: rgba(52, 152, 219, 0.1);
+      color: var(--blue);
+    }
+
     .badge-bank {
       background: rgba(52, 152, 219, 0.1);
       color: var(--blue);
@@ -423,6 +428,7 @@
                 <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 9px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; pointer-events: none;">Status</span>
                 <select class="status-filter-el" style="width: 100%; padding: 10px 15px 10px 60px; background: #f7f8fc; border: 1px solid var(--card-border); border-radius: 12px; font-size: 13px; font-weight: 600; outline: none; height: 48px;">
                     <option value="all">All Status</option>
+                    <option value="3">Payok Pending</option>
                     <option value="1">Completed / Paid</option>
                     <option value="2">Rejected</option>
                 </select>
@@ -480,6 +486,7 @@
                         <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 9px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; pointer-events: none;">Status</span>
                         <select id="status-filter" class="status-filter-el" style="width: 100%; padding: 10px 15px 10px 60px; background: #f7f8fc; border: 1px solid var(--card-border); border-radius: 12px; font-size: 13px; font-weight: 600; outline: none; cursor: pointer; height: 44px;">
                             <option value="all">All Status</option>
+                            <option value="3">Payok Pending</option>
                             <option value="1">Completed</option>
                             <option value="2">Rejected</option>
                         </select>
@@ -593,6 +600,9 @@
         } else if (data.status == 2) {
             statusClass = 'badge-danger';
             statusLabel = 'Rejected';
+        } else if (data.status == 3) {
+            statusClass = 'badge-info';
+            statusLabel = 'Payok Pending';
         }
 
         let methodDisplay = data.method || 'BANK';
