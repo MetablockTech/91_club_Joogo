@@ -441,6 +441,7 @@
         alertMsg(response.data.message);
         initTableData();
       } catch (error) {
+        $("#popupRoot").removeClass("active");
         alertMsg(error.response?.data?.message || "An error occurred", 'error');
       } finally {
         btn.prop("disabled", false).text("Submit Decision").css("opacity", "1");
