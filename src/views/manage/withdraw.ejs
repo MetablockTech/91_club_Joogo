@@ -411,7 +411,7 @@
       currentStatus = status;
       $("#phoneLabel").text(phone);
       $("#remarksField").val("");
-      if (status == 1) {
+      if (status == 1 && activeTab === WITHDRAWAL_METHODS.BANK_CARD) {
         $("#payoutMethodGroup").show();
       } else {
         $("#payoutMethodGroup").hide();
@@ -430,7 +430,7 @@
             id: currentId,
             status: currentStatus,
             remarks: $("#remarksField").val(),
-            payoutMethod: $("#payoutMethod").val()
+            payoutMethod: activeTab === WITHDRAWAL_METHODS.BANK_CARD ? $("#payoutMethod").val() : "MANUAL"
           }
         });
         $("#popupRoot").removeClass("active");
