@@ -492,9 +492,9 @@ html:lang(ar) .goFirst[data-v-54c02c28] {
   font-size: 0.34667rem;
   border: none;
   border-radius: 0.45333rem;
-  background: -webkit-linear-gradient(top, #d08eff 0%, #7209b7 100%);
-  background: linear-gradient(180deg, #d08eff 0%, #7209b7 100%);
-  box-shadow: 0 0.05333rem 0.21333rem #d0d0ed;
+  /* background: -webkit-linear-gradient(top, #d08eff 0%, #7209b7 100%); */
+  background: #72D731;
+  /* box-shadow: 0 0.05333rem 0.21333rem #d0d0ed; */
 }
 .verifyInput__container-input button.inActive[data-v-7f8a9c9a] {
   text-shadow: none;

@@ -8038,12 +8038,14 @@
       background: url(/assets/png/bg-edc23a85.png) no-repeat center center !important;
       background-size: 100% 100% !important;
       border-radius: 0.2rem !important;
+      border: 0.03rem solid #72D731 !important;
     }
 
     .gameList .mySideBar .van-sidebar-item--select[data-v-6c5117cd] {
       background: #72D731 !important;
       background-size: 100% 100% !important;
       color: white !important;
+      border: 0.03rem solid #72D731 !important;
     }
 
     .gameList .mySideBar .van-sidebar-item--select[data-v-6c5117cd] * {
@@ -8297,6 +8299,38 @@
       color: #fff !important;
     }
 
+    /* ===== LOGO SIZE OVERRIDE ===== */
+    .navbar__content-left img[data-v-94f8731b],
+    .navbar__content-left img {
+      height: 1.15rem !important;
+      width: auto !important;
+      max-height: none !important;
+    }
+
+    .content__right {
+      display: flex !important;
+      align-items: center !important;
+      gap: 0.15rem !important;
+    }
+    .navbar-balance-box {
+      display: flex !important;
+      align-items: center !important;
+      background: rgba(255, 255, 255, 0.2) !important;
+      border: 1.5px solid rgba(255, 255, 255, 0.5) !important;
+      border-radius: 0.5rem !important;
+      padding: 0.1rem 0.25rem !important;
+      font-size: 0.35rem !important;
+      color: #ffffff !important;
+      font-weight: 700 !important;
+      cursor: pointer;
+      user-select: none;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08) !important;
+      transition: all 0.2s ease !important;
+    }
+    .navbar-balance-box:hover {
+      background: rgba(255, 255, 255, 0.35) !important;
+    }
+
     /* ===== END ACTIVE HOME ICON COLOR ===== */
   </style>
 </head>
@@ -8343,6 +8377,14 @@
               <div data-v-4c21fa9e="" class="navbar__content-right">
                 <div data-v-94f8731b="" class="content__right">
                   <!----><!---->
+                  <div class="navbar-balance-box" id="navbar_balance_box" onclick="window.location.href='/wallet';" style="display: none;">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px; vertical-align: middle;">
+                      <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/>
+                      <path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/>
+                      <path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/>
+                    </svg>
+                    <span id="navbar_balance">₹0.00</span>
+                  </div>
                   <% if (app_status==1) { %>
                     <img data-v-94f8731b="" onclick="window.location.href='<%= app %>';"
                       src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAm0lEQVR4nO2T3QnDMAyEtURLOtYdeKNmweYhq9R6UTHkpwl2ILVaCM2BQEZwn33IIn+hSLYRiEpaqtRH4O4HwGw+QcinG0AH09L5BMgZ0UIWwkXJx3otNbNFiwJ6C6GRGoiUAHvMsxCgN+BWnO0134KYl/kEAa5KdkMc3XufZlXm2Zd43bwIwRfMR6VI3GI5njT3O/l5/R4gR9ULlt5dJEg8JQ0AAAAASUVORK5CYII=" />
@@ -8607,12 +8649,7 @@
           </svg>
           <div data-v-b4633b52="" class="noticeBar__container-body">
             <div data-v-b4633b52="" class="noticeBar__container-body-text" style="font-weight: 500">
-              If your deposit not receive, please send it directly to <%= locals.SITE_NAME || "Starworldz" %>
-                games Self-service Center (#) wait till already get process, do
-                not send to another person and trust anyone claiming to represent
-                <%= locals.SITE_NAME || "Starworldz" %> games. Always verify our website authenticity through the
-                  official community channels. Your safety and trust is our
-                  priority.
+              VIP level rewards are settled at 2:00 am on the 1st of every month
             </div>
           </div>
           <button data-v-b4633b52="">
@@ -9924,10 +9961,17 @@
 
       const fetchUser = async () => {
         try {
-          const response = await axios.get("/api/webapi/GetUserInfo")
-          userData = response?.data?.data
+          const response = await fetch("/api/webapi/GetUserInfo")
+          const resJson = await response.json()
+          const userData = resJson?.data
 
           console.log(userData)
+
+          if (userData && userData.money_user !== undefined) {
+            const formattedMoney = parseFloat(userData.money_user).toFixed(2);
+            $("#navbar_balance").text("₹" + formattedMoney);
+            $("#navbar_balance_box").show();
+          }
 
           $("#avatar_display").attr("src", `/assets/png/${userData.avatar}`)
           $("#nickname_display").text(userData.name_user)

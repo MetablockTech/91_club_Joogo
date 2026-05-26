@@ -66,9 +66,9 @@
   letter-spacing: 0.05333rem;
   border-radius: 0.58667rem;
   border: none;
-  background: -webkit-linear-gradient(top, #7209b7 0%, #d08eff 100%);
-  background: linear-gradient(180deg, #7209b7 0%, #d08eff 100%);
-  box-shadow: 0 0.05333rem #7209b7;
+  /* background: -webkit-linear-gradient(top, #7209b7 0%, #d08eff 100%); */
+  background: #72D731;
+  /* box-shadow: 0 0.05333rem #7209b7; */
 }
 .register__container-button button.disable-btn[data-v-8daf2a03] {
   background: -webkit-linear-gradient(top, #cfd1df 0%, #c8cada 100%);
@@ -315,7 +315,7 @@
   white-space: pre-wrap;
 }
 .rpwd__C .login_container-tab .active[data-v-1806c058] {
-  border-bottom: 0.05333rem solid #d08eff;
+  border-bottom: 0.05333rem solid #72D731;
 }
 .rpwd__C .login_container-tab .active .font30[data-v-1806c058] {
   color: #d08eff;

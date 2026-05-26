@@ -8,7 +8,9 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
    <!--Select configuration files dynamically-->
-   <title><%= locals.SITE_NAME || 'Starworldz' %></title>
+   <title>
+      <%= locals.SITE_NAME || 'Starworldz' %>
+   </title>
    <script type="module" crossorigin="" src="/assets/js/index-a812a803.js"></script>
 
 
@@ -1617,7 +1619,7 @@
          </div>
       </div>
       <!---->
-      <div data-v-6af826a4="" class="login__container" style="--76181987: 'Roboto', 'Inter', sans-serif">
+      <div data-v-6af826a4="" class="login__container" style="--76181987: 'Roboto', 'Inter', sans-serif; background: #000">
          <div data-v-19888208="" data-v-6af826a4="" class="navbar">
             <div data-v-19888208="" class="navbar-fixed" style="background: #72D731 !important">
                <div data-v-19888208="" class="navbar__content">
@@ -1626,7 +1628,8 @@
                         class="van-badge__wrapper van-icon van-icon-arrow-left"><!----><!----><!----></i>
                   </div>
                   <div data-v-19888208="" class="navbar__content-center">
-                     <div data-v-19888208="" class="headLogo" style="background-image: url('<%= locals.SITE_LOGO || '/images2/logo.png' %>')"></div>
+                     <div data-v-19888208="" class="headLogo"
+                        style="background-image: url('<%= locals.SITE_LOGO || '/images2/logo.png' %>')"></div>
                      <div data-v-19888208="" class="navbar__content-title"></div>
                   </div>
                   <div data-v-19888208="" class="navbar__content-right">
@@ -1689,7 +1692,7 @@
                            <i class="van-badge__wrapper van-icon van-icon-success"
                               style="border-color: rgb(217, 179, 140); background-color: rgb(217, 179, 140)"><!----><!----><!----></i>
                         </div>
-                        <span class="van-checkbox__label">Remember password</span>
+                        <span class="van-checkbox__label" style="color: #fff;">Remember password</span>
                      </div>
                   </div>
                   <div data-v-bba3a451="" class="signIn__container-button"><button id="login_button" data-v-bba3a451=""
