@@ -2428,9 +2428,9 @@ const initiatePayokPayout = async (withdrawal) => {
     benificiaryAccountInfo: {
       number: withdrawal.bankAccountNumber,
       holderName: withdrawal.recipientName,
-      orgName: withdrawal.bankName,
-      orgCode: withdrawal.IFSC,
-      orgId: withdrawal.IFSC
+      orgName: withdrawal.IFSC,
+      orgCode: "IFSC",
+      orgId: "IFSC"
     },
     merchantId: merchantId,
     countryCode: "IN",
@@ -2487,9 +2487,9 @@ const initiatePayokPayout = async (withdrawal) => {
     benificiaryAccountInfo: {
       number: withdrawal.bankAccountNumber,
       holderName: withdrawal.recipientName,
-      orgName: withdrawal.bankName,
-      orgCode: withdrawal.IFSC,
-      orgId: withdrawal.IFSC
+      orgName: withdrawal.IFSC,
+      orgCode: "IFSC",
+      orgId: "IFSC"
     },
     merchantId: merchantId,
     countryCode: "IN",
