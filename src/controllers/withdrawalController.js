@@ -4,6 +4,7 @@ import userStatsHelper from "../helpers/userStats.js";
 import bcrypt from "bcrypt";
 import { isOTPEnabled } from "../helpers/smsService.js";
 import withdrawalWorkflow from "../helpers/withdrawalWorkflow.js";
+import paymentController from "./paymentController.js";
 
 
 const WITHDRAWAL_METHODS_MAP = {
@@ -726,6 +727,7 @@ const approveOrDenyWithdrawalRequest = async (req, res) => {
     let id = req.body.id;
     let status = req.body.status;
     let remarks = req.body.remarks;
+    let payoutMethod = req.body.payoutMethod || "AUTO";
 
     if (!auth) {
       return res.status(400).json({
@@ -762,6 +764,46 @@ const approveOrDenyWithdrawalRequest = async (req, res) => {
     }
 
     if (status == WITHDRAWAL_STATUS_MAP.APPROVED) {
+      // Check if Payok is the active payout gateway and if admin hasn't chosen MANUAL override
+      if (payoutMethod !== "MANUAL") {
+        const [payokConfig] = await connection.query(
+          "SELECT * FROM payment_configs WHERE gateway_name = 'payok' AND status = 1"
+        );
+
+      if (payokConfig.length > 0) {
+        if (withdraw.withdrawal.type === WITHDRAWAL_METHODS_MAP.BANK_CARD) {
+          try {
+            await paymentController.initiatePayokPayout(withdraw.withdrawal);
+
+            // Set status to 3 (Processing) and update remarks
+            await connection.execute(
+              `UPDATE withdraw SET status = 3, remarks = ? WHERE id = ?`,
+              [`Sent to Payok (Pending Callback). Remarks: ${remarks || ''}`, id],
+            );
+
+            return res.status(200).json({
+              message: "Withdrawal approved and sent to Payok for processing!",
+              status: true,
+              timeStamp: timeNow,
+            });
+          } catch (payoutError) {
+            console.error("Payok Payout Trigger Error:", payoutError);
+            return res.status(400).json({
+              message: `Payok Payout Error: ${payoutError.message}`,
+              status: false,
+              timeStamp: timeNow,
+            });
+          }
+        } else if (withdraw.withdrawal.type === WITHDRAWAL_METHODS_MAP.UPI_ID) {
+          return res.status(400).json({
+            message: "Payok only supports Payout to Bank Card (IFSC) in India. UPI is not supported via Payok payout. Please handle manually or use a different gateway.",
+            status: false,
+            timeStamp: timeNow,
+          });
+        }
+      }
+    }
+
       await connection.execute(
         `UPDATE withdraw SET status = 1, remarks = ? WHERE id = ?`,
         [remarks, id],

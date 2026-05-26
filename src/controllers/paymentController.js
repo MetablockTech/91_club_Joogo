@@ -2399,6 +2399,248 @@ const verifyPayokPayment = async (req, res) => {
   }
 };
 
+const initiatePayokPayout = async (withdrawal) => {
+  const config = await getPaymentConfig('payok');
+  if (!config) {
+    throw new Error("Payok config not found");
+  }
+
+  const merchantId = config.merchant_id;
+  const privateKey = config.private_key;
+  const baseUrl = process.env.PAYOK_BASE_URL || "https://api.payok.com";
+
+  const [adminConfig] = await connection.query("SELECT website_link FROM admin_ac LIMIT 1");
+  const appBaseUrl = adminConfig[0]?.website_link || "https://starworldz.com";
+
+  const amount = Number(withdrawal.amount);
+  const orderId = withdrawal.orderId;
+
+  // Split name for cardHolderInfo
+  const nameParts = (withdrawal.recipientName || "User").trim().split(/\s+/);
+  const firstName = nameParts[0] || "User";
+  const lastName = nameParts.slice(1).join(" ") || "User";
+
+  // Step 1: Account Inquiry
+  const inquiryPath = "/api-pay/remit/V3.6/account/inquiry";
+  const inquiryBody = {
+    requestTime: new Date().toISOString(),
+    amount: amount.toFixed(2),
+    benificiaryAccountInfo: {
+      number: withdrawal.bankAccountNumber,
+      holderName: withdrawal.recipientName,
+      orgName: withdrawal.bankName,
+      orgCode: withdrawal.IFSC,
+      orgId: withdrawal.IFSC
+    },
+    merchantId: merchantId,
+    countryCode: "IN",
+    currency: "INR",
+    language: "EN",
+    merchantOrderId: orderId
+  };
+
+  const inquiryPayload = JSON.stringify(inquiryBody);
+  const inquirySign = crypto.createSign('RSA-SHA256')
+    .update(inquiryPayload + "&" + inquiryPath)
+    .sign(privateKey, 'base64');
+
+  console.log("=== PAYOK PAYOUT INQUIRY REQUEST ===");
+  console.log("Inquiry Body:", inquiryPayload);
+  
+  const inquiryResponse = await axios.post(
+    `${baseUrl}${inquiryPath}`,
+    inquiryBody,
+    {
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'sign': inquirySign
+      }
+    }
+  );
+
+  console.log("Inquiry Response:", inquiryResponse.data);
+
+  if (!inquiryResponse.data || inquiryResponse.data.code !== "SUCCESS") {
+    throw new Error(inquiryResponse.data?.message || "Payok Account Inquiry Failed");
+  }
+
+  const inquiryToken = inquiryResponse.data.inquiryToken;
+  if (!inquiryToken) {
+    throw new Error("Payok Account Inquiry did not return inquiryToken");
+  }
+
+  // Step 2: Request Payout
+  const createPath = "/api-pay/remit/V3.6/order/create";
+  const createBody = {
+    requestTime: new Date().toISOString(),
+    notificationUrl: `${appBaseUrl}/api/webapi/withdraw/payok/callback`,
+    inquiryToken: inquiryToken,
+    amount: amount.toFixed(2),
+    benificiaryAccountInfo: {
+      number: withdrawal.bankAccountNumber,
+      holderName: withdrawal.recipientName,
+      orgName: withdrawal.bankName,
+      orgCode: withdrawal.IFSC,
+      orgId: withdrawal.IFSC
+    },
+    merchantId: merchantId,
+    countryCode: "IN",
+    description: `Payout withdrawal order ${orderId}`,
+    currency: "INR",
+    language: "EN",
+    cardHolderInfo: {
+      zip: "110001",
+      firstName: firstName,
+      lastName: lastName,
+      country: "India",
+      address: "India",
+      city: "New Delhi",
+      phone: withdrawal.phoneNumber || "9178200000",
+      email: "user@example.com"
+    },
+    merchantOrderId: orderId
+  };
+
+  const createPayload = JSON.stringify(createBody);
+  const createSign = crypto.createSign('RSA-SHA256')
+    .update(createPayload + "&" + createPath)
+    .sign(privateKey, 'base64');
+
+  console.log("=== PAYOK PAYOUT CREATE ORDER REQUEST ===");
+  console.log("Create Body:", createPayload);
+
+  const createResponse = await axios.post(
+    `${baseUrl}${createPath}`,
+    createBody,
+    {
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'sign': createSign
+      }
+    }
+  );
+
+  console.log("Create Response:", createResponse.data);
+
+  if (!createResponse.data || createResponse.data.code !== "SUCCESS") {
+    throw new Error(createResponse.data?.message || "Payok Payout Order Creation Failed");
+  }
+
+  return createResponse.data;
+};
+
+const verifyPayokPayoutCallback = async (req, res) => {
+  console.log("PAYOK Payout Callback Received Body:", req.body);
+  try {
+    const data = req.body;
+    const sign = req.headers.sign;
+
+    if (!data || !sign) {
+      return res.status(400).send("FAIL");
+    }
+
+    const config = await getPaymentConfig('payok');
+    if (!config || !config.public_key) {
+      return res.status(500).send("Config not found");
+    }
+
+    const [adminConfig] = await connection.query("SELECT website_link FROM admin_ac LIMIT 1");
+    const appBaseUrl = adminConfig[0]?.website_link || "https://starworldz.com";
+    const callbackPath = "/api/webapi/withdraw/payok/callback";
+    const fullCallbackUrl = `${appBaseUrl}${callbackPath}`;
+
+    console.log("PAYOK Payout Webhook Headers:", req.headers);
+
+    const sortedData = Object.keys(data).sort().reduce((acc, key) => {
+      acc[key] = data[key];
+      return acc;
+    }, {});
+
+    const sortedStr = JSON.stringify(sortedData);
+    const unsortedStr = JSON.stringify(data);
+    const rawStr = req.rawBody ? req.rawBody.toString('utf8') : '';
+    console.log("PAYOK Payout Webhook Raw Body:", rawStr);
+
+    const sortedKeys = Object.keys(data).sort();
+    const queryString = sortedKeys
+      .filter(key => data[key] !== undefined && data[key] !== null && data[key] !== '')
+      .map(key => `${key}=${data[key]}`)
+      .join('&');
+
+    const verify = (str) => {
+      if (!str) return false;
+      try {
+        const isOk = crypto.createVerify('RSA-SHA256').update(str).verify(config.public_key, sign, 'base64');
+        if (isOk) {
+          console.log("PAYOK Payout Verification MATCHED on string:", str);
+        }
+        return isOk;
+      } catch (e) {
+        console.log("PAYOK Payout Verification Attempt Error:", e.message);
+        return false;
+      }
+    };
+
+    const isVerified = verify(rawStr) ||
+                       verify(rawStr + "&" + callbackPath) ||
+                       verify(rawStr + "&" + fullCallbackUrl) ||
+                       verify(sortedStr) || 
+                       verify(sortedStr + "&" + callbackPath) || 
+                       verify(sortedStr + "&" + fullCallbackUrl) ||
+                       verify(unsortedStr) || 
+                       verify(unsortedStr + "&" + callbackPath) ||
+                       verify(unsortedStr + "&" + fullCallbackUrl) ||
+                       verify(queryString) ||
+                       verify(queryString + "&" + callbackPath) ||
+                       verify(queryString + "&" + fullCallbackUrl);
+
+    if (!isVerified) {
+      console.log("PAYOK Payout Webhook Signature Verification Failed");
+      return res.status(400).send("FAIL");
+    }
+
+    const orderId = data.merchantOrderId;
+    const [withdrawRows] = await connection.query("SELECT * FROM withdraw WHERE id_order = ?", [orderId]);
+    if (withdrawRows.length === 0) {
+      console.log("PAYOK Payout Webhook: Withdrawal order not found:", orderId);
+      return res.status(400).send("FAIL");
+    }
+
+    const withdraw = withdrawRows[0];
+    if (withdraw.status === 1 || withdraw.status === 2) {
+      console.log("PAYOK Payout Webhook: Withdrawal already processed:", orderId, "Status:", withdraw.status);
+      return res.status(200).send("SUCCESS");
+    }
+
+    if (data.status === "SUCCESS") {
+      await connection.query("UPDATE withdraw SET status = 1, remarks = 'Payok Payout Success' WHERE id = ?", [withdraw.id]);
+
+      await connection.query(
+        "UPDATE users SET total_withdrawal_amount = total_withdrawal_amount + ? WHERE phone = ?",
+        [withdraw.money, withdraw.phone]
+      );
+
+      console.log(`PAYOK Payout Webhook SUCCESS: Order ${orderId} confirmed`);
+      return res.status(200).send("SUCCESS");
+    } else if (data.status === "FAILED") {
+      await connection.query("UPDATE withdraw SET status = 2, remarks = 'Payok Payout Failed' WHERE id = ?", [withdraw.id]);
+
+      await connection.query(
+        "UPDATE users SET money = money + ?, total_money = total_money + ? WHERE phone = ?",
+        [withdraw.money, withdraw.money, withdraw.phone]
+      );
+
+      console.log(`PAYOK Payout Webhook FAILED: Order ${orderId} refunded`);
+      return res.status(200).send("SUCCESS");
+    }
+
+    return res.status(200).send("SUCCESS");
+  } catch (error) {
+    console.log("PAYOK Payout Webhook Error:", error);
+    return res.status(500).send("FAIL");
+  }
+};
+
 const paymentController = {
   initiateUPIPayment,
   verifyUPIPayment,
@@ -2419,7 +2661,9 @@ const paymentController = {
   verifyCloudPayPayment,
   initiateCloudPayPayment,
   initiatePayokPayment,
-  verifyPayokPayment
+  verifyPayokPayment,
+  initiatePayokPayout,
+  verifyPayokPayoutCallback
 };
 
 export default paymentController;

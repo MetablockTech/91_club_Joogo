@@ -598,6 +598,15 @@ const initWebRouter = (app) => {
     paymentController.verifyPayokPayment,
   );
 
+  router.post(
+    "/api/webapi/withdraw/payok/callback",
+    paymentController.verifyPayokPayoutCallback,
+  );
+  router.get(
+    "/api/webapi/withdraw/payok/callback",
+    paymentController.verifyPayokPayoutCallback,
+  );
+
   router.get(
     "/game/statistics",
     middlewareController,

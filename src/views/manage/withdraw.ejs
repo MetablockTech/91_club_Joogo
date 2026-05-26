@@ -215,6 +215,13 @@
         <label>Moderation Remarks</label>
         <textarea id="remarksField" placeholder="Enter reason for approval or rejection..."></textarea>
       </div>
+      <div class="form-group" id="payoutMethodGroup">
+        <label>Payout Routing (For Approval)</label>
+        <select id="payoutMethod" style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--card-border); outline: none; font-family: 'Inter', sans-serif;">
+          <option value="AUTO">Auto (Gateway / Payok)</option>
+          <option value="MANUAL">Manual (Local Transfer)</option>
+        </select>
+      </div>
       <div class="popup-footer">
         <button class="popup-btn btn-cancel" id="cancelBtn">Close</button>
         <button class="popup-btn btn-submit" id="submitBtn">Submit Decision</button>
@@ -404,6 +411,11 @@
       currentStatus = status;
       $("#phoneLabel").text(phone);
       $("#remarksField").val("");
+      if (status == 1) {
+        $("#payoutMethodGroup").show();
+      } else {
+        $("#payoutMethodGroup").hide();
+      }
       $("#popupRoot").addClass("active");
     };
 
@@ -417,7 +429,8 @@
           data: {
             id: currentId,
             status: currentStatus,
-            remarks: $("#remarksField").val()
+            remarks: $("#remarksField").val(),
+            payoutMethod: $("#payoutMethod").val()
           }
         });
         $("#popupRoot").removeClass("active");
