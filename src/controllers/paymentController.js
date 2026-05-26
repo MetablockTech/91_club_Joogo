@@ -2439,6 +2439,14 @@ const initiatePayokPayout = async (withdrawal) => {
     merchantOrderId: orderId
   };
 
+  console.log("==================================================");
+  console.log("Payok Payout - Bank Details Sent to API:");
+  console.log("Account Number:", withdrawal.bankAccountNumber);
+  console.log("Recipient Name:", withdrawal.recipientName);
+  console.log("Bank Name:", withdrawal.bankName);
+  console.log("IFSC Code:", withdrawal.IFSC);
+  console.log("==================================================");
+
   const inquiryPayload = JSON.stringify(inquiryBody);
   const inquirySign = crypto.createSign('RSA-SHA256')
     .update(inquiryPayload + "&" + inquiryPath)

@@ -422,6 +422,10 @@
     $("#cancelBtn").click(() => $("#popupRoot").removeClass("active"));
 
     $("#submitBtn").click(async function() {
+      const btn = $(this);
+      if (btn.prop("disabled")) return;
+
+      btn.prop("disabled", true).text("Processing...").css("opacity", "0.6");
       try {
         const response = await axios({
           method: "POST",
@@ -437,7 +441,9 @@
         alertMsg(response.data.message);
         initTableData();
       } catch (error) {
-        alertMsg(error.response.data.message, 'error');
+        alertMsg(error.response?.data?.message || "An error occurred", 'error');
+      } finally {
+        btn.prop("disabled", false).text("Submit Decision").css("opacity", "1");
       }
     });
 
