@@ -9540,11 +9540,11 @@
             <div data-v-5d47e2fb="" class="tip">The games are independently developed by our team, fun, fair, and safe
             </div>
             <div data-v-5d47e2fb="" class="picContainer">
-                <img data-v-5d47e2fb="" alt="" class="" src="/jilliImages/2.png" onclick="openGameById(2)" data-origin="/jilliImages/2.png">
-                <img data-v-5d47e2fb="" alt="" class="" src="/jilliImages/4.png" onclick="openGameById(4)" data-origin="/jilliImages/4.png">
-                <img data-v-5d47e2fb="" alt="" class="" src="/jilliImages/5.png" onclick="openGameById(5)" data-origin="/jilliImages/5.png">
-                <img data-v-5d47e2fb="" alt="" class="" src="/jilliImages/6.png" onclick="openGameById(6)" data-origin="/jilliImages/6.png">
-                <img data-v-5d47e2fb="" alt="" class="" src="/jilliImages/9.png" onclick="openGameById(9)" data-origin="/jilliImages/9.png">
+                <img data-v-5d47e2fb="" alt="" class="" src="/jilliImages/2.png" onclick="playWCGame(2, 263)" data-origin="/jilliImages/2.png">
+                <img data-v-5d47e2fb="" alt="" class="" src="/jilliImages/4.png" onclick="playWCGame(4, 263)" data-origin="/jilliImages/4.png">
+                <img data-v-5d47e2fb="" alt="" class="" src="/jilliImages/5.png" onclick="playWCGame(5, 263)" data-origin="/jilliImages/5.png">
+                <img data-v-5d47e2fb="" alt="" class="" src="/jilliImages/6.png" onclick="playWCGame(6, 263)" data-origin="/jilliImages/6.png">
+                <img data-v-5d47e2fb="" alt="" class="" src="/jilliImages/9.png" onclick="playWCGame(9, 263)" data-origin="/jilliImages/9.png">
               <div data-v-5d47e2fb="" class="more" onclick="window.location.href = `/slotjili`">
                 <div data-v-5d47e2fb="" class="more-l1"><svg data-v-5d47e2fb="" class="svg-icon icon-p3more">
                     <use xlink:href="#icon-p3more"></use>
@@ -10064,9 +10064,9 @@
 
 
     <script>
-      function playWCGame(game) {
+      function playWCGame(game, id = 300) {
         const prd = {
-          id: 300,
+          id: id,
           type: game,
           is_mobile: 0,
         };
