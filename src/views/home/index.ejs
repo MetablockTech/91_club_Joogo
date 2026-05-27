@@ -9932,6 +9932,10 @@
       document.getElementById("defaultOpen").click();
 
       function openGameById(gameId) {
+        if (!window.isLoggedIn) {
+          window.location.href = '/login';
+          return;
+        }
         fetch("/playJillieGame", {
           method: "POST",
           headers: {
@@ -9957,6 +9961,10 @@
       }
 
       function playSpribeGame({ gameName }) {
+        if (!window.isLoggedIn) {
+          window.location.href = '/login';
+          return;
+        }
         fetch("/playSpribeGame", {
           method: "POST",
           headers: {
@@ -10026,6 +10034,7 @@
     <script>
 
 
+      window.isLoggedIn = false;
       const fetchUser = async () => {
         try {
           const response = await fetch("/api/webapi/GetUserInfo")
@@ -10035,6 +10044,7 @@
           console.log(userData)
 
           if (userData && userData.money_user !== undefined) {
+            window.isLoggedIn = true;
             const formattedMoney = parseFloat(userData.money_user).toFixed(2);
             $("#navbar_balance").text("₹" + formattedMoney);
             $("#navbar_balance_box").show();
@@ -10065,6 +10075,10 @@
 
     <script>
       function playWCGame(game, id = 300) {
+        if (!window.isLoggedIn) {
+          window.location.href = '/login';
+          return;
+        }
         const prd = {
           id: id,
           type: game,
