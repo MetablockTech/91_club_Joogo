@@ -10,7 +10,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
     <link rel="manifest" href="/manifest.bigmumbai.json?version=1.1" />
-    <title><%= locals.SITE_NAME || 'Starworldz' %></title>
+    <title>
+        <%= locals.SITE_NAME || 'Starworldz' %>
+    </title>
     <script type="module" crossorigin="" src="/assets/js/index-b4e3ad82.js"></script>
     <link rel="modulepreload" crossorigin="" href="/assets/js/modules-7f822252.js" />
     <link rel="modulepreload" crossorigin="" href="/assets/js/native/index-20830f47.js" />
@@ -4124,7 +4126,8 @@
                 <div data-v-12a80a3e="" class="navbar-fixed" style="background: #72D731; color: #fff;">
                     <div data-v-12a80a3e="" class="navbar__content">
                         <div data-v-12a80a3e="" class="navbar__content-left" onclick="location.href='/home'">
-                            <i data-v-12a80a3e="" style="color: #fff;" class="van-badge__wrapper van-icon van-icon-arrow-left">
+                            <i data-v-12a80a3e="" style="color: #fff;"
+                                class="van-badge__wrapper van-icon van-icon-arrow-left">
                             </i>
                         </div>
                         <div data-v-12a80a3e="" class="navbar__content-center">
@@ -4151,8 +4154,9 @@
                                     aria-orientation="horizontal">
 
                                     <div id="van-tabs-1-0" role="tab"
-                                        class="van-tab van-tab--card van-tab--grow van-tab"  tabindex="0"
-                                        aria-selected="true" aria-controls="van-tab-2">
+                                        class="van-tab van-tab--card van-tab--grow van-tab"
+                                        onclick="location.href='/slotjili'" tabindex="0" aria-selected="true"
+                                        aria-controls="van-tab-2">
                                         <span class="van-tab__text">
                                             <svg data-v-0ffc3892="" class="svg-icon icon-JILI gameIcon gameIcon">
                                                 <use xlink:href="#icon-JILI"></use>
@@ -4164,12 +4168,15 @@
                                         onclick="location.href='/slotspribe'" tabindex="-1" aria-selected="false"
                                         aria-controls="van-tab-3">
                                         <span class="van-tab__text">
-                                            <img width="40px" style="filter: opacity(0.6);" src="https://www.spribe.co/spribe-logo.b13289b5f5fab437.svg" alt="">
+                                            <img width="40px" style="filter: opacity(0.6);"
+                                                src="https://www.spribe.co/spribe-logo.b13289b5f5fab437.svg" alt="">
                                             <span data-v-0ffc3892="">Spribe</span>
                                         </span>
                                     </div>
-                                   <div id="van-tabs-1-2" role="tab" class="van-tab van-tab--card van-tab--grow van-tab--active" style="background: #72D731;"
-                                       onclick="location.href='/evolution'"  tabindex="-1" aria-selected="false" aria-controls="van-tab-4">
+                                    <div id="van-tabs-1-2" role="tab"
+                                        class="van-tab van-tab--card van-tab--grow van-tab--active"
+                                        style="background: #72D731;" onclick="location.href='/evolution'" tabindex="-1"
+                                        aria-selected="false" aria-controls="van-tab-4">
                                         <span class="van-tab__text">
                                             <svg data-v-0ffc3892="" class="svg-icon icon-CQ9 gameIcon gameIcon">
                                                 <use xlink:href="#icon-CQ9"></use>
@@ -4177,7 +4184,7 @@
                                             <span data-v-0ffc3892="">Evolution</span>
                                         </span>
                                     </div>
-                                    <div id="van-tabs-1-3" role="tab" class="van-tab van-tab--card van-tab--grow"
+                                    <!-- <div id="van-tabs-1-3" role="tab" class="van-tab van-tab--card van-tab--grow"
                                         tabindex="-1" aria-selected="false" aria-controls="van-tab-5">
                                         <span class="van-tab__text">
                                             <svg data-v-0ffc3892="" class="svg-icon icon-MG gameIcon gameIcon">
@@ -4185,8 +4192,8 @@
                                             </svg>
                                             <span data-v-0ffc3892="">MG</span>
                                         </span>
-                                    </div>
-                                    <div id="van-tabs-1-4" role="tab" class="van-tab van-tab--card van-tab--grow"
+                                    </div> -->
+                                    <!-- <div id="van-tabs-1-4" role="tab" class="van-tab van-tab--card van-tab--grow"
                                         tabindex="-1" aria-selected="false" aria-controls="van-tab-6">
                                         <span class="van-tab__text">
                                             <svg data-v-0ffc3892="" class="svg-icon icon-TB gameIcon gameIcon">
@@ -4232,7 +4239,7 @@
                                             </svg>
                                             <span data-v-0ffc3892="">MG_Fish</span>
                                         </span>
-                                    </div>
+                                    </div> -->
 
 
                                 </div>
@@ -4250,7 +4257,8 @@
                             </div>
                         </div>
                     </div>
-                    <div data-v-0ffc3892="" class="onlineGames__container-list" style="display: flex;flex-direction: column;">
+                    <div data-v-0ffc3892="" class="onlineGames__container-list"
+                        style="display: flex;flex-direction: column;">
                         <h3
                             style="font-size: 25px;color: #fa6563; font-family: 'Times New Roman', Times, serif; margin:20px 10px ; text-decoration: underline;">
                             Slot</h3>
@@ -4262,7 +4270,7 @@
                             </div>
                         </div>
 
-                        
+
                     </div>
                 </div>
             </div>
@@ -4339,34 +4347,34 @@
 
 
             function playWCGame(game) {
-                    const prd = {
-                        id: 1,
-                        type: game,
-                        is_mobile: 0,
-                    };
-                    console.log(prd)
-                    $.ajax({
-                        type: "POST",
-                        url: "/authWBGames",
-                        data: JSON.stringify({ prd }),
-                        contentType: "application/json",
-                        success: function (response) {
-                            if (response.data?.launch_url) {
+                const prd = {
+                    id: 1,
+                    type: game,
+                    is_mobile: 0,
+                };
+                console.log(prd)
+                $.ajax({
+                    type: "POST",
+                    url: "/authWBGames",
+                    data: JSON.stringify({ prd }),
+                    contentType: "application/json",
+                    success: function (response) {
+                        if (response.data?.launch_url) {
 
-                                window.location.href = response.data.launch_url
-                            } else {
-                                alert("Error: Unable to start the game.");
-                            }
-                        },
-                        error: function (xhr, status, error) {
-                            console.error("Error starting game:", error);
-                            alert("Error starting game.");
+                            window.location.href = response.data.launch_url
+                        } else {
+                            alert("Error: Unable to start the game.");
                         }
-                    });
-                }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error starting game:", error);
+                        alert("Error starting game.");
+                    }
+                });
+            }
         </script>
     </div>
-	<script src='/js/customer-draggable.js'></script>
+    <script src='/js/customer-draggable.js'></script>
 </body>
 
 </html>
