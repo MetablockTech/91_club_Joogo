@@ -2,14 +2,16 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/svg+xml" href="/favicon.png">
+    <link rel="icon" href="<%= locals.SITE_LOGO || '/favicon.ico' %>" />
     <meta name="google" content="notranslate">
     <meta name="robots" content="noindex,nofollow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <!--Select configuration files dynamically-->
     <link rel="manifest" href="/manifest/manifest.bigmumbai.json?version=1.1">
-    <title><%= locals.SITE_NAME || 'Starworldz' %></title>
+    <title>
+        <%= locals.SITE_NAME || 'Starworldz' %>
+    </title>
     <link rel="stylesheet" href="/assets/css/modules-8b01ca49.css">
     <link rel="stylesheet" href="/assets/css/page-activity-9da3f4e3.css">
     <link rel="stylesheet" href="/assets/css/page-home-482c7bbf.css">
@@ -1660,14 +1662,13 @@
         </div>
         <div class="customer" id="customerId" onclick="location.href='/keFuMenu'"
             style="--76181987: 'Roboto', 'Inter', sans-serif; --17a7a9f6: bahnschrift;"><img class=""
-                data-origin="../assets/png/icon_sevice-af9dd176.png"
-                src="../assets/png/icon_sevice-af9dd176.png"></div>
+                data-origin="../assets/png/icon_sevice-af9dd176.png" src="../assets/png/icon_sevice-af9dd176.png"></div>
         <!----><!----><!----><!----><!----><!----><!----><!----><!----><!---->
     </div>
 
 
 
-	<script src='/js/customer-draggable.js'></script>
+    <script src='/js/customer-draggable.js'></script>
 </body>
 
 </html>

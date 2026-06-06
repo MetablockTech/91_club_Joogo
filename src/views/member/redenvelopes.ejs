@@ -2,14 +2,16 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="icon" type="image/svg+xml" href="/favicon.png">
+  <link rel="icon" href="<%= locals.SITE_LOGO || '/favicon.ico' %>" />
   <meta name="google" content="notranslate">
   <meta name="robots" content="noindex,nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
   <!--Select configuration files dynamically-->
   <link rel="manifest">
-  <title><%= locals.SITE_NAME || 'Starworldz' %></title>
+  <title>
+    <%= locals.SITE_NAME || 'Starworldz' %>
+  </title>
   <script type="module" crossorigin="" src="/assets/js/index-a812a803.js"></script>
   <link rel="modulepreload" crossorigin="" href="/assets/js/modules-aa8ffe67.js">
   <link rel="modulepreload" crossorigin="" href="/assets/js/native/index-3d731397.js">
@@ -1599,13 +1601,14 @@
       </div>
     </div><!---->
     <div data-v-38c131f8="" class="redeem-container" style="--76181987: 'Roboto', 'Inter', sans-serif;">
-      <div data-v-38c131f8="" class="redeem-container-header" style="position: relative; height: 200px; display: flex; align-items: center; justify-content: center; background: linear-gradient(90deg, #7209b7 0%, #d08eff 100%);">
+      <div data-v-38c131f8="" class="redeem-container-header"
+        style="position: relative; height: 200px; display: flex; align-items: center; justify-content: center; background: linear-gradient(90deg, #7209b7 0%, #d08eff 100%);">
         <div data-v-19888208="" data-v-38c131f8="" class="navbar">
-          <div data-v-19888208="" class="navbar-fixed wc"
-            style="background: #72D731;">
+          <div data-v-19888208="" class="navbar-fixed wc" style="background: #72D731;">
             <div data-v-19888208="" class="navbar__content">
               <div data-v-19888208="" class="navbar__content-left" onclick="history.back()"><i data-v-19888208=""
-                  class="van-badge__wrapper van-icon van-icon-arrow-left" style="color: white;"><!----><!----><!----></i></div>
+                  class="van-badge__wrapper van-icon van-icon-arrow-left"
+                  style="color: white;"><!----><!----><!----></i></div>
               <div data-v-19888208="" class="navbar__content-center"><!---->
                 <div data-v-19888208="" class="navbar__content-title" style="color: white;">Gift</div>
               </div>
@@ -1616,18 +1619,21 @@
           </div>
         </div>
         <div style="text-align: center; margin-top: 20px;">
-          <img src="<%= locals.SITE_LOGO || '/index_files/logo.png' %>" style="height: 90px; filter: drop-shadow(0px 4px 12px rgba(0,0,0,0.4));">
+          <img src="<%= locals.SITE_LOGO || '/index_files/logo.png' %>"
+            style="height: 90px; filter: drop-shadow(0px 4px 12px rgba(0,0,0,0.4));">
         </div>
         <div data-v-38c131f8="" class="redeem-container-header-belly"></div>
       </div>
       <div data-v-38c131f8="" class="redeem-container-content" style="background: #000000 !important;">
         <div data-v-38c131f8="" class="redeem-container-receive">
 
-          <p data-v-38c131f8="" style="font-weight: 700; font-size: 22px; color: #72D731; margin-bottom: 10px;">Surprise Gift Box</p>
-          <p data-v-38c131f8="" style="font-size: 15px; color: #fff; margin-bottom: 20px;">Enter your special redemption code below to claim your reward!</p>
-          <h4 data-v-38c131f8="" style="display:none;">Please enter the gift code below</h4><input data-v-38c131f8="" type="text"
-            auto-complete="new-password" autocomplete="off" placeholder="Please enter gift code"><!----><button
-            data-v-38c131f8="">Receive</button>
+          <p data-v-38c131f8="" style="font-weight: 700; font-size: 22px; color: #72D731; margin-bottom: 10px;">Surprise
+            Gift Box</p>
+          <p data-v-38c131f8="" style="font-size: 15px; color: #fff; margin-bottom: 20px;">Enter your special redemption
+            code below to claim your reward!</p>
+          <h4 data-v-38c131f8="" style="display:none;">Please enter the gift code below</h4><input data-v-38c131f8=""
+            type="text" auto-complete="new-password" autocomplete="off"
+            placeholder="Please enter gift code"><!----><button data-v-38c131f8="">Receive</button>
         </div>
         <!-- <div data-v-38c131f8="" class="redeem-container-record">
           <div data-v-38c131f8="" class="redeem-container-record-title"><img data-v-38c131f8=""
@@ -1650,8 +1656,7 @@
     </div>
     <div class="customer" id="customerId" onclick="location.href='/keFuMenu'"
       style="--76181987: 'Roboto', 'Inter', sans-serif; --17a7a9f6: bahnschrift;">
-      <img class="" data-origin="../assets/png/icon_sevice-af9dd176.png"
-        src="../assets/png/icon_sevice-af9dd176.png">
+      <img class="" data-origin="../assets/png/icon_sevice-af9dd176.png" src="../assets/png/icon_sevice-af9dd176.png">
     </div>
 
     <!----><!----><!----><!----><!----><!----><!----><!----><!----><!---->
@@ -1759,7 +1764,7 @@
     });
   </script>
 
-	<script src='/js/customer-draggable.js'></script>
+  <script src='/js/customer-draggable.js'></script>
 </body>
 
 </html>

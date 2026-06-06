@@ -4,13 +4,15 @@
     <script src="/app.config.js?v=1717558682417"></script>
 
     <meta charset="UTF-8">
-    <link rel="icon" type="image/svg+xml" href="/favicon.png">
+    <link rel="icon" href="<%= locals.SITE_LOGO || '/favicon.ico' %>" />
     <meta name="google" content="notranslate">
     <meta name="robots" content="noindex,nofollow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <link rel="manifest">
-    <title><%= locals.SITE_NAME || 'Starworldz' %></title>
+    <title>
+        <%= locals.SITE_NAME || 'Starworldz' %>
+    </title>
     <script type="module" crossorigin="" src="/assets/js/index-00d20e8e.js"></script>
     <link rel="modulepreload" crossorigin="" href="/assets/js/modules-7f822252.js">
     <link rel="modulepreload" crossorigin="" href="/assets/js/native/index-20830f47.js">
@@ -4105,8 +4107,9 @@
                 <div data-v-12a80a3e="" data-v-36cc3380="" class="navbar white">
                     <div data-v-12a80a3e="" class="navbar-fixed" style="background: #72D731;">
                         <div data-v-12a80a3e="" class="navbar__content" style="color: #fff;">
-                            <div data-v-12a80a3e="" class="navbar__content-left" onclick="history.back() " style="color: #fff;"><i
-                                    data-v-12a80a3e="" class="van-badge__wrapper van-icon van-icon-arrow-left"></i>
+                            <div data-v-12a80a3e="" class="navbar__content-left" onclick="history.back() "
+                                style="color: #fff;"><i data-v-12a80a3e=""
+                                    class="van-badge__wrapper van-icon van-icon-arrow-left"></i>
                             </div>
                             <div data-v-12a80a3e="" class="navbar__content-center">
                                 <div data-v-12a80a3e="" class="navbar__content-title">Deposit</div>
@@ -4140,49 +4143,68 @@
                         </div>
                     </div> -->
                     <div data-v-4f3d8608="" class="Recharge__container-tabcard" id="payment_methods_options">
-                        <% if (typeof paymentConfigs !== 'undefined' && paymentConfigs.length > 0) { %>
-                            <% paymentConfigs.forEach((gateway, index) => { %>
-                                <div data-v-4f3d8608="" class="Recharge__container-tabcard__items <%= index === 0 ? 'active' : '' %>" type="<%= gateway.gateway_name %>">
+                        <% if (typeof paymentConfigs !=='undefined' && paymentConfigs.length> 0) { %>
+                            <% paymentConfigs.forEach((gateway, index)=> { %>
+                                <div data-v-4f3d8608=""
+                                    class="Recharge__container-tabcard__items <%= index === 0 ? 'active' : '' %>"
+                                    type="<%= gateway.gateway_name %>">
                                     <div data-v-4f3d8608="" class="centers">
                                         <div data-v-4f3d8608="" class="Recharge__container-tabcard__top">
-                                            <% 
-                                                let icon = "https://91club.gg/assets/png/payNameIcon_202308080410066jdc.png"; // Default UPI icon
-                                                if (gateway.gateway_name === 'ccpayment') icon = "https://cryptologos.cc/logos/tether-usdt-logo.png?v=025";
-                                                if (gateway.gateway_name === 'watchpay') icon = "https://91club.gg/assets/png/payNameIcon_202308080410066jdc.png";
-                                                if (gateway.gateway_name === 'usdt_manual') icon = "https://zengo.com/wp-content/uploads/USDT-BEP20-1.png";
-                                                if (gateway.gateway_name === 'wow_pay') icon = "https://91club.gg/assets/png/payNameIcon_202308080410066jdc.png";
-                                                if (gateway.gateway_name === 'rs_pay') icon = "https://91club.gg/assets/png/payNameIcon_202308080410066jdc.png";
-                                                if (gateway.gateway_name === 'cloud_pay') icon = "https://91club.gg/assets/png/payNameIcon_202308080410066jdc.png";
-                                                if (gateway.gateway_name === 'upi_gateway') icon = "https://91club.gg/assets/png/payNameIcon_202308080410066jdc.png";
-                                                if (gateway.gateway_name === 'upay') icon = "https://91club.gg/assets/png/payNameIcon_202308080410066jdc.png";
-                                                if (gateway.gateway_name === 'upi_manual') icon = "https://91club.gg/assets/png/payNameIcon_202308080410066jdc.png";
-                                            %>
-                                            <img data-v-4f3d8608="" class="img" src="<%= icon %>" alt="">
+                                            <% let
+                                                icon="https://91club.gg/assets/png/payNameIcon_202308080410066jdc.png" ;
+                                                // Default UPI icon if (gateway.gateway_name==='ccpayment' )
+                                                icon="https://cryptologos.cc/logos/tether-usdt-logo.png?v=025" ; if
+                                                (gateway.gateway_name==='watchpay' )
+                                                icon="https://91club.gg/assets/png/payNameIcon_202308080410066jdc.png" ;
+                                                if (gateway.gateway_name==='usdt_manual' )
+                                                icon="https://zengo.com/wp-content/uploads/USDT-BEP20-1.png" ; if
+                                                (gateway.gateway_name==='wow_pay' )
+                                                icon="https://91club.gg/assets/png/payNameIcon_202308080410066jdc.png" ;
+                                                if (gateway.gateway_name==='rs_pay' )
+                                                icon="https://91club.gg/assets/png/payNameIcon_202308080410066jdc.png" ;
+                                                if (gateway.gateway_name==='cloud_pay' )
+                                                icon="https://91club.gg/assets/png/payNameIcon_202308080410066jdc.png" ;
+                                                if (gateway.gateway_name==='upi_gateway' )
+                                                icon="https://91club.gg/assets/png/payNameIcon_202308080410066jdc.png" ;
+                                                if (gateway.gateway_name==='upay' )
+                                                icon="https://91club.gg/assets/png/payNameIcon_202308080410066jdc.png" ;
+                                                if (gateway.gateway_name==='upi_manual' )
+                                                icon="https://91club.gg/assets/png/payNameIcon_202308080410066jdc.png" ;
+                                                %>
+                                                <img data-v-4f3d8608="" class="img" src="<%= icon %>" alt="">
                                         </div>
                                         <div data-v-4f3d8608="" class="Recharge__container-tabcard__bot">
-                                            <%= gateway.gateway_name === 'ccpayment' ? 'USDT (TRC20) AUTO' : (gateway.gateway_name === 'usdt_manual' ? 'USDT (BEP20) MANUAL' : gateway.gateway_name.toUpperCase()) %>
+                                            <%= gateway.gateway_name==='ccpayment' ? 'USDT (TRC20) AUTO' :
+                                                (gateway.gateway_name==='usdt_manual' ? 'USDT (BEP20) MANUAL' :
+                                                gateway.gateway_name.toUpperCase()) %>
                                         </div>
                                     </div>
                                 </div>
-                            <% }) %>
-                        <% } else { %>
-                            <div data-v-4f3d8608="" class="Recharge__container-tabcard__items active" type="upi_manual">
-                                <div data-v-4f3d8608="" class="centers">
-                                    <div data-v-4f3d8608="" class="Recharge__container-tabcard__top"><img data-v-4f3d8608=""
-                                            class="img"
-                                            src="https://91club.gg/assets/png/payNameIcon_202308080410066jdc.png"
-                                            alt=""></div>
-                                    <div data-v-4f3d8608="" class="Recharge__container-tabcard__bot"> PAY </div>
-                                </div>
-                            </div>
-                        <% } %>
+                                <% }) %>
+                                    <% } else { %>
+                                        <div data-v-4f3d8608="" class="Recharge__container-tabcard__items active"
+                                            type="upi_manual">
+                                            <div data-v-4f3d8608="" class="centers">
+                                                <div data-v-4f3d8608="" class="Recharge__container-tabcard__top"><img
+                                                        data-v-4f3d8608="" class="img"
+                                                        src="https://91club.gg/assets/png/payNameIcon_202308080410066jdc.png"
+                                                        alt=""></div>
+                                                <div data-v-4f3d8608="" class="Recharge__container-tabcard__bot"> PAY
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% } %>
                     </div>
-                    <div id="exchange_rate_display" style="display: none; padding: 15px; margin: 10px 15px; background: #f0f7ff; border-radius: 12px; border: 1px dashed #3a86ff;">
+                    <div id="exchange_rate_display"
+                        style="display: none; padding: 15px; margin: 10px 15px; background: #f0f7ff; border-radius: 12px; border: 1px dashed #3a86ff;">
                         <div style="display: flex; align-items: center; justify-content: space-between;">
                             <span style="font-size: 13px; color: #555; font-weight: 500;">Exchange Rate:</span>
-                            <span style="font-size: 15px; color: #3a86ff; font-weight: 700;">1 USDT = <%=currency_symbol%><%=usdt_exchange_rate%></span>
+                            <span style="font-size: 15px; color: #3a86ff; font-weight: 700;">1 USDT =
+                                <%=currency_symbol%>
+                                    <%=usdt_exchange_rate%></span>
                         </div>
-                        <p style="font-size: 11px; color: #888; margin-top: 4px; line-height: 1.3;">* Your USDT deposit will be automatically converted to your wallet balance using this rate.</p>
+                        <p style="font-size: 11px; color: #888; margin-top: 4px; line-height: 1.3;">* Your USDT deposit
+                            will be automatically converted to your wallet balance using this rate.</p>
                     </div>
                     <div style="display:none">
 
@@ -4192,8 +4214,8 @@
                             <div data-v-4f3d8608="" class="centers">
                                 <div data-v-4f3d8608="" class="Recharge__container-tabcard__top"><img data-v-4f3d8608=""
                                         class="img"
-                                        src="https://91club.gg/assets/png/payNameIcon_202308080410066jdc.png"
-                                        alt=""></div>
+                                        src="https://91club.gg/assets/png/payNameIcon_202308080410066jdc.png" alt="">
+                                </div>
                                 <div data-v-4f3d8608="" class="Recharge__container-tabcard__bot"> PAY
                                     <!-- <span v-if="item.maxRechargeRifts && item.maxRechargeRifts > 0">{{ item?.maxRechargeRifts * 100 }}%</span> -->
                                 </div>
@@ -4308,16 +4330,20 @@
                             <div data-v-9e03166f="" class="place-right"><img data-v-9e03166f=""
                                     src="/assets/png/clean-82487515.png" alt=""></div>
                         </div>
-                        <div id="payment_instructions_container" class="boxStyle" style="display: none; margin-top: 15px; padding: 15px; background: #fff; border-radius: 10px; border: 1px solid #eee; margin-bottom: 15px;">
-                            <div style="display: flex; align-items: center; margin-bottom: 10px; color: #ff9800; font-weight: 600; font-size: 14px;">
-                                <svg style="width: 20px; height: 20px; margin-right: 8px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <div id="payment_instructions_container" class="boxStyle"
+                            style="display: none; margin-top: 15px; padding: 15px; background: #fff; border-radius: 10px; border: 1px solid #eee; margin-bottom: 15px;">
+                            <div
+                                style="display: flex; align-items: center; margin-bottom: 10px; color: #ff9800; font-weight: 600; font-size: 14px;">
+                                <svg style="width: 20px; height: 20px; margin-right: 8px;" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2">
                                     <circle cx="12" cy="12" r="10"></circle>
                                     <line x1="12" y1="16" x2="12" y2="12"></line>
                                     <line x1="12" y1="8" x2="12.01" y2="8"></line>
                                 </svg>
                                 Important Instructions
                             </div>
-                            <div id="payment_instructions_content" style="font-size: 13px; color: #555; line-height: 1.6; white-space: pre-wrap;"></div>
+                            <div id="payment_instructions_content"
+                                style="font-size: 13px; color: #555; line-height: 1.6; white-space: pre-wrap;"></div>
                         </div>
                         <div data-v-9e03166f="" class="Recharge__container-rechageBtn" id="deposit_fund_btn">Deposit
                         </div>
@@ -4537,18 +4563,18 @@
             LG_PAY: "lg_pay",
             RS_PAY: "rs_pay",
         }
-        
+
         const renderQuickMoneyButtons = (amountsStr, currencySymbol, currentAmount) => {
             const amounts = (amountsStr || "").split(',').map(a => a.trim()).filter(a => a !== "");
             if (amounts.length === 0) return "";
-            
+
             return amounts.map((amount, index) => {
                 const isActive = parseInt(amount) === parseInt(currentAmount);
                 let displayAmount = amount;
                 if (parseInt(amount) >= 1000) {
                     displayAmount = (parseInt(amount) / 1000) + "K";
                 }
-                
+
                 return `
                     <div data-v-9e03166f="" class="Recharge__content-paymoney__money-list__item ${isActive ? 'active' : ''}" data-money="${amount}">
                         <div data-v-9e03166f="" class="amount">
@@ -4752,24 +4778,24 @@
             const gatewayType = currentPaymentMethod.getAttribute("type");
             selectedPaymentMethod = gatewayType;
 
-            const paymentConfigs = <%- JSON.stringify(paymentConfigs || []) %>;
+            const paymentConfigs = <% - JSON.stringify(paymentConfigs || []) %>;
             const config = paymentConfigs.find(c => c.gateway_name === gatewayType);
 
             const currentCurrency = (gatewayType === PaymentMethodsMap.CCPAYMENT || gatewayType === PaymentMethodsMap.WATCHPAY || gatewayType === PaymentMethodsMap.USDT_MANUAL) ? "$" : "<%=currency_symbol%>";
             const defaultQuickAmounts = (currentCurrency === "$") ? "10,50,100,500,1000,5000" : "100,300,500,1000,3000,5000,10000,50000,100000";
-            
+
             if (gatewayType === PaymentMethodsMap.CCPAYMENT || gatewayType === PaymentMethodsMap.WATCHPAY || gatewayType === PaymentMethodsMap.USDT_MANUAL) {
                 inputMoney = config ? config.min_recharge : '10';
                 MoneyAmountInput.value = inputMoney;
                 QuickMoneyOptions.innerHTML = renderQuickMoneyButtons(config ? config.quick_amounts : defaultQuickAmounts, "$", inputMoney);
                 document.querySelector("#currency_indicator").innerHTML = "$";
-                if(document.querySelector("#exchange_rate_display")) document.querySelector("#exchange_rate_display").style.display = "block";
+                if (document.querySelector("#exchange_rate_display")) document.querySelector("#exchange_rate_display").style.display = "block";
             } else {
                 inputMoney = config ? config.min_recharge : '500';
                 MoneyAmountInput.value = inputMoney;
                 QuickMoneyOptions.innerHTML = renderQuickMoneyButtons(config ? config.quick_amounts : defaultQuickAmounts, "<%=currency_symbol%>", inputMoney);
                 document.querySelector("#currency_indicator").innerHTML = "<%=currency_symbol%>";
-                if(document.querySelector("#exchange_rate_display")) document.querySelector("#exchange_rate_display").style.display = "none";
+                if (document.querySelector("#exchange_rate_display")) document.querySelector("#exchange_rate_display").style.display = "none";
             }
 
             if (config) {
@@ -4785,7 +4811,7 @@
                 // Handle dynamic instructions
                 const instructionsContainer = document.querySelector("#payment_instructions_container");
                 const instructionsContent = document.querySelector("#payment_instructions_content");
-                
+
                 if (config.instructions && config.instructions.trim() !== "") {
                     instructionsContent.innerHTML = config.instructions;
                     instructionsContainer.style.display = "block";
@@ -4793,7 +4819,7 @@
                     instructionsContainer.style.display = "none";
                 }
             } else {
-                if(document.querySelector("#payment_instructions_container")) {
+                if (document.querySelector("#payment_instructions_container")) {
                     document.querySelector("#payment_instructions_container").style.display = "none";
                 }
             }
@@ -4804,50 +4830,50 @@
             })
             if (false) { // Skip the old switch
                 switch (currentPaymentMethod.getAttribute("type")) {
-                case PaymentMethodsMap.SUNPAY:
-                    inputMoney = '500'
-                    MoneyAmountInput.value = '500'
-                    selectedPaymentMethod = PaymentMethodsMap.SUNPAY
-                    QuickMoneyOptions.innerHTML = QuickMoneyForRegular
-                    document.querySelector("#currency_indicator").innerHTML = "₹"
-                    break;
-                case PaymentMethodsMap.RS_PAY:
-                    inputMoney = '500'
-                    MoneyAmountInput.value = '500'
-                    selectedPaymentMethod = PaymentMethodsMap.RS_PAY
-                    QuickMoneyOptions.innerHTML = QuickMoneyForRegular
-                    document.querySelector("#currency_indicator").innerHTML = "₹"
-                    break;
-                case PaymentMethodsMap.UPI_MANUAL:
-                    inputMoney = '100'
-                    MoneyAmountInput.value = '100'
-                    selectedPaymentMethod = PaymentMethodsMap.UPI_MANUAL
-                    QuickMoneyOptions.innerHTML = QuickMoneyForRegular
-                    document.querySelector("#currency_indicator").innerHTML = "₹"
-                    break;
-                case PaymentMethodsMap.USDT_MANUAL:
-                    inputMoney = '10'
-                    MoneyAmountInput.value = '10'
-                    selectedPaymentMethod = PaymentMethodsMap.USDT_MANUAL
-                    QuickMoneyOptions.innerHTML = QuickMoneyForUSDT
-                    document.querySelector("#currency_indicator").innerHTML = "$"
-                    break;
-                case PaymentMethodsMap.LG_PAY:
-                    inputMoney = '500'
-                    MoneyAmountInput.value = '500'
-                    selectedPaymentMethod = PaymentMethodsMap.LG_PAY
-                    QuickMoneyOptions.innerHTML = QuickMoneyForRegular
-                    document.querySelector("#currency_indicator").innerHTML = "₹"
-                    break;
-                default:
-                    inputMoney = '100'
-                    MoneyAmountInput.value = '100'
-                    selectedPaymentMethod = PaymentMethodsMap.UPI_MANUAL
-                    QuickMoneyOptions.innerHTML = QuickMoneyForRegular
-                    document.querySelector("#currency_indicator").innerHTML = "₹"
-                    break;
+                    case PaymentMethodsMap.SUNPAY:
+                        inputMoney = '500'
+                        MoneyAmountInput.value = '500'
+                        selectedPaymentMethod = PaymentMethodsMap.SUNPAY
+                        QuickMoneyOptions.innerHTML = QuickMoneyForRegular
+                        document.querySelector("#currency_indicator").innerHTML = "₹"
+                        break;
+                    case PaymentMethodsMap.RS_PAY:
+                        inputMoney = '500'
+                        MoneyAmountInput.value = '500'
+                        selectedPaymentMethod = PaymentMethodsMap.RS_PAY
+                        QuickMoneyOptions.innerHTML = QuickMoneyForRegular
+                        document.querySelector("#currency_indicator").innerHTML = "₹"
+                        break;
+                    case PaymentMethodsMap.UPI_MANUAL:
+                        inputMoney = '100'
+                        MoneyAmountInput.value = '100'
+                        selectedPaymentMethod = PaymentMethodsMap.UPI_MANUAL
+                        QuickMoneyOptions.innerHTML = QuickMoneyForRegular
+                        document.querySelector("#currency_indicator").innerHTML = "₹"
+                        break;
+                    case PaymentMethodsMap.USDT_MANUAL:
+                        inputMoney = '10'
+                        MoneyAmountInput.value = '10'
+                        selectedPaymentMethod = PaymentMethodsMap.USDT_MANUAL
+                        QuickMoneyOptions.innerHTML = QuickMoneyForUSDT
+                        document.querySelector("#currency_indicator").innerHTML = "$"
+                        break;
+                    case PaymentMethodsMap.LG_PAY:
+                        inputMoney = '500'
+                        MoneyAmountInput.value = '500'
+                        selectedPaymentMethod = PaymentMethodsMap.LG_PAY
+                        QuickMoneyOptions.innerHTML = QuickMoneyForRegular
+                        document.querySelector("#currency_indicator").innerHTML = "₹"
+                        break;
+                    default:
+                        inputMoney = '100'
+                        MoneyAmountInput.value = '100'
+                        selectedPaymentMethod = PaymentMethodsMap.UPI_MANUAL
+                        QuickMoneyOptions.innerHTML = QuickMoneyForRegular
+                        document.querySelector("#currency_indicator").innerHTML = "₹"
+                        break;
+                }
             }
-        }
 
             Array.from(QuickMoneyOptions.children).forEach((child) => {
                 child.removeEventListener("click", handleQuickMoney(child))
@@ -4883,7 +4909,7 @@
 
         const handleMoneyAmountInput = (event) => {
             inputMoney = parseInt(MoneyAmountInput.value)
-            const paymentConfigs = <%- JSON.stringify(paymentConfigs || []) %>;
+            const paymentConfigs = <% - JSON.stringify(paymentConfigs || []) %>;
             const config = paymentConfigs.find(c => c.gateway_name === selectedPaymentMethod);
             const minimumMoneyAllowedUSDT = config ? config.min_recharge : 10;
             const minimumMoneyAllowedINR = config ? config.min_recharge : 100;
@@ -4918,7 +4944,7 @@
             const amount = parseInt(item.getAttribute("data-money"))
 
 
-            const paymentConfigs = <%- JSON.stringify(paymentConfigs || []) %>;
+            const paymentConfigs = <% - JSON.stringify(paymentConfigs || []) %>;
             const config = paymentConfigs.find(c => c.gateway_name === selectedPaymentMethod);
             const minimumMoneyAllowedUSDT = config ? config.min_recharge : 10;
             const minimumMoneyAllowedINR = config ? config.min_recharge : 100;
@@ -4965,7 +4991,7 @@
             const minimumMoneyAllowedINR = parseInt(`<%=MINIMUM_MONEY_INR%>`)
 
 
-            const paymentConfigs = <%- JSON.stringify(paymentConfigs || []) %>;
+            const paymentConfigs = <% - JSON.stringify(paymentConfigs || []) %>;
             const config = paymentConfigs.find(c => c.gateway_name === selectedPaymentMethod);
             const minAllowed = config ? config.min_recharge : (selectedPaymentMethod.includes('usdt') ? minimumMoneyAllowedUSDT : minimumMoneyAllowedINR);
             const maxAllowed = config ? config.max_recharge : 1000000;
@@ -5017,50 +5043,50 @@
             }
             if (false) {
                 switch (selectedPaymentMethod) {
-                case PaymentMethodsMap.SUNPAY:
-                    if (!inputMoney || !(inputMoney >= minimumMoneyAllowedINR)) {
-                        alertMessage(`Money is Required and it should be ₹${minimumMoneyAllowedINR} or above!`)
-                        return
-                    }
-                    break;
-                case PaymentMethodsMap.RS_PAY:
-                    if (!inputMoney || !(inputMoney >= minimumMoneyAllowedINR)) {
-                        alertMessage(`Money is Required and it should be ₹${minimumMoneyAllowedINR} or above!`)
-                        return
-                    }
-                    handleRsPayPaymentRequest(inputMoney)
-                    break;
-                case PaymentMethodsMap.LG_PAY:
-                    if (!inputMoney || !(inputMoney >= minimumMoneyAllowedINR)) {
-                        alertMessage(`Money is Required and it should be ₹${minimumMoneyAllowedINR} or above!`)
-                        return
-                    }
-                    handleLgPayPaymentRequest(inputMoney)
-                    break;
-                case PaymentMethodsMap.RS_PAY:
-                    if (!inputMoney || !(inputMoney >= minimumMoneyAllowedINR)) {
-                        alertMessage(`Money is Required and it should be ₹${minimumMoneyAllowedINR} or above!`)
-                        return
-                    }
-                    handleRsPayPaymentRequest(inputMoney)
-                    break;
-                case PaymentMethodsMap.USDT_MANUAL:
-                    if (!inputMoney || !(inputMoney >= minimumMoneyAllowedUSDT)) {
-                        alertMessage(`Money is Required and it should be USDT ${minimumMoneyAllowedUSDT} or above!`)
-                        return
-                    }
-                    // handleManualUSDTPaymentRequest(inputMoney)
-                    handleUSDTPaymentRequest(inputMoney, "TRC")
-                    break;
-                case PaymentMethodsMap.UPI_MANUAL:
-                    if (!inputMoney || !(inputMoney >= minimumMoneyAllowedINR)) {
-                        alertMessage(`Money is Required and it should be ₹${minimumMoneyAllowedINR} or above!`)
-                        return
-                    }
-                    handleManualUPIPaymentRequest(inputMoney)
-                    break;
+                    case PaymentMethodsMap.SUNPAY:
+                        if (!inputMoney || !(inputMoney >= minimumMoneyAllowedINR)) {
+                            alertMessage(`Money is Required and it should be ₹${minimumMoneyAllowedINR} or above!`)
+                            return
+                        }
+                        break;
+                    case PaymentMethodsMap.RS_PAY:
+                        if (!inputMoney || !(inputMoney >= minimumMoneyAllowedINR)) {
+                            alertMessage(`Money is Required and it should be ₹${minimumMoneyAllowedINR} or above!`)
+                            return
+                        }
+                        handleRsPayPaymentRequest(inputMoney)
+                        break;
+                    case PaymentMethodsMap.LG_PAY:
+                        if (!inputMoney || !(inputMoney >= minimumMoneyAllowedINR)) {
+                            alertMessage(`Money is Required and it should be ₹${minimumMoneyAllowedINR} or above!`)
+                            return
+                        }
+                        handleLgPayPaymentRequest(inputMoney)
+                        break;
+                    case PaymentMethodsMap.RS_PAY:
+                        if (!inputMoney || !(inputMoney >= minimumMoneyAllowedINR)) {
+                            alertMessage(`Money is Required and it should be ₹${minimumMoneyAllowedINR} or above!`)
+                            return
+                        }
+                        handleRsPayPaymentRequest(inputMoney)
+                        break;
+                    case PaymentMethodsMap.USDT_MANUAL:
+                        if (!inputMoney || !(inputMoney >= minimumMoneyAllowedUSDT)) {
+                            alertMessage(`Money is Required and it should be USDT ${minimumMoneyAllowedUSDT} or above!`)
+                            return
+                        }
+                        // handleManualUSDTPaymentRequest(inputMoney)
+                        handleUSDTPaymentRequest(inputMoney, "TRC")
+                        break;
+                    case PaymentMethodsMap.UPI_MANUAL:
+                        if (!inputMoney || !(inputMoney >= minimumMoneyAllowedINR)) {
+                            alertMessage(`Money is Required and it should be ₹${minimumMoneyAllowedINR} or above!`)
+                            return
+                        }
+                        handleManualUPIPaymentRequest(inputMoney)
+                        break;
+                }
             }
-        }
 
             // switch (selectedPaymentMethod) {
             //     case PaymentMethodsMap.SUNPAY:
@@ -5114,12 +5140,12 @@
             try {
                 const response = await axios.post("/api/webapi/recharge/payok/initiate", { money: moneyAmount });
                 const data = response?.data;
-                
+
                 if (data?.status === false) {
                     alertMessage(data?.message || "Gateway error");
                     return;
                 }
-                
+
                 if (data?.urls?.web_url) {
                     window.location.href = data.urls.web_url;
                 } else if (data?.data?.payurl) {
@@ -5266,7 +5292,7 @@
         // --------------
 
     </script>
-	<script src='/js/customer-draggable.js'></script>
+    <script src='/js/customer-draggable.js'></script>
 </body>
 
 </html>

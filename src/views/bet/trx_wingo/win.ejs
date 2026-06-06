@@ -10,7 +10,7 @@
       <%= locals.SITE_NAME || 'Starworldz' %>
    </title>
    <!-- <script src="/js/block.js"></script> -->
-   <link rel="shortcut icon" href="/favicon.png" type="image/x-icon" />
+   <link rel="icon" href="<%= locals.SITE_LOGO || '/favicon.ico' %>" />
    <script src="https://cdn.jsdelivr.net/npm/@hiseb/confetti@2.1.0/dist/confetti.min.js"></script>
    <style>
       html,
@@ -4065,8 +4065,7 @@
    <div id="app">
       <div data-v-a9660e98="" data-v-40958d9a="" class="WinGo__C">
          <div data-v-19888208="" data-v-40958d9a="" class="navbar">
-            <div data-v-19888208="" class="navbar-fixed wc"
-               style="background: #72D731">
+            <div data-v-19888208="" class="navbar-fixed wc" style="background: #72D731">
                <div data-v-19888208="" class="navbar__content">
                   <div data-v-19888208="" class="navbar__content-left" onclick="history.back()">
                      <div data-v-40958d9a="" class="arrow-left"></div>
@@ -4096,10 +4095,14 @@
                      </div>
                      <div data-v-04b8bdc8="" class="TimeLeft__C-l1-r">Public Chain Query</div>
                   </div>
-                  <div data-v-04b8bdc8="" class="TimeLeft__C-l2" style="display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 0 5px; box-sizing: border-box;">
+                  <div data-v-04b8bdc8="" class="TimeLeft__C-l2"
+                     style="display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 0 5px; box-sizing: border-box;">
                      <div data-v-04b8bdc8="" id="period">Loading...</div>
-                     <div data-v-04b8bdc8="" class="TimeLeft__C-time" style="display: flex; align-items: center !important;">
-                        <span data-v-04b8bdc8="" style="width: 0 !important; white-space: nowrap; display: flex; align-items: center; margin-right: 65px;">Draw time</span>
+                     <div data-v-04b8bdc8="" class="TimeLeft__C-time"
+                        style="display: flex; align-items: center !important;">
+                        <span data-v-04b8bdc8=""
+                           style="width: 0 !important; white-space: nowrap; display: flex; align-items: center; margin-right: 65px;">Draw
+                           time</span>
                         <div data-v-04b8bdc8="">0</div>
                         <div data-v-04b8bdc8="">0</div>
                         <div data-v-04b8bdc8="" notime="">:</div>

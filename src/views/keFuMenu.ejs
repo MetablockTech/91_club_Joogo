@@ -4,7 +4,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<link rel="shortcut icon" href="/favicon.png" type="image/x-icon">
+	<link rel="icon" href="<%= locals.SITE_LOGO || '/favicon.ico' %>" />
 	<meta name="google" content="notranslate">
 	<meta name="robots" content="noindex,nofollow">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -1538,8 +1538,7 @@
 			style="--7688837a: &#39;Roboto&#39;, &#39;Inter&#39;, sans-serif;">
 			<div data-v-28fadbec="" class="customer-container-header">
 				<div data-v-58c5e826="" data-v-28fadbec="" class="navbar">
-					<div data-v-58c5e826="" class="navbar-fixed"
-						style="background: #72D731">
+					<div data-v-58c5e826="" class="navbar-fixed" style="background: #72D731">
 						<div data-v-58c5e826="" class="navbar__content">
 
 							<div data-v-58c5e826="" class="navbar__content-left" onclick="location.href='/home'"><i
@@ -1563,36 +1562,37 @@
 
 
 
-					<% if (telegram_status == 1) { %>
-					<div data-v-6a5413fb="" class="content-item" onclick="location.href='<%=telegram%>'">
-						<div data-v-6a5413fb="" class="content-item-title"><img data-v-6a5413fb="" alt="" class=""
-								data-origin="https://www.bigdaddygame2.com/assets/png/CStype3-7588d980.png"
-								src="/images/icon_Telegram.webp"><span data-v-6a5413fb=""
-								style="color: #72D731;">Telegram</span></div><i data-v-6a5413fb=""
-							class="van-badge__wrapper van-icon van-icon-arrow"
-							style="color:#72D731; font-size: 18px;"></i>
-					</div>
-					<% } %>
+					<% if (telegram_status==1) { %>
+						<div data-v-6a5413fb="" class="content-item" onclick="location.href='<%=telegram%>'">
+							<div data-v-6a5413fb="" class="content-item-title"><img data-v-6a5413fb="" alt="" class=""
+									data-origin="https://www.bigdaddygame2.com/assets/png/CStype3-7588d980.png"
+									src="/images/icon_Telegram.webp"><span data-v-6a5413fb=""
+									style="color: #72D731;">Telegram</span></div><i data-v-6a5413fb=""
+								class="van-badge__wrapper van-icon van-icon-arrow"
+								style="color:#72D731; font-size: 18px;"></i>
+						</div>
+						<% } %>
 
-					<% if (whatsapp_status == 1) { %>
-					<div data-v-6a5413fb="" class="content-item" onclick="location.href='<%= whatsapp %>'">
-						<div data-v-6a5413fb="" class="content-item-title"><img data-v-6a5413fb="" alt="" class=""
-								src="/images/whatsapp_icon.png"><span
-								data-v-6a5413fb="" style="color:#72D731 ;">Whatsapp</span></div><i data-v-6a5413fb=""
-							class="van-badge__wrapper van-icon van-icon-arrow"
-							style="color: #72D731; font-size: 18px;"></i>
-					</div>
-					<% } %>
+							<% if (whatsapp_status==1) { %>
+								<div data-v-6a5413fb="" class="content-item" onclick="location.href='<%= whatsapp %>'">
+									<div data-v-6a5413fb="" class="content-item-title"><img data-v-6a5413fb="" alt=""
+											class="" src="/images/whatsapp_icon.png"><span data-v-6a5413fb=""
+											style="color:#72D731 ;">Whatsapp</span></div><i data-v-6a5413fb=""
+										class="van-badge__wrapper van-icon van-icon-arrow"
+										style="color: #72D731; font-size: 18px;"></i>
+								</div>
+								<% } %>
 
-					<% if (cskh_status == 1) { %>
-					<div data-v-6a5413fb="" class="content-item" onclick="location.href='<%= cskh %>'">
-						<div data-v-6a5413fb="" class="content-item-title"><img data-v-6a5413fb="" alt="" class=""
-								src="/images/icon_layananonline.webp"><span
-								data-v-6a5413fb="" style="color: #72D731">Live Chat</span></div><i data-v-6a5413fb=""
-							class="van-badge__wrapper van-icon van-icon-arrow"
-							style="color: #72D731; font-size: 18px;"></i>
-					</div>
-					<% } %>
+									<% if (cskh_status==1) { %>
+										<div data-v-6a5413fb="" class="content-item"
+											onclick="location.href='<%= cskh %>'">
+											<div data-v-6a5413fb="" class="content-item-title"><img data-v-6a5413fb=""
+													alt="" class="" src="/images/icon_layananonline.webp"><span
+													data-v-6a5413fb="" style="color: #72D731">Live Chat</span></div><i
+												data-v-6a5413fb="" class="van-badge__wrapper van-icon van-icon-arrow"
+												style="color: #72D731; font-size: 18px;"></i>
+										</div>
+										<% } %>
 
 				</div>
 			</div>

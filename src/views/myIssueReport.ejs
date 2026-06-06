@@ -4,11 +4,13 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<link rel="shortcut icon" href="/favicon.png" type="image/x-icon">
+	<link rel="icon" href="<%= locals.SITE_LOGO || '/favicon.ico' %>" />
 	<meta name="google" content="notranslate">
 	<meta name="robots" content="noindex,nofollow">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	<title><%= locals.SITE_NAME || 'Starworldz' %></title>
+	<title>
+		<%= locals.SITE_NAME || 'Starworldz' %>
+	</title>
 	<link rel="stylesheet" href="./index_files/modules-96c1e775.css">
 	<link rel="stylesheet" href="./index_files/page-activity-d48e62db.css">
 	<link rel="stylesheet" href="./index_files/index-96409872.css">
@@ -18,45 +20,39 @@
 	<link rel="stylesheet" href="./index_files/page-main-ff2e7571.css">
 
 	<style>
-      
 		/* Bottom sheet styles */
-#bottom-sheet {
-    position: fixed;
-    bottom: -100%; /* Initially off-screen */
-    left: 0;
-    right: 0;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    transition: bottom 0.3s ease-in-out;
-    max-height: 80%;
-    overflow-y: auto;
-	border-top-left-radius: 20px;
-	border-top-right-radius: 20px;
-}
+		#bottom-sheet {
+			position: fixed;
+			bottom: -100%;
+			/* Initially off-screen */
+			left: 0;
+			right: 0;
+			background-color: #fff;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+			z-index: 1000;
+			transition: bottom 0.3s ease-in-out;
+			max-height: 80%;
+			overflow-y: auto;
+			border-top-left-radius: 20px;
+			border-top-right-radius: 20px;
+		}
 
-.faq-content {
-    padding: 20px;
-}
+		.faq-content {
+			padding: 20px;
+		}
 
-.faq-question {
-    margin-bottom: 15px;
-}
+		.faq-question {
+			margin-bottom: 15px;
+		}
 
-.faq-question p {
-    margin: 5px 0;
-}
+		.faq-question p {
+			margin: 5px 0;
+		}
 
-/* When the sheet is active */
-#bottom-sheet.show {
-    bottom: 0;
-}
-
-
-
-
-
-
+		/* When the sheet is active */
+		#bottom-sheet.show {
+			bottom: 0;
+		}
 	</style>
 </head>
 
@@ -1579,7 +1575,7 @@
 			<div data-v-28fadbec="" class="customer-container-header">
 				<div data-v-58c5e826="" data-v-28fadbec="" class="navbar">
 					<div data-v-58c5e826="" class="navbar-fixed"
-					style="background: linear-gradient(90deg, #7209b7 0%, #d08eff 100%)">
+						style="background: linear-gradient(90deg, #7209b7 0%, #d08eff 100%)">
 						<div data-v-58c5e826="" class="navbar__content">
 
 							<div data-v-58c5e826="" class="navbar__content-left" onclick="location.href='/keFuMenu'"><i
@@ -1587,7 +1583,8 @@
 							</div>
 
 							<div data-v-58c5e826="" class="navbar__content-center">
-								<div data-v-58c5e826="" class="navbar__content-title" style="color: white;">Customer Service</div>
+								<div data-v-58c5e826="" class="navbar__content-title" style="color: white;">Customer
+									Service</div>
 							</div>
 							<div data-v-58c5e826="" class="navbar__content-right"></div>
 						</div>
@@ -1601,93 +1598,105 @@
 				<div data-v-6a5413fb="" style="">
 
 					<div data-v-0122c10a="" class="selfService" style="margin-top: 20px; ">
-						<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+						<div
+							style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
 							<h2 data-v-0122c10a="" style="font-size: 20px;">My issue</h2>
 							<!-- <button onclick="window.location.href=`/myIssueReport`" style="padding: 5px 10px; background-color: #7209b7; border-radius: 20px;color: white; border: none;">My Issue</button> -->
 						</div>
-						
-						<ul data-v-0122c10a="" id="showIsseList">
-						  
-						   <!---->
-						</ul>
-					 </div>
 
-					
+						<ul data-v-0122c10a="" id="showIsseList">
+
+							<!---->
+						</ul>
+					</div>
+
+
 
 
 					<!-- Bottom Sheet for FAQ Content -->
 					<!-- Overlay (dark background) -->
-				<div id="overlay" class="overlay"></div>
+					<div id="overlay" class="overlay"></div>
 
-				<!-- Bottom Sheet for FAQ Content -->
-				<div id="bottom-sheet" class="bottom-sheet">
-					<div class="faq-content">
-						<div style="display: flex; justify-content: space-between; align-items: center;">
-							<h3>FAQ</h3>
-							<button id="faq-item-close" class="close-btn" style="width: 20px; height: 20px; background-color: #7209b7; border: none; color: white; border-radius: 50%;">X</button>
-						</div>
-						<div class="faq-question">
-							<p><strong>Q1:</strong> Deposit Not Received - What should I do if my deposit doesn't arrive?</p>
-							<p><strong>A:</strong> If your deposit order hasn't arrived after resubmitting a new deposit order with correct details, submit a "Deposit Not Receive" query to our self-service team. Follow these steps:</p>
-							<ol>
-								<li>Choose "Deposit Not Received"</li>
-								<li>Press "Submit UTR"</li>
-								<li>Fill in the "Deposit UTR Number"</li>
-								<li>Fill in the "Receiver UPI id"</li>
-								<li>Upload the receipt photo</li>
-								<li>Press "Confirm"</li>
-							</ol>
-							<p>If there is a delay, our team will manually check and update the payment status every 30 minutes to speed up the deposit process.</p>
-						</div>
-				
-						<div class="faq-question">
-							<p><strong>Q2:</strong> Withdrawal Problem - What if my withdrawal order is marked "Completed," but funds are not received?</p>
-							<p><strong>A:</strong> There may be delays due to complex banking procedures in India. If you haven't received your funds after 1-3 business days, follow these steps:</p>
-							<ol>
-								<li>Choose "Withdraw Problem"</li>
-								<li>Press "Submit PDF Statement"</li>
-								<li>Fill in PDF password (if applicable)</li>
-								<li>Upload your PDF bank statement file</li>
-							</ol>
-							<p>Once all required information is submitted, our experts will resolve the issue promptly. You can also track your issue through the “Progress Query” button.</p>
-						</div>
-				
-						<div class="faq-question">
-							<p><strong>Q3:</strong> AR Wallet Recharge Problem - How do I recharge my AR Wallet?</p>
-							<p><strong>A:</strong> To recharge your AR Wallet, follow these steps:</p>
-							<ol>
-								<li>Choose the amount to buy</li>
-								<li>Enter your purchase amount</li>
-								<li>Click "Buy"</li>
-								<li>Watch the "Demo Video" (If needed)</li>
-								<li>Click "Close"</li>
-								<li>Save the QR code or scan the code for transfer</li>
-								<li>Enter the UTR number after the transfer</li>
-								<li>Click "Next"</li>
-								<li>Upload the transaction receipt</li>
-								<li>Click "Payment Completed"</li>
-							</ol>
-							<p>Ensure that your payment is authentic and avoid uploading false data, as malicious actions will permanently freeze AR Wallet access.</p>
-						</div>
-				
-						<div class="faq-question">
-							<p><strong>Q4:</strong> AR Wallet Withdrawal Issue - How do I withdraw funds from my AR Wallet?</p>
-							<p><strong>A:</strong> To withdraw from your AR Wallet:</p>
-							<ol>
-								<li>Click "ARPAY" on the withdrawal button</li>
-								<li>Enter the withdrawal amount and platform password</li>
-								<li>The platform will transfer ARB to your AR Wallet account</li>
-								<li>After payment is complete, check your ARB balance in your AR Wallet</li>
-								<li>If you need to convert ARB to INR, enter the wallet and follow the next steps</li>
-							</ol>
+					<!-- Bottom Sheet for FAQ Content -->
+					<div id="bottom-sheet" class="bottom-sheet">
+						<div class="faq-content">
+							<div style="display: flex; justify-content: space-between; align-items: center;">
+								<h3>FAQ</h3>
+								<button id="faq-item-close" class="close-btn"
+									style="width: 20px; height: 20px; background-color: #7209b7; border: none; color: white; border-radius: 50%;">X</button>
+							</div>
+							<div class="faq-question">
+								<p><strong>Q1:</strong> Deposit Not Received - What should I do if my deposit doesn't
+									arrive?</p>
+								<p><strong>A:</strong> If your deposit order hasn't arrived after resubmitting a new
+									deposit order with correct details, submit a "Deposit Not Receive" query to our
+									self-service team. Follow these steps:</p>
+								<ol>
+									<li>Choose "Deposit Not Received"</li>
+									<li>Press "Submit UTR"</li>
+									<li>Fill in the "Deposit UTR Number"</li>
+									<li>Fill in the "Receiver UPI id"</li>
+									<li>Upload the receipt photo</li>
+									<li>Press "Confirm"</li>
+								</ol>
+								<p>If there is a delay, our team will manually check and update the payment status every
+									30 minutes to speed up the deposit process.</p>
+							</div>
+
+							<div class="faq-question">
+								<p><strong>Q2:</strong> Withdrawal Problem - What if my withdrawal order is marked
+									"Completed," but funds are not received?</p>
+								<p><strong>A:</strong> There may be delays due to complex banking procedures in India.
+									If you haven't received your funds after 1-3 business days, follow these steps:</p>
+								<ol>
+									<li>Choose "Withdraw Problem"</li>
+									<li>Press "Submit PDF Statement"</li>
+									<li>Fill in PDF password (if applicable)</li>
+									<li>Upload your PDF bank statement file</li>
+								</ol>
+								<p>Once all required information is submitted, our experts will resolve the issue
+									promptly. You can also track your issue through the “Progress Query” button.</p>
+							</div>
+
+							<div class="faq-question">
+								<p><strong>Q3:</strong> AR Wallet Recharge Problem - How do I recharge my AR Wallet?</p>
+								<p><strong>A:</strong> To recharge your AR Wallet, follow these steps:</p>
+								<ol>
+									<li>Choose the amount to buy</li>
+									<li>Enter your purchase amount</li>
+									<li>Click "Buy"</li>
+									<li>Watch the "Demo Video" (If needed)</li>
+									<li>Click "Close"</li>
+									<li>Save the QR code or scan the code for transfer</li>
+									<li>Enter the UTR number after the transfer</li>
+									<li>Click "Next"</li>
+									<li>Upload the transaction receipt</li>
+									<li>Click "Payment Completed"</li>
+								</ol>
+								<p>Ensure that your payment is authentic and avoid uploading false data, as malicious
+									actions will permanently freeze AR Wallet access.</p>
+							</div>
+
+							<div class="faq-question">
+								<p><strong>Q4:</strong> AR Wallet Withdrawal Issue - How do I withdraw funds from my AR
+									Wallet?</p>
+								<p><strong>A:</strong> To withdraw from your AR Wallet:</p>
+								<ol>
+									<li>Click "ARPAY" on the withdrawal button</li>
+									<li>Enter the withdrawal amount and platform password</li>
+									<li>The platform will transfer ARB to your AR Wallet account</li>
+									<li>After payment is complete, check your ARB balance in your AR Wallet</li>
+									<li>If you need to convert ARB to INR, enter the wallet and follow the next steps
+									</li>
+								</ol>
+							</div>
 						</div>
 					</div>
-				</div>
-				
+
 				</div>
 			</div>
 		</div>
-		
+
 	</div>
 
 
@@ -1715,18 +1724,18 @@
 		// 	bottomSheet.classList.remove('show'); // Remove the 'show' class
 		// });
 
-        function loads(datas) {
-			
-            if (datas.length) {
-				
-                $(".no_data_image").addClass("hide")
-            } else {
-				// $("#showIsseList").html(`No issue found`)
-                $(".no_data_image").removeClass("hide")
-            }
+		function loads(datas) {
 
-        let html = datas.map(data => {
-                return `
+			if (datas.length) {
+
+				$(".no_data_image").addClass("hide")
+			} else {
+				// $("#showIsseList").html(`No issue found`)
+				$(".no_data_image").removeClass("hide")
+			}
+
+			let html = datas.map(data => {
+				return `
                      <li >
 					 <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px; margin-bottom: 10px; background-color: #fff; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); z-index: 1000;">
 						<div style="display: flex; justify-content: start; align-items: center; flex: 1;">
@@ -1756,28 +1765,28 @@
 				</li>
 
                     `
-            })
-            $("#showIsseList").html(html)
-        }
+			})
+			$("#showIsseList").html(html)
+		}
 
-        $.ajax({
-            type: "GET",
-            url: "/issue/report/getMyIssueReport",
-            dataType: "json",
-            success: function (response) {
-                loads(response?.data)
-            },
-        })
+		$.ajax({
+			type: "GET",
+			url: "/issue/report/getMyIssueReport",
+			dataType: "json",
+			success: function (response) {
+				loads(response?.data)
+			},
+		})
 
 		function openBottomSheet(data) {
-    // Get the bottom sheet element
-    const bottomSheet = document.getElementById('bottom-sheet');
-    
-    // Select the content area where you will show the data
-    const faqContent = bottomSheet.querySelector('.faq-content');
-    
-    // Populate the bottom sheet with data dynamically
-    faqContent.innerHTML = `
+			// Get the bottom sheet element
+			const bottomSheet = document.getElementById('bottom-sheet');
+
+			// Select the content area where you will show the data
+			const faqContent = bottomSheet.querySelector('.faq-content');
+
+			// Populate the bottom sheet with data dynamically
+			faqContent.innerHTML = `
         <div style="display: flex; justify-content: space-between; align-items: center;">
             <h3>FAQ</h3>
             <button id="faq-item-close" class="close-btn" style="width: 20px; height: 20px; background-color: #7209b7; border: none; color: white; border-radius: 50%;">X</button>
@@ -1788,15 +1797,15 @@
         <p><strong>Status:</strong> ${data.report_status}</p>
         <p><strong>Answer:</strong> ${data.report_answer}</p>
     `;
-    
-    // Show the bottom sheet by adding the 'show' class
-    bottomSheet.classList.add('show');
-    
-    // Close button event listener
-    document.getElementById('faq-item-close').addEventListener('click', function() {
-        bottomSheet.classList.remove('show'); // Hide the bottom sheet
-    });
-}
+
+			// Show the bottom sheet by adding the 'show' class
+			bottomSheet.classList.add('show');
+
+			// Close button event listener
+			document.getElementById('faq-item-close').addEventListener('click', function () {
+				bottomSheet.classList.remove('show'); // Hide the bottom sheet
+			});
+		}
 
 
 	</script>
