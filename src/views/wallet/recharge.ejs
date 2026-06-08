@@ -4909,7 +4909,7 @@
 
         const handleMoneyAmountInput = (event) => {
             inputMoney = parseInt(MoneyAmountInput.value)
-            const paymentConfigs = <% - JSON.stringify(paymentConfigs || []) %>;
+            const paymentConfigs = <%- JSON.stringify(paymentConfigs || []) %>;
             const config = paymentConfigs.find(c => c.gateway_name === selectedPaymentMethod);
             const minimumMoneyAllowedUSDT = config ? config.min_recharge : 10;
             const minimumMoneyAllowedINR = config ? config.min_recharge : 100;
@@ -4944,7 +4944,7 @@
             const amount = parseInt(item.getAttribute("data-money"))
 
 
-            const paymentConfigs = <% - JSON.stringify(paymentConfigs || []) %>;
+            const paymentConfigs = <%- JSON.stringify(paymentConfigs || []) %>;
             const config = paymentConfigs.find(c => c.gateway_name === selectedPaymentMethod);
             const minimumMoneyAllowedUSDT = config ? config.min_recharge : 10;
             const minimumMoneyAllowedINR = config ? config.min_recharge : 100;
@@ -4991,7 +4991,7 @@
             const minimumMoneyAllowedINR = parseInt(`<%=MINIMUM_MONEY_INR%>`)
 
 
-            const paymentConfigs = <% - JSON.stringify(paymentConfigs || []) %>;
+            const paymentConfigs = <%- JSON.stringify(paymentConfigs || []) %>;
             const config = paymentConfigs.find(c => c.gateway_name === selectedPaymentMethod);
             const minAllowed = config ? config.min_recharge : (selectedPaymentMethod.includes('usdt') ? minimumMoneyAllowedUSDT : minimumMoneyAllowedINR);
             const maxAllowed = config ? config.max_recharge : 1000000;
