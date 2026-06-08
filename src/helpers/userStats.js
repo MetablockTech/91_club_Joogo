@@ -172,7 +172,7 @@ const userStatsHelper = {
             };
         } catch (error) {
             console.error("getBettingStats error:", error);
-            return { totalAmount: 0, totalCount: 0, totalWinAmount: 0 };
+            return { totalAmount: 0, totalCount: 0, totalWinAmount: 0, breakdown: {} };
         }
     },
 

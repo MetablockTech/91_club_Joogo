@@ -118,7 +118,7 @@ const userInfo = async (req, res) => {
     rows[0];
 
   const bettingStats = await userStatsHelper.getBettingStats(others.phone);
-  const { breakdown } = bettingStats;
+  const { breakdown = {} } = bettingStats || {};
 
   return res.status(200).json({
     message: "Success",
@@ -137,16 +137,16 @@ const userInfo = async (req, res) => {
       vip_level: others.vip_level,
       time: time,
       loginTime: loginTime,
-      wingo_bet: breakdown.wingo?.bet || 0,
-      k3_bet: breakdown.k3?.bet || 0,
-      game5d_bet: breakdown.game5d?.bet || 0,
-      trx_bet: breakdown.trx?.bet || 0,
-      api_bet: (breakdown.jilli?.bet || 0) + (breakdown.spribe?.bet || 0) + (breakdown.wc?.bet || 0),
-      wingo_win: breakdown.wingo?.win || 0,
-      k3_win: breakdown.k3?.win || 0,
-      game5d_win: breakdown.game5d?.win || 0,
-      trx_win: breakdown.trx?.win || 0,
-      api_win: (breakdown.jilli?.win || 0) + (breakdown.spribe?.win || 0) + (breakdown.wc?.win || 0)
+      wingo_bet: breakdown?.wingo?.bet || 0,
+      k3_bet: breakdown?.k3?.bet || 0,
+      game5d_bet: breakdown?.game5d?.bet || 0,
+      trx_bet: breakdown?.trx?.bet || 0,
+      api_bet: (breakdown?.jilli?.bet || 0) + (breakdown?.spribe?.bet || 0) + (breakdown?.wc?.bet || 0),
+      wingo_win: breakdown?.wingo?.win || 0,
+      k3_win: breakdown?.k3?.win || 0,
+      game5d_win: breakdown?.game5d?.win || 0,
+      trx_win: breakdown?.trx?.win || 0,
+      api_win: (breakdown?.jilli?.win || 0) + (breakdown?.spribe?.win || 0) + (breakdown?.wc?.win || 0)
     },
     totalRecharge: totalRecharge,
     totalWithdraw: totalWithdraw,
