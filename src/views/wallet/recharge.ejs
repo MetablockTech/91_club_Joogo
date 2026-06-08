@@ -4778,7 +4778,7 @@
             const gatewayType = currentPaymentMethod.getAttribute("type");
             selectedPaymentMethod = gatewayType;
 
-            const paymentConfigs = <% - JSON.stringify(paymentConfigs || []) %>;
+            const paymentConfigs = <%- JSON.stringify(paymentConfigs || []) %>;
             const config = paymentConfigs.find(c => c.gateway_name === gatewayType);
 
             const currentCurrency = (gatewayType === PaymentMethodsMap.CCPAYMENT || gatewayType === PaymentMethodsMap.WATCHPAY || gatewayType === PaymentMethodsMap.USDT_MANUAL) ? "$" : "<%=currency_symbol%>";
