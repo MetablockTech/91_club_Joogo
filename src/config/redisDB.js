@@ -6,10 +6,12 @@ const host = isProduction ? process.env.PROD_REDIS_HOST : process.env.DEV_REDIS_
 const port = isProduction ? process.env.PROD_REDIS_PORT : process.env.DEV_REDIS_PORT;
 const pass = isProduction ? process.env.PROD_REDIS_PASS : process.env.DEV_REDIS_PASS;
 
-const redisUrl = `redis://:${pass}@${host}:${port}`;
-
 const redisClient = createClient({ 
-    url: redisUrl,
+    password: pass,
+    socket: {
+        host: host,
+        port: port
+    },
     disableOfflineQueue: true
 });
 

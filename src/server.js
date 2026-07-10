@@ -23,9 +23,12 @@ const isProduction = process.env.NODE_ENV?.toLowerCase() === "production";
 const redisHost = isProduction ? process.env.PROD_REDIS_HOST : process.env.DEV_REDIS_HOST;
 const redisPort = isProduction ? process.env.PROD_REDIS_PORT : process.env.DEV_REDIS_PORT;
 const redisPass = isProduction ? process.env.PROD_REDIS_PASS : process.env.DEV_REDIS_PASS;
-const redisUrl = `redis://:${redisPass}@${redisHost}:${redisPort}`;
 const pubClient = createClient({ 
-    url: redisUrl,
+    password: redisPass,
+    socket: {
+        host: redisHost,
+        port: redisPort
+    },
     disableOfflineQueue: true
 });
 const subClient = pubClient.duplicate();
