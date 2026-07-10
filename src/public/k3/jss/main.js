@@ -96,7 +96,7 @@ function totalMoney4() {
   $(".result").text(result + "");
 }
 
-const socket = io();
+const socket = io({ transports: ['websocket'] });
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }

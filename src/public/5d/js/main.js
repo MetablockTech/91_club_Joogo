@@ -11,7 +11,7 @@ const getGameType = () => {
 
 let GAME_TYPE = getGameType();
 
-let socket = io();
+let socket = io({ transports: ['websocket'] });
 var pageno = 0;
 var limit = 10;
 var page = 1;

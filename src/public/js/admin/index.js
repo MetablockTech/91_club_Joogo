@@ -1,4 +1,4 @@
-var socket = io();
+var socket = io({ transports: ['websocket'] });
 let typeid = $("html").attr("data-change");
 let game = "";
 if (typeid == "1") game = "wingo";

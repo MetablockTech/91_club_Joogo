@@ -1309,7 +1309,7 @@ function formatIndianNumber(num) {
   return formattedNum;
 }
 
-var socket = io();
+var socket = io({ transports: ['websocket'] });
 var pageno = 0;
 var limit = 10;
 var page = 1;

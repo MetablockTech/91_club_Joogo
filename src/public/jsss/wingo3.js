@@ -980,7 +980,7 @@ function timerJoin(params = "", addHours = 0) {
   );
 }
 
-var socket = io();
+var socket = io({ transports: ['websocket'] });
 var pageno = 0;
 var limit = 10;
 var page = 1;

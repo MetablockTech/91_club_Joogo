@@ -1,4 +1,4 @@
-const socket = io();
+const socket = io({ transports: ['websocket'] });
 
 $(window).on("load", function () {
   setTimeout(() => {
