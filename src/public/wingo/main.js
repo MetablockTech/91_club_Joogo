@@ -1338,24 +1338,28 @@ socket.on("data-server", async function (msg) {
 
     $(".Loading").fadeIn(0);
 
-    const params = new URLSearchParams();
-    params.append("typeid", GAME_TYPE_ID);
-    params.append("pageno", "0");
-    params.append("pageto", "10");
-    params.append("language", "vi");
-
-    const betList = axios({
-      method: "POST",
+    const betList = $.ajax({
+      type: "POST",
       url: "/api/webapi/GetMyEmerdList",
-      data: params,
-      headers: { "content-type": "application/x-www-form-urlencoded" },
+      data: {
+        typeid: GAME_TYPE_ID,
+        pageno: "0",
+        pageto: "10",
+        language: "vi",
+      },
+      dataType: "json"
     });
 
-    const gameList = axios({
-      method: "POST",
+    const gameList = $.ajax({
+      type: "POST",
       url: "/api/webapi/GetNoaverageEmerdList",
-      data: params,
-      headers: { "content-type": "application/x-www-form-urlencoded" },
+      data: {
+        typeid: GAME_TYPE_ID,
+        pageno: "0",
+        pageto: "10",
+        language: "vi",
+      },
+      dataType: "json"
     });
 
     const [betDataResponse, gameDataResponse] = await Promise.all([
@@ -1363,8 +1367,8 @@ socket.on("data-server", async function (msg) {
       gameList,
     ]);
 
-    const betListData = betDataResponse.data?.data?.gameslist;
-    const gameListData = gameDataResponse.data?.data?.gameslist;
+    const betListData = betDataResponse.data?.gameslist;
+    const gameListData = gameDataResponse.data?.gameslist;
 
     const lastGame = gameListData?.[0];
 
@@ -1405,9 +1409,9 @@ socket.on("data-server", async function (msg) {
       // });
     }
 
-    $("#period").text(gameDataResponse.data.period);
-    $("#number_result__gameHistory").text(`1/${gameDataResponse.data.page}`);
-    $("#number_result__myBet").text(`1/${betDataResponse.data.page}`);
+    $("#period").text(gameDataResponse.period);
+    $("#number_result__gameHistory").text(`1/${gameDataResponse.page}`);
+    $("#number_result__myBet").text(`1/${betDataResponse.page}`);
     showGameHistoryData(gameListData);
     showTrendData(gameListData);
     showMyBetsData(betListData);
