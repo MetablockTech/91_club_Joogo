@@ -32,6 +32,7 @@
     "@babel/core": "7.15.5",
     "@babel/node": "7.15.4",
     "@babel/preset-env": "7.15.6",
+    "@socket.io/redis-adapter": "^8.3.0",
     "axios": "^1.6.7",
     "babel-core": "^7.0.0-bridge.0",
     "bcrypt": "^5.1.1",
@@ -55,6 +56,7 @@
     "nodemon": "^2.0.22",
     "path": "^0.12.7",
     "querystring": "^0.2.1",
+    "redis": "^6.1.0",
     "request": "^2.88.2",
     "socket.io": "^4.4.1",
     "uuid": "^9.0.1"

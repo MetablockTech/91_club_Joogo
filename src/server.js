@@ -9,10 +9,24 @@ import socketIoController from "./controllers/socketIoController.js";
 import cookieParser from "cookie-parser";
 import http from "http";
 import { Server } from "socket.io";
+import { createClient } from "redis";
+import { createAdapter } from "@socket.io/redis-adapter";
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
+
+// Redis Adapter Setup
+const redisUrl = `redis://:${process.env.REDIS_PASS}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`;
+const pubClient = createClient({ url: redisUrl });
+const subClient = pubClient.duplicate();
+
+Promise.all([pubClient.connect(), subClient.connect()]).then(() => {
+    io.adapter(createAdapter(pubClient, subClient));
+    console.log("Redis Adapter connected for Socket.io");
+}).catch(err => {
+    console.error("Redis Adapter connection error:", err);
+});
 
 const isProduction = process.env.NODE_ENV?.toLowerCase() === "production";
 const port = isProduction ? (process.env.PROD_PORT || 3000) : (process.env.DEV_PORT || 2001);
