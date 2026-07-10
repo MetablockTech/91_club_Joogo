@@ -10,9 +10,9 @@ export function getNthMinuteSinceDayStart(isTRX = false) {
     const diff = now.diff(startOfDay, "minutes") + 1;
     return diff;
   } else {
-    const now = new Date();
-    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const diff = Math.floor((now - startOfDay) / (1000 * 60));
+    const now = moment().tz(TIMEZONE);
+    const startOfDay = moment().tz(TIMEZONE).startOf("day");
+    const diff = now.diff(startOfDay, "minutes");
     return diff;
   }
 }
@@ -31,11 +31,8 @@ export function generatePeriod(gameRepresentationId) {
     let NewGamePeriod = `${TodayPeriod}${gameRepresentationId}${paddedNthMinuteSinceDayStart}`;
     return NewGamePeriod;
   } else {
-    const date = new Date();
-    const years = date.getFullYear().toString();
-    const months = (date.getMonth() + 1).toString().padStart(2, "0");
-    const days = date.getDate().toString().padStart(2, "0");
-    const TodayPeriod = years + months + days;
+    const now = moment().tz(TIMEZONE);
+    const TodayPeriod = now.format("YYYYMMDD");
     
     const nthMinuteSinceDayStart = getNthMinuteSinceDayStart(false);
     const paddedNthMinuteSinceDayStart = nthMinuteSinceDayStart.toString().padStart(4, "0");
@@ -73,18 +70,13 @@ export function generatePeriods(gameRepresentationId, gameDurationInSeconds) {
     if (!gameDurationInSeconds) {
         return generatePeriod(gameRepresentationId);
     } else {
-        const date = new Date();
-        const years = date.getFullYear().toString();
-        const months = (date.getMonth() + 1).toString().padStart(2, "0");
-        const days = date.getDate().toString().padStart(2, "0");
-        const TodayPeriod = years + months + days;
-
-        const now = new Date();
-        const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        const elapsedSecondsSinceStartOfDay = Math.floor((now - startOfDay) / 1000);
+        const now = moment().tz(TIMEZONE);
+        const startOfDay = moment().tz(TIMEZONE).startOf("day");
+        const elapsedSecondsSinceStartOfDay = now.diff(startOfDay, "seconds");
 
         const periodIncrement = Math.floor(elapsedSecondsSinceStartOfDay / gameDurationInSeconds);
         const paddedPeriodIncrement = periodIncrement.toString().padStart(4, "0");
+        const TodayPeriod = now.format("YYYYMMDD");
 
         return parseInt(TodayPeriod + gameRepresentationId + paddedPeriodIncrement);
     }
