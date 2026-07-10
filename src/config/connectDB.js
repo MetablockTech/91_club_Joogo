@@ -15,7 +15,7 @@ const connection = mysql.createPool({
     password: isProduction ? process.env.PROD_DB_PASS : process.env.DEV_DB_PASS,
     database: isProduction ? process.env.PROD_DB_NAME : process.env.DEV_DB_NAME,
     waitForConnections: true,
-    connectionLimit: 10,
+    connectionLimit: 200,
     queueLimit: 0
 });
 

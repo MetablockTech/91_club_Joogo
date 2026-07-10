@@ -95,8 +95,14 @@ app.use(async (req, res, next) => {
 // init Web Routes
 routes.initWebRouter(app);
 
-// Cron game 1 Phut
-cronJobController.cronJobGame1p(io);
+// Cron game 1 Phut (Only run on Primary Instance in PM2 Cluster Mode)
+const isPrimaryInstance = process.env.NODE_APP_INSTANCE === undefined || process.env.NODE_APP_INSTANCE === '0';
+if (isPrimaryInstance) {
+    console.log("Primary instance: Starting Cron Jobs.");
+    cronJobController.cronJobGame1p(io);
+} else {
+    console.log(`Worker instance ${process.env.NODE_APP_INSTANCE}: Skipping Cron Jobs.`);
+}
 
 // Check xem ai connect vào sever
 socketIoController.sendMessageAdmin(io);
