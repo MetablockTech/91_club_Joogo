@@ -1,7 +1,7 @@
 import connection from "../config/connectDB.js";
 import commissionController from "./commissionController.js";
 import GameRepresentationIds from "../constants/game_representation_id.js";
-import { generatePeriod } from "../helpers/games.js";
+import { generatePeriod, generatePeriods } from "../helpers/games.js";
 import vipController from "./vipController.js";
 
 const K3Page = async (req, res) => {
@@ -352,7 +352,7 @@ const addK3 = async (game) => {
 
     let timeNow = new Date().getTime();
     let gameRepresentationId = GameRepresentationIds.G5D[game];
-    let NewGamePeriod = generatePeriod(gameRepresentationId);
+    let NewGamePeriod = generatePeriods(gameRepresentationId, Number(game) * 60);
 
     await connection.execute(`
          INSERT INTO k3

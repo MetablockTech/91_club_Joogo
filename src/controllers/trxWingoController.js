@@ -4,7 +4,7 @@ import commissionController from "./commissionController.js";
 import axios from "axios";
 import _ from "lodash";
 import GameRepresentationIds from "../constants/game_representation_id.js";
-import { generatePeriod } from "../helpers/games.js";
+import { generatePeriod, generatePeriods } from "../helpers/games.js";
 import vipController from "./vipController.js";
 
 export const TRX_WINGO_GAME_STATUS_MAP = {
@@ -682,7 +682,7 @@ const addTrxWingo = async (game) => {
     if (game == 10) join = TRX_WINGO_GAME_TYPE_MAP.MIN_10;
 
     let gameRepresentationId = GameRepresentationIds.TRXWINGO[game];
-    let NewGamePeriod = generatePeriod(gameRepresentationId);
+    let NewGamePeriod = generatePeriods(gameRepresentationId, Number(game) * 60);
     let timeNow = new Date().getTime();
 
     const [trxWinGoTest] = await connection.query(
