@@ -8,7 +8,10 @@ const pass = isProduction ? process.env.PROD_REDIS_PASS : process.env.DEV_REDIS_
 
 const redisUrl = `redis://:${pass}@${host}:${port}`;
 
-const redisClient = createClient({ url: redisUrl });
+const redisClient = createClient({ 
+    url: redisUrl,
+    disableOfflineQueue: true
+});
 
 redisClient.on('error', (err) => console.log('Redis Client Error', err));
 

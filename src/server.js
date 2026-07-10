@@ -24,7 +24,10 @@ const redisHost = isProduction ? process.env.PROD_REDIS_HOST : process.env.DEV_R
 const redisPort = isProduction ? process.env.PROD_REDIS_PORT : process.env.DEV_REDIS_PORT;
 const redisPass = isProduction ? process.env.PROD_REDIS_PASS : process.env.DEV_REDIS_PASS;
 const redisUrl = `redis://:${redisPass}@${redisHost}:${redisPort}`;
-const pubClient = createClient({ url: redisUrl });
+const pubClient = createClient({ 
+    url: redisUrl,
+    disableOfflineQueue: true
+});
 const subClient = pubClient.duplicate();
 
 Promise.all([pubClient.connect(), subClient.connect()]).then(() => {
@@ -50,8 +53,7 @@ app.use(async (req, res, next) => {
   try {
     let siteInfoStr;
     try {
-        const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Redis Timeout')), 1000));
-        siteInfoStr = await Promise.race([redisClient.get("site_info"), timeoutPromise]);
+        siteInfoStr = await redisClient.get("site_info");
     } catch (e) {
         siteInfoStr = null;
     }
@@ -94,8 +96,7 @@ app.use(async (req, res, next) => {
   try {
     let maintenanceSettingsStr;
     try {
-        const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Redis Timeout')), 1000));
-        maintenanceSettingsStr = await Promise.race([redisClient.get("maintenance_settings"), timeoutPromise]);
+        maintenanceSettingsStr = await redisClient.get("maintenance_settings");
     } catch (e) {
         maintenanceSettingsStr = null;
     }
