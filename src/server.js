@@ -48,11 +48,18 @@ app.use(express.json({
 // Inject SITE_NAME & SITE_LOGO into every view automatically
 app.use(async (req, res, next) => {
   try {
-    let siteInfoStr = await redisClient.get("site_info");
+    let siteInfoStr;
+    try {
+        const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Redis Timeout')), 1000));
+        siteInfoStr = await Promise.race([redisClient.get("site_info"), timeoutPromise]);
+    } catch (e) {
+        siteInfoStr = null;
+    }
+    
     if (!siteInfoStr) {
         const [rows] = await connection.query("SELECT site_name, site_logo, website_link FROM admin_ac LIMIT 1");
         siteInfoStr = JSON.stringify(rows[0] || {});
-        await redisClient.set("site_info", siteInfoStr, { EX: 300 }); // Cache for 5 mins
+        try { redisClient.set("site_info", siteInfoStr, { EX: 300 }); } catch (e) {}
     }
     const parsed = JSON.parse(siteInfoStr);
     res.locals.SITE_NAME = parsed.site_name || 'Starworldz';
@@ -85,11 +92,18 @@ app.use(async (req, res, next) => {
     return next();
   }
   try {
-    let maintenanceSettingsStr = await redisClient.get("maintenance_settings");
+    let maintenanceSettingsStr;
+    try {
+        const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Redis Timeout')), 1000));
+        maintenanceSettingsStr = await Promise.race([redisClient.get("maintenance_settings"), timeoutPromise]);
+    } catch (e) {
+        maintenanceSettingsStr = null;
+    }
+    
     if (!maintenanceSettingsStr) {
         const [settings] = await connection.query("SELECT maintenance, maintenance_end_time, maintenance_auto_off FROM admin_ac LIMIT 1");
         maintenanceSettingsStr = JSON.stringify(settings[0] || {});
-        await redisClient.set("maintenance_settings", maintenanceSettingsStr, { EX: 60 }); // Cache for 1 minute
+        try { redisClient.set("maintenance_settings", maintenanceSettingsStr, { EX: 60 }); } catch (e) {}
     }
     const settings = [JSON.parse(maintenanceSettingsStr)];
     if (settings[0]?.maintenance === 1) {
