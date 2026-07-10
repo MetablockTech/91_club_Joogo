@@ -11,13 +11,19 @@ import http from "http";
 import { Server } from "socket.io";
 import { createClient } from "redis";
 import { createAdapter } from "@socket.io/redis-adapter";
+import redisClient from "./config/redisDB.js";
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
+const isProduction = process.env.NODE_ENV?.toLowerCase() === "production";
+
 // Redis Adapter Setup
-const redisUrl = `redis://:${process.env.REDIS_PASS}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`;
+const redisHost = isProduction ? process.env.PROD_REDIS_HOST : process.env.DEV_REDIS_HOST;
+const redisPort = isProduction ? process.env.PROD_REDIS_PORT : process.env.DEV_REDIS_PORT;
+const redisPass = isProduction ? process.env.PROD_REDIS_PASS : process.env.DEV_REDIS_PASS;
+const redisUrl = `redis://:${redisPass}@${redisHost}:${redisPort}`;
 const pubClient = createClient({ url: redisUrl });
 const subClient = pubClient.duplicate();
 
@@ -28,7 +34,6 @@ Promise.all([pubClient.connect(), subClient.connect()]).then(() => {
     console.error("Redis Adapter connection error:", err);
 });
 
-const isProduction = process.env.NODE_ENV?.toLowerCase() === "production";
 const port = isProduction ? (process.env.PROD_PORT || 3000) : (process.env.DEV_PORT || 2001);
 
 app.use(cookieParser());
@@ -43,10 +48,16 @@ app.use(express.json({
 // Inject SITE_NAME & SITE_LOGO into every view automatically
 app.use(async (req, res, next) => {
   try {
-    const [rows] = await connection.query("SELECT site_name, site_logo, website_link FROM admin_ac LIMIT 1");
-    res.locals.SITE_NAME = rows[0]?.site_name || 'Starworldz';
-    res.locals.SITE_LOGO = rows[0]?.site_logo || '';
-    res.locals.WEBSITE_LINK = rows[0]?.website_link || 'https://starworldz.com';
+    let siteInfoStr = await redisClient.get("site_info");
+    if (!siteInfoStr) {
+        const [rows] = await connection.query("SELECT site_name, site_logo, website_link FROM admin_ac LIMIT 1");
+        siteInfoStr = JSON.stringify(rows[0] || {});
+        await redisClient.set("site_info", siteInfoStr, { EX: 300 }); // Cache for 5 mins
+    }
+    const parsed = JSON.parse(siteInfoStr);
+    res.locals.SITE_NAME = parsed.site_name || 'Starworldz';
+    res.locals.SITE_LOGO = parsed.site_logo || '';
+    res.locals.WEBSITE_LINK = parsed.website_link || 'https://starworldz.com';
   } catch (e) {
     res.locals.SITE_NAME = 'Starworldz';
     res.locals.SITE_LOGO = '';
@@ -74,7 +85,13 @@ app.use(async (req, res, next) => {
     return next();
   }
   try {
-    const [settings] = await connection.query("SELECT maintenance, maintenance_end_time, maintenance_auto_off FROM admin_ac LIMIT 1");
+    let maintenanceSettingsStr = await redisClient.get("maintenance_settings");
+    if (!maintenanceSettingsStr) {
+        const [settings] = await connection.query("SELECT maintenance, maintenance_end_time, maintenance_auto_off FROM admin_ac LIMIT 1");
+        maintenanceSettingsStr = JSON.stringify(settings[0] || {});
+        await redisClient.set("maintenance_settings", maintenanceSettingsStr, { EX: 60 }); // Cache for 1 minute
+    }
+    const settings = [JSON.parse(maintenanceSettingsStr)];
     if (settings[0]?.maintenance === 1) {
       // Check for Auto-Live
       if (settings[0].maintenance_auto_off === 1 && settings[0].maintenance_end_time) {
